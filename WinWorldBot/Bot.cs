@@ -20,9 +20,9 @@ namespace WinWorldBot
         static void Main(string[] args) => new Bot().RunBot().GetAwaiter().GetResult(); // Point the main function to the async RunBot task so the bot can operate asynchronously
 
         public static DiscordSocketClient client = new DiscordSocketClient();
-        private CommandService commands = new CommandService();
-        private IServiceProvider services;
-        private BotConfig config;
+        public static CommandService commands = new CommandService();
+        public static IServiceProvider services;
+        public static BotConfig config;
 
         public async Task RunBot()
         {
@@ -37,7 +37,7 @@ namespace WinWorldBot
                 .AddSingleton(client)
                 .AddSingleton(commands)
                 .BuildServiceProvider();
-
+            await commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
             // If no config file is present, create a new template one and quit
             if(!File.Exists("config.json")) {
@@ -100,5 +100,6 @@ namespace WinWorldBot
         public string Token { get; set; }
         public string Prefix { get; set; }
         public string Status { get; set; }
+        public Color embedColour { get; set; } = Color.Gold;
     }
 }
