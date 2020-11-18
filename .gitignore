@@ -33,5 +33,8 @@ msbuild.log
 msbuild.err
 msbuild.wrn
 
+# Winworld bot directories
+[Ww]orking[Dd]ir
+
 # Visual Studio 2015
 .vs/
