@@ -17,13 +17,11 @@ namespace WinWorldBot.Commands
         {
             string json = "";
             // Download the json string from the API
-            returnPoint:
             using (WebClient client = new WebClient())
             {
                 json = client.DownloadString($"https://api.thecatapi.com/v1/images/search?api_key={Bot.config.CatAPIKey}");
             }
             dynamic output = JsonConvert.DeserializeObject(json); // Deserialize the string into a dynamic object
-            //if (((string)output.url).Contains(".mp4")) goto returnPoint;
 
             // Create and send the embed
             var eb = new EmbedBuilder();

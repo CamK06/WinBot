@@ -45,7 +45,7 @@ namespace WinWorldBot
                 {
                     Prefix = "~",
                     Token = "",
-                    Status = "Hello, World! - Starman"
+                    Status = ""
                 };
                 File.WriteAllText("config.json", JsonConvert.SerializeObject(config, Formatting.Indented));
                 Log.Write("No configuration file present!");
@@ -95,7 +95,7 @@ namespace WinWorldBot
         }
     }
 
-    class BotConfig
+    public class BotConfig
     {
         public string Token { get; set; }
         public string Prefix { get; set; }
