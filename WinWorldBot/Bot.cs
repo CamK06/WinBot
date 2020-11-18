@@ -15,9 +15,9 @@ using WinWorldBot.Utils;
 
 namespace WinWorldBot
 {
-    class Program
+    class Bot
     {
-        static void Main(string[] args) => new Program().RunBot().GetAwaiter().GetResult(); // Point the main function to the async RunBot task so the bot can operate asynchronously
+        static void Main(string[] args) => new Bot().RunBot().GetAwaiter().GetResult(); // Point the main function to the async RunBot task so the bot can operate asynchronously
 
         public static DiscordSocketClient client = new DiscordSocketClient();
         private CommandService commands = new CommandService();
