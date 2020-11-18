@@ -100,6 +100,7 @@ namespace WinWorldBot
         public string Token { get; set; }
         public string Prefix { get; set; }
         public string Status { get; set; }
+        public string CatAPIKey { get; set; }
         public Color embedColour { get; set; } = Color.Gold;
     }
 }
