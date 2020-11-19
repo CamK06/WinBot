@@ -10,7 +10,7 @@ namespace WinWorldBot
         [Command("py")]
         private Task PyCMD([Remainder]string script)
         {
-            if(Context.Message.Author.Id != Globals.StarID) return Task.CompletedTask;
+            //if(Context.Message.Author.Id != Globals.StarID) return Task.CompletedTask;
 
             // Basic script formatting and automatic references
             script = script.Replace("```py", "");

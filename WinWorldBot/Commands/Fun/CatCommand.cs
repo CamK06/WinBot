@@ -13,7 +13,7 @@ namespace WinWorldBot.Commands
         [Command("cat")]
         [Summary("Sends a random cat photo|")]
         [Priority(Category.Fun)]
-        private async Task Dog()
+        private async Task Cat()
         {
             string json = "";
             // Download the json string from the API
