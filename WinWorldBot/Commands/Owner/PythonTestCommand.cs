@@ -1,26 +1,16 @@
 using System;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-
-using Discord;
 using Discord.Commands;
-
-using IronPython;
-using IronPython.Compiler;
 using IronPython.Hosting;
-using IronPython.Runtime;
-
-using WinWorldBot.Utils;
 
 namespace WinWorldBot
 {
     public class PythonTestCommand : ModuleBase<SocketCommandContext>
     {
         [Command("py")]
-        private async Task PyCMD([Remainder]string script)
+        private Task PyCMD([Remainder]string script)
         {
-            if(Context.Message.Author.Id != Globals.StarID) return;
+            if(Context.Message.Author.Id != Globals.StarID) return Task.CompletedTask;
 
             // Basic script formatting and automatic references
             script = script.Replace("```py", "");
@@ -31,14 +21,16 @@ namespace WinWorldBot
             // Set up the Python engine
             var engine = Python.CreateEngine();
             dynamic scope = engine.CreateScope();
-            Action<string> reply = (string text) => {
-                ReplyAsync(text);
+            Action<string> reply = async (string text) => {
+                await ReplyAsync(text);
             };
             scope.ctx = Context;
             scope.reply = reply;
 
             // Execute the Python code
             engine.Execute(script, scope);
+
+            return Task.CompletedTask;
         }
     }
 }
