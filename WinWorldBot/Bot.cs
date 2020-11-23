@@ -74,6 +74,7 @@ namespace WinWorldBot
 
         private async Task HandleCommandAsync(SocketMessage arg)
         {
+            if(!arg.Content.ToLower().Contains("ev") && arg.Channel.Id != 474350814387765250) return;
             // Basic setup for handling the command
             string messageLower = arg.Content.ToLower();
             SocketUserMessage message = arg as SocketUserMessage;

@@ -13,8 +13,11 @@ namespace WinWorldBot.Commands
         [Command("avatar")]
         [Summary("Shows a user's avatar|")]
         [Priority(Category.Main)]
-        private async Task Avatar(SocketGuildUser user)
+        private async Task Avatar(SocketGuildUser user = null)
         {
+            if(user == null)
+                user = Context.Message.Author as SocketGuildUser;
+
             EmbedBuilder Embed = new EmbedBuilder();
             Embed.WithColor(Bot.config.embedColour);
             Embed.WithAuthor(user);
@@ -22,9 +25,9 @@ namespace WinWorldBot.Commands
             
             // Set the image properly
             if(user.GetAvatarUrl() != null)
-                Embed.WithImageUrl(user.GetAvatarUrl());
+                Embed.WithImageUrl(user.GetAvatarUrl().Replace("size=128", "size=256"));
             else
-                Embed.WithImageUrl(user.GetDefaultAvatarUrl());
+                Embed.WithImageUrl(user.GetDefaultAvatarUrl().Replace("size=128", "size=256"));
             
             Embed.WithUrl(Embed.ImageUrl);
             await ReplyAsync("", false, Embed.Build());

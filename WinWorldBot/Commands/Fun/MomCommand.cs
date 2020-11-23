@@ -10,6 +10,7 @@ namespace WinWorldBot.Commands
 {
     public class MomCommand : ModuleBase<SocketCommandContext>
     {
+        /*
         [Command("mom")]
         [Summary("Use a random yo momma joke on someone|[User]")]
         [Priority(Category.Fun)]
@@ -28,6 +29,6 @@ namespace WinWorldBot.Commands
                 await ReplyAsync($"{Context.Message.Author.Mention}, {(string)insult.joke}");
             else
                 await ReplyAsync($"{user.Username}, {(string)insult.joke}");
-        }
+        }*/
     }
 }

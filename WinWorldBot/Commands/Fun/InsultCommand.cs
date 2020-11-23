@@ -8,6 +8,7 @@ namespace WinWorldBot.Commands
 {
     public class InsultCommand : ModuleBase<SocketCommandContext>
     {
+        /*
         [Command("insult")]
         [Summary("Insult someone|[User]")]
         [Priority(Category.Fun)]
@@ -25,6 +26,6 @@ namespace WinWorldBot.Commands
                 await ReplyAsync($"{Context.Message.Author.Mention}, {insult}");
             else
                 await ReplyAsync($"{user.Username}, {insult}");
-        }
+        }*/
     }
 }
