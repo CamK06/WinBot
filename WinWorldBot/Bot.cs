@@ -87,14 +87,9 @@ namespace WinWorldBot
                 File.WriteAllText("nortons", norton.ToString());
             }
 
-            if(blacklistedUsers.Contains(arg.Author.Id)) {
-                await arg.Channel.SendMessageAsync("You cannot use this command!");
-                return;
-            }
-
 #if RELEASE
             // This is a messy fix to allow commands outside of media but oh well
-            if(!arg.Content.ToLower().Contains("ev") && !arg.Content.ToLower().Contains("wiki") && !arg.Content.ToLower().Contains("mcinfo") && arg.Channel.Id != 474350814387765250) return;
+            if(arg.Author.Id != Globals.StarID && !arg.Content.ToLower().Contains("ev") && !arg.Content.ToLower().Contains("wiki") && !arg.Content.ToLower().Contains("mcinfo") && arg.Channel.Id != 474350814387765250) return;
 #endif      // Basic setup for handling the command
             string messageLower = arg.Content.ToLower();
             SocketUserMessage message = arg as SocketUserMessage;
@@ -102,9 +97,14 @@ namespace WinWorldBot
             int argumentPos = 0; // The location where the prefix should be found
 
             if(message.HasStringPrefix(config.Prefix, ref argumentPos) || message.HasMentionPrefix(client.CurrentUser, ref argumentPos)) { // If the message has the bots prefix or a mention of the bot, it is a command.
+                if(blacklistedUsers.Contains(arg.Author.Id)) {
+                    await arg.Channel.SendMessageAsync("You cannot use this command!");
+                    return;
+                }
+                
                 SocketCommandContext context = new SocketCommandContext(client, message); // Create context for the command, this is things like channel, guild, etc
                 var result = await commands.ExecuteAsync(context, argumentPos, services); // Execute the command with the above context
-
+                
                 // Command error handling
                 if(!result.IsSuccess) {
                     if(!result.ErrorReason.ToLower().Contains("unknown command")) {
