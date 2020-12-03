@@ -12,7 +12,7 @@ namespace WinWorldBot.Commands
         [Command("restart")]
         [Summary("Restart the bot|")]
         [Priority(Category.Owner)]
-        private async Task Kill()
+        private async Task Restart()
         {
             if(Context.Message.Author.Id != Globals.StarID) return;
             await ReplyAsync("Restarting...");
