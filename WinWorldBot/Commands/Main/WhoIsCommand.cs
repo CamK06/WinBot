@@ -11,7 +11,7 @@ namespace WinWorldBot.Commands
     public class WhoIsCommand : ModuleBase<SocketCommandContext>
     {
         [Command("whois")]
-        [Summary("Shows information about a given user|")]
+        [Summary("Shows information about a given user|[User]")]
         [Priority(Category.Main)]
         private async Task WhoIs(SocketGuildUser user)
         {

@@ -25,12 +25,22 @@ namespace WinWorldBot.Commands
 
             // Format the info in an embed
             EmbedBuilder eb = new EmbedBuilder();
-            eb.WithTitle((string)serverInfo.motd.clean[0]);
             eb.WithColor(Bot.config.embedColour);
-            eb.WithThumbnailUrl(Context.Guild.IconUrl);
-            eb.AddField("IP", "mc.winworldpc.com:48666", true);
-            eb.AddField("Online?", ((bool)serverInfo.online) ? "Yes" : "No", true);
-            eb.AddField("Users", $"{(int)serverInfo.players.online}/{(int)serverInfo.players.max}");
+            
+
+            if((bool)serverInfo.online) {
+                eb.WithThumbnailUrl(Context.Guild.IconUrl);
+                eb.WithTitle((string)serverInfo.motd.clean[0]);
+                eb.AddField("IP", "mc.winworldpc.com:48666", true);
+                eb.AddField("Online?", ((bool)serverInfo.online) ? "Yes" : "No", true);
+                eb.AddField("Users", $"{(int)serverInfo.players.online}/{(int)serverInfo.players.max}");
+                eb.AddField("Supports Cracked Accounts?", "No, you piece of shit, just buy the fucking game", true);
+            }
+            else {
+                eb.WithTitle("Server is Offline!");
+                eb.WithColor(Color.Red);
+            }
+
             await ReplyAsync("", false, eb.Build());
         }
     }

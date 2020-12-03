@@ -81,9 +81,10 @@ namespace WinWorldBot
                 norton++;
                 File.WriteAllText("nortons", norton.ToString());
             }
-
-            if(!arg.Content.ToLower().Contains("ev") && arg.Channel.Id != 474350814387765250) return;
-            // Basic setup for handling the command
+#if RELEASE
+            // This is a messy fix to allow commands outside of media but oh well
+            if(!arg.Content.ToLower().Contains("ev") && !arg.Content.ToLower().Contains("wiki") && !arg.Content.ToLower().Contains("mcinfo") && arg.Channel.Id != 474350814387765250) return;
+#endif      // Basic setup for handling the command
             string messageLower = arg.Content.ToLower();
             SocketUserMessage message = arg as SocketUserMessage;
             if(message is null || message.Author.IsBot) return;
