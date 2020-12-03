@@ -14,7 +14,7 @@ namespace WinWorldBot.Commands
     public class EvalCommand : ModuleBase<SocketCommandContext>
     {
         [Command("eval"), Alias("ev")]
-        [Summary("It's an eval command.|[Code]")]
+        [Summary("It's an eval command <:norton:767557055694635018>|[Code]")]
         [Priority(Category.Owner)]
         private async Task Eval([Remainder]string code)
         {
