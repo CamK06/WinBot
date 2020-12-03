@@ -19,16 +19,14 @@ namespace WinWorldBot.Commands
             // Download the json string from the API
             returnPoint:
             using (WebClient client = new WebClient())
-            {
                 json = client.DownloadString("https://random.dog/woof.json");
-            }
             dynamic output = JsonConvert.DeserializeObject(json); // Deserialize the string into a dynamic object
             if (((string)output.url).Contains(".mp4")) goto returnPoint;
 
             // Create and send the embed
             var eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
-            eb.WithTitle("Here's Your Random Dog!");
+            eb.WithTitle("Here's Your Random-Ass Dog!");
             eb.WithImageUrl((string)output.url);
             eb.WithCurrentTimestamp();
             await ReplyAsync("", false, eb.Build());
