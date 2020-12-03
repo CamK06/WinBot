@@ -74,6 +74,14 @@ namespace WinWorldBot
 
         private async Task HandleCommandAsync(SocketMessage arg)
         {
+            // SUPER IMPORTANT NORTON COUNTER
+            if(arg.Content.ToLower().Contains("norton")) {
+                string text = File.ReadAllText("nortons");
+                int.TryParse(text, out int norton);
+                norton++;
+                File.WriteAllText("nortons", norton.ToString());
+            }
+
             if(!arg.Content.ToLower().Contains("ev") && arg.Channel.Id != 474350814387765250) return;
             // Basic setup for handling the command
             string messageLower = arg.Content.ToLower();
