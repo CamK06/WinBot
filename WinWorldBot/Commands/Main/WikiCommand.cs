@@ -11,7 +11,7 @@ namespace WinWorldBot.Commands
     public class WikiCommand : ModuleBase<SocketCommandContext>
     {
         [Command("wiki")]
-        [Summary("Gets the bots latency to Discord|")]
+        [Summary("Search for an article on Wikipedia|")]
         [Priority(Category.Main)]
         private async Task Wiki([Remainder]string query)
         {
