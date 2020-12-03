@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,11 +25,14 @@ namespace WinWorldBot
         public static IServiceProvider services;
         public static BotConfig config;
 
+        public static List<ulong> blacklistedUsers = new List<ulong>();
+
         public async Task RunBot()
         {
 #if DEBUG
             Directory.SetCurrentDirectory("../WorkingDir");
 #endif
+            blacklistedUsers = MiscUtil.LoadBlacklist();
 
             if(!Directory.Exists("Logs"))
                 Directory.CreateDirectory("Logs");
@@ -74,6 +78,7 @@ namespace WinWorldBot
 
         private async Task HandleCommandAsync(SocketMessage arg)
         {
+            
             // SUPER IMPORTANT NORTON COUNTER
             if(arg.Content.ToLower().Contains("norton")) {
                 string text = File.ReadAllText("nortons");
@@ -81,6 +86,12 @@ namespace WinWorldBot
                 norton++;
                 File.WriteAllText("nortons", norton.ToString());
             }
+
+            if(blacklistedUsers.Contains(arg.Author.Id)) {
+                await arg.Channel.SendMessageAsync("You cannot use this command!");
+                return;
+            }
+
 #if RELEASE
             // This is a messy fix to allow commands outside of media but oh well
             if(!arg.Content.ToLower().Contains("ev") && !arg.Content.ToLower().Contains("wiki") && !arg.Content.ToLower().Contains("mcinfo") && arg.Channel.Id != 474350814387765250) return;
