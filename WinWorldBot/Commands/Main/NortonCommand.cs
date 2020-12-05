@@ -7,6 +7,7 @@ namespace WinWorldBot.Commands
 {
     public class NortonCommand : ModuleBase<SocketCommandContext>
     {
+        /*
         [Command("norton")]
         [Summary("Norton.|")]
         [Priority(Category.Fun)]
@@ -14,6 +15,6 @@ namespace WinWorldBot.Commands
         {
             await ReplyAsync("<:norton:767557055694635018><:norton:767557055694635018><:norton:767557055694635018><:norton:767557055694635018><:norton:767557055694635018>");
             await ReplyAsync("<:norton:767557055694635018><:norton:767557055694635018><:norton:767557055694635018><:norton:767557055694635018><:norton:767557055694635018>");
-        }
+        }*/
     }
 }

@@ -24,6 +24,7 @@ namespace WinWorldBot
         public static CommandService commands = new CommandService();
         public static IServiceProvider services;
         public static BotConfig config;
+        public static DateTime startTime = DateTime.Now;
 
         public static List<ulong> blacklistedUsers = new List<ulong>();
 
@@ -78,6 +79,22 @@ namespace WinWorldBot
 
         private async Task HandleCommandAsync(SocketMessage arg)
         {
+
+            // ok counter
+            if(arg.Author.Id == 694392238133870693 && arg.Content.ToLower().Contains("ok")) {
+                string text = File.ReadAllText("ok");
+                int.TryParse(text, out int okay);
+                okay++;
+                File.WriteAllText("ok", okay.ToString());
+            }
+
+            // oh counter
+            if(arg.Author.Id == 694392238133870693 && arg.Content.ToLower().Contains("oh")) {
+                string text = File.ReadAllText("oh");
+                int.TryParse(text, out int okay);
+                okay++;
+                File.WriteAllText("oh", okay.ToString());
+            }
             
             // SUPER IMPORTANT NORTON COUNTER
             if(arg.Content.ToLower().Contains("norton")) {
@@ -99,6 +116,11 @@ namespace WinWorldBot
             if(message.HasStringPrefix(config.Prefix, ref argumentPos) || message.HasMentionPrefix(client.CurrentUser, ref argumentPos)) { // If the message has the bots prefix or a mention of the bot, it is a command.
                 if(blacklistedUsers.Contains(arg.Author.Id)) {
                     await arg.Channel.SendMessageAsync("You cannot use this command!");
+                    return;
+                }
+
+                if(arg.Content.Contains(" ae") || arg.Content.Contains(" Æ")) {
+                    await arg.Channel.SendMessageAsync("Fuck off with that shit");
                     return;
                 }
                 

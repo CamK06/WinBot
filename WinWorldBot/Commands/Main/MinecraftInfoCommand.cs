@@ -34,7 +34,7 @@ namespace WinWorldBot.Commands
                 eb.AddField("IP", "mc.winworldpc.com:48666", true);
                 eb.AddField("Online?", ((bool)serverInfo.online) ? "Yes" : "No", true);
                 eb.AddField("Users", $"{(int)serverInfo.players.online}/{(int)serverInfo.players.max}");
-                eb.AddField("Supports Cracked Accounts?", "No, you piece of shit, just buy the fucking game", true);
+                eb.AddField("Supports Cracked Accounts?", "No. It never will, just buy the game or stop asking.", true);
             }
             else {
                 eb.WithTitle("Server is Offline!");
