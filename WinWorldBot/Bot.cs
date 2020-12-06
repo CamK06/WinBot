@@ -115,7 +115,7 @@ namespace WinWorldBot
 
             if(message.HasStringPrefix(config.Prefix, ref argumentPos) || message.HasMentionPrefix(client.CurrentUser, ref argumentPos)) { // If the message has the bots prefix or a mention of the bot, it is a command.
                 if(blacklistedUsers.Contains(arg.Author.Id)) {
-                    await arg.Channel.SendMessageAsync("You cannot use this command!");
+                    //await arg.Channel.SendMessageAsync("You cannot use this command!"); Removed because some complete retarded cunts kept spamming it
                     return;
                 }
 
