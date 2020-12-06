@@ -5,8 +5,6 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
-using WinWorldBot.Utils;
-
 namespace WinWorldBot.Commands
 {
     public class BlacklistedUsersCommand : ModuleBase<SocketCommandContext>
@@ -14,7 +12,7 @@ namespace WinWorldBot.Commands
         [Command("blacklistusers")]
         [Summary("Shows all blacklisted users|")]
         [Priority(Category.Owner)]
-        private async Task Blacklist()
+        private async Task BlacklistUsers()
         {
             if(Context.Message.Author.Id != Globals.StarID) return;
             
