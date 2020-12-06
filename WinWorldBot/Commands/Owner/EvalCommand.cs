@@ -58,6 +58,7 @@ using Newtonsoft.Json;" + code;
                 }
                 else // User isn't Starman
                 {
+                    if(Context.Channel.Id != 474350814387765250) return;
                     await ReplyAsync("You are not authorized to use this command!");
                     return;
                 }

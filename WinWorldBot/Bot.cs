@@ -119,7 +119,7 @@ namespace WinWorldBot
                     return;
                 }
 
-                if(arg.Content.Contains(" ae") || arg.Content.Contains(" Æ")) {
+                if(arg.Content.ToLower().Contains(" ae") || arg.Content.ToLower().Contains(" Æ") || arg.Content.ToLower().Contains("á") || arg.Content.ToLower().Contains("é")) {
                     await arg.Channel.SendMessageAsync("Fuck off with that shit");
                     return;
                 }
