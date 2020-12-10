@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 using Discord;
@@ -15,6 +16,7 @@ namespace WinWorldBot.Commands
         [Priority(Category.Main)]
         private async Task WhoIs(SocketGuildUser user)
         {
+            try {
             EmbedBuilder Embed = new EmbedBuilder();
             Embed.WithColor(Bot.config.embedColour);
             Embed.WithAuthor(user);
@@ -30,6 +32,10 @@ namespace WinWorldBot.Commands
             Embed.AddField("**Subscription**", "Buy our shitty premium to instantly regret our 'perks'!", true);
             
             await ReplyAsync("", false, Embed.Build());
+            }
+            catch(Exception ex) {
+                await ReplyAsync("Error: " + ex.Message);
+            }
         }
     }
 }
