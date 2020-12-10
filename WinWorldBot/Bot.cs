@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -120,7 +120,7 @@ namespace WinWorldBot
                 }
 
                 if(arg.Content.ToLower().Contains(" ae") || arg.Content.Contains(" Æ") || arg.Content.ToLower().Contains("á") || arg.Content.ToLower().Contains("é") || arg.Content.Contains("æ̃")) {
-                    await arg.Channel.SendMessageAsync("Fuck off with that shit");
+                    //await arg.Channel.SendMessageAsync("Fuck off with that shit");
                     return;
                 }
                 
