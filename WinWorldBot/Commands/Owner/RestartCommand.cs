@@ -13,16 +13,16 @@ namespace WinWorldBot.Commands
 {
     public class RestartCommand : ModuleBase<SocketCommandContext>
     {
-        /*
         [Command("restart")]
         [Summary("Restart the bot|")]
         [Priority(Category.Owner)]
         private async Task Restart()
         {
-            if(Context.Message.Author.Id != Globals.StarID) return;
+            SocketGuildUser author = Context.Message.Author as SocketGuildUser;
+            if (author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) return;
             await ReplyAsync("Restarting...");
             Log.Write("Restart triggered by command.");
             "systemctl restart WWBot".Bash();
-        }*/
+        }
     }
 }

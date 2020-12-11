@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,13 +15,15 @@ namespace WinWorldBot.Commands
         [Priority(Category.Owner)]
         private async Task BlacklistUsers()
         {
-            if(Context.Message.Author.Id != Globals.StarID) return;
+            try {
+            SocketGuildUser author = Context.Message.Author as SocketGuildUser;
+            if(author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) return;
             
             // Create a string list of blacklisted users
             StringBuilder builder = new StringBuilder();
             foreach(ulong userId in Bot.blacklistedUsers) {
                 SocketGuildUser user = Context.Guild.GetUser(userId);
-                builder.AppendLine(user.ToString());
+                if(user is not null) builder.AppendLine(user.ToString());
             }
             
             // Create an embed
@@ -31,6 +34,10 @@ namespace WinWorldBot.Commands
 
             // Send the embed
             await ReplyAsync("", false, eb.Build());
+            }
+            catch(Exception ex) {
+                await ReplyAsync($"Error: {ex.Message}\n{ex.TargetSite}\n{ex.Source}\n{ex.StackTrace}\n{ex.InnerException}");
+            }
         }
     }
 }

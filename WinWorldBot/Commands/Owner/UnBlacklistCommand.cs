@@ -14,7 +14,8 @@ namespace WinWorldBot.Commands
         [Priority(Category.Owner)]
         private async Task UnBlacklist(SocketUser user)
         {
-            if(Context.Message.Author.Id != Globals.StarID) return;
+            SocketGuildUser author = Context.Message.Author as SocketGuildUser;
+            if(author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) return;
             
             if(Bot.blacklistedUsers.Contains(user.Id))
                 Bot.blacklistedUsers.Remove(user.Id);

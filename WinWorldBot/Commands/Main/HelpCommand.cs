@@ -26,7 +26,7 @@ namespace WinWorldBot.Commands
                 // Embed content
                 HelpEmbed.AddField("**Main**", GetCommands(0), false);
                 HelpEmbed.AddField("**Fun**", GetCommands(Category.Fun), false);
-                HelpEmbed.AddField("**Owner**", GetCommands(2), false);
+                HelpEmbed.AddField("**Staff**", GetCommands(2), false);
 
                 await ReplyAsync("", false, HelpEmbed.Build());
             }

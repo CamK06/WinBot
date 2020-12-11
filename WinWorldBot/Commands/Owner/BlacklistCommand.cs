@@ -12,9 +12,10 @@ namespace WinWorldBot.Commands
         [Command("blacklist")]
         [Summary("Blacklist a user|")]
         [Priority(Category.Owner)]
-        private async Task Blacklist(SocketUser user)
+        private async Task Blacklist(SocketGuildUser user)
         {
-            if(Context.Message.Author.Id != Globals.StarID) return;
+            SocketGuildUser author = Context.Message.Author as SocketGuildUser;
+            if(author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) return;
             
             Bot.blacklistedUsers.Add(user.Id);
             MiscUtil.SaveBlacklist();

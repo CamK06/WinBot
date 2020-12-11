@@ -1,16 +1,22 @@
 using System;
 using System.Threading.Tasks;
 using Discord.Commands;
+using Discord.WebSocket;
 using IronPython.Hosting;
+using WinWorldBot.Utils;
+using WinWorldBot.Commands;
 
 namespace WinWorldBot
 {
     public class PythonTestCommand : ModuleBase<SocketCommandContext>
     {
         [Command("py")]
-        private Task PyCMD([Remainder]string script)
+        [Summary("Run some Python code|")]
+        [Priority(Category.Owner)]
+        private async Task PyCMD([Remainder]string script)
         {
-            if(Context.Message.Author.Id != Globals.StarID) return Task.CompletedTask;
+            SocketGuildUser author = Context.Message.Author as SocketGuildUser;
+            if (author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) return;
 
             // Basic script formatting and automatic references
             script = script.Replace("```py", "");
@@ -29,8 +35,6 @@ namespace WinWorldBot
 
             // Execute the Python code
             engine.Execute(script, scope);
-
-            return Task.CompletedTask;
         }
     }
 }

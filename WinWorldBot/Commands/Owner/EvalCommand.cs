@@ -16,8 +16,11 @@ namespace WinWorldBot.Commands
         [Command("eval"), Alias("ev")]
         [Summary("It's an eval command <:norton:767557055694635018>|[Code]")]
         [Priority(Category.Owner)]
-        private async Task Eval([Remainder]string code)
+        private async Task Eval([Remainder] string code)
         {
+            SocketGuildUser author = Context.Message.Author as SocketGuildUser;
+            if (author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) return;
+
             code = code.Replace("```cs", "");
             code = code.Replace("```", "");
             string OGCode = code;
@@ -26,26 +29,26 @@ namespace WinWorldBot.Commands
                 EVGlobals globals = null;
                 await Context.Message.Channel.TriggerTypingAsync();
                 var scriptOptions = ScriptOptions.Default;
-                if (Context.Message.Author.Id == Globals.StarID)
-                {
-                    globals = new EVGlobals()
-                    {
-                        Context = Context,
-                        Bot = Bot.client,
-                        Commands = Bot.commands,
-                        Services = Bot.services,
-                        BConfig = Bot.config
-                    };
-                    var asms = AppDomain.CurrentDomain.GetAssemblies(); // .SingleOrDefault(assembly => assembly.GetName().Name == "MyAssembly");
-                    foreach (Assembly assembly in asms)
-                    {
-                        if (!assembly.IsDynamic && assembly.FullName.ToLower().Contains("discord") || assembly.FullName.ToLower().Contains("newtonsoft") || assembly.FullName.ToLower().Contains("microsoft.csharp") || assembly.FullName.ToLower().Contains("lastfm"))
-                        {
-                            scriptOptions = scriptOptions.AddReferences(assembly);
-                        }
-                    }
 
-                    code = @"using System; 
+
+                globals = new EVGlobals()
+                {
+                    Context = Context,
+                    Bot = Bot.client,
+                    Commands = Bot.commands,
+                    Services = Bot.services,
+                    BConfig = Bot.config
+                };
+                var asms = AppDomain.CurrentDomain.GetAssemblies(); // .SingleOrDefault(assembly => assembly.GetName().Name == "MyAssembly");
+                foreach (Assembly assembly in asms)
+                {
+                    if (!assembly.IsDynamic && assembly.FullName.ToLower().Contains("discord") || assembly.FullName.ToLower().Contains("newtonsoft") || assembly.FullName.ToLower().Contains("microsoft.csharp") || assembly.FullName.ToLower().Contains("lastfm"))
+                    {
+                        scriptOptions = scriptOptions.AddReferences(assembly);
+                    }
+                }
+
+                code = @"using System; 
 using System.Linq;
 using System.IO; 
 using System.Threading.Tasks; 
@@ -55,13 +58,6 @@ using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
 using Newtonsoft.Json;" + code;
-                }
-                else // User isn't Starman
-                {
-                    if(Context.Channel.Id != 474350814387765250) return;
-                    await ReplyAsync("You are not authorized to use this command!");
-                    return;
-                }
 
                 var result = await CSharpScript.EvaluateAsync(code, scriptOptions, globals);
                 if (result != null)
