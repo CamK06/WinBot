@@ -29,7 +29,7 @@ namespace WinWorldBot.Commands
                 Embed.AddField("**Nickname**", user.Nickname);
             Embed.AddField("**Created On**", MiscUtil.FormatDate(user.CreatedAt), true);
             Embed.AddField("**Joined On**", MiscUtil.FormatDate(user.JoinedAt.Value), true);
-            Embed.AddField("**Subscription**", "Buy our shitty premium to instantly regret our 'perks'!", true);
+            //Embed.AddField("**Subscription**", "Buy our shitty premium to instantly regret our 'perks'!", true);
             
             await ReplyAsync("", false, Embed.Build());
             }

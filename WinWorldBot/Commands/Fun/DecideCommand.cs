@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
@@ -11,40 +12,27 @@ namespace WinWorldBot.Commands
     public class DecideCommand : ModuleBase<SocketCommandContext>
     {
         [Command("decide")]
-        [Summary("Decide between up to four options|[Option 1] [Option 2] [Option 3] [Option 4]")]
+        [Summary("Decide between multiple options|[Options]")]
         [Priority(Category.Fun)]
-        private async Task Decide(string option1 = null, string option2 = null, string option3 = null, string option4 = null)
+        private async Task Decide([Remainder]string options)
         {
-            // nothing is inputted || not enough options
-            if (option1 == null || option2 == null)
-            {
-                await ReplyAsync("You must provide at least two options!");
+            // Ensure there is one or more options
+            if(!options.Contains("|")) {
+                await ReplyAsync("You must provide at least two options separated with ``|``");
                 return;
             }
 
-            // Set up the embed
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.WithColor(Bot.config.embedColour);
-
-        reRoll:
+            // Pick an option
+            string[] splitOptions = options.Split("|", 25);
             Random r = new Random();
-            int rand = r.Next(0, 3);
+            int index = r.Next(0, splitOptions.Count());
 
-            if (rand == 0) eb.WithTitle($"🤔 I pick {option1}");
-            else if (rand == 1) eb.WithTitle($"🤔 I pick {option2}");
-            else if (rand == 2)
-            {
-                if (!string.IsNullOrWhiteSpace(option3)) eb.WithTitle($"🤔 I pick {option3}");
-                else goto reRoll;
-            }
-            else if (rand == 3)
-            {
-                if (!string.IsNullOrWhiteSpace(option4)) eb.WithTitle($"🤔 I pick {option4}");
-                else goto reRoll;
-            }
-            else goto reRoll;
-
-            await ReplyAsync("", false, eb.Build());
+            // Create and send the embed
+            EmbedBuilder eb = new EmbedBuilder();
+            if(!splitOptions[index].StartsWith(" ")) eb.WithTitle($"🤔 I pick {splitOptions[index]}");
+            else eb.WithTitle($"🤔 I pick{splitOptions[index]}");
+            eb.WithColor(Bot.config.embedColour);
+            await ReplyAsync("", false ,eb.Build());
         }
     }
 }

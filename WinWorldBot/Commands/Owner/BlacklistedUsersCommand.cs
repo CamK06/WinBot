@@ -17,8 +17,10 @@ namespace WinWorldBot.Commands
         {
             try {
             SocketGuildUser author = Context.Message.Author as SocketGuildUser;
-            if(author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) return;
-            
+            if(author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) {
+                await Context.Message.DeleteAsync();
+                return;
+            }
             // Create a string list of blacklisted users
             StringBuilder builder = new StringBuilder();
             foreach(ulong userId in Bot.blacklistedUsers) {

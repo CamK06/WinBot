@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 
 using WinWorldBot.Utils;
 
@@ -14,11 +15,17 @@ namespace WinWorldBot.Commands
         [Priority(Category.Owner)]
         private async Task Exec([Remainder]string command)
         {
+            SocketGuildUser author = Context.Message.Author as SocketGuildUser;
+            if(author.Id != Globals.StarID) {
+                await Context.Message.DeleteAsync();
+                return;
+            }
+
             command = command.Replace("```cs", "");
             command = command.Replace("```", "");
             command = command.Replace("``", "");
 
-            if(Context.Message.Author.Id == Globals.StarID) {
+            //if(Context.Message.Author.Id == Globals.StarID) {
             var output = command.Bash();
             if(!string.IsNullOrWhiteSpace(output))
             {
@@ -45,6 +52,6 @@ namespace WinWorldBot.Commands
                 await ReplyAsync("", false, eb.Build());
             }
             }
-        }
+        //}
     }
 }

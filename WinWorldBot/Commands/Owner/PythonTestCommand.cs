@@ -16,8 +16,10 @@ namespace WinWorldBot
         private async Task PyCMD([Remainder]string script)
         {
             SocketGuildUser author = Context.Message.Author as SocketGuildUser;
-            if (author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) return;
-
+            if(author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) {
+                await Context.Message.DeleteAsync();
+                return;
+            }
             // Basic script formatting and automatic references
             script = script.Replace("```py", "");
             script = script.Replace("```", "");

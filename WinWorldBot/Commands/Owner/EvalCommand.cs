@@ -19,8 +19,10 @@ namespace WinWorldBot.Commands
         private async Task Eval([Remainder] string code)
         {
             SocketGuildUser author = Context.Message.Author as SocketGuildUser;
-            if (author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) return;
-
+            if(author.Id != Globals.StarID && !author.GuildPermissions.KickMembers) {
+                await Context.Message.DeleteAsync();
+                return;
+            }
             code = code.Replace("```cs", "");
             code = code.Replace("```", "");
             string OGCode = code;
