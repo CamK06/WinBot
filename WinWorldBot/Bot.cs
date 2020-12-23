@@ -79,7 +79,6 @@ namespace WinWorldBot
 
         private async Task HandleCommandAsync(SocketMessage arg)
         {
-
             // ok counter
             if(arg.Author.Id == 694392238133870693 && arg.Content.ToLower().Contains("ok")) {
                 string text = File.ReadAllText("ok");
@@ -110,7 +109,7 @@ namespace WinWorldBot
 #endif      // Basic setup for handling the command
             string messageLower = arg.Content.ToLower();
             SocketUserMessage message = arg as SocketUserMessage;
-            if(message is null || message.Author.IsBot) return;
+            if(message == null || message.Author.IsBot && !message.Author.IsWebhook) return;
             int argumentPos = 0; // The location where the prefix should be found
 
             if(message.HasStringPrefix(config.Prefix, ref argumentPos) || message.HasMentionPrefix(client.CurrentUser, ref argumentPos)) { // If the message has the bots prefix or a mention of the bot, it is a command.
