@@ -24,6 +24,24 @@ namespace WinWorldBot.Utils
             process.WaitForExit();
             Log.Write($"Command executed: {cmd}");
             return result;
+        }
+
+        public static void BashUpdate() {
+            var escapedArgs = "WBUpdate";
+            
+            var process = new Process()
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "/bin/bash",
+                    Arguments = $"-c \"{escapedArgs}\"",
+                    RedirectStandardOutput = false,
+                    UseShellExecute = true,
+                    CreateNoWindow = true,
+                }
+            };
+            process.Start();
+            process.WaitForExit();
         }   
     }
 }
