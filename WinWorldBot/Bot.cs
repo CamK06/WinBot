@@ -143,6 +143,7 @@ namespace WinWorldBot
         public string Prefix { get; set; }
         public string Status { get; set; }
         public string CatAPIKey { get; set; }
+        public string WikiHowAPIKey { get; set; } // rapidapi.com WikiHow
         public Color embedColour { get; set; } = Color.Gold;
     }
 }
