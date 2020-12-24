@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 
+using Humanizer;
+using Humanizer.DateTimeHumanizeStrategy;
+
 namespace WinWorldBot.Commands
 {
     public class StatsCommand : ModuleBase<SocketCommandContext>
@@ -34,7 +37,8 @@ namespace WinWorldBot.Commands
                 eb.AddField("Oh Count", oh, true);
                 eb.AddField("Ok Count", okay, true);
             }
-            eb.AddField("Uptime", $"{uptime.Days}:{uptime.Hours}:{uptime.Minutes}:{uptime.Seconds}", true);
+            //eb.AddField("Uptime", $"{uptime.Days}:{uptime.Hours}:{uptime.Minutes}:{uptime.Seconds}", true);
+            eb.AddField("Uptime", TimeSpanHumanizeExtensions.Humanize(uptime), true);
 
             await ReplyAsync("", false, eb.Build());
         }
