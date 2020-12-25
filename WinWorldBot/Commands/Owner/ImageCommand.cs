@@ -40,8 +40,8 @@ namespace WinWorldBot.Commands
                 image = Image.FromStream(ms);
             }
 
-            image.Save("image.png");
-            await Context.Channel.SendFileAsync("image.png");
+            image.Save("image.gif");
+            await Context.Channel.SendFileAsync("image.gif");
         }
     }
 }
