@@ -103,6 +103,14 @@ namespace WinWorldBot
                 File.WriteAllText("nortons", norton.ToString());
             }
 
+            // Yuds' "?" counter
+            if(arg.Content.ToLower().Contains("?") && arg.Author.Id == 469275318079848459) {
+                string text = File.ReadAllText("?");
+                int.TryParse(text, out int question);
+                question++;
+                File.WriteAllText("?", text);        
+            }
+
 #if RELEASE
             // This is a messy fix to allow commands outside of media but oh well
             if(arg.Author.Id != 363850072309497876) {
