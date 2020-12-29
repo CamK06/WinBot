@@ -104,11 +104,11 @@ namespace WinWorldBot
             }
 
             // Yuds' "?" counter
-            if(arg.Content.ToLower().Contains("?") && arg.Author.Id == 469275318079848459) {
+            if(arg.Author.Id == 469275318079848459 && arg.Content.ToLower().Contains("?")) {
                 string text = File.ReadAllText("?");
                 int.TryParse(text, out int question);
                 question++;
-                File.WriteAllText("?", text);        
+                File.WriteAllText("?", question.ToString());        
             }
 
 #if RELEASE
