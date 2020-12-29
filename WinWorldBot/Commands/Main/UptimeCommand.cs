@@ -7,6 +7,8 @@ using Discord.Rest;
 using Discord.Net;
 using Discord.Commands;
 
+using Humanizer;
+
 using WinWorldBot.Utils;
 
 namespace WinWorldBot.Commands
@@ -19,13 +21,7 @@ namespace WinWorldBot.Commands
         private async Task Uptime()
         {
             TimeSpan elapsed = DateTime.Now.Subtract(Bot.startTime);
-
-            string days = "", hours = "", minutes = "", seconds = "";
-            if(elapsed.Days > 0) days = $"{elapsed.Days} days, ";
-            if(elapsed.Hours > 0) hours = $"{elapsed.Hours} hours, ";
-            if(elapsed.Minutes > 0) minutes = $"{elapsed.Minutes} minutes, ";
-            if(elapsed.Seconds > 0) seconds = $"{elapsed.Seconds} seconds";
-            await ReplyAsync($"The bot has been online for {days}{hours}{minutes}{seconds}");
+            await ReplyAsync($"The bot has been online for {TimeSpanHumanizeExtensions.Humanize(elapsed)}");
         }
     }
 }
