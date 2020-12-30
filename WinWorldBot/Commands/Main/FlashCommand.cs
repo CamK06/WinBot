@@ -21,7 +21,7 @@ namespace WinWorldBot.Commands
         private async Task TwentyTwenty()
         {
             var timeSpan = new DateTime(2021, 1, 1, 0, 0, 0).Subtract(DateTime.Now);
-            await ReplyAsync($"Flash officially dies in {timeSpan.Humanize()}. RIP");
+            await ReplyAsync($"Flash officially dies in {timeSpan.Humanize(3)}. RIP");
         }
     }
 }
