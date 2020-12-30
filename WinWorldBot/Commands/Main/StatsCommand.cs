@@ -41,7 +41,7 @@ namespace WinWorldBot.Commands
                 eb.AddField("\"?\" Count", questions, true);
             }
             //eb.AddField("Uptime", $"{uptime.Days}:{uptime.Hours}:{uptime.Minutes}:{uptime.Seconds}", true);
-            eb.AddField("Uptime", TimeSpanHumanizeExtensions.Humanize(uptime), true);
+            eb.AddField("Uptime", uptime.Humanize(3), true);
 
             await ReplyAsync("", false, eb.Build());
         }

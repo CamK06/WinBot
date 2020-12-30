@@ -21,7 +21,7 @@ namespace WinWorldBot.Commands
         private async Task Uptime()
         {
             TimeSpan elapsed = DateTime.Now.Subtract(Bot.startTime);
-            await ReplyAsync($"The bot has been online for {TimeSpanHumanizeExtensions.Humanize(elapsed)}");
+            await ReplyAsync($"The bot has been online for {elapsed.Humanize(3)}");
         }
     }
 }
