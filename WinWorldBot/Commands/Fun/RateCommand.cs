@@ -19,6 +19,15 @@ namespace WinWorldBot.Commands
             Random r = new Random();
             EmbedBuilder eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
+
+            if(option.ToLower().Contains("windows")) {
+                if(option.ToLower().Contains("10") || option.ToLower().Contains("ten")) {
+                    eb.WithTitle($"🤔 I give **{option}** a solid **SHIT** rating");
+                    await ReplyAsync("", false, eb.Build());
+                    return;
+                }
+            }
+
             if(!ratings.ContainsKey(option.ToLower()))
                 eb.WithTitle($"🤔 I give **{option}** a solid {r.Next(1, 10)}/10");
             else
