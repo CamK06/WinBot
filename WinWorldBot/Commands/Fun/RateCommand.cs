@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -13,13 +14,25 @@ namespace WinWorldBot.Commands
         [Command("rate")]
         [Summary("Rate something|[Thing to rate]")]
         [Priority(Category.Fun)]
-        private async Task Rate([Remainder]string option)
+        private async Task Rate([Remainder] string option)
         {
             Random r = new Random();
             EmbedBuilder eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
-            eb.WithTitle($"🤔 I give **{option}** a solid {r.Next(1,10)}/10");
+            if(!ratings.ContainsKey(option.ToLower()))
+                eb.WithTitle($"🤔 I give **{option}** a solid {r.Next(1, 10)}/10");
+            else
+                eb.WithTitle($"🤔 I give **{option}** a solid {ratings[option.ToLower()]}/10");
             await ReplyAsync("", false, eb.Build());
         }
+
+        private Dictionary<string, int> ratings = new Dictionary<string, int>()
+        {
+            { "microsoft", 0 }, { "linux", 11 }, { "arch", 11 },
+            { "debian", 11 }, { "ubuntu", 6 }, { "windows 10", 0 },
+            { "windows", 4 }, { "windows 8", 7 }, { "windows 8.1", 9 },
+            { "windows 7", 11 }, { "windows 2000", 11 }, { "duff", 486 },
+            { "windows10", 0 }
+        };
     }
 }
