@@ -34,7 +34,7 @@ namespace WinWorldBot.Commands
             { "windows 7", 11 }, { "windows 2000", 11 }, { "duff", 486 },
             { "windows10", -99 }, { "windows 98", 98 }, { "windows98", 98 },
             { "microsoft windows 10", -99}, { "microsoft windows10", -99 },
-            { "microsoftwindows10", - 99 }
+            { "microsoftwindows10", -99 }
         };
     }
 }
