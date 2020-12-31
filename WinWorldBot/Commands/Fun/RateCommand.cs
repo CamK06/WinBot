@@ -32,7 +32,7 @@ namespace WinWorldBot.Commands
             { "debian", 11 }, { "ubuntu", 6 }, { "windows 10", 0 },
             { "windows", 4 }, { "windows 8", 7 }, { "windows 8.1", 9 },
             { "windows 7", 11 }, { "windows 2000", 11 }, { "duff", 486 },
-            { "windows10", 0 }
+            { "windows10", 0 }, { "windows 98", 98 }, { "windows98", 98 },
         };
     }
 }
