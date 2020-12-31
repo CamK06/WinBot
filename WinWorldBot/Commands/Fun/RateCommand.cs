@@ -29,10 +29,12 @@ namespace WinWorldBot.Commands
         private Dictionary<string, int> ratings = new Dictionary<string, int>()
         {
             { "microsoft", 0 }, { "linux", 11 }, { "arch", 11 },
-            { "debian", 11 }, { "ubuntu", 6 }, { "windows 10", 0 },
+            { "debian", 11 }, { "ubuntu", 6 }, { "windows 10", -99 },
             { "windows", 4 }, { "windows 8", 7 }, { "windows 8.1", 9 },
             { "windows 7", 11 }, { "windows 2000", 11 }, { "duff", 486 },
-            { "windows10", 0 }, { "windows 98", 98 }, { "windows98", 98 },
+            { "windows10", -99 }, { "windows 98", 98 }, { "windows98", 98 },
+            { "microsoft windows 10", -99}, { "microsoft windows10", -99 },
+            { "microsoftwindows10", - 99 }
         };
     }
 }
