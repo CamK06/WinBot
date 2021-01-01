@@ -79,15 +79,8 @@ namespace WinWorldBot
             await Task.Delay(-1); // Wait forever
         }
 
-int phour = 0;
-
         private async Task HandleCommandAsync(SocketMessage arg)
         {
-            if(DateTime.Now.Hour != phour) {
-                await client.SetGameAsync($"Flash dies in {new DateTime(2021, 1, 1, 0, 0, 0).Subtract(DateTime.Now).Humanize(2)}! RIP");
-                phour = DateTime.Now.Hour;
-            }
-
             // ok counter
             if(arg.Author.Id == 694392238133870693 && arg.Content.ToLower().Contains("ok")) {
                 string text = File.ReadAllText("ok");
