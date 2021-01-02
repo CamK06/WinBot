@@ -38,7 +38,7 @@ namespace WinWorldBot.Commands
             if(Context.Channel.Id == 563206142755471381 || arg == "-a" && Context.Message.Author.Id == 363850072309497876) {
                 //eb.AddField("Oh Count", oh, true);
                 //eb.AddField("Ok Count", okay, true);
-                eb.AddField("\"?\" Count", questions, true);
+                eb.AddField("Yuds' \"?\" Count", questions, true);
             }
             //eb.AddField("Uptime", $"{uptime.Days}:{uptime.Hours}:{uptime.Minutes}:{uptime.Seconds}", true);
             eb.AddField("Uptime", uptime.Humanize(3), true);
