@@ -15,7 +15,7 @@ namespace WinWorldBot.Commands
         [Command("stats")]
         [Summary("Shows various statistics and things|")]
         [Priority(Category.Main)]
-        private async Task Stats()
+        private async Task Stats(string arg = null)
         {
             // Collect data from files
             string nortonS = File.ReadAllText("nortons");
@@ -35,7 +35,7 @@ namespace WinWorldBot.Commands
             eb.WithThumbnailUrl(Context.Guild.IconUrl);
             eb.AddField("Member Count", Context.Guild.MemberCount, true);
             eb.AddField("Norton Count", norton, true);
-            if(Context.Channel.Id == 563206142755471381) {
+            if(Context.Channel.Id == 563206142755471381 || arg == "-a" && Context.Message.Author.Id == 363850072309497876) {
                 //eb.AddField("Oh Count", oh, true);
                 //eb.AddField("Ok Count", okay, true);
                 eb.AddField("\"?\" Count", questions, true);

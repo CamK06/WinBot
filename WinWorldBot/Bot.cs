@@ -97,7 +97,7 @@ namespace WinWorldBot
                 File.WriteAllText("oh", okay.ToString());
             }
             
-            // SUPER IMPORTANT NORTON COUNTER
+            // Norton counter
             if(arg.Content.ToLower().Contains("norton")) {
                 string text = File.ReadAllText("nortons");
                 int.TryParse(text, out int norton);
