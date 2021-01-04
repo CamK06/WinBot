@@ -124,7 +124,7 @@ namespace WinWorldBot
             if(message == null || message.Author.IsBot && !message.Author.IsWebhook) return;
             int argumentPos = 0; // The location where the prefix should be found
 
-            if(hasPrefix(message, config.Prefix) || hasPrefix(message, "!") || hasPrefix(message, ".") || hasPrefix(message, "?") || hasPrefix(message, "$") || hasPrefix(message, "\\") || hasPrefix(message, "/") || message.HasMentionPrefix(client.CurrentUser, ref argumentPos)) { // If the message has the bots prefix or a mention of the bot, it is a command.
+            if(message.HasStringPrefix(config.Prefix, ref argumentPos) || message.HasStringPrefix("!", ref argumentPos) || message.HasStringPrefix(".", ref argumentPos) || message.HasStringPrefix("?", ref argumentPos) || message.HasStringPrefix("$", ref argumentPos) || message.HasStringPrefix("\\", ref argumentPos) || message.HasStringPrefix("/", ref argumentPos) || message.HasMentionPrefix(client.CurrentUser, ref argumentPos)) { // If the message has the bots prefix or a mention of the bot, it is a command.
                 if(blacklistedUsers.Contains(arg.Author.Id)) {
                     //await arg.Channel.SendMessageAsync("You cannot use this command!"); Removed because some complete retarded cunts kept spamming it
                     return;
@@ -146,13 +146,6 @@ namespace WinWorldBot
                     }
                 }
             }
-        }
-
-        // This only exists to clean up the command handler
-        bool hasPrefix(SocketUserMessage message, string prefix)
-        {
-            int argPos = 0;
-            return message.HasStringPrefix(config.Prefix, ref argPos);
         }
     }
 
