@@ -9,7 +9,7 @@ namespace WinWorldBot.Commands
     public class YudsCommand : ModuleBase<SocketCommandContext>
     {
         [Command("yuds")]
-        private async Task Yuds([Remainder]string input)
+        private async Task Yuds()
         {
             if(Context.Message.Author.Id == 363850072309497876) await Context.Message.DeleteAsync();
 
