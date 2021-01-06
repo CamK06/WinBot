@@ -10,6 +10,8 @@ namespace WinWorldBot.Commands
         [Command("yuds")]
         private async Task Yuds()
         {
+            if(Context.Message.Author.Id == 363850072309497876) await Context.Message.DeleteAsync();
+
             EmbedBuilder eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
             eb.WithTitle($"Yuds has asked {File.ReadAllText("?")} questions thus far.");
