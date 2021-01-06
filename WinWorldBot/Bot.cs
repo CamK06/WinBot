@@ -114,7 +114,7 @@ namespace WinWorldBot
             // Yuds' "?" counter
             if (arg.Author.Id == 469275318079848459)
             {
-                if (arg.Content.ToLower().Contains("?") || arg.Content.ToLower().Contains("ʔ"))
+                if (arg.Content.ToLower().Contains("?") || arg.Content.ToLower().Contains("ʔ") || arg.Content.ToLower().Contains("¿"))
                 {
                     string text = File.ReadAllText("?");
                     int.TryParse(text, out int question);
