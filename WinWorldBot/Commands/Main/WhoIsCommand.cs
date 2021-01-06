@@ -24,7 +24,7 @@ namespace WinWorldBot.Commands
                 Embed.WithThumbnailUrl(user.GetAvatarUrl());
             else
                 Embed.WithThumbnailUrl(user.GetDefaultAvatarUrl());
-            Embed.AddField("**ID**", user.Id, true);
+            Embed.AddField("**ID**", user.Id, false);
             if(!string.IsNullOrWhiteSpace(user.Nickname))
                 Embed.AddField("**Nickname**", user.Nickname);
             Embed.AddField("**Created On**", MiscUtil.FormatDate(user.CreatedAt), true);
