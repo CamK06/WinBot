@@ -11,7 +11,10 @@ namespace WinWorldBot.Commands
         [Command("yuds")]
         private async Task Yuds()
         {
-            if(Context.Message.Author.Id == 363850072309497876) await Context.Message.DeleteAsync();
+            if(Context.Message.Author.Id != 363850072309497876) {
+                await Context.Message.DeleteAsync();
+                return;
+            }
 
             EmbedBuilder eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
