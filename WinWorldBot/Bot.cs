@@ -36,7 +36,7 @@ namespace WinWorldBot
             Directory.SetCurrentDirectory("../WorkingDir");
 #endif
             blacklistedUsers = MiscUtil.LoadBlacklist();
-
+            YudsCounter.LoadWeights();
             if (!Directory.Exists("Logs"))
                 Directory.CreateDirectory("Logs");
 
@@ -114,7 +114,7 @@ namespace WinWorldBot
             // Yuds' "?" counter
             if (arg.Author.Id == 469275318079848459)
             {
-                if (arg.Content.ToLower().Contains("?") || arg.Content.ToLower().Contains("ʔ") || arg.Content.ToLower().Contains("¿"))
+                if (YudsCounter.IsQuestion(arg.Content))
                 {
                     string text = File.ReadAllText("?");
                     int.TryParse(text, out int question);
