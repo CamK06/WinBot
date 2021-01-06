@@ -37,7 +37,7 @@ namespace WinWorldBot
 #endif
             blacklistedUsers = MiscUtil.LoadBlacklist();
 
-            if(!Directory.Exists("Logs"))
+            if (!Directory.Exists("Logs"))
                 Directory.CreateDirectory("Logs");
 
             services = new ServiceCollection()
@@ -47,7 +47,8 @@ namespace WinWorldBot
             await commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
             // If no config file is present, create a new template one and quit
-            if(!File.Exists("config.json")) {
+            if (!File.Exists("config.json"))
+            {
                 config = new BotConfig()
                 {
                     Prefix = "~",
@@ -58,12 +59,14 @@ namespace WinWorldBot
                 Log.Write("No configuration file present!");
                 Log.Write("A template configuration file has been written to config.json");
                 Environment.Exit(0);
-            } else // If there is a config, read it
+            }
+            else // If there is a config, read it
                 config = JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText("config.json"));
 
-            
+
             // Set up events
-            client.Log += (LogMessage message) => {
+            client.Log += (LogMessage message) =>
+            {
                 Log.Write(message.Message);
                 return Task.CompletedTask;
             };
@@ -82,7 +85,8 @@ namespace WinWorldBot
         private async Task HandleCommandAsync(SocketMessage arg)
         {
             // ok counter
-            if(arg.Author.Id == 694392238133870693 && arg.Content.ToLower().Contains("ok")) {
+            if (arg.Author.Id == 694392238133870693 && arg.Content.ToLower().Contains("ok"))
+            {
                 string text = File.ReadAllText("ok");
                 int.TryParse(text, out int okay);
                 okay++;
@@ -90,15 +94,17 @@ namespace WinWorldBot
             }
 
             // oh counter
-            if(arg.Author.Id == 694392238133870693 && arg.Content.ToLower().Contains("oh")) {
+            if (arg.Author.Id == 694392238133870693 && arg.Content.ToLower().Contains("oh"))
+            {
                 string text = File.ReadAllText("oh");
                 int.TryParse(text, out int okay);
                 okay++;
                 File.WriteAllText("oh", okay.ToString());
             }
-            
+
             // Norton counter
-            if(arg.Content.ToLower().Contains("norton")) {
+            if (arg.Content.ToLower().Contains("norton"))
+            {
                 string text = File.ReadAllText("nortons");
                 int.TryParse(text, out int norton);
                 norton++;
@@ -106,11 +112,15 @@ namespace WinWorldBot
             }
 
             // Yuds' "?" counter
-            if(arg.Author.Id == 469275318079848459 && arg.Content.ToLower().Contains("?")) {
-                string text = File.ReadAllText("?");
-                int.TryParse(text, out int question);
-                question++;
-                File.WriteAllText("?", question.ToString());        
+            if (arg.Author.Id == 469275318079848459)
+            {
+                if (arg.Content.ToLower().Contains("?") || arg.Content.ToLower().Contains("ʔ"))
+                {
+                    string text = File.ReadAllText("?");
+                    int.TryParse(text, out int question);
+                    question++;
+                    File.WriteAllText("?", question.ToString());
+                }
             }
 
 #if RELEASE
@@ -121,26 +131,31 @@ namespace WinWorldBot
 #endif      // Basic setup for handling the command
             string messageLower = arg.Content.ToLower();
             SocketUserMessage message = arg as SocketUserMessage;
-            if(message == null || message.Author.IsBot && !message.Author.IsWebhook) return;
+            if (message == null || message.Author.IsBot && !message.Author.IsWebhook) return;
             int argumentPos = 0; // The location where the prefix should be found
 
-            if(message.HasStringPrefix(config.Prefix, ref argumentPos) || message.HasStringPrefix("!", ref argumentPos) || message.HasStringPrefix(".", ref argumentPos) || message.HasStringPrefix("?", ref argumentPos) || message.HasStringPrefix("$", ref argumentPos) || message.HasStringPrefix("\\", ref argumentPos) || message.HasStringPrefix("/", ref argumentPos) || message.HasMentionPrefix(client.CurrentUser, ref argumentPos)) { // If the message has the bots prefix or a mention of the bot, it is a command.
-                if(blacklistedUsers.Contains(arg.Author.Id)) {
+            if (message.HasStringPrefix(config.Prefix, ref argumentPos) || message.HasStringPrefix("!", ref argumentPos) || message.HasStringPrefix(".", ref argumentPos) || message.HasStringPrefix("?", ref argumentPos) || message.HasStringPrefix("$", ref argumentPos) || message.HasStringPrefix("\\", ref argumentPos) || message.HasStringPrefix("/", ref argumentPos) || message.HasMentionPrefix(client.CurrentUser, ref argumentPos))
+            { // If the message has the bots prefix or a mention of the bot, it is a command.
+                if (blacklistedUsers.Contains(arg.Author.Id))
+                {
                     //await arg.Channel.SendMessageAsync("You cannot use this command!"); Removed because some complete retarded cunts kept spamming it
                     return;
                 }
 
-                if(arg.Content.ToLower().Contains(" ae") || arg.Content.Contains(" Æ") || arg.Content.ToLower().Contains("á") || arg.Content.ToLower().Contains("é") || arg.Content.Contains("æ̃")) {
+                if (arg.Content.ToLower().Contains(" ae") || arg.Content.Contains(" Æ") || arg.Content.ToLower().Contains("á") || arg.Content.ToLower().Contains("é") || arg.Content.Contains("æ̃"))
+                {
                     //await arg.Channel.SendMessageAsync("Fuck off with that shit");
                     return;
                 }
-                
+
                 SocketCommandContext context = new SocketCommandContext(client, message); // Create context for the command, this is things like channel, guild, etc
                 var result = await commands.ExecuteAsync(context, argumentPos, services); // Execute the command with the above context
-                
+
                 // Command error handling
-                if(!result.IsSuccess) {
-                    if(!result.ErrorReason.ToLower().Contains("unknown command")) {
+                if (!result.IsSuccess)
+                {
+                    if (!result.ErrorReason.ToLower().Contains("unknown command"))
+                    {
                         Log.Write(result.ErrorReason);
                         await message.Channel.SendMessageAsync(result.ErrorReason);
                     }
