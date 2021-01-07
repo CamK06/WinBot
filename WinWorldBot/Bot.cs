@@ -160,6 +160,10 @@ namespace WinWorldBot
                         await message.Channel.SendMessageAsync(result.ErrorReason);
                     }
                 }
+                else
+                {
+                    Log.Write($"{arg.Author} executed command: {arg.Content}");
+                }
             }
         }
     }
