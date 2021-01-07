@@ -27,6 +27,13 @@ namespace WinWorldBot.Commands
                     return;
                 }
             }
+            else if(option.ToLower().Contains("star")) {
+                if(option.ToLower().Contains("man")) {
+                    eb.WithTitle($"🤔 I give **{option}** a solid **GOD** rating");
+                    await ReplyAsync("", false, eb.Build());
+                    return;
+                }
+            }
 
             if(!ratings.ContainsKey(option.ToLower()))
                 eb.WithTitle($"🤔 I give **{option}** a solid {r.Next(1, 10)}/10");
