@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using WinWorldBot.Utils;
 using Discord.Commands;
 using Discord;
+using Discord.WebSocket;
 
 namespace WinWorldBot.Commands
 {
@@ -32,14 +33,14 @@ namespace WinWorldBot.Commands
             EmbedBuilder eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
 
-            if(YudsCounter.IsQuestion(input))
+            if(YudsCounter.IsQuestion(input, Context.Channel as SocketTextChannel))
                 eb.WithTitle($"I believe this IS in fact a question.");
             else
                 eb.WithTitle("I believe this is not a question.");
 
             // eb.WithTitle($"Yuds has asked {File.ReadAllText("?")} questions thus far.");
 
-            await ReplyAsync("", false, eb.Build());
+            //await ReplyAsync("", false, eb.Build());
         }
     }
 }

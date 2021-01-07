@@ -3,13 +3,15 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 
+using Discord.WebSocket;
+
 namespace WinWorldBot.Utils
 {
     class YudsCounter
     {
         public static List<Weight> weights = new List<Weight>();
 
-        public static bool IsQuestion(string text)
+        public static bool IsQuestion(string text, SocketTextChannel debugChannel = null)
         {
             // Check for question marks, we do this first so as not to waste processing power calculating weights only to find a question mark
             if(text.ToLower().Contains("?") || text.ToLower().Contains("ʔ") || text.ToLower().Contains("¿"))
@@ -22,6 +24,15 @@ namespace WinWorldBot.Utils
                     totalWeight += weight.value;
 
             Log.Write("DEBUG: Yuds counter weight is " + totalWeight);
+
+            if(debugChannel != null)
+            {
+                string message = $"The total weight is: **{totalWeight}**\nMatched words:";
+                foreach(Weight weight in weights)
+                    if(text.ToLower().Contains(weight.word))
+                        message += $"\n``{weight.word}``:``{weight.value}``";
+                debugChannel.SendMessageAsync(message);
+            }
 
             // Determine if the weight is high enough for it to be a question
             if(totalWeight >= 75.0f)

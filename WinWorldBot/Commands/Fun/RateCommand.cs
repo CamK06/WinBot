@@ -45,7 +45,7 @@ namespace WinWorldBot.Commands
             { "microsoft windows 10", -99}, { "microsoft windows10", -99 },
             { "microsoftwindows10", -99 }, { "adobe", 0 }, { "discord", -1 },
             { "discord app", -1 }, { "discordapp", -1 }, { "irc", 100 },
-            { "mirc", 11 }
+            { "mirc", 11 }, {"windows 95", 95}, {"windows95", 95}
         };
     }
 }
