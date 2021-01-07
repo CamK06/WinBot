@@ -35,7 +35,7 @@ namespace WinWorldBot.Utils
             }
 
             // Determine if the weight is high enough for it to be a question
-            if(totalWeight >= 75.0f)
+            if(totalWeight >= 70.5f)
                 return true;
             else
                 return false;
