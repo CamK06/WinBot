@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using Humanizer;
 
 using WinWorldBot.Utils;
+using WinWorldBot.Commands;
 
 namespace WinWorldBot
 {
@@ -45,6 +46,8 @@ namespace WinWorldBot
                 .AddSingleton(commands)
                 .BuildServiceProvider();
             await commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
+
+            Trivia.Init();
 
             // If no config file is present, create a new template one and quit
             if (!File.Exists("config.json"))
