@@ -35,6 +35,13 @@ namespace WinWorldBot.Commands
                 }
             }
 
+            if(Context.Message.Author.Id == 469275318079848459)
+            {
+                eb.WithTitle($"🤔 I give **{option}** a solid 1/10");
+                await ReplyAsync("", false, eb.Build());
+                return;
+            }
+
             if(!ratings.ContainsKey(option.ToLower()))
                 eb.WithTitle($"🤔 I give **{option}** a solid {r.Next(1, 10)}/10");
             else
