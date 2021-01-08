@@ -27,6 +27,9 @@ namespace WinWorldBot.Commands
             Random r = new Random();
             int index = r.Next(0, splitOptions.Count());
 
+            if(Context.Message.Author.Id == 469275318079848459)
+                index = 0;
+
             // Create and send the embed
             EmbedBuilder eb = new EmbedBuilder();
             if(!splitOptions[index].StartsWith(" ")) eb.WithTitle($"🤔 I pick {splitOptions[index]}");
