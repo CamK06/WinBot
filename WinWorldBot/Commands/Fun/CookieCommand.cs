@@ -1,7 +1,5 @@
-using System;
 using System.Threading.Tasks;
 
-using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
@@ -13,7 +11,7 @@ namespace WinWorldBot.Commands
         [Command("cookie")]
         [Summary("Give someone a cookie|[User]")]
         [Priority(Category.Fun)]
-        private async Task Cookie(SocketGuildUser user = null)
+        private async Task Cookie([Remainder]SocketGuildUser user = null)
         {
             if(user == null) 
             {
