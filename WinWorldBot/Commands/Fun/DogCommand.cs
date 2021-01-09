@@ -26,7 +26,7 @@ namespace WinWorldBot.Commands
             // Create and send the embed
             var eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
-            eb.WithTitle("Here's Your Random-Ass Dog!");
+            eb.WithTitle("Here's Your Random Dog!");
             eb.WithImageUrl((string)output.url);
             eb.WithCurrentTimestamp();
             await ReplyAsync("", false, eb.Build());
