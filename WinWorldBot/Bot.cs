@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ using Humanizer;
 
 using WinWorldBot.Utils;
 using WinWorldBot.Commands;
+using WinWorldBot.Data;
 
 namespace WinWorldBot
 {
@@ -41,13 +43,15 @@ namespace WinWorldBot
             if (!Directory.Exists("Logs"))
                 Directory.CreateDirectory("Logs");
 
+            UserData.LoadData();
+
             services = new ServiceCollection()
                 .AddSingleton(client)
                 .AddSingleton(commands)
                 .BuildServiceProvider();
             await commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
-            Trivia.Init();
+            await Trivia.Init();
 
             // If no config file is present, create a new template one and quit
             if (!File.Exists("config.json"))
@@ -87,6 +91,15 @@ namespace WinWorldBot
 
         private async Task HandleCommandAsync(SocketMessage arg)
         {
+            User u = UserData.GetUser(arg.Author);
+            u.Messages.Add(new UserMessage()
+            {
+                Channel = arg.Channel.Name,
+                Id = arg.Id,
+                SentAt = DateTime.Now
+            });
+            UserData.SaveData();            
+
             // ok counter
             if (arg.Author.Id == 694392238133870693 && arg.Content.ToLower().Contains("ok"))
             {

@@ -27,13 +27,6 @@ namespace WinWorldBot.Commands
                     return;
                 }
             }
-            else if(option.ToLower().Contains("star")) {
-                if(option.ToLower().Contains("man")) {
-                    eb.WithTitle($"🤔 I give **{option}** a solid **GOD** rating");
-                    await ReplyAsync("", false, eb.Build());
-                    return;
-                }
-            }
 
             if(Context.Message.Author.Id == 469275318079848459)
             {
