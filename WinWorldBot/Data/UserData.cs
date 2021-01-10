@@ -25,7 +25,9 @@ namespace WinWorldBot.Data
                     Username = user.Username,
                     Id = user.Id,
                     Messages = new List<UserMessage>(),
-                    StartedLogging = DateTime.Now
+                    StartedLogging = DateTime.Now,
+                    CorrectTrivia = 0,
+                    IncorrectTrivia = 0
                 };
                 Users.Add(u);
                 SaveData();

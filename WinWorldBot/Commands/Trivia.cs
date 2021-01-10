@@ -7,6 +7,7 @@ using Discord;
 using Discord.WebSocket;
 
 using WinWorldBot.Utils;
+using WinWorldBot.Data;
 
 namespace WinWorldBot.Commands
 {
@@ -39,6 +40,10 @@ namespace WinWorldBot.Commands
 
                         if (Index == game.answer) // The answer given is correct
                         {
+                            User u = UserData.GetUser(arg.Author);
+                            u.CorrectTrivia++;
+                            UserData.SaveData();
+
                             Embed.WithTitle($"That is correct, {arg.Author.Username}! It was `{game.answerText}`");
                             Embed.WithColor(Color.Green);
                             Embed.WithFooter($"Answer time: {Math.Round(DateTime.Now.Subtract(game.startedAt).TotalSeconds)}s");
@@ -46,6 +51,10 @@ namespace WinWorldBot.Commands
                         }
                         else // The answer given is incorrect
                         {
+                            User u = UserData.GetUser(arg.Author);
+                            u.IncorrectTrivia++;
+                            UserData.SaveData();
+
                             Embed.WithTitle($"That is incorrect, {arg.Author.Username}. The answer is `{game.answerText}`");
                             Embed.WithColor(Color.Red);
                             Embed.WithFooter($"Answer time: {Math.Round(DateTime.Now.Subtract(game.startedAt).TotalSeconds)}s");
