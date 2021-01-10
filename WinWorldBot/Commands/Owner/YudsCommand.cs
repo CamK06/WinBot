@@ -20,7 +20,7 @@ namespace WinWorldBot.Commands
             EmbedBuilder eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
 
-            eb.WithTitle($"Yuds has asked {File.ReadAllText("?")} questions thus far.");
+            eb.WithTitle($"Yuds has asked {File.ReadAllText("?")} questions thus far. (Jesus Christ)");
 
             await ReplyAsync("", false, eb.Build());
         }
