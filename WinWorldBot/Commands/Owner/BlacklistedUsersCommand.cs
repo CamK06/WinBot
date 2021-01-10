@@ -25,7 +25,7 @@ namespace WinWorldBot.Commands
             StringBuilder builder = new StringBuilder();
             foreach(ulong userId in Bot.blacklistedUsers) {
                 SocketGuildUser user = Context.Guild.GetUser(userId);
-                if(user is not null) builder.AppendLine(user.ToString());
+                if(user != null) builder.AppendLine(user.ToString());
             }
             
             // Create an embed
