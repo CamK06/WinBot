@@ -33,7 +33,7 @@ namespace WinWorldBot.Commands
 
             // **TERRIBLE** WAY TO GET GRADE LEVEL. FIX THIS LATER PLEASE!
             int totalTrivia = u.CorrectTrivia + u.IncorrectTrivia;
-            float triviaPercent = u.CorrectTrivia / totalTrivia;
+            float triviaPercent = (u.CorrectTrivia / totalTrivia) * 100;
             string level = "";
             if(triviaPercent >= 95 && triviaPercent <= 100) level = "A+";
             else if(triviaPercent >= 87 && triviaPercent <= 94) level = "A";
