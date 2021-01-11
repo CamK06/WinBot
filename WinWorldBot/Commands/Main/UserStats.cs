@@ -31,6 +31,26 @@ namespace WinWorldBot.Commands
             eb.AddField("Correct Trivia Answers", u.CorrectTrivia, true);
             eb.AddField("Incorrect Trivia Answers", u.IncorrectTrivia, true);
 
+            // **TERRIBLE** WAY TO GET GRADE LEVEL. FIX THIS LATER PLEASE!
+            int totalTrivia = u.CorrectTrivia + u.IncorrectTrivia;
+            float triviaPercent = u.CorrectTrivia / totalTrivia;
+            string level = "";
+            if(triviaPercent >= 95) level = "A+";
+            else if(triviaPercent >= 87) level = "A";
+            else if(triviaPercent >= 80) level = "A-";
+            else if(triviaPercent >= 77) level = "B+";
+            else if(triviaPercent >= 73) level = "B";
+            else if(triviaPercent >= 70) level = "B-";
+            else if(triviaPercent >= 67) level = "C+";
+            else if(triviaPercent >= 63) level = "C";
+            else if(triviaPercent >= 60) level = "C-";
+            else if(triviaPercent >= 57) level = "D+";
+            else if(triviaPercent >= 53) level = "D";
+            else if(triviaPercent >= 50) level = "D-";
+            else level = "F";
+
+            eb.AddField("Trivia Grade", level, true);
+
             await ReplyAsync("", false, eb.Build());
         }
 
