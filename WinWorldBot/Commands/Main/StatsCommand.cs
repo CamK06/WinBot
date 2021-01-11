@@ -1,49 +1,69 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 
 using Humanizer;
 using Humanizer.DateTimeHumanizeStrategy;
+
+using WinWorldBot.Data;
 
 namespace WinWorldBot.Commands
 {
     public class StatsCommand : ModuleBase<SocketCommandContext>
     {
         [Command("stats")]
-        [Summary("Shows various statistics and things|")]
+        [Summary("Shows statistics about a user|[User]")]
         [Priority(Category.Main)]
-        private async Task Stats(string arg = null)
+        private async Task Stats(SocketUser User = null)
         {
-            // Collect data from files
-            string nortonS = File.ReadAllText("nortons");
-            string ohS = File.ReadAllText("oh");
-            string okS = File.ReadAllText("ok");
-            string question = File.ReadAllText("?");
-            var uptime = DateTime.Now.Subtract(Bot.startTime);
-            int.TryParse(nortonS, out int norton);
-            int.TryParse(ohS, out int oh);
-            int.TryParse(okS, out int okay);
-            int.TryParse(question, out int questions);
+            if (User == null) User = Context.Message.Author;
+            User u = UserData.GetUser(User);
 
-            // Build the embed
             EmbedBuilder eb = new EmbedBuilder();
-            eb.WithTitle("Statistics");
+            eb.WithAuthor(User);
+            eb.WithFooter($"Data for {User} starts on {u.StartedLogging.ToShortDateString()}");
             eb.WithColor(Bot.config.embedColour);
-            eb.WithThumbnailUrl(Context.Guild.IconUrl);
-            eb.AddField("Member Count", Context.Guild.MemberCount, true);
-            eb.AddField("Norton Count", norton, true);
-            if(Context.Channel.Id == 563206142755471381 || arg == "-a" && Context.Message.Author.Id == 363850072309497876) {
-                //eb.AddField("Oh Count", oh, true);
-                //eb.AddField("Ok Count", okay, true);
-                eb.AddField("Yuds' \"?\" Count", questions, true);
-            }
-            //eb.AddField("Uptime", $"{uptime.Days}:{uptime.Hours}:{uptime.Minutes}:{uptime.Seconds}", true);
-            eb.AddField("Uptime", uptime.Humanize(3), true);
+            eb.AddField("Total Messages", u.Messages.Count, true);
+            eb.AddField("Most Active Channel", GetMostActiveChannel(u), true);
+            eb.AddField("Correct Trivia Answers", u.CorrectTrivia, true);
+            eb.AddField("Incorrect Trivia Answers", u.IncorrectTrivia, true);
+
+            // **TERRIBLE** WAY TO GET GRADE LEVEL. FIX THIS LATER PLEASE!
+            int totalTrivia = u.CorrectTrivia + u.IncorrectTrivia;
+            float triviaPercent = ((float)u.CorrectTrivia / (float)totalTrivia) * 100;
+            string level = "";
+            if (triviaPercent >= 95 && triviaPercent <= 100) level = "A+";
+            else if (triviaPercent >= 87) level = "A";
+            else if (triviaPercent >= 80) level = "A-";
+            else if (triviaPercent >= 77) level = "B+";
+            else if (triviaPercent >= 73) level = "B";
+            else if (triviaPercent >= 70) level = "B-";
+            else if (triviaPercent >= 67) level = "C+";
+            else if (triviaPercent >= 63) level = "C";
+            else if (triviaPercent >= 60) level = "C-";
+            else if (triviaPercent >= 57) level = "D+";
+            else if (triviaPercent >= 53) level = "D";
+            else if (triviaPercent >= 50) level = "D-";
+            else level = "F";
+            eb.AddField("Trivia Grade", level, true);
 
             await ReplyAsync("", false, eb.Build());
+        }
+
+        string GetMostActiveChannel(User u)
+        {
+            List<string> elements = new List<string>();
+            foreach (UserMessage msg in u.Messages)
+                elements.Add(msg.Channel);
+
+            return elements.GroupBy(i => i).OrderByDescending(grp => grp.Count())
+                    .Select(grp => grp.Key).First();
         }
     }
 }
