@@ -35,19 +35,20 @@ namespace WinWorldBot.Commands
             int totalTrivia = u.CorrectTrivia + u.IncorrectTrivia;
             float triviaPercent = u.CorrectTrivia / totalTrivia;
             string level = "";
-            if(triviaPercent >= 95) level = "A+";
-            else if(triviaPercent >= 87) level = "A";
-            else if(triviaPercent >= 80) level = "A-";
-            else if(triviaPercent >= 77) level = "B+";
-            else if(triviaPercent >= 73) level = "B";
-            else if(triviaPercent >= 70) level = "B-";
-            else if(triviaPercent >= 67) level = "C+";
-            else if(triviaPercent >= 63) level = "C";
-            else if(triviaPercent >= 60) level = "C-";
-            else if(triviaPercent >= 57) level = "D+";
-            else if(triviaPercent >= 53) level = "D";
-            else if(triviaPercent >= 50) level = "D-";
+            if(triviaPercent >= 95 && triviaPercent <= 100) level = "A+";
+            else if(triviaPercent >= 87 && triviaPercent <= 94) level = "A";
+            else if(triviaPercent >= 80 && triviaPercent <= 86) level = "A-";
+            else if(triviaPercent >= 77 && triviaPercent <= 79) level = "B+";
+            else if(triviaPercent >= 73 && triviaPercent <= 76) level = "B";
+            else if(triviaPercent >= 70 && triviaPercent <= 72) level = "B-";
+            else if(triviaPercent >= 67 && triviaPercent <= 69) level = "C+";
+            else if(triviaPercent >= 63 && triviaPercent <= 66) level = "C";
+            else if(triviaPercent >= 60 && triviaPercent <= 62) level = "C-";
+            else if(triviaPercent >= 57 && triviaPercent <= 59) level = "D+";
+            else if(triviaPercent >= 53 && triviaPercent <= 56) level = "D";
+            else if(triviaPercent >= 50 && triviaPercent <= 52) level = "D-";
             else level = "F";
+            Log.Write($"Grade is {triviaPercent}% and {level}");
 
             eb.AddField("Trivia Grade", level, true);
 
