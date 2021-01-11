@@ -33,6 +33,7 @@ namespace WinWorldBot.Commands
             }
 
             UserData.SaveData();
+            await ReplyAsync($"Successfully set {User.Username}'s ``{Stat}`` stat to {val}!");
         }
     }
 
