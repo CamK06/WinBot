@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Discord;
 using Discord.Commands;
@@ -35,8 +36,12 @@ namespace WinWorldBot.Commands
 
         string GetMostActiveChannel(User u)
         {
-            return u.Messages.GroupBy(i => i).OrderByDescending(grp => grp.Count())
-                    .Select(grp => grp.Key.Channel).First();
+            List<string> elements = new List<string>();
+            foreach(UserMessage msg in u.Messages)
+                elements.Add(msg.Channel);
+
+            return elements.GroupBy(i => i).OrderByDescending(grp => grp.Count())
+                    .Select(grp => grp.Key).First();
         }
     }
 }
