@@ -48,8 +48,6 @@ namespace WinWorldBot.Commands
             else if(triviaPercent >= 53) level = "D";
             else if(triviaPercent >= 50) level = "D-";
             else level = "F";
-            Log.Write($"Grade is {triviaPercent}% and {level}. Total is {totalTrivia}, correct is {u.CorrectTrivia} and incorrect is {u.IncorrectTrivia}");
-            Log.Write($"{u.CorrectTrivia / totalTrivia}");
             eb.AddField("Trivia Grade", level, true);
 
             await ReplyAsync("", false, eb.Build());
