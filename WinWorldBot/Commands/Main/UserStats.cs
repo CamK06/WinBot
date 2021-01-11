@@ -48,7 +48,7 @@ namespace WinWorldBot.Commands
             else if(triviaPercent >= 53 && triviaPercent <= 56) level = "D";
             else if(triviaPercent >= 50 && triviaPercent <= 52) level = "D-";
             else level = "F";
-            Log.Write($"Grade is {triviaPercent}% and {level}");
+            Log.Write($"Grade is {triviaPercent}% and {level}. Total is {totalTrivia}, correct is {u.CorrectTrivia} and incorrect is {u.IncorrectTrivia}");
 
             eb.AddField("Trivia Grade", level, true);
 
