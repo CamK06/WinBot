@@ -25,7 +25,7 @@ namespace WinWorldBot.Commands
         {
             try
             {
-                if (arg.Author.IsBot) return;
+                if (arg.Author.IsBot || Bot.blacklistedUsers.Contains(arg.Author.Id)) return;
 
                 // If a game exists on the message
                 if (games.FirstOrDefault(x => x.channelID == arg.Channel.Id) != null)
