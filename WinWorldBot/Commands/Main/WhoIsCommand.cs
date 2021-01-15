@@ -19,12 +19,12 @@ namespace WinWorldBot.Commands
             try {
             EmbedBuilder Embed = new EmbedBuilder();
             Embed.WithColor(Bot.config.embedColour);
-            Embed.WithAuthor(user);
+            if(user != null) Embed.WithAuthor(user);
             if(user.GetAvatarUrl() != null)
                 Embed.WithThumbnailUrl(user.GetAvatarUrl());
             else
                 Embed.WithThumbnailUrl(user.GetDefaultAvatarUrl());
-            Embed.AddField("**ID**", user.Id, false);
+            if(user.Id != null) Embed.AddField("**ID**", user.Id, false);
             if(!string.IsNullOrWhiteSpace(user.Nickname))
                 Embed.AddField("**Nickname**", user.Nickname);
             Embed.AddField("**Created On**", MiscUtil.FormatDate(user.CreatedAt), true);
@@ -34,7 +34,7 @@ namespace WinWorldBot.Commands
             await ReplyAsync("", false, Embed.Build());
             }
             catch(Exception ex) {
-                await ReplyAsync("Error: " + ex.Message);
+                await ReplyAsync("Error: " + ex.Message + "\nStack Trace:" + ex.StackTrace);
             }
         }
     }
