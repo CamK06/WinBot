@@ -20,11 +20,13 @@ namespace WinWorldBot.Commands
             string ohS = File.ReadAllText("oh");
             string okS = File.ReadAllText("ok");
             string question = File.ReadAllText("?");
+            string ahyest = File.ReadAllText("ahyes");
             var uptime = DateTime.Now.Subtract(Bot.startTime);
             int.TryParse(nortonS, out int norton);
             int.TryParse(ohS, out int oh);
             int.TryParse(okS, out int okay);
             int.TryParse(question, out int questions);
+            int.TryParse(ahyest, out int ahyes);
 
             EmbedBuilder eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
@@ -35,6 +37,7 @@ namespace WinWorldBot.Commands
             eb.AddField("Author", "Starman#8456", true);
             eb.AddField("Member Count", Context.Guild.MemberCount, true);
             eb.AddField("Norton Count", norton, true);
+            eb.AddField("\"Ah, yes\" Count", ahyes, true);
             eb.AddField("Uptime", uptime.Humanize(3), true);
             if(Context.Channel.Id == 563206142755471381 || arg == "-a" && Context.Message.Author.Id == 363850072309497876) {
                 eb.AddField("Yuds' \"?\" Count", questions, true);
