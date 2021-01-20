@@ -138,6 +138,16 @@ namespace WinWorldBot
                     File.WriteAllText("?", question.ToString());
                 }
             }
+            if(arg.Author.Id == 756566274674262067)
+            {
+                if(arg.Content.ToLower().Contains("ah yes"))
+                {
+                    string text = File.ReadAllText("ahyes");
+                    int.TryParse(text, out int ahyes);
+                    ahyes++;
+                    File.WriteAllText("ahyes", ahyes.ToString());
+                }
+            }
 
 #if RELEASE
             // This is a messy fix to allow commands outside of media but oh well
