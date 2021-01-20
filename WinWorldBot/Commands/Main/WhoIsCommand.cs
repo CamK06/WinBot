@@ -28,7 +28,7 @@ namespace WinWorldBot.Commands
             if(!string.IsNullOrWhiteSpace(user.Nickname))
                 Embed.AddField("**Nickname**", user.Nickname);
             if(user.CreatedAt != null) Embed.AddField("**Created On**", MiscUtil.FormatDate(user.CreatedAt), true);
-            if(user.JoinedAt.Value != null) Embed.AddField("**Joined On**", MiscUtil.FormatDate(user.JoinedAt.Value), true);
+            if(user.JoinedAt.HasValue) Embed.AddField("**Joined On**", MiscUtil.FormatDate(user.JoinedAt.Value), true);
             //Embed.AddField("**Subscription**", "Buy our shitty premium to instantly regret our 'perks'!", true);
             
             await ReplyAsync("", false, Embed.Build());
