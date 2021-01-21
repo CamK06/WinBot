@@ -23,11 +23,11 @@ namespace WinWorldBot.Commands
 
             // Get the data
             await ReplyAsync("Converting data to Json...");
-            string json = JsonConvert.SerializeObject(UserData.GetUser(Context.Message.Author));
+            string json = JsonConvert.SerializeObject(UserData.GetUser(Context.Message.Author), Formatting.Indented);
 
             // Write the file
             if(!Directory.Exists("DataRequests")) Directory.CreateDirectory("DataRequests");
-            File.WriteAllText(json, $"DataRequests/{Context.Message.Author.Username}-{DateTime.Now.ToShortDateString()}.json");
+            File.WriteAllText($"DataRequests/{Context.Message.Author.Username}-{DateTime.Now.ToShortDateString()}.json", json);
 
             // Verify the file size
             send:
