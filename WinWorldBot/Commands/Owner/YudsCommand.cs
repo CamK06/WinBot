@@ -26,7 +26,7 @@ namespace WinWorldBot.Commands
         }
 
         [Command("yudstest")]
-        private async Task YudsTest([Remainder]string input)
+        private Task YudsTest([Remainder]string input)
         {
             //if(Context.Message.Author.Id == 363850072309497876) await Context.Message.DeleteAsync();
 
@@ -41,6 +41,7 @@ namespace WinWorldBot.Commands
             // eb.WithTitle($"Yuds has asked {File.ReadAllText("?")} questions thus far.");
 
             //await ReplyAsync("", false, eb.Build());
+            return Task.CompletedTask;
         }
     }
 }

@@ -15,10 +15,11 @@ namespace WinWorldBot.Commands
     {
         public static List<TriviaGame> games = new List<TriviaGame>();
 
-        public static async Task Init()
+        public static Task Init()
         {
             //Bot.client.ReactionAdded += ReactionAdded;
             Bot.client.MessageReceived += MessageReceived;
+            return Task.CompletedTask;
         }
 
         private static async Task MessageReceived(SocketMessage arg)

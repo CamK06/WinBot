@@ -16,7 +16,7 @@ namespace WinWorldBot.Commands
     public class XmlTestCommand : ModuleBase<SocketCommandContext>
     {
         [Command("xmltest")]
-        private async Task XML()
+        private Task XML()
         {
             List<Channel> ChannelList = new List<Channel>();
             List<Role> Roles = new List<Role>();
@@ -80,6 +80,8 @@ namespace WinWorldBot.Commands
                 Roles = Roles.ToArray()
             });
             userStream.Close();
+
+            return Task.CompletedTask;
         }
     }
 
