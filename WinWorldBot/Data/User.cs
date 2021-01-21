@@ -15,6 +15,7 @@ namespace WinWorldBot.Data
     
     class UserMessage
     {
+        public string Content { get; set; }
         public string Channel { get; set; }
         public DateTime SentAt { get; set; }
         public ulong Id { get; set; }

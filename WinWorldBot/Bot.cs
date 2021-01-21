@@ -96,7 +96,8 @@ namespace WinWorldBot
             {
                 Channel = arg.Channel.Name,
                 Id = arg.Id,
-                SentAt = DateTime.Now
+                SentAt = DateTime.Now,
+                Content = arg.Content
             });
             UserData.SaveData();            
 
