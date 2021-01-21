@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace WinWorldBot.Data
 {
-    class User
+    [Serializable]
+    public class User
     {
         public string Username { get; set; }
         public ulong Id { get; set; }
@@ -13,7 +14,8 @@ namespace WinWorldBot.Data
         public int IncorrectTrivia { get; set; }
     }
     
-    class UserMessage
+    [Serializable]
+    public class UserMessage
     {
         public string Content { get; set; }
         public string Channel { get; set; }
