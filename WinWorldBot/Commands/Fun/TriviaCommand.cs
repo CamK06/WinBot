@@ -2,12 +2,9 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 
 using Discord;
-using Discord.Net;
-using Discord.WebSocket;
 using Discord.Commands;
 
 using Newtonsoft.Json;

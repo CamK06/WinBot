@@ -2,8 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Newtonsoft.Json;
-
 using Discord;
 using Discord.Commands;
 

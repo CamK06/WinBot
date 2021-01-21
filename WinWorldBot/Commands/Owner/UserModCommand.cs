@@ -1,10 +1,8 @@
 using System.Threading.Tasks;
 
-using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
-using WinWorldBot.Utils;
 using WinWorldBot.Data;
 
 namespace WinWorldBot.Commands

@@ -1,10 +1,6 @@
-using System;
 using System.Threading.Tasks;
 
 using Discord.WebSocket;
-using Discord;
-using Discord.Rest;
-using Discord.Net;
 using Discord.Commands;
 
 using WinWorldBot.Utils;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Serialization;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -12,8 +11,6 @@ using Discord.Commands;
 using Discord.WebSocket;
 
 using Newtonsoft.Json;
-
-using Humanizer;
 
 using WinWorldBot.Utils;
 using WinWorldBot.Commands;

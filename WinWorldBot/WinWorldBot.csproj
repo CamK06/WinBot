@@ -8,7 +8,6 @@
   <ItemGroup>
     <PackageReference Include="Discord.Net" Version="2.2.0" />
     <PackageReference Include="Humanizer" Version="2.8.26" />
-    <PackageReference Include="IronPython" Version="2.7.11" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.8.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="3.8.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />

@@ -4,8 +4,6 @@ using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 
-using WinWorldBot.Utils;
-
 namespace WinWorldBot.Commands
 {
     public class AvatarCommand : ModuleBase<SocketCommandContext>

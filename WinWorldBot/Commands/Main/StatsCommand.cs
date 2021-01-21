@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -7,9 +5,6 @@ using System.Collections.Generic;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
-
-using Humanizer;
-using Humanizer.DateTimeHumanizeStrategy;
 
 using WinWorldBot.Data;
 

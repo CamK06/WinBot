@@ -6,8 +6,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 using WinWorldBot.Utils;
 
-using Newtonsoft.Json;
-
 using Discord.WebSocket;
 
 namespace WinWorldBot.Data
