@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Discord;
 using Discord.WebSocket;
@@ -8,6 +9,8 @@ using Discord.Commands;
 
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+
+using WinWorldBot.Data;
 
 namespace WinWorldBot.Commands
 {
@@ -39,7 +42,8 @@ namespace WinWorldBot.Commands
                     Bot = Bot.client,
                     Commands = Bot.commands,
                     Services = Bot.services,
-                    BConfig = Bot.config
+                    BConfig = Bot.config,
+                    UserData = UserData.Users
                 };
                 var asms = AppDomain.CurrentDomain.GetAssemblies(); // .SingleOrDefault(assembly => assembly.GetName().Name == "MyAssembly");
                 foreach (Assembly assembly in asms)
@@ -98,5 +102,6 @@ using Newtonsoft.Json;" + code;
         public IServiceProvider Services { get; set; }
         public CommandService Commands { get; set; }
         public BotConfig BConfig { get; set; }
+        public List<User> UserData { get; set; }
     }
 }
