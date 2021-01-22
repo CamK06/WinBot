@@ -11,11 +11,13 @@ namespace WinWorldBot.Commands
 {
     public class WhoIsCommand : ModuleBase<SocketCommandContext>
     {
-        [Command("whois")]
+        [Command("whois"), Alias("whoami")]
         [Summary("Shows information about a given user|[User]")]
         [Priority(Category.Main)]
-        private async Task WhoIs(SocketGuildUser user)
+        private async Task WhoIs([Remainder]SocketGuildUser user = null)
         {
+            if(user == null) user = Context.Message.Author as SocketGuildUser;
+
             try
             {
                 EmbedBuilder Embed = new EmbedBuilder();
