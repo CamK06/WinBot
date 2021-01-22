@@ -36,11 +36,11 @@ namespace WinWorldBot.Commands
                 // This is kinda messy but oh well, idc
                 if (user.Activity != null)
                 {
-                    if (user.Activity.Type == ActivityType.Listening) Embed.AddField("**Listening**", user.Activity.ToString(), true);
-                    else if (user.Activity.Type == ActivityType.Playing) Embed.AddField("**Playing**", user.Activity.ToString(), true);
-                    else if (user.Activity.Type == ActivityType.Watching) Embed.AddField("**Watching**", user.Activity.ToString(), true);
-                    else if (user.Activity.Type == ActivityType.Streaming) Embed.AddField("**Streaming**", user.Activity.ToString(), true);
-                    else if (user.Activity.Type == ActivityType.CustomStatus) Embed.AddField("**Status**", user.Activity.ToString(), true);
+                    if (user.Activity.Type == ActivityType.Listening && !string.IsNullOrWhiteSpace(user.Activity.ToString())) Embed.AddField("**Listening**", user.Activity.ToString(), true);
+                    else if (user.Activity.Type == ActivityType.Playing && !string.IsNullOrWhiteSpace(user.Activity.ToString())) Embed.AddField("**Playing**", user.Activity.ToString(), true);
+                    else if (user.Activity.Type == ActivityType.Watching && !string.IsNullOrWhiteSpace(user.Activity.ToString())) Embed.AddField("**Watching**", user.Activity.ToString(), true);
+                    else if (user.Activity.Type == ActivityType.Streaming && !string.IsNullOrWhiteSpace(user.Activity.ToString())) Embed.AddField("**Streaming**", user.Activity.ToString(), true);
+                    else if (user.Activity.Type == ActivityType.CustomStatus && !string.IsNullOrWhiteSpace(user.Activity.ToString())) Embed.AddField("**Status**", user.Activity.ToString(), true);
                 }
 
                 //Embed.AddField("**Subscription**", "Buy our shitty premium to instantly regret our 'perks'!", true);
