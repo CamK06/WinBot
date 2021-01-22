@@ -138,7 +138,7 @@ namespace WinWorldBot
             }
             if(arg.Author.Id == 756566274674262067)
             {
-                if(arg.Content.ToLower().Contains("ah yes"))
+                if(arg.Content.ToLower().Contains("ah") && arg.Content.ToLower().Contains("yes"))
                 {
                     string text = File.ReadAllText("ahyes");
                     int.TryParse(text, out int ahyes);
