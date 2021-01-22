@@ -29,7 +29,7 @@ namespace WinWorldBot.Commands
                     Embed.WithThumbnailUrl(user.GetDefaultAvatarUrl());
                 Embed.AddField("**ID**", user.Id, false);
                 if (!string.IsNullOrWhiteSpace(user.Nickname))
-                    Embed.AddField("**Nickname**", user.Nickname);
+                    Embed.AddField("**Nickname**", user.Nickname, true);
                 if (user.CreatedAt != null) Embed.AddField("**Created On**", MiscUtil.FormatDate(user.CreatedAt), true);
                 if (user.JoinedAt.HasValue) Embed.AddField("**Joined On**", MiscUtil.FormatDate(user.JoinedAt.Value), true);
 
