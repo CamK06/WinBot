@@ -16,7 +16,7 @@ namespace WinWorldBot.Commands
         {
             bool noA = false;
             if(noun.Contains("-noa")) noA = true;
-            noun.Replace("-noa", "");
+            noun = noun.Replace("-noa", "");
 
             // Shit I shouldn't have to do
             PrivateFontCollection fonts = new PrivateFontCollection();
