@@ -15,8 +15,10 @@ namespace WinWorldBot.Commands
         private async Task Download(string verb, [Remainder] string noun)
         {
             bool noA = false;
+            bool red = false;
             if(noun.Contains("-noa")) noA = true;
-            noun = noun.Replace("-noa", "");
+            if(noun.Contains("-red")) red = true;
+            noun = noun.Replace("-noa", "").Replace("-red", "");
 
             // Shit I shouldn't have to do
             PrivateFontCollection fonts = new PrivateFontCollection();
@@ -34,7 +36,9 @@ namespace WinWorldBot.Commands
                 FontStyle.Regular,
                 GraphicsUnit.Pixel
             );
-            SolidBrush brush = new SolidBrush(System.Drawing.Color.White);
+            SolidBrush brush;
+            if(!red) brush = new SolidBrush(System.Drawing.Color.White);
+            else brush = new SolidBrush(System.Drawing.Color.FromArgb(102, 0, 0));
             StringFormat drawForm = new StringFormat();
 
             // My best friend, RNG
