@@ -20,13 +20,16 @@ namespace WinWorldBot.Commands
                 return;
             }
 
+            // Convoluted options implemented as poorly as possible
             bool noA = false;
             bool red = false;
             bool would = false;
+            bool will = false;
             if(noun.Contains("-noa")) noA = true;
             if(noun.Contains("-red")) red = true;
             if(noun.Contains("-would")) would = true;
-            noun = noun.Replace("-noa", "").Replace("-red", "").Replace("-would", "");
+            if(noun.Contains("-will")) will = true;
+            noun = noun.Replace("-noa", "").Replace("-red", "").Replace("-would", "").Replace("-will", "");
 
             // Shit I shouldn't have to do
             PrivateFontCollection fonts = new PrivateFontCollection();
@@ -56,8 +59,9 @@ namespace WinWorldBot.Commands
 
             // Draw the text onto the image
             bmp.DrawString("you", YOUWOULDNTDOWNLOADACARfont, brush, 165.05f + youWouldnt, 75.0f);
-            if(!would) bmp.DrawString("wouldn't", YOUWOULDNTDOWNLOADACARfont, brush, 465.0f + youWouldnt, 125.0f);
-            else bmp.DrawString("would", YOUWOULDNTDOWNLOADACARfont, brush, 465.0f + youWouldnt, 125.0f);
+            if(!would || !will) bmp.DrawString("wouldn't", YOUWOULDNTDOWNLOADACARfont, brush, 465.0f + youWouldnt, 125.0f);
+            else if(!will) bmp.DrawString("would", YOUWOULDNTDOWNLOADACARfont, brush, 465.0f + youWouldnt, 125.0f);
+            else bmp.DrawString("will", YOUWOULDNTDOWNLOADACARfont, brush, 465.0f + youWouldnt, 125.0f);
             bmp.DrawString(verb, YOUWOULDNTDOWNLOADACARfont, brush, verbX, 325.5f);
             if(!noA) bmp.DrawString("a", YOUWOULDNTDOWNLOADACARfont, brush, verbX + (verb.Length * 95), 300.5f);
             bmp.DrawString(noun, YOUWOULDNTDOWNLOADACARfont, brush, nounX, 500.3f);
