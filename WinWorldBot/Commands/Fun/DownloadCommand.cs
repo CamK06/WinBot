@@ -25,11 +25,13 @@ namespace WinWorldBot.Commands
             bool red = false;
             bool would = false;
             bool will = false;
+            bool inline = false;
             if(noun.Contains("-noa")) noA = true;
             if(noun.Contains("-red")) red = true;
             if(noun.Contains("-would")) would = true;
             if(noun.Contains("-will")) will = true;
-            noun = noun.Replace("-noa", "").Replace("-red", "").Replace("-would", "").Replace("-will", "");
+            if(noun.Contains("-inline")) inline = true;
+            noun = noun.Replace("-noa", "").Replace("-red", "").Replace("-would", "").Replace("-will", "").Replace("-inline", "");
 
             // Shit I shouldn't have to do
             PrivateFontCollection fonts = new PrivateFontCollection();
@@ -56,6 +58,11 @@ namespace WinWorldBot.Commands
             float youWouldnt = new Random().Next(-100, 100);
             float verbX = 135 + new Random().Next(25, 220);
             float nounX = 242.32f + new Random().Next(25, 120);
+            if(inline) {
+                youWouldnt = 0;
+                verbX = 165.05f;
+                nounX = 165.05f;
+            }
 
             // Draw the text onto the image
             bmp.DrawString("you", YOUWOULDNTDOWNLOADACARfont, brush, 165.05f + youWouldnt, 75.0f);
