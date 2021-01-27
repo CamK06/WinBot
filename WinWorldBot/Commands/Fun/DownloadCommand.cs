@@ -59,9 +59,9 @@ namespace WinWorldBot.Commands
             float verbX = 135 + new Random().Next(25, 220);
             float nounX = 242.32f + new Random().Next(25, 120);
             if(inline) {
-                youWouldnt = 0;
-                verbX = 165.05f;
-                nounX = 165.05f;
+                youWouldnt = -100;
+                verbX = 65.05f;
+                nounX = 65.05f;
             }
 
             // Draw the text onto the image
