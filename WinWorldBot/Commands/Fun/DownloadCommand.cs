@@ -14,6 +14,12 @@ namespace WinWorldBot.Commands
         [Priority(Category.Fun)]
         private async Task Download(string verb, [Remainder] string noun)
         {
+            if(verb.ToLower() == "rick" && noun.ToLower().Contains("roll"))
+            {
+                await Context.Channel.SendFileAsync("rick.gif");
+                return;
+            }
+
             bool noA = false;
             bool red = false;
             bool would = false;
