@@ -134,7 +134,7 @@ namespace WinWorldBot
                     int.TryParse(text, out int question);
                     question++;
                     File.WriteAllText("?", question.ToString());
-                    await arg.AddReactionAsync(new Emoji("❓"));
+                    //await arg.AddReactionAsync(new Emoji("❓"));
                 }
             }
             if(arg.Author.Id == 756566274674262067)
