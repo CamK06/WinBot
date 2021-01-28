@@ -33,7 +33,6 @@ namespace WinWorldBot
         public async Task RunBot()
         {
 #if DEBUG
-            Log.Write("The bot is running as a debug build, the current working directory is ../WorkingDir");
             if(!Directory.Exists("../WorkingDir")) Directory.CreateDirectory("../WorkingDir");
             Directory.SetCurrentDirectory("../WorkingDir");
 #endif
