@@ -26,7 +26,7 @@ namespace WinWorldBot.Commands
 
             // Create and send the embed
             EmbedBuilder eb = new EmbedBuilder();
-            eb.WithTitle("Weather");
+            eb.WithTitle($"Weather for {data.location.name}, {data.location.region}");
             eb.WithColor(Bot.config.embedColour);
             eb.WithFooter($"Last Updated: {data.current.last_updated}");
             eb.WithDescription($"**{data.current.condition.text}**");
@@ -34,7 +34,7 @@ namespace WinWorldBot.Commands
             // F i e l d s
             eb.AddField("Time", $"{data.location.localtime} ({data.location.tz_id})", true);
             eb.AddField("Coordinates", $"**Longitude:** {data.location.lon}, **Latitude:** {data.location.lat}", true);
-            eb.AddField("Region", $"{data.location.region} ({data.location.country})", true);
+            eb.AddField("Country", $"{data.location.country}", true);
             eb.AddField("Temperature", $"{data.current.temp_c}°C (Feels like: {data.current.feelslike_c}°C)", true);
             eb.AddField("Humidity", $"{data.current.humidity}%", true);
             eb.AddField("Precipitation", $"{data.current.precip_mm}mm", true);
