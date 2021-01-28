@@ -22,6 +22,10 @@ namespace WinWorldBot.Commands
             RestClient client = new RestClient($"http://api.weatherapi.com/v1/forecast.json?key={Bot.config.WeatherAPIKey}&q={location.Replace(" ", "%20")}");
             RestRequest request = new RestRequest(Method.GET);
             IRestResponse response = client.Execute(request);
+            if(!response.IsSuccessful) {
+                await ReplyAsync("Unable to get the weather for that location, are you sure it exists?");
+                return;
+            }
             dynamic data = JsonConvert.DeserializeObject(response.Content);
 
             // Create and send the embed
