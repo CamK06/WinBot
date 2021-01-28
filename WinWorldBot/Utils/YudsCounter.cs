@@ -43,6 +43,7 @@ namespace WinWorldBot.Utils
 
         public static void LoadWeights()
         {
+            if(!File.Exists("weights.txt")) File.WriteAllText("weights.txt", "what, 70");
             foreach(string line in File.ReadAllLines("weights.txt"))
             {
                 // Line exclusions/comments

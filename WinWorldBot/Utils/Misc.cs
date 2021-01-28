@@ -20,6 +20,7 @@ namespace WinWorldBot.Utils
 
         public static List<ulong> LoadBlacklist()
         {
+            if(!File.Exists("blacklist.json")) File.WriteAllText("blacklist.json", "[]");
             return JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText("blacklist.json"));
         }
     }
