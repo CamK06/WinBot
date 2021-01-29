@@ -14,7 +14,7 @@ namespace WinWorldBot.Commands
         [Command("weather")]
         [Summary("Get the weather of a specific location|[Location]")]
         [Priority(Category.Main)]
-        private async Task Ping([Remainder]string location)
+        private async Task Weather([Remainder]string location)
         {
             await Context.Channel.TriggerTypingAsync();
 
