@@ -14,7 +14,7 @@ namespace WinWorldBot.Commands
     public class CountCommand : ModuleBase<SocketCommandContext>
     {
         [Command("count")]
-        [Summary("Determine how many times something has been said|[Word or Phrase] [User]")]
+        [Summary("Determine how many times something has been said|\"[Word or Phrase]\" [User]")]
         [Priority(Category.Main)]
         private async Task Count(string text, SocketGuildUser user = null)
         {
