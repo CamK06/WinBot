@@ -16,7 +16,7 @@ namespace WinWorldBot.Commands
         [Command("count")]
         [Summary("Determine how many times something has been said|[Word or Phrase]")]
         [Priority(Category.Main)]
-        private async Task Count(string text)
+        private async Task Count([Remainder]string text)
         {
             await Context.Channel.TriggerTypingAsync();
 
