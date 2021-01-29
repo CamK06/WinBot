@@ -33,7 +33,7 @@ namespace WinWorldBot
         public async Task RunBot()
         {
 #if DEBUG
-            if(!Directory.Exists("../WorkingDir")) Directory.CreateDirectory("../WorkingDir");
+            if (!Directory.Exists("../WorkingDir")) Directory.CreateDirectory("../WorkingDir");
             Directory.SetCurrentDirectory("../WorkingDir");
 #endif
             blacklistedUsers = MiscUtil.LoadBlacklist();
@@ -97,7 +97,7 @@ namespace WinWorldBot
                 SentAt = DateTime.Now,
                 Content = arg.Content
             });
-            UserData.SaveData();            
+            UserData.SaveData();
 
             // ok counter
             if (arg.Author.Id == 694392238133870693 && arg.Content.ToLower().Contains("ok"))
@@ -138,9 +138,9 @@ namespace WinWorldBot
                     //await arg.AddReactionAsync(new Emoji("❓"));
                 }
             }
-            if(arg.Author.Id == 756566274674262067)
+            if (arg.Author.Id == 756566274674262067)
             {
-                if(arg.Content.ToLower().Contains("ah") && arg.Content.ToLower().Contains("yes"))
+                if (arg.Content.ToLower().Contains("ah") && arg.Content.ToLower().Contains("yes"))
                 {
                     string text = File.ReadAllText("ahyes");
                     int.TryParse(text, out int ahyes);
