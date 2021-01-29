@@ -15,7 +15,7 @@ namespace WinWorldBot.Commands
     public class DataReqCommand : ModuleBase<SocketCommandContext>
     {
         [Command("requestdata")]
-        [Summary("Request all data stored about you|[xml | json]")]
+        [Summary("Request all data stored about you|[xml or json]")]
         [Priority(Category.Main)]
         private async Task RequestData(string arg = null)
         {
