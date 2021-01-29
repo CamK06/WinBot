@@ -30,8 +30,8 @@ namespace WinWorldBot.Commands
                 Embed.AddField("**ID**", user.Id, false);
                 if (!string.IsNullOrWhiteSpace(user.Nickname))
                     Embed.AddField("**Nickname**", user.Nickname, true);
-                if (user.CreatedAt != null) Embed.AddField("**Created On**", MiscUtil.FormatDate(user.CreatedAt), true);
-                if (user.JoinedAt.HasValue) Embed.AddField("**Joined On**", MiscUtil.FormatDate(user.JoinedAt.Value), true);
+                if (user.CreatedAt != null) Embed.AddField("**Created On**", $"{MiscUtil.FormatDate(user.CreatedAt)} ({(int)DateTime.Now.Subtract(user.CreatedAt.DateTime).TotalDays} days ago)", true);
+                if (user.JoinedAt.HasValue) Embed.AddField("**Joined On**", $"{MiscUtil.FormatDate(user.JoinedAt.Value)} ({(int)DateTime.Now.Subtract(user.JoinedAt.Value.DateTime).TotalDays} days ago)", true);
 
                 // This is kinda messy but oh well, idc
                 if (user.Activity != null)
