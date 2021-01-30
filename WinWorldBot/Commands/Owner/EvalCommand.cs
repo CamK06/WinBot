@@ -48,11 +48,12 @@ namespace WinWorldBot.Commands
                 var asms = AppDomain.CurrentDomain.GetAssemblies(); // .SingleOrDefault(assembly => assembly.GetName().Name == "MyAssembly");
                 foreach (Assembly assembly in asms)
                 {
-                    if (!assembly.IsDynamic && assembly.FullName.ToLower().Contains("discord") || assembly.FullName.ToLower().Contains("newtonsoft") || assembly.FullName.ToLower().Contains("microsoft.csharp") || assembly.FullName.ToLower().Contains("lastfm"))
+                    if (!assembly.IsDynamic && assembly.FullName.ToLower().Contains("discord") || assembly.FullName.ToLower().Contains("newtonsoft") || assembly.FullName.ToLower().Contains("microsoft.csharp") || assembly.FullName.ToLower().Contains("lastfm") || assembly.FullName.ToLower().Contains("scottplot"))
                     {
                         scriptOptions = scriptOptions.AddReferences(assembly);
                     }
                 }
+                scriptOptions = scriptOptions.AddReferences(new string[] { "ScottPlot, Version=4.0.48.0, Culture=neutral, PublicKeyToken=86698dc10387c39e" });
 
                 code = @"using System; 
 using System.Linq;
@@ -63,7 +64,9 @@ using System.Text;
 using Discord;
 using Discord.WebSocket;
 using Discord.Commands;
-using Newtonsoft.Json;" + code;
+using Newtonsoft.Json;
+using ScottPlot;
+using ScottPlot.Drawing;" + code;
 
                 var result = await CSharpScript.EvaluateAsync(code, scriptOptions, globals);
                 if (result != null)
