@@ -12,16 +12,15 @@ namespace WinWorldBot.Commands
         [Priority(Category.Main)]
         private async Task Song()
         {
-            if(Context.User.Activity != null && Context.User.Activity.Type != ActivityType.Listening) {
-                await ReplyAsync("You are not listening to a song! You must have Spotify linked to Discord with song status enabled.");
+            if(Context.User.Activity == null || Context.User.Activity.Type != ActivityType.Listening) {
+                await ReplyAsync("You are not listening to a song! You must have Spotify linked to Discord with song status enabled. A custom status or game may also be interfering (thanks, Discord for having a dumb API!)");
                 return;
             }
 
             // Create and send embed
             EmbedBuilder eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
-            eb.WithTitle("Current Song");
-            eb.WithAuthor(Context.User);
+            eb.WithAuthor($"Current song for {Context.User}", Context.User.GetAvatarUrl());
             eb.WithDescription(Context.User.Activity.ToString());
 
             await ReplyAsync("", false, eb.Build());
