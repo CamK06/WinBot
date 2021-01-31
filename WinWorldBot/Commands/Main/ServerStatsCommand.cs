@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-
+using Discord;
 using Discord.Commands;
 
 using System.Drawing;
@@ -43,12 +43,12 @@ namespace WinWorldBot.Commands
             
             // Set up the graph and plot
             Plot stats = new Plot(1920, 720);
-            stats.Style(Color.FromArgb(52, 54, 60), Color.FromArgb(52, 54, 60), null, Color.White, Color.White, Color.White);
+            stats.Style(System.Drawing.Color.FromArgb(52, 54, 60), System.Drawing.Color.FromArgb(52, 54, 60), null, System.Drawing.Color.White, System.Drawing.Color.White, System.Drawing.Color.White);
             stats.XLabel("Days", null, null, null, 12.5f, false);
             stats.YLabel("Messages", null, null, 12.5f, null, false);
             stats.Title($"{Context.Guild.Name} Messages in the Past 14 Days", null, null, 25.5f, null, false);
             stats.XTicks(dayText);
-            stats.PlotFillAboveBelow(xs, ys, "thing", lineWidth: 4, lineColor: Color.FromArgb(100, 119, 183), fillAlpha: .5, fillColorBelow: Color.FromArgb(100, 119, 183), fillColorAbove: Color.FromArgb(100, 119, 183));
+            stats.PlotFillAboveBelow(xs, ys, "thing", lineWidth: 4, lineColor: System.Drawing.Color.FromArgb(100, 119, 183), fillAlpha: .5, fillColorBelow: System.Drawing.Color.FromArgb(100, 119, 183), fillColorAbove: System.Drawing.Color.FromArgb(100, 119, 183));
             stats.TightenLayout(0, true);
 
             // Send the graph
