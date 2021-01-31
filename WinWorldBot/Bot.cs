@@ -50,6 +50,7 @@ namespace WinWorldBot
             await commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
             await Trivia.Init();
+            MetricCorrection.Init();
 
             // If no config file is present, create a new template one and quit
             if (!File.Exists("config.json"))
