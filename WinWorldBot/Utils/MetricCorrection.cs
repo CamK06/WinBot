@@ -38,7 +38,7 @@ namespace WinWorldBot.Utils
         private static float ConvertToRealUnits(string number, string unit)
         {
             // Shitty way of implementing a fail condition :P
-            if(!int.TryParse(number, out int originalVal)) {
+            if(!float.TryParse(number, out float originalVal)) {
                 return -65021;
             }
 
