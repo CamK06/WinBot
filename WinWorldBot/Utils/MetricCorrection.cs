@@ -21,7 +21,7 @@ namespace WinWorldBot.Utils
 
         private async static Task MessageReceived(SocketMessage msg)
         {
-            if(msg.Author.IsBot) return;
+            if(msg.Author.IsBot || Bot.blacklistedUsers.Contains(msg.Author.Id)) return;
             string[] words = msg.Content.ToLower().Split(' ');
             
             for(int i = 0; i < words.Length; i++)
