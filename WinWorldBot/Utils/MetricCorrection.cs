@@ -21,7 +21,7 @@ namespace WinWorldBot.Utils
 
         private async static Task MessageReceived(SocketMessage msg)
         {
-            if(msg.Author.IsBot || Bot.blacklistedUsers.Contains(msg.Author.Id)) return;
+            if((msg.Author.IsBot && !msg.Author.IsWebhook) || Bot.blacklistedUsers.Contains(msg.Author.Id)) return;
             string[] words = msg.Content.ToLower().Split(' ');
             
             for(int i = 0; i < words.Length; i++)
@@ -30,7 +30,7 @@ namespace WinWorldBot.Utils
                 {
                     float realVal = ConvertToRealUnits(words[i-1], words[i]);
                     if(realVal == -65021) continue;
-                    await msg.Channel.SendMessageAsync($"I think {msg.Author.Mention} meant to say: ``{realVal} {units[words[i]]}``");
+                    await msg.Channel.SendMessageAsync($"I think {msg.Author.Username} meant to say: ``{realVal} {units[words[i]]}``");
                 }
             }
         }
