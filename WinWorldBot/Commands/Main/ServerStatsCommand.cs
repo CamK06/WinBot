@@ -20,7 +20,7 @@ namespace WinWorldBot.Commands
         private async Task ServerStats()
         {
             // All of the necessary arrays and shit
-            DateTime fourteenDays = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day-14);
+            DateTime fourteenDays = DateTime.Now.AddDays(-14);
             int days = (int)DateTime.Now.Subtract(fourteenDays).TotalDays;
             string[] dayText = new string[days];
             double[] xs = new double[days];
