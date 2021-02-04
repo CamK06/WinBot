@@ -16,6 +16,8 @@ using WinWorldBot.Utils;
 using WinWorldBot.Commands;
 using WinWorldBot.Data;
 
+using IF.Lastfm.Core.Api;
+
 namespace WinWorldBot
 {
     class Bot
@@ -27,6 +29,7 @@ namespace WinWorldBot
         public static IServiceProvider services;
         public static BotConfig config;
         public static DateTime startTime = DateTime.Now;
+        public static LastfmClient FM;
 
         public static List<ulong> blacklistedUsers = new List<ulong>();
 
@@ -69,6 +72,7 @@ namespace WinWorldBot
             else // If there is a config, read it
                 config = JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText("config.json"));
 
+            FM = new LastfmClient(config.LastFMKey, config.LastFMSecret);
 
             // Set up events
             client.Log += (LogMessage message) =>
@@ -203,6 +207,8 @@ namespace WinWorldBot
         public string CatAPIKey { get; set; }
         public string WikiHowAPIKey { get; set; } // rapidapi.com WikiHow
         public string WeatherAPIKey { get; set; }
+        public string LastFMKey { get; set; }
+        public string LastFMSecret { get; set; }
         public Color embedColour { get; set; } = Color.Gold;
     }
 }

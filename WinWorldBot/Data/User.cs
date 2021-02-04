@@ -10,6 +10,7 @@ namespace WinWorldBot.Data
         public ulong Id { get; set; }
         public DateTime StartedLogging { get; set; }
         public List<UserMessage> Messages { get; set; }
+        public string FMName { get; set; }
         public int CorrectTrivia { get; set; }
         public int IncorrectTrivia { get; set; }
     }
