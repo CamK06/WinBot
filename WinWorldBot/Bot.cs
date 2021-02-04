@@ -157,7 +157,7 @@ namespace WinWorldBot
 #if RELEASE
             // This is a messy fix to allow commands outside of media but oh well
             if(arg.Author.Id != 363850072309497876) {
-            if(arg.Channel.Id != 563206142755471381 && !arg.Content.ToLower().Contains("ev") && !arg.Content.ToLower().Contains("cookie") && !arg.Content.ToLower().Contains("wiki") && !arg.Content.ToLower().Contains("mcinfo") && arg.Channel.Id != 474350814387765250) return;
+            if(arg.Channel.Id != 563206142755471381 && !arg.Content.ToLower().Contains("fm") && !arg.Content.ToLower().Contains("ev") && !arg.Content.ToLower().Contains("cookie") && !arg.Content.ToLower().Contains("wiki") && !arg.Content.ToLower().Contains("mcinfo") && arg.Channel.Id != 474350814387765250) return;
             }
 #endif      // Basic setup for handling the command
             string messageLower = arg.Content.ToLower();
