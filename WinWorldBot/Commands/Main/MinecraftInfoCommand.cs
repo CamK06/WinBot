@@ -1,4 +1,5 @@
 using System.Net;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Newtonsoft.Json;
@@ -27,6 +28,8 @@ namespace WinWorldBot.Commands
             EmbedBuilder eb = new EmbedBuilder();
             eb.WithColor(Bot.config.embedColour);
             
+			//Newtonsoft.Json.Linq.JArray t;
+			//t.Values()
 
             if((bool)serverInfo.online) {
                 eb.WithThumbnailUrl(Context.Guild.IconUrl);
@@ -34,7 +37,8 @@ namespace WinWorldBot.Commands
                 eb.AddField("IP", "mc.winworldpc.com:48666", true);
                 eb.AddField("Versions", "1.7.10 -> 1.16.5", true);
                 eb.AddField("Online?", ((bool)serverInfo.online) ? "Yes" : "No", true);
-                eb.AddField("Users", $"{(int)serverInfo.players.online}/{(int)serverInfo.players.max}");
+                eb.AddField("Users Count", $"{(int)serverInfo.players.online}/{(int)serverInfo.players.max}", true);
+				eb.AddField("Users", $"{string.Join('\n', serverInfo.players.list)}", true);
                 eb.AddField("Supports Cracked Accounts?", "No. It never will, just buy the game or stop asking.", true);
             }
             else {
