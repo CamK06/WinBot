@@ -38,7 +38,7 @@ namespace WinWorldBot.Commands
                 eb.AddField("Versions", "1.7.10 -> 1.16.5", true);
                 eb.AddField("Online?", ((bool)serverInfo.online) ? "Yes" : "No", true);
                 eb.AddField("Users Count", $"{(int)serverInfo.players.online}/{(int)serverInfo.players.max}", true);
-				eb.AddField("Users", $"{string.Join('\n', serverInfo.players.list)}", true);
+				if(string.Join('\n', serverInfo.players.list) != null) eb.AddField("Users", $"{string.Join('\n', serverInfo.players.list)}", true);
                 eb.AddField("Supports Cracked Accounts?", "No. It never will, just buy the game or stop asking.", true);
             }
             else {
