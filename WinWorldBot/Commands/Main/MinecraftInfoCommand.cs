@@ -35,7 +35,7 @@ namespace WinWorldBot.Commands
                 eb.WithThumbnailUrl(Context.Guild.IconUrl);
                 eb.WithTitle((string)serverInfo.motd.clean[0]);
                 eb.AddField("IP", "mc.winworldpc.com:48666", true);
-                eb.AddField("Versions", "1.7.10 -> 1.16.5", true);
+                eb.AddField("Versions", "1.5.2 -> 1.16.5", true);
                 eb.AddField("Online?", ((bool)serverInfo.online) ? "Yes" : "No", true);
                 eb.AddField("Users Count", $"{(int)serverInfo.players.online}/{(int)serverInfo.players.max}", true);
 				//if(!string.IsNullOrWhiteSpace(string.Join('\n', serverInfo.players.list))) eb.AddField("Users", $"{string.Join('\n', serverInfo.players.list)}", true);
