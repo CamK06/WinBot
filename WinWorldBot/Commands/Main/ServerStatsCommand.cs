@@ -36,7 +36,7 @@ namespace WinWorldBot.Commands
             foreach(var user in UserData.Users) {
                 foreach(var msg in user.Messages) {
                     int index = (int)msg.SentAt.Subtract(fourteenDays).TotalDays;
-                    if(index != days && index >= 0)
+                    if(index != days && index >= 0 && index < days)
                         ys[index]++;
                 }
             }
