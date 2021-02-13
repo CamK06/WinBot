@@ -96,6 +96,8 @@ namespace WinBot
 					Log.Write(result.ErrorReason);
 					await message.Channel.SendMessageAsync($"⚠️ Error: {result.ErrorReason} ⚠️\nConsult Starman or the help page for the command you executed. (.help [command])");
 				}
+				else if(result.IsSuccess)
+					Log.Write($"{arg.Author} executed command: {arg.Content}", false);
 			}
 		}
 	}
