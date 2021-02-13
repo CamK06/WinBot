@@ -65,6 +65,7 @@ namespace WinBot
 				Log.Write(message.Message);
 				return Task.CompletedTask;
 			};
+			client.MessageReceived += HandleCommandAsync;
 			
 			// Start the bot
 			await client.LoginAsync(TokenType.Bot, config.token);
@@ -74,6 +75,28 @@ namespace WinBot
 			
 			
 			await Task.Delay(-1);
+		}
+
+		private async Task HandleCommandAsync(SocketMessage arg)
+		{
+			// Basic setup
+			string loMsg = arg.Content.ToLower();
+			SocketUserMessage message = (SocketUserMessage)arg;
+			if(message == null || message.Author.IsBot && !message.Author.IsWebhook) return;
+			int argPos = 0;
+
+			// Execute the command
+			if(message.HasStringPrefix(config.prefix, ref argPos))
+			{
+				SocketCommandContext ctx = new SocketCommandContext(client, message);
+				IResult result = await commands.ExecuteAsync(ctx, argPos, services);
+				
+				if(!result.IsSuccess && !result.ErrorReason.ToLower().Contains("unknown command"))
+				{
+					Log.Write(result.ErrorReason);
+					await message.Channel.SendMessageAsync($"⚠️ Error: {result.ErrorReason} ⚠️\nConsult Starman or the help page for the command you executed. (.help [command])");
+				}
+			}
 		}
 	}
 
