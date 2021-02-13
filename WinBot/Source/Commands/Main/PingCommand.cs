@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 using Discord.Commands;
 
-namespace WinBot.Commands
+namespace WinBot.Commands.Main
 {
 	public class PingCommand : ModuleBase<SocketCommandContext>
 	{
