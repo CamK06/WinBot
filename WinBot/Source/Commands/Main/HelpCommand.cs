@@ -9,16 +9,33 @@ namespace WinBot.Commands.Main
 	public class HelpCommand : ModuleBase<SocketCommandContext>
 	{
 		[Command("help")]
+		[Summary("Get a list of bot commands and their usage|[Command]")]
 		[Priority(Category.Main)]
-		public async Task Help()
+		public async Task Help([Remainder] string command = null)
 		{
-			// Embed setup
 			EmbedBuilder helpEmbed = new EmbedBuilder();
-			helpEmbed.WithTitle("WinBot Commands");
 			helpEmbed.WithColor(Color.Gold);
 
-			// Embed contents
-			helpEmbed.AddField("**Main**", GetCommands(Category.Main), false);
+			if (command == null)
+			{
+				helpEmbed.WithTitle("WinBot Commands");
+				helpEmbed.AddField("**Main**", GetCommands(Category.Main), false);
+			}
+			else
+			{
+				string usage = GetCommandUsage(command);
+				if(usage != null)
+				{
+					string upperCommandName = command[0].ToString().ToUpper() + command.Remove(0, 1);
+					helpEmbed.WithTitle($"{upperCommandName} Command");
+					helpEmbed.WithDescription($"{usage}");
+				}
+				else
+				{
+					await ReplyAsync("That command doesn't seem to exist.");
+					return;
+				}
+			}
 
 			await ReplyAsync("", false, helpEmbed.Build());
 		}
@@ -27,18 +44,29 @@ namespace WinBot.Commands.Main
 		{
 			string finalString = "";
 			// Loop over every command
-			for(int i = 0; i < Bot.commands.Commands.Count(); i++) 
+			for (int i = 0; i < Bot.commands.Commands.Count(); i++)
 			{
 				CommandInfo command = Bot.commands.Commands.ToArray()[i];
 				// If the command is in the category we're looking for
-				if(command.Priority == category)
+				if (command.Priority == category)
 				{
-					if(!string.IsNullOrWhiteSpace(finalString)) finalString += $" | `{command.Name}`";
+					if (!string.IsNullOrWhiteSpace(finalString)) finalString += $" | `{command.Name}`";
 					else finalString = $"`{command.Name}`";
 				}
 			}
 
 			return finalString;
+		}
+
+		static string GetCommandUsage(string commandName)
+		{
+			CommandInfo command = Bot.commands.Commands.FirstOrDefault(x => x.Name.ToLower() == commandName.ToLower());
+			if (command != null && command.Summary.Contains("|"))
+			{
+				string desc = $"{command.Summary.Split('|')[0]}\n\n**Usage:** .{commandName} {command.Summary.Split('|')[1]}";
+				return desc;
+			}
+			return null;
 		}
 	}
 }
