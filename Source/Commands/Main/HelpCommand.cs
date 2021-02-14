@@ -15,6 +15,7 @@ namespace WinBot.Commands.Main
 		{
 			EmbedBuilder helpEmbed = new EmbedBuilder();
 			helpEmbed.WithColor(Color.Gold);
+			helpEmbed.WithFooter("Type \".help [command]\" to get more info on a command");
 
 			if (command == null)
 			{
