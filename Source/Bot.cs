@@ -25,6 +25,8 @@ namespace WinBot
 		public static IServiceProvider services;
 		public static BotConfig config;
 
+		public static DateTime startedAt = DateTime.Now;
+
 		public async Task RunBot()
 		{
 			// We switch to WorkingDir when debugging so the project directory doesn't get flooded with crap
