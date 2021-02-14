@@ -58,6 +58,9 @@ namespace WinBot
 				.BuildServiceProvider();
 			await commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
 
+			// Set up various systems
+			DailyReportSystem.Init();
+
 			// Set up events
 			client.Log += (LogMessage message) =>
 			{
@@ -71,7 +74,6 @@ namespace WinBot
 			await client.StartAsync();
 			if (!string.IsNullOrWhiteSpace(config.activity))
 				await client.SetGameAsync(config.activity);
-
 
 			await Task.Delay(-1);
 		}
