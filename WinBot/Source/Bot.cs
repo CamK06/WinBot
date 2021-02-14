@@ -78,6 +78,10 @@ namespace WinBot
 
 		private async Task HandleCommandAsync(SocketMessage arg)
 		{
+			// Tell people to fuck off for pinging Duff
+			if(arg.Content.ToLower().Contains("283982771997638658"))
+				await arg.Channel.SendMessageAsync("https://tenor.com/view/oh-fuck-off-go-away-just-go-leave-me-alone-spicy-wings-gif-14523970");
+
 			// Basic setup
 			string loMsg = arg.Content.ToLower();
 			SocketUserMessage message = (SocketUserMessage)arg;
@@ -107,6 +111,7 @@ namespace WinBot
 		public string prefix { get; set; }
 		public string activity { get; set; }
 		public ulong logChannel { get; set; }
+		public ulong ownerId { get; set; }
 		public string weatherAPIKey { get; set; }
 	}
 }
