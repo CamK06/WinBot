@@ -23,7 +23,7 @@ namespace WinBot.Commands
         [Command("ev")]
         [Summary("It's an eval command <:norton:767557055694635018>|[Code]")]
         [Priority(Category.Owner)]
-        private async Task Eval([Remainder] string code)
+        public async Task Eval([Remainder] string code)
         {
             SocketGuildUser author = Context.Message.Author as SocketGuildUser;
             if(author.Id != Bot.config.ownerId && !author.GuildPermissions.KickMembers) {
