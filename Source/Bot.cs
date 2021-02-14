@@ -27,7 +27,7 @@ namespace WinBot
 
 		public async Task RunBot()
 		{
-			// We switch to ../WorkingDir when debugging so the project directory doesn't get flooded with crap
+			// We switch to WorkingDir when debugging so the project directory doesn't get flooded with crap
 #if DEBUG
 			if (!Directory.Exists("WorkingDir")) Directory.CreateDirectory("WorkingDir");
 			Directory.SetCurrentDirectory("WorkingDir");
