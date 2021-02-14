@@ -129,7 +129,7 @@ namespace WinBot
 					string upperCommandName = command[0].ToString().ToUpper() + command.Remove(0, 1);
 					helpEmbed.WithTitle($"{upperCommandName} Command");
 					helpEmbed.WithDescription($"{usage}");
-					await message.Channel.SendMessageAsync("There was an error executing your command!", false, helpEmbed.Build());
+					await message.Channel.SendMessageAsync("There was an error executing your command! Are you sure you've used it correctly?", false, helpEmbed.Build());
 					await message.Channel.SendMessageAsync("If you have used the command correctly and the error persists, contact Starman.");
 
 					//await message.Channel.SendMessageAsync($"⚠️ Error: {result.ErrorReason} ⚠️\nConsult Starman or the help page for the command you executed. (.help [command])");
