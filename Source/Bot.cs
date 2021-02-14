@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,6 +27,7 @@ namespace WinBot
 		public static BotConfig config;
 
 		public static DateTime startedAt = DateTime.Now;
+		public static List<ulong> blacklistedUsers = new List<ulong>();
 
 		public async Task RunBot()
 		{
@@ -35,7 +37,7 @@ namespace WinBot
 			Directory.SetCurrentDirectory("WorkingDir");
 #endif
 
-			// Load the configuration
+			// Load the configuration and blacklist
 			if (File.Exists("config.json"))
 				config = JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText("config.json"));
 			else
@@ -52,6 +54,7 @@ namespace WinBot
 				Log.Write("A template configuration file has been written to config.json");
 				Environment.Exit(0);
 			}
+			blacklistedUsers = MiscUtil.LoadBlacklist();
 
 			// Set up services and load commands
 			services = new ServiceCollection()
@@ -82,6 +85,10 @@ namespace WinBot
 
 		private async Task HandleCommandAsync(SocketMessage arg)
 		{
+			// Blacklist
+			if(blacklistedUsers.Contains(arg.Author.Id))
+				return;
+
 			/*	
 			 Yuds counter
 			 Tbh I'd rather not have this but I mean, it annoys Yuds so it should stay.

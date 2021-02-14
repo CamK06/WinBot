@@ -13,7 +13,7 @@ namespace WinBot.Commands.Main
         [Command("mcinfo")]
         [Summary("Gets information on the Minecraft server (WinWorldMC)|")]
         [Priority(Category.Main)]
-        private async Task MCInfo()
+        public async Task MCInfo()
         {
             await Context.Channel.TriggerTypingAsync();
             
