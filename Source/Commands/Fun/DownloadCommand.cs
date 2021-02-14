@@ -9,7 +9,7 @@ namespace WinBot.Commands.Fun
 {
     public class DownloadCommand : ModuleBase<SocketCommandContext>
     {
-        [Command("download"), Alias("dl")]
+        [Command("dl")]
         [Summary("You wouldn't download a WinBot!|[verb] [noun] (arguments: -noa -red -would -will)")]
         [Priority(Category.Fun)]
         public async Task Download(string verb, [Remainder] string noun)
