@@ -13,7 +13,7 @@ namespace WinBot.Commands.Fun
 		[Command("meme")]
 		[Summary("Send a random meme|")]
 		[Priority(Category.Fun)]
-		private async Task Meme()
+		public async Task Meme()
 		{
 			// Talk to the meme API
 			string json = "";
