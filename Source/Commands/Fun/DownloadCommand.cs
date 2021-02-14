@@ -12,7 +12,7 @@ namespace WinBot.Commands.Fun
         [Command("download"), Alias("dl")]
         [Summary("You wouldn't download a WinBot!|[verb] [noun] (arguments: -noa -red -would -will)")]
         [Priority(Category.Fun)]
-        private async Task Download(string verb, [Remainder] string noun)
+        public async Task Download(string verb, [Remainder] string noun)
         {
             if(verb.ToLower() == "rick" && noun.ToLower().Contains("roll") || verb.ToLower().Contains("rick") && verb.ToLower().Contains("roll"))
             {
