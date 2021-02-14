@@ -29,8 +29,8 @@ namespace WinBot
 		{
 			// We switch to ../WorkingDir when debugging so the project directory doesn't get flooded with crap
 #if DEBUG
-			if (!Directory.Exists("../WorkingDir")) Directory.CreateDirectory("../WorkingDir");
-			Directory.SetCurrentDirectory("../WorkingDir");
+			if (!Directory.Exists("WorkingDir")) Directory.CreateDirectory("WorkingDir");
+			Directory.SetCurrentDirectory("WorkingDir");
 #endif
 
 			// Load the configuration
