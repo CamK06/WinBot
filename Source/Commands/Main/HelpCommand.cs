@@ -61,7 +61,7 @@ namespace WinBot.Commands.Main
 			return finalString;
 		}
 
-		static string GetCommandUsage(string commandName)
+		public static string GetCommandUsage(string commandName)
 		{
 			CommandInfo command = Bot.commands.Commands.FirstOrDefault(x => x.Name.ToLower() == commandName.ToLower());
 			if (command != null && command.Summary.Contains("|"))
