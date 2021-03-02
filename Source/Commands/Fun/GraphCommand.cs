@@ -24,6 +24,15 @@ namespace WinBot.Commands.Fun
 			if (image == null && Context.Message.Attachments.Count > 0)
 				image = Context.Message.Attachments.FirstOrDefault().Url;
 
+			// Check filesize
+			client.OpenRead(image);
+			Int64 fileSize = Convert.ToInt64(client.ResponseHeaders["Content-Length"]);
+			if(fileSize > 16777216) // 16MB limit
+			{
+				await ReplyAsync("Your file must be below 16MB in size!");
+				return;
+			}
+
 			// Download the image
 			if (image.ToLower().EndsWith(".png"))
 				client.DownloadFile(image, "graph.png");
