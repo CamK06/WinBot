@@ -18,7 +18,6 @@ namespace WinBot.Commands.Fun
 		public async Task Graph(string image = null)
 		{
 			WebClient client = new WebClient();
-			string fileName = "graph.png";
 
 			// Change the image URL to an attachment if one is present
 			if (image == null && Context.Message.Attachments.Count > 0)
@@ -27,29 +26,24 @@ namespace WinBot.Commands.Fun
 			// Check filesize
 			client.OpenRead(image);
 			Int64 fileSize = Convert.ToInt64(client.ResponseHeaders["Content-Length"]);
+			if(!client.ResponseHeaders["Content-Type"].Contains("image"))
+			{
+				await ReplyAsync("Your file is not an image!");
+				return;
+			}
 			if(fileSize > 16777216) // 16MB limit
 			{
 				await ReplyAsync("Your file must be below 16MB in size!");
 				return;
 			}
+			string extension = client.ResponseHeaders["Content-Type"].Split("image/").Last();
 
 			// Download the image
-			if (image.ToLower().EndsWith(".png"))
-				client.DownloadFile(image, "graph.png");
-			else if (image.ToLower().EndsWith(".jpg"))
-			{
-				client.DownloadFile(image, "graph.jpg");
-				fileName = "graph.jpg";
-			}
-			else
-			{
-				await ReplyAsync("Invalid image! You must supply an image either as an attachment or url in jpg or png format");
-				return;
-			}
+			client.DownloadFile(image, $"graph.{extension}");
 
 			// Create the image
 			Bitmap chad = new Bitmap(Bitmap.FromFile("chadClean.png"));
-			Bitmap dImage = new Bitmap(Bitmap.FromFile(fileName));
+			Bitmap dImage = new Bitmap(Bitmap.FromFile($"graph.{extension}"));
 			using (Graphics canvas = Graphics.FromImage(chad))
 			{
 				canvas.DrawImage(dImage, graphPos);
@@ -57,8 +51,8 @@ namespace WinBot.Commands.Fun
 			}
 
 			// Send the image
-			chad.Save(fileName);
-			await Context.Channel.SendFileAsync(fileName);
+			chad.Save($"graph.{extension}");
+			await Context.Channel.SendFileAsync($"graph.{extension}");
 		}
 
 		static Point[] graphPos = new Point[] {
