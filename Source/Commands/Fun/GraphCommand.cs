@@ -26,9 +26,9 @@ namespace WinBot.Commands.Fun
 			// Check filesize
 			client.OpenRead(image);
 			Int64 fileSize = Convert.ToInt64(client.ResponseHeaders["Content-Length"]);
-			if(!client.ResponseHeaders["Content-Type"].Contains("image"))
+			if(!client.ResponseHeaders["Content-Type"].Contains("image") || client.ResponseHeaders["Content-Type"].Contains("svg"))
 			{
-				await ReplyAsync("Your file is not an image!");
+				await ReplyAsync("Your file is not a valid image!");
 				return;
 			}
 			if(fileSize > 16777216) // 16MB limit
