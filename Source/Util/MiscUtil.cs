@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace WinBot.Util
 {
-	public class MiscUtil
+	public static class MiscUtil
 	{
 		public static List<ulong> LoadBlacklist()
 		{
@@ -19,6 +19,12 @@ namespace WinBot.Util
 		public static void SaveBlacklist()
 		{
 			File.WriteAllText("blacklist.json", JsonConvert.SerializeObject(Bot.blacklistedUsers, Formatting.Indented));
+		}
+
+		public static string Truncate(this string value, int maxLength)
+		{
+			if (string.IsNullOrEmpty(value)) return value;
+			return value.Length <= maxLength ? value : value.Substring(0, maxLength-3)+"...";
 		}
 	}
 }
