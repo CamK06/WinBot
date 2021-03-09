@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Collections.Generic;
 
@@ -26,5 +27,10 @@ namespace WinBot.Util
 			if (string.IsNullOrEmpty(value)) return value;
 			return value.Length <= maxLength ? value : value.Substring(0, maxLength-3)+"...";
 		}
+
+		public static string FormatDate(DateTimeOffset dt)
+        {
+            return dt.ToString("dddd, dd MMMM yyyy");
+        }
 	}
 }
