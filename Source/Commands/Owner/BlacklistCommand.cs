@@ -16,7 +16,7 @@ namespace WinBot.Commands.Owner
 		[Priority(Category.Owner)]
 		public async Task Blacklist(SocketGuildUser user = null)
 		{
-			if (Context.User.Id != Bot.config.ownerId)
+			if (Context.User.Id != Bot.config.ownerId && !((SocketGuildUser)Context.User).GuildPermissions.KickMembers)
 				return;
 
 			if(user == null)
