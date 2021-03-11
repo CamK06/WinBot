@@ -22,7 +22,7 @@ namespace WinBot.Commands.Main
 				helpEmbed.WithTitle("WinBot Commands");
 				helpEmbed.AddField("**Main**", GetCommands(Category.Main), false);
 				helpEmbed.AddField("**Fun**", GetCommands(Category.Fun), false);
-				helpEmbed.AddField("**Owner**", GetCommands(Category.Owner), false);
+				helpEmbed.AddField("**Staff**", GetCommands(Category.Owner), false);
 			}
 			else
 			{
