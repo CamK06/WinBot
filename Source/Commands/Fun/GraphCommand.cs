@@ -20,8 +20,10 @@ namespace WinBot.Commands.Fun
 			WebClient client = new WebClient();
 
 			// Change the image URL to an attachment if one is present
-			if (image == null && Context.Message.Attachments.Count > 0)
+			if (Context.Message.Attachments.Count > 0)
 				image = Context.Message.Attachments.FirstOrDefault().Url;
+			else if(Emote.TryParse(image, out Emote emote))
+				image = emote.Url;
 
 			// Check filesize
 			client.OpenRead(image);
