@@ -124,8 +124,6 @@ namespace WinBot
 
 				if (!result.IsSuccess && !result.ErrorReason.ToLower().Contains("unknown command"))
 				{
-					Log.Write(result.ErrorReason);
-
 					// Get command usage
 					string command = arg.Content.ToLower().Split(" ")[0].Replace(config.prefix, "");
 					string usage = WinBot.Commands.Main.HelpCommand.GetCommandUsage(command);
@@ -139,9 +137,11 @@ namespace WinBot
 					await message.Channel.SendMessageAsync("There was an error executing your command! Are you sure you've used it correctly?", false, helpEmbed.Build());
 
 					//await message.Channel.SendMessageAsync($"⚠️ Error: {result.ErrorReason} ⚠️\nConsult Starman or the help page for the command you executed. (.help [command])");
+					Log.Write($"A {result.Error} error occurred while executing command: {command}", LogType.Error);
+					Log.Write($"Error reason: {result.ErrorReason}", LogType.Error);
 				}
 				else if (result.IsSuccess)
-					Log.Write($"{arg.Author} executed command: {arg.Content}", false);
+					Log.Write($"{arg.Author} executed command: {arg.Content}", LogType.Info, false);
 			}
 		}
 	}
