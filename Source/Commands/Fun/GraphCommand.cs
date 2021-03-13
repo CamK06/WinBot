@@ -100,10 +100,13 @@ namespace WinBot.Commands.Fun
 			// Create the gif
 			using (var gif = AnimatedGif.AnimatedGif.Create("nickelback.gif", 66))
 				for (int i = 0; i < frameCount; i++)
-					await gif.AddFrameAsync(System.Drawing.Image.FromFile($"gifTemp/{i}.png"));
+					await gif.AddFrameAsync(chads[i]);
 
 			// Send the gif
-			await Context.Channel.SendFileAsync("nickelback.gif");
+			if(File.ReadAllBytes("nickelback.gif").Length < 8388608)
+				await Context.Channel.SendFileAsync("nickelback.gif");
+			else
+				await ReplyAsync("Cannot send GIF. File size is too large. Blame Discord");
 		}
 	}
 }
