@@ -85,8 +85,6 @@ namespace WinBot.Commands.Fun
 			chads = new Bitmap[frameCount];
 
 			// Process the original gif
-			if (!Directory.Exists("gifTemp"))
-				Directory.CreateDirectory("gifTemp");
 			for (int i = 0; i < frameCount; i++)
 			{
 				// Create graph for current frame
