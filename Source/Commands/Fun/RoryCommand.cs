@@ -23,8 +23,8 @@ namespace WinBot.Commands.Fun
 
             string roryurl = (string)output.url;
 
+            // Send the image in an embed
             await ReplyAsync("**Rory ID:** " + (string)output.id + "\n**Link:** " + roryurl);
-            //await ReplyAsync(roryurl);
         }
     }
 }
