@@ -73,6 +73,13 @@ namespace WinBot
 				return Task.CompletedTask;
 			};
 			client.MessageReceived += HandleCommandAsync;
+			client.UserJoined += (SocketGuildUser user) => {
+				if(user.Username.ToLower().Contains("fan") || user.Username.ToLower() == "video game fan") {
+					SocketTextChannel tmChannel = user.Guild.GetChannel(817615313432477736) as SocketTextChannel;
+					tmChannel.SendMessageAsync("JZR may have joined as " + user + " (" + user.Id + ")");
+				}
+				return Task.CompletedTask;
+			};
 
 			// Start the bot
 			await client.LoginAsync(TokenType.Bot, config.token);
