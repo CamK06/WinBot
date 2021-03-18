@@ -34,6 +34,8 @@ namespace WinBot.Commands.Main
 			// Create an embed
 			EmbedBuilder eb = new EmbedBuilder();
 			var result = definition.List.First();
+			if(query.ToLower() == "yuds2003")
+				result = definition.List[1];
 			eb.WithTitle($"Urban Dictionary: {query}");
 			eb.WithColor(Color.Gold);
 			eb.AddField("Definition", result.Definition.Truncate(1024));
