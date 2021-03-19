@@ -20,6 +20,7 @@ namespace WinBot.Commands.Main
             await Context.Channel.TriggerTypingAsync();
 
 			// Temporary thing for getting weather from my ESP32 lol
+			/* Temporarily disabled
 			if(location.ToLower() == "starman") {
 				WebClient webClient = new WebClient();
 				string temp = webClient.DownloadString($"http://{Bot.config.espWeather}/temperature/");
@@ -35,7 +36,7 @@ namespace WinBot.Commands.Main
 
 				await ReplyAsync("", false, embed.Build());
 				return;
-			}
+			}*/
 
             // Pull data from the API
             RestClient client = new RestClient($"http://api.weatherapi.com/v1/forecast.json?key={Bot.config.weatherAPIKey}&q={location.Replace(" ", "%20")}");
