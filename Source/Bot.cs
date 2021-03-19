@@ -96,6 +96,10 @@ namespace WinBot
 			if(blacklistedUsers.Contains(arg.Author.Id))
 				return;
 
+			if(arg.Content.ToLower() == ".as") {
+				new System.Net.WebClient().DownloadString("http://" + Bot.config.espWeather + "/annoy/");
+			}
+
 			/*	
 			 Yuds counter
 			 Tbh I'd rather not have this but I mean, it annoys Yuds so it should stay.
