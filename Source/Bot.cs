@@ -163,5 +163,6 @@ namespace WinBot
 		public string weatherAPIKey { get; set; }
 		public string catAPIKey { get; set; }
 		public string wikihowAPIKey { get; set; }
+		public string espWeather { get; set; }
 	}
 }

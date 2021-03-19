@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -33,7 +34,7 @@ namespace WinBot.Commands.Main
 
 			// Create an embed
 			EmbedBuilder eb = new EmbedBuilder();
-			var result = definition.List.First();
+			var result = definition.List[new Random().Next(0, definition.List.Count)];
 			if(query.ToLower() == "yuds2003")
 				result = definition.List[1];
 			eb.WithTitle($"Urban Dictionary: {query}");

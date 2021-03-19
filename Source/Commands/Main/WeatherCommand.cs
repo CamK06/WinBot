@@ -1,3 +1,4 @@
+using System.Net;
 using System.Threading.Tasks;
 
 using Discord;
@@ -17,6 +18,24 @@ namespace WinBot.Commands.Main
         public async Task Weather([Remainder]string location)
         {
             await Context.Channel.TriggerTypingAsync();
+
+			// Temporary thing for getting weather from my ESP32 lol
+			if(location.ToLower() == "starman") {
+				WebClient webClient = new WebClient();
+				string temp = webClient.DownloadString($"http://{Bot.config.espWeather}/temperature/");
+				string humid = webClient.DownloadString($"http://{Bot.config.espWeather}/humidity/");
+				webClient.Dispose();
+				
+				EmbedBuilder embed = new EmbedBuilder();
+				embed.WithColor(Color.Gold);
+				embed.WithTitle("Local weather for Starman");
+				embed.WithFooter("Weather is recorded by a sensor placed in Starmans window, served by an ESP32 server");
+				embed.AddField("Temperature", temp + "°C", true);
+				embed.AddField("Humidity", humid + "%", true);
+
+				await ReplyAsync("", false, embed.Build());
+				return;
+			}
 
             // Pull data from the API
             RestClient client = new RestClient($"http://api.weatherapi.com/v1/forecast.json?key={Bot.config.weatherAPIKey}&q={location.Replace(" ", "%20")}");
