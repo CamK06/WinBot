@@ -9,13 +9,13 @@ using Miki.UrbanDictionary;
 
 using WinBot.Util;
 
-namespace WinBot.Commands.Main
+namespace WinBot.Commands.Fun
 {
 	public class UrbanCommand : ModuleBase<SocketCommandContext>
 	{
 		[Command("urban")]
 		[Summary("Search the urban dictionary|[Query]")]
-		[Priority(Category.Main)]
+		[Priority(Category.Fun)]
 		public async Task Urban([Remainder] string query)
 		{
 			// Get the definition
