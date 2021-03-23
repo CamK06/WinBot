@@ -52,7 +52,7 @@ namespace WinBot.Commands.Main
 			// Start the timer
 			t.AutoReset = false;
 			t.Elapsed += async (object sender, ElapsedEventArgs args) => {
-				await ReplyAsync($"REMINDER: {message}");
+				await ReplyAsync($"{Context.User.Mention}: {message.Replace("@", "-")}");
 			};
 			t.Start();
 
