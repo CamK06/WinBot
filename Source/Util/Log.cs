@@ -11,7 +11,7 @@ namespace WinBot.Util
 		{
 			if(!Directory.Exists("Logs")) Directory.CreateDirectory("Logs");
 			string message = $"[{DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()} {type.ToString().ToUpper()}] {text}";
-
+			File.AppendAllText($"Logs/{DateTime.Now.Month}-{DateTime.Now.Day}-{DateTime.Now.Year}.log", message + '\n');
 			if(print) {
 				Console.WriteLine(message);
 				if(Bot.config.logChannel != 1) 
