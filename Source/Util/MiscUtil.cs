@@ -33,4 +33,9 @@ namespace WinBot.Util
             return dt.ToString("dddd, dd MMMM yyyy");
         }
 	}
+
+	public class Globals
+	{
+		public static string DuffVer = Environment.OSVersion.ToString();
+	}
 }

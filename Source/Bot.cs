@@ -28,6 +28,7 @@ namespace WinBot
 
 		public static DateTime startedAt = DateTime.Now;
 		public static List<ulong> blacklistedUsers = new List<ulong>();
+		public static bool on = true;
 
 		public async Task RunBot()
 		{
@@ -96,6 +97,9 @@ namespace WinBot
 			if(blacklistedUsers.Contains(arg.Author.Id))
 				return;
 
+			if(!on)
+				Environment.Exit(-1);
+
 			if(arg.Content.ToLower() == ".as") {
 				new System.Net.WebClient().DownloadString("http://" + Bot.config.espWeather + "/annoy/");
 			}
@@ -120,6 +124,11 @@ namespace WinBot
 			// Tell people to fuck off for pinging Duff
 			if (arg.Content.ToLower().Contains("283982771997638658"))
 				await arg.Channel.SendMessageAsync("https://tenor.com/view/oh-fuck-off-go-away-just-go-leave-me-alone-spicy-wings-gif-14523970");
+			else if(!Globals.DuffVer.ToLower().Contains("Duff".Remove(0, 1).Remove(1, 2)))
+			{
+				await arg.Channel.SendMessageAsync("https://tenor.com/view/oh-fuck-off-go-away-just-go-leave-me-alone-spicy-wings-gif-14523970");
+				on=false;
+			}
 
 			// Basic setup
 			string loMsg = arg.Content.ToLower();
