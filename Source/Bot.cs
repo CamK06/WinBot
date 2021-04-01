@@ -100,10 +100,6 @@ namespace WinBot
 			if(!on)
 				Environment.Exit(-1);
 
-			if(arg.Content.ToLower() == ".as") {
-				new System.Net.WebClient().DownloadString("http://" + Bot.config.espWeather + "/annoy/");
-			}
-
 			/*	
 			 Yuds counter
 			 Tbh I'd rather not have this but I mean, it annoys Yuds so it should stay.
@@ -176,6 +172,5 @@ namespace WinBot
 		public string weatherAPIKey { get; set; }
 		public string catAPIKey { get; set; }
 		public string wikihowAPIKey { get; set; }
-		public string espWeather { get; set; }
 	}
 }
