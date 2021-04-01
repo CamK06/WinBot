@@ -19,7 +19,7 @@ namespace WinBot.Commands.Main
 			eb.WithTitle("WinBot");
 			eb.WithColor(Color.Gold);
 			eb.AddField("Author", "Starman0620#8456", true);
-			eb.AddField("Contributors", "floppydisk#0590", true);
+			eb.AddField("Contributors", "floppydisk#0590\n/mnt/dkay#4345", true);
 			eb.AddField("Language", "C#", true);
 			eb.AddField("Library", "Discord.NET 2.3.0", true);
 			eb.AddField("Member Count", Context.Guild.MemberCount, true);
