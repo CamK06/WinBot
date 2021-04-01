@@ -20,7 +20,7 @@ namespace WinBot.Commands.Main
             // Set up the Chrome engine
             string totalStr, studentStr, staffStr, cTotalStr, date;
             ChromeOptions options = new ChromeOptions();
-            options.AddArguments("headless");
+            options.AddArguments("headless", "disable-gpu", "no-sandbox");
 
             // Fetch the data
             using(ChromeDriver driver = new ChromeDriver(".", options))
