@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
