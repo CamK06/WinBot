@@ -39,7 +39,7 @@ namespace WinBot.Misc
         {
             // Setup
             var feed = await FeedReader.ReadAsync("https://winworldpc.com/downloads/latest.rss");
-            SocketTextChannel additions = (SocketTextChannel)Bot.client.GetChannel(827586462278483998);
+            SocketTextChannel additions = (SocketTextChannel)Bot.client.GetChannel(Bot.config.rssChannel);
 
             foreach (FeedItem item in feed.Items)
             {
