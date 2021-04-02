@@ -11,7 +11,7 @@ using ScottPlot;
 
 using Newtonsoft.Json;
 
-using WinBot.Util;
+using WinBot.Misc;
 
 namespace WinBot.Commands.Main
 {

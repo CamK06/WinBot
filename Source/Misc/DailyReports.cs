@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using Discord;
 using Discord.WebSocket;
 
-namespace WinBot.Util
+namespace WinBot.Misc
 {
 	public class DailyReportSystem
 	{

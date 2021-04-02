@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="AnimatedGif" Version="1.0.5" />
+    <PackageReference Include="CodeHollow.FeedReader" Version="1.2.1" />
     <PackageReference Include="Discord.Net" Version="2.3.0" />
     <PackageReference Include="Humanizer" Version="2.8.26" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.8.0" />
