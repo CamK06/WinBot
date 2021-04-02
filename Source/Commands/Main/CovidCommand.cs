@@ -22,12 +22,8 @@ namespace WinBot.Commands.Main
         {
             CovidDay today;
 
-            // Cache stuff
-            if (!Directory.Exists("CovidCache"))
-                Directory.CreateDirectory("CovidCache");
-
             // Fetch new values for today if they don't exist
-            if (!File.Exists($"CovidCache/{DateTime.Now.ToShortDateString().Replace("/", "-")}.json") && DateTime.Now.Hour > 10)
+            if (!File.Exists($"Cache/covidschool-{DateTime.Now.ToShortDateString().Replace("/", "-")}.cache") && DateTime.Now.Hour > 10)
             {
                 // Set up the Chrome engine
                 today = new CovidDay();
@@ -46,10 +42,10 @@ namespace WinBot.Commands.Main
                     today.date = wait.Until<string>(driver => driver.FindElement(By.Id("en-school-summary-date")).Text);
                 }
 
-                File.WriteAllText($"CovidCache/{DateTime.Now.ToShortDateString().Replace("/", "-")}.json", JsonConvert.SerializeObject(today, Formatting.Indented));
+                File.WriteAllText($"Cache/covidschool-{DateTime.Now.ToShortDateString().Replace("/", "-")}.cache", JsonConvert.SerializeObject(today, Formatting.Indented));
             }
             else
-                today = JsonConvert.DeserializeObject<CovidDay>(File.ReadAllText($"CovidCache/{DateTime.Now.ToShortDateString().Replace("/", "-")}.json"));
+                today = JsonConvert.DeserializeObject<CovidDay>(File.ReadAllText($"Cache/covidschool-{DateTime.Now.ToShortDateString().Replace("/", "-")}.cache"));
 
             // Parse values into integers
             int.TryParse(today.total, out int total);

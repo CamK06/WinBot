@@ -38,8 +38,8 @@ namespace WinBot
             if (!Directory.Exists("WorkingDir")) Directory.CreateDirectory("WorkingDir");
             Directory.SetCurrentDirectory("WorkingDir");
 #endif
-			if(!Directory.Exists("Cache"))
-				Directory.CreateDirectory("Cache");
+            if (!Directory.Exists("Cache"))
+                Directory.CreateDirectory("Cache");
 
             // Load the configuration and blacklist
             if (File.Exists("config.json"))
@@ -87,7 +87,9 @@ namespace WinBot
             {
                 // Set up various systems
                 DailyReportSystem.Init();
+#if RELEASE
                 await WWRSS.Init();
+#endif
             };
 
             // Start the bot
