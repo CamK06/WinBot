@@ -349,7 +349,7 @@ healthchecksdb
 MigrationBackup/
 
 # WinBot stuff
-WorkingDir/
+WorkingDirectory/
 
 # VSCode
 .vscode/
