@@ -27,7 +27,7 @@ namespace WinBot.Commands.Main
                 Directory.CreateDirectory("CovidCache");
 
             // Fetch new values for today if they don't exist
-            if (!File.Exists($"CovidCache/{DateTime.Now.ToShortDateString().Replace("/", "-")}.json"))
+            if (!File.Exists($"CovidCache/{DateTime.Now.ToShortDateString().Replace("/", "-")}.json") && DateTime.Now.Hour > 10)
             {
                 // Set up the Chrome engine
                 today = new CovidDay();
