@@ -1,21 +1,26 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Reflection;
 
 using DSharpPlus;
 using DSharpPlus.EventArgs;
+using DSharpPlus.CommandsNext;
+
 using Newtonsoft.Json;
 
-using WinBot.Util;
+using WinBot.Commands;
+using DSharpPlus.CommandsNext.Builders;
 
 namespace WinBot
 {
-    class Program
+    class Bot
     {
-        static void Main(string[] args) => new Program().RunBot().GetAwaiter().GetResult();
+        static void Main(string[] args) => new Bot().RunBot().GetAwaiter().GetResult();
 
-        DiscordClient client;
-        BotConfig config;
+        public static DiscordClient client;
+        public static CommandsNextExtension commands;
+        public static BotConfig config;
 
         public async Task RunBot()
         {
@@ -42,7 +47,7 @@ namespace WinBot
 
                 // Write the config and quit
                 File.WriteAllText("config.json", JsonConvert.SerializeObject(config, Formatting.Indented));
-                Log.Write("No configuration file found. A template config has been written to config.json");
+                Console.WriteLine("No configuration file found. A template config has been written to config.json");
                 return;
             }
 
@@ -52,8 +57,15 @@ namespace WinBot
                 Token = config.token,
                 TokenType = TokenType.Bot
             });
-            client.DebugLogger.LogMessageReceived += (object sender, DebugLogMessageEventArgs e ) => { Log.Write(e.Message); };
+            commands = client.UseCommandsNext(new CommandsNextConfiguration()
+            {
+                StringPrefixes = new string[] { "." },
+                EnableDefaultHelp = false,
+                EnableDms = true
+            });
 
+            // Commands
+            commands.RegisterCommands(Assembly.GetExecutingAssembly());
 
             // Connect
             await client.ConnectAsync();
