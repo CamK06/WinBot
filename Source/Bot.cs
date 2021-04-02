@@ -87,7 +87,7 @@ namespace WinBot
             {
                 // Set up various systems
                 DailyReportSystem.Init();
-#if RELEASE
+#if !DEBUG
                 await WWRSS.Init();
 #endif
             };
