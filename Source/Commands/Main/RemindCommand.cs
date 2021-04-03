@@ -1,12 +1,10 @@
 
 using System;
-using System.Linq;
 using System.Timers;
 using System.Threading.Tasks;
 
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
 
 using WinBot.Commands.Attributes;
 
