@@ -11,6 +11,15 @@ using Newtonsoft.Json;
 
 using WinBot.Commands;
 using DSharpPlus.CommandsNext.Builders;
+using DSharpPlus.Entities;
+
+using Serilog;
+using Serilog.Extensions;
+using Serilog.Configuration;
+
+using Microsoft.Extensions.Logging;
+
+using WinBot.Util;
 
 namespace WinBot
 {
@@ -26,17 +35,17 @@ namespace WinBot
         {
             // Change the working directory for debug mode
 #if DEBUG
-            if(!Directory.Exists("WorkingDirectory"))
+            if (!Directory.Exists("WorkingDirectory"))
                 Directory.CreateDirectory("WorkingDirectory");
             Directory.SetCurrentDirectory("WorkingDirectory");
 #endif
 
             // Verify directory structure
-            if(!Directory.Exists("Logs"))
+            if (!Directory.Exists("Logs"))
                 Directory.CreateDirectory("Logs");
 
             // Load the config
-            if(File.Exists("config.json"))
+            if (File.Exists("config.json"))
                 config = JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText("config.json"));
             else
             {
@@ -51,11 +60,18 @@ namespace WinBot
                 return;
             }
 
+            // Logger
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.DiscordSink()
+                .CreateLogger();
+            var logFactory = new LoggerFactory().AddSerilog();
+
             // Set up the client
             client = new DiscordClient(new DiscordConfiguration()
             {
                 Token = config.token,
-                TokenType = TokenType.Bot
+                TokenType = TokenType.Bot,
+                LoggerFactory = logFactory
             });
             commands = client.UseCommandsNext(new CommandsNextConfiguration()
             {
@@ -64,12 +80,29 @@ namespace WinBot
                 EnableDms = true
             });
 
+            // Events
+            commands.CommandErrored += (CommandsNextExtension cnext, CommandErrorEventArgs e) =>
+            {
+                e.Context.RespondAsync("There was an error executing your command! Are you sure you used it correctly?");
+
+                string usage = WinBot.Commands.HelpCommand.GetCommandUsage(e.Command.Name);
+                if (usage != null)
+                {
+                    string upperCommandName = e.Command.Name[0].ToString().ToUpper() + e.Command.Name.Remove(0, 1);
+                    DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+                    eb.WithColor(DiscordColor.Gold);
+                    eb.WithTitle($"{upperCommandName} Command");
+                    eb.WithDescription($"{usage}");
+                    e.Context.RespondAsync("", eb.Build());
+                }
+                return Task.CompletedTask;
+            };
+
             // Commands
             commands.RegisterCommands(Assembly.GetExecutingAssembly());
 
             // Connect
             await client.ConnectAsync();
-            
 
             await Task.Delay(-1);
         }
