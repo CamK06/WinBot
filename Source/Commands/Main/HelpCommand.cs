@@ -28,7 +28,7 @@ namespace WinBot.Commands.Main
                 eb.WithTitle("WinBot Commands");
                 eb.AddField("**Main**", GetCommands(Category.Main), false);
                 //eb.AddField("**Fun**", GetCommands(Category.Fun), false);
-                //eb.AddField("**Staff**", GetCommands(Category.Owner), false);
+                eb.AddField("**Owner**", GetCommands(Category.Owner), false);
             }
             else
             {

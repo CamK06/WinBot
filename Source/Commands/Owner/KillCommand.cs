@@ -11,11 +11,11 @@ using WinBot.Misc;
 
 namespace WinBot.Commands.Owner
 {
-    public class OwnerCommand : BaseCommandModule
+    public class KillCommand : BaseCommandModule
     {
         [Command("kill")]
         [Description("Kills the bot")]
-        [Category(Category.Main)]
+        [Category(Category.Owner)]
         public async Task Kill(CommandContext Context)
         {
             if(Context.User.Id != Bot.config.ownerId)

@@ -7,10 +7,9 @@ using System.Collections.Generic;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Entities;
 
 using Newtonsoft.Json;
-
-using DSharpPlus.Entities;
 
 using Serilog;
 
