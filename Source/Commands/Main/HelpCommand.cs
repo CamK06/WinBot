@@ -76,7 +76,7 @@ namespace WinBot.Commands.Main
             UsageAttribute usage = (UsageAttribute)command.CustomAttributes.FirstOrDefault(x => x.GetType() == typeof(UsageAttribute));
             
             // Create the usage string
-            string desc = $"\n\n**Usage:** .{commandName}";
+            string desc = $"{command.Description}\n\n**Usage:** .{commandName}";
             if (usage != null)
                 desc += $" {usage.Usage}";
 
