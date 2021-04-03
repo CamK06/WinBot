@@ -84,7 +84,7 @@ namespace WinBot
 
                 await e.Context.RespondAsync("There was an error executing your command! Are you sure you used it correctly?");
 
-                string usage = WinBot.Commands.HelpCommand.GetCommandUsage(e.Command.Name);
+                string usage = WinBot.Commands.Main.HelpCommand.GetCommandUsage(e.Command.Name);
                 if (usage != null)
                 {
                     string upperCommandName = e.Command.Name[0].ToString().ToUpper() + e.Command.Name.Remove(0, 1);

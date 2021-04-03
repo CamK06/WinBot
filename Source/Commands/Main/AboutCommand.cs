@@ -7,7 +7,7 @@ using DSharpPlus.Entities;
 
 using WinBot.Commands.Attributes;
 
-namespace WinBot.Commands
+namespace WinBot.Commands.Main
 {
     public class AboutCommand : BaseCommandModule
     {
