@@ -16,6 +16,7 @@ using Serilog;
 using Microsoft.Extensions.Logging;
 
 using WinBot.Util;
+using WinBot.Misc;
 
 namespace WinBot
 {
@@ -99,6 +100,7 @@ namespace WinBot
             };
             client.Ready += async (DiscordClient client, ReadyEventArgs e) => {
                 logChannel = await client.GetChannelAsync(config.logChannel);
+                DailyReportSystem.Init();
                 await logChannel.SendMessageAsync("Ready.");
             };
 
