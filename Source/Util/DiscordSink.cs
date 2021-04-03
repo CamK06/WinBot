@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 
 using Serilog;
 using Serilog.Core;
@@ -19,7 +20,14 @@ namespace WinBot.Util
         public void Emit(LogEvent logEvent)
         {
             var message = logEvent.RenderMessage(_formatProvider);
-            Console.WriteLine($"[{DateTime.Now.ToShortDateString().Replace("/", "-")} {DateTime.Now.ToShortTimeString()}] " + message);
+            string finalMessage =$"[{DateTime.Now.ToShortDateString().Replace("/", "-")} {DateTime.Now.ToShortTimeString()}] " + message;
+
+            // Print and write the log message
+            Console.WriteLine(finalMessage);
+            File.AppendAllText($"Logs/{DateTime.Now.ToShortDateString().Replace("/", "-")}.log", finalMessage + "\n");
+
+            // Send the message to Discord
+            Bot.logChannel.SendMessageAsync(finalMessage);
         }
     }
 

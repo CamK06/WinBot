@@ -9,13 +9,9 @@ using DSharpPlus.CommandsNext;
 
 using Newtonsoft.Json;
 
-using WinBot.Commands;
-using DSharpPlus.CommandsNext.Builders;
 using DSharpPlus.Entities;
 
 using Serilog;
-using Serilog.Extensions;
-using Serilog.Configuration;
 
 using Microsoft.Extensions.Logging;
 
@@ -30,6 +26,7 @@ namespace WinBot
         public static DiscordClient client;
         public static CommandsNextExtension commands;
         public static BotConfig config;
+        public static DiscordChannel logChannel;
 
         public async Task RunBot()
         {
@@ -81,9 +78,11 @@ namespace WinBot
             });
 
             // Events
-            commands.CommandErrored += (CommandsNextExtension cnext, CommandErrorEventArgs e) =>
+            commands.CommandErrored += async (CommandsNextExtension cnext, CommandErrorEventArgs e) =>
             {
-                e.Context.RespondAsync("There was an error executing your command! Are you sure you used it correctly?");
+                await logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
+
+                await e.Context.RespondAsync("There was an error executing your command! Are you sure you used it correctly?");
 
                 string usage = WinBot.Commands.HelpCommand.GetCommandUsage(e.Command.Name);
                 if (usage != null)
@@ -93,9 +92,12 @@ namespace WinBot
                     eb.WithColor(DiscordColor.Gold);
                     eb.WithTitle($"{upperCommandName} Command");
                     eb.WithDescription($"{usage}");
-                    e.Context.RespondAsync("", eb.Build());
+                    await e.Context.RespondAsync("", eb.Build());
                 }
-                return Task.CompletedTask;
+            };
+            client.Ready += async (DiscordClient client, ReadyEventArgs e) => {
+                logChannel = await client.GetChannelAsync(config.logChannel);
+                await logChannel.SendMessageAsync("Ready.");
             };
 
             // Commands
@@ -112,5 +114,6 @@ namespace WinBot
     {
         public string token { get; set; }
         public string status { get; set; }
+        public ulong logChannel { get; set; }
     }
 }
