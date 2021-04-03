@@ -32,5 +32,16 @@ namespace WinBot.Util
         {
             return dt.ToString("dddd, dd MMMM yyyy");
         }
+
+		// For use in about command
+		public static string GetHost()
+		{
+			if(Environment.OSVersion.ToString().ToLower().Contains("unix"))
+				return "uname -sr".Bash();
+			else if(Environment.OSVersion.ToString().ToLower().Contains("windows"))
+				return "systeminfo".Bash();
+			else
+				return null;
+		}
 	}
 }

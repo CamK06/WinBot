@@ -107,7 +107,9 @@ namespace WinBot
             client.Ready += async (DiscordClient client, ReadyEventArgs e) => {
                 logChannel = await client.GetChannelAsync(config.logChannel);
                 DailyReportSystem.Init();
+                await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
                 await logChannel.SendMessageAsync("Ready.");
+                Log.Write(Serilog.Events.LogEventLevel.Information, $"Running on host: {MiscUtil.GetHost()}");
             };
 
             // Commands
