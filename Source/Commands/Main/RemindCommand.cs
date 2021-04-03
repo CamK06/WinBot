@@ -16,7 +16,7 @@ namespace WinBot.Commands.Main
         [Description("Remind you about something")]
         [Usage("[Time] [Time Unit (second, minute, hour, day) [Message] (Note that long timespans are likely unreliable due to bot restarts)]")]
         [Category(Category.Main)]
-        public async Task About(CommandContext Context, int time, string unit, [RemainingText] string message)
+        public async Task Remind(CommandContext Context, int time, string unit, [RemainingText] string message)
         {
             Timer t;
 

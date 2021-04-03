@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Collections.Generic;
 
 using DSharpPlus;
 using DSharpPlus.EventArgs;
@@ -28,6 +29,7 @@ namespace WinBot
         public static CommandsNextExtension commands;
         public static BotConfig config;
         public static DiscordChannel logChannel;
+        public static List<ulong> blacklistedUsers = new List<ulong>();
 
         public async Task RunBot()
         {
@@ -43,6 +45,11 @@ namespace WinBot
                 Directory.CreateDirectory("Logs");
             if(!Directory.Exists("Cache"))
                 Directory.CreateDirectory("Cache");
+
+            // Load blacklisted users
+            if(!File.Exists("blacklist.json"))
+                File.WriteAllText("blacklist.json", "[]");
+            blacklistedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText("blacklist.json"));
 
             // Load the config
             if (File.Exists("config.json"))

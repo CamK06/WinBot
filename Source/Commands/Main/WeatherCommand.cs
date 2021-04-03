@@ -18,7 +18,7 @@ namespace WinBot.Commands.Main
         [Description("Get the weather for a specific location")]
         [Usage("[location]")]
         [Category(Category.Main)]
-        public async Task About(CommandContext Context, [RemainingText]string location)
+        public async Task Weather(CommandContext Context, [RemainingText]string location)
         {
             // Pull data from the API
             RestClient client = new RestClient($"http://api.weatherapi.com/v1/forecast.json?key={Bot.config.weatherAPIKey}&q={location.Replace(" ", "%20")}");
