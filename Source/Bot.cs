@@ -40,6 +40,8 @@ namespace WinBot
             // Verify directory structure
             if (!Directory.Exists("Logs"))
                 Directory.CreateDirectory("Logs");
+            if(!Directory.Exists("Cache"))
+                Directory.CreateDirectory("Cache");
 
             // Load the config
             if (File.Exists("config.json"))
