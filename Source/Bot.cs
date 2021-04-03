@@ -119,5 +119,6 @@ namespace WinBot
         public string token { get; set; }
         public string status { get; set; }
         public ulong logChannel { get; set; }
+        public string weatherAPIKey { get; set; }
     }
 }
