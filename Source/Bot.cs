@@ -113,6 +113,9 @@ namespace WinBot
             };
             // Edit logging
             client.MessageUpdated += async (DiscordClient client, MessageUpdateEventArgs e) => {
+                if(e.MessageBefore.Content == e.Message.Content) // Just fixing Discords issues.... ffs
+                    return;
+
                 DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
                 builder.WithColor(DiscordColor.Gold);
                 builder.WithDescription($"**{e.Author.Username}#{e.Author.Discriminator}** updated a message in {e.Channel.Mention}");
