@@ -23,7 +23,7 @@ namespace WinBot.Commands.Main
             CovidDay today;
 
             // Fetch new values for today if they don't exist
-            if (!File.Exists($"Cache/covidschool-{DateTime.Now.ToShortDateString().Replace("/", "-")}.cache") && DateTime.Now.Hour > 10)
+            if (!File.Exists($"Cache/covidschool-{DateTime.Now.ToShortDateString().Replace("/", "-")}.cache"))
             {
                 // Set up the Chrome engine
                 today = new CovidDay();
@@ -41,8 +41,9 @@ namespace WinBot.Commands.Main
                     today.staff = wait.Until<string>(driver => driver.FindElement(By.Id("en-table-school-staff-new")).Text);
                     today.date = wait.Until<string>(driver => driver.FindElement(By.Id("en-school-summary-date")).Text);
                 }
-
-                File.WriteAllText($"Cache/covidschool-{DateTime.Now.ToShortDateString().Replace("/", "-")}.cache", JsonConvert.SerializeObject(today, Formatting.Indented));
+                
+                if(DateTime.Now.Hour > 10)
+                    File.WriteAllText($"Cache/covidschool-{DateTime.Now.ToShortDateString().Replace("/", "-")}.cache", JsonConvert.SerializeObject(today, Formatting.Indented));
             }
             else
                 today = JsonConvert.DeserializeObject<CovidDay>(File.ReadAllText($"Cache/covidschool-{DateTime.Now.ToShortDateString().Replace("/", "-")}.cache"));
