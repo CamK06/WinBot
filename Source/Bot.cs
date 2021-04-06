@@ -122,6 +122,16 @@ namespace WinBot
                 builder.WithTimestamp(DateTime.Now);
                 await logChannel.SendMessageAsync("", builder.Build());
             };
+            // Delete logging
+            client.MessageDeleted += async (DiscordClient client, MessageDeleteEventArgs e) => {
+                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
+                builder.WithColor(DiscordColor.Gold);
+                builder.WithDescription($"**{e.Message.Author.Username}#{e.Message.Author.Discriminator}** deleted a message in {e.Channel.Mention}");
+                builder.AddField("Content", e.Message.Content, true);
+                builder.AddField("IDs", $"```cs\nUser = {e.Message.Author.Id}\nMessage = {e.Message.Id}\nChannel = {e.Channel.Id}```");
+                builder.WithTimestamp(DateTime.Now);
+                await logChannel.SendMessageAsync("", builder.Build());
+            };
 
             // Commands
             commands.RegisterCommands(Assembly.GetExecutingAssembly());
