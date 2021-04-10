@@ -18,7 +18,7 @@ namespace WinBot.Commands.Fun
         [Command("cat")]
         [Description("Gets a random cat photo")]
         [Category(Category.Fun)]
-        public async Task About(CommandContext Context)
+        public async Task Cat(CommandContext Context)
         {
             string json = "";
             // Download the json string from the API
