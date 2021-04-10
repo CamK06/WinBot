@@ -154,5 +154,6 @@ namespace WinBot
         public string weatherAPIKey { get; set; }
         public ulong ownerId { get; set; }
         public string catAPIKey { get; set; }
+        public string wikihowAPIKey { get; set; }
     }
 }
