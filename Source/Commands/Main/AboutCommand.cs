@@ -21,7 +21,7 @@ namespace WinBot.Commands.Main
             eb.WithTitle($"{Bot.client.CurrentUser.Username}");
             eb.AddField("Maintainer", $"{Bot.client.CurrentApplication.Owners.First().Username}", true);
             eb.AddField("Language", "C#", true);
-            eb.AddField("Version", "3.01 (Dev)", true);
+            eb.AddField("Version", Bot.VERSION, true);
             eb.AddField("Library", $"DSharpPlus v{Bot.client.VersionString}", true);
             eb.AddField("Host", MiscUtil.GetHost(), true);
             eb.WithThumbnail(Context.Guild.IconUrl);
