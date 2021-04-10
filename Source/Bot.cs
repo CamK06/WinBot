@@ -135,7 +135,7 @@ namespace WinBot
                 builder.WithTimestamp(DateTime.Now);
                 await logChannel.SendMessageAsync("", builder.Build());
             };
-
+            
             // Commands
             commands.RegisterCommands(Assembly.GetExecutingAssembly());
 
@@ -153,5 +153,6 @@ namespace WinBot
         public ulong logChannel { get; set; }
         public string weatherAPIKey { get; set; }
         public ulong ownerId { get; set; }
+        public string catAPIKey { get; set; }
     }
 }
