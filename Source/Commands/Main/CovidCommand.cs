@@ -2,8 +2,9 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-using Discord;
-using Discord.Commands;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -11,14 +12,16 @@ using OpenQA.Selenium.Support.UI;
 
 using Newtonsoft.Json;
 
+using WinBot.Commands.Attributes;
+
 namespace WinBot.Commands.Main
 {
-    public class CovidCommand : ModuleBase<SocketCommandContext>
+    public class CovidCommand : BaseCommandModule
     {
         [Command("covid")]
-        [Summary("Get info on the state of the pandemic in ontario schools|")]
-        [Priority(Category.Main)]
-        public async Task Covid()
+        [Description("Gets info on the state of the pandemic in Ontario schools")]
+        [Category(Category.Main)]
+        public async Task Covid(CommandContext Context)
         {
             CovidDay today;
 
@@ -41,7 +44,7 @@ namespace WinBot.Commands.Main
                     today.staff = wait.Until<string>(driver => driver.FindElement(By.Id("en-table-school-staff-new")).Text);
                     today.date = wait.Until<string>(driver => driver.FindElement(By.Id("en-school-summary-date")).Text);
                 }
-                
+
                 if(DateTime.Now.Hour > 10)
                     File.WriteAllText($"Cache/covidschool-{DateTime.Now.ToShortDateString().Replace("/", "-")}.cache", JsonConvert.SerializeObject(today, Formatting.Indented));
             }
@@ -59,18 +62,18 @@ namespace WinBot.Commands.Main
             // TODO: Make the summary more in-depth by involving the previous day's data aswell as provincial total.
 
             // Create embed
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.WithColor(Color.Gold);
+            DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+            eb.WithColor(DiscordColor.Gold);
             eb.WithTitle($"Ontario School Covid Stats For {today.date.Split("at")[0]}");
             eb.WithDescription(summary);
-            eb.AddField("Total New Cases", total, true);
-            eb.AddField("Total New Student Cases", student, true);
-            eb.AddField("Total New Staff Cases", staff, true);
+            eb.AddField("Total New Cases", today.total, true);
+            eb.AddField("Total New Student Cases", today.student, true);
+            eb.AddField("Total New Staff Cases", today.staff, true);
             eb.AddField("Total School Cases", today.cTotal, true);
             eb.WithFooter("Data gets updated every school day at 10:30AM EST");
-            eb.WithThumbnailUrl("https://i.imgur.com/Seq3SZh.png"); // D U N G  F O R D
+            eb.WithThumbnail("https://i.imgur.com/Seq3SZh.png"); // D U N G  F O R D
 
-            await ReplyAsync("", false, eb.Build());
+            await Context.RespondAsync("", eb.Build());
         }
     }
 
@@ -82,5 +85,4 @@ namespace WinBot.Commands.Main
         public string staff { get; set; }
         public string cTotal { get; set; }
     }
-
 }

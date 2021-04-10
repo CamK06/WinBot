@@ -3,8 +3,9 @@ using System.Timers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Discord;
-using Discord.WebSocket;
+using DSharpPlus;
+using DSharpPlus.Entities;
+using DSharpPlus.EventArgs;
 
 using CodeHollow.FeedReader;
 
@@ -38,7 +39,7 @@ namespace WinBot.Misc
         {
             // Setup
             var feed = await FeedReader.ReadAsync("https://winworldpc.com/downloads/latest.rss");
-            SocketTextChannel additions = (SocketTextChannel)Bot.client.GetChannel(Bot.config.rssChannel);
+            DiscordChannel additions = await Bot.client.GetChannelAsync(Bot.config.rssChannel);
 
             foreach (FeedItem item in feed.Items)
             {
@@ -47,12 +48,12 @@ namespace WinBot.Misc
                     return;
 
                 // Create and send the embed
-                EmbedBuilder eb = new EmbedBuilder();
+                DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
                 eb.WithTitle(item.Title);
                 eb.WithUrl(item.Link);
-                eb.WithColor(Color.Gold);
+                eb.WithColor(DiscordColor.Gold);
                 eb.WithFooter($"Uploaded: {item.PublishingDate}");
-                await additions.SendMessageAsync("", false, eb.Build());
+                await additions.SendMessageAsync("", eb.Build());
 
                 // Cache the item so it isn't sent in the next fetch
                 sentItems.Add(item.Id);

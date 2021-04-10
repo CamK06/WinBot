@@ -1,53 +1,54 @@
 using System;
 using System.Threading.Tasks;
 
-using Discord;
-using Discord.WebSocket;
-using Discord.Commands;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 
 using WinBot.Util;
+using WinBot.Commands.Attributes;
 
 namespace WinBot.Commands.Main
 {
-	public class WhoisCommand : ModuleBase<SocketCommandContext>
-	{
-		[Command("whois")]
-		[Summary("Get information about a user|[User]")]
-		[Priority(Category.Main)]
-		public async Task Whois([Remainder] SocketGuildUser user)
-		{
-			if (user == null) user = Context.Message.Author as SocketGuildUser;
+    public class WhoisCommand : BaseCommandModule
+    {
+        [Command("whois")]
+        [Description("Gets basic info about a user")]
+        [Usage("user")]
+        [Category(Category.Main)]
+        public async Task Whois(CommandContext Context, [RemainingText] DiscordMember user)
+        {
+            if (user == null) user = Context.Message.Author as DiscordMember;
 
-			try
-			{
-				// Set up the embed
-				EmbedBuilder Embed = new EmbedBuilder();
-				Embed.WithColor(Color.Gold);
+            try
+            {
+                // Set up the embed
+                DiscordEmbedBuilder Embed = new DiscordEmbedBuilder();
+                Embed.WithColor(DiscordColor.Gold);
 
-				// Basic user info
-				if (user != null) Embed.WithAuthor(user);
-				if (user.GetAvatarUrl() != null)
-					Embed.WithThumbnailUrl(user.GetAvatarUrl());
-				else
-					Embed.WithThumbnailUrl(user.GetDefaultAvatarUrl());
-				Embed.AddField("**ID**", user.Id, false);
-				if (!string.IsNullOrWhiteSpace(user.Nickname))
-					Embed.AddField("**Nickname**", user.Nickname, true);
+                // Basic user info
+                if (user.AvatarUrl != null)
+                {
+                    Embed.WithThumbnail(user.AvatarUrl);
+                    Embed.WithAuthor(user.Username, null, user.AvatarUrl);
+                }
+                else
+                {
+                    Embed.WithThumbnail(user.DefaultAvatarUrl);
+                    Embed.WithAuthor(user.Username, null, user.DefaultAvatarUrl);
+                }
+                Embed.AddField("**ID**", user.Id.ToString(), false);
 
-				// Embed dates
-				Embed.AddField("**Created On**", $"{MiscUtil.FormatDate(user.CreatedAt)} ({(int)DateTime.Now.Subtract(user.CreatedAt.DateTime).TotalDays} days ago)", true);
-				if (user.JoinedAt.HasValue) Embed.AddField("**Joined On**", $"{MiscUtil.FormatDate(user.JoinedAt.Value)} ({(int)DateTime.Now.Subtract(user.JoinedAt.Value.DateTime).TotalDays} days ago)", true);
+                // Embed dates
+                Embed.AddField("**Created On**", $"{MiscUtil.FormatDate(user.CreationTimestamp)} ({(int)DateTime.Now.Subtract(user.CreationTimestamp.DateTime).TotalDays} days ago)", true);
+                Embed.AddField("**Joined On**", $"{MiscUtil.FormatDate(user.JoinedAt.DateTime)} ({(int)DateTime.Now.Subtract(user.JoinedAt.DateTime).TotalDays} days ago)", true);
 
-				// User activity
-				if (user.Activity != null && !string.IsNullOrEmpty(user.Activity.ToString()))
-					Embed.AddField($"**{user.Activity.Type.ToString()}**", user.Activity.ToString(), true);
-
-				await ReplyAsync("", false, Embed.Build());
-			}
-			catch (Exception ex)
-			{
-				await ReplyAsync("Error: " + ex.Message + "\nStack Trace:" + ex.StackTrace);
-			}
-		}
-	}
+                await Context.RespondAsync("", Embed.Build());
+            }
+            catch (Exception ex)
+            {
+                await Context.RespondAsync("Error: " + ex.Message + "\nStack Trace:" + ex.StackTrace);
+            }
+        }
+    }
 }

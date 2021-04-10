@@ -1,75 +1,86 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-using Discord;
-using Discord.Commands;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
+
+using WinBot.Commands.Attributes;
 
 namespace WinBot.Commands.Main
 {
-	public class HelpCommand : ModuleBase<SocketCommandContext>
-	{
-		[Command("help")]
-		[Summary("Get a list of bot commands and their usage|[Command]")]
-		[Priority(Category.Main)]
-		public async Task Help([Remainder] string command = null)
-		{
-			EmbedBuilder helpEmbed = new EmbedBuilder();
-			helpEmbed.WithColor(Color.Gold);
-			helpEmbed.WithFooter("Type \".help [command]\" to get more info on a command");
+    public class HelpCommand : BaseCommandModule
+    {
+        [Command("help")]
+        [Description("Lists commands or gets info on a specific command")]
+        [Usage("[command]")]
+        [Category(Category.Main)]
+        public async Task Help(CommandContext Context, [RemainingText] string command = null)
+        {
+            // Set up the embed
+            DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+            eb.WithColor(DiscordColor.Gold);
+            eb.WithFooter("Type \".help [command]\" to get more info on a command");
 
-			if (command == null)
-			{
-				helpEmbed.WithTitle("WinBot Commands");
-				helpEmbed.AddField("**Main**", GetCommands(Category.Main), false);
-				helpEmbed.AddField("**Fun**", GetCommands(Category.Fun), false);
-				helpEmbed.AddField("**Staff**", GetCommands(Category.Owner), false);
-			}
-			else
-			{
-				string usage = GetCommandUsage(command);
-				if(usage != null)
-				{
-					string upperCommandName = command[0].ToString().ToUpper() + command.Remove(0, 1);
-					helpEmbed.WithTitle($"{upperCommandName} Command");
-					helpEmbed.WithDescription($"{usage}");
-				}
-				else
-				{
-					await ReplyAsync("That command doesn't seem to exist.");
-					return;
-				}
-			}
+            if (command == null)
+            {
+                // List all commands
+                eb.WithTitle("WinBot Commands");
+                eb.AddField("**Main**", GetCommands(Category.Main), false);
+                eb.AddField("**Fun**", GetCommands(Category.Fun), false);
+                eb.AddField("**Owner**", GetCommands(Category.Owner), false);
+            }
+            else
+            {
+                // Get the usage of a specific command
+                string usage = GetCommandUsage(command);
+                if (usage != null)
+                {
+                    string upperCommandName = command[0].ToString().ToUpper() + command.Remove(0, 1);
+                    eb.WithTitle($"{upperCommandName} Command");
+                    eb.WithDescription($"{usage}");
+                }
+                else
+                {
+                    await Context.RespondAsync("That command doesn't seem to exist.");
+                    return;
+                }
+            }
 
-			await ReplyAsync("", false, helpEmbed.Build());
-		}
+            await Context.RespondAsync("", eb.Build());
+        }
 
-		static string GetCommands(int category)
-		{
-			string finalString = "";
-			// Loop over every command
-			for (int i = 0; i < Bot.commands.Commands.Count(); i++)
-			{
-				CommandInfo command = Bot.commands.Commands.ToArray()[i];
-				// If the command is in the category we're looking for
-				if (command.Priority == category)
-				{
-					if (!string.IsNullOrWhiteSpace(finalString)) finalString += $" | `{command.Name}`";
-					else finalString = $"`{command.Name}`";
-				}
-			}
+        static string GetCommands(Category searchCategory)
+        {
+            string finalString = "";
+            foreach (Command command in Bot.commands.RegisteredCommands.Values)
+            {
+                // I fucking hate linq but I cba to come up with easier ways to do this stuff
+                Category category = ((CategoryAttribute)command.CustomAttributes.FirstOrDefault(x => x.GetType() == typeof(CategoryAttribute))).Category;
+                if (category != searchCategory)
+                    continue;
 
-			return finalString;
-		}
+                // Add the command to the main text
+                if (!string.IsNullOrWhiteSpace(finalString)) finalString += $" | `{command.Name}`";
+                else finalString = $"`{command.Name}`";
+            }
+            return finalString;
+        }
 
-		public static string GetCommandUsage(string commandName)
-		{
-			CommandInfo command = Bot.commands.Commands.FirstOrDefault(x => x.Name.ToLower() == commandName.ToLower());
-			if (command != null && command.Summary.Contains("|"))
-			{
-				string desc = $"{command.Summary.Split('|')[0]}\n\n**Usage:** .{commandName} {command.Summary.Split('|')[1]}";
-				return desc;
-			}
-			return null;
-		}
-	}
+        public static string GetCommandUsage(string commandName)
+        {
+            // Fetch the command and its usage attribute
+            Command command = Bot.commands.FindCommand(commandName.ToLower(), out string args);
+            if (command == null)
+                return null;
+            UsageAttribute usage = (UsageAttribute)command.CustomAttributes.FirstOrDefault(x => x.GetType() == typeof(UsageAttribute));
+            
+            // Create the usage string
+            string desc = $"{command.Description}\n\n**Usage:** .{commandName}";
+            if (usage != null)
+                desc += $" {usage.Usage}";
+
+            return desc;
+        }
+    }
 }

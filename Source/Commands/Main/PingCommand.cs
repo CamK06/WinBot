@@ -1,17 +1,20 @@
 using System.Threading.Tasks;
 
-using Discord.Commands;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+
+using WinBot.Commands.Attributes;
 
 namespace WinBot.Commands.Main
 {
-	public class PingCommand : ModuleBase<SocketCommandContext>
-	{
-		[Command("ping")]
-		[Summary("Gets the bots latency with Discord|")]
-		[Priority(Category.Main)]
-		public async Task Ping()
-		{
-			await ReplyAsync($"🏓 Pong! **{Bot.client.Latency}ms**");
-		}
-	}
+    public class PingCommand : BaseCommandModule
+    {
+        [Command("ping")]
+        [Description("Gets the bots latency to Discord")]
+        [Category(Category.Main)]
+        public async Task Ping(CommandContext Context)
+        {
+            await Context.RespondAsync($"🏓 Pong! **{Bot.client.Ping}ms**");
+        }
+    }
 }

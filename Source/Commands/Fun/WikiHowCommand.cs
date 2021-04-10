@@ -1,20 +1,26 @@
+using System;
+using System.Net;
 using System.Threading.Tasks;
 
-using Newtonsoft.Json;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
+
+using WinBot.Util;
+using WinBot.Commands.Attributes;
 
 using RestSharp;
 
-using Discord;
-using Discord.Commands;
+using Newtonsoft.Json;
 
 namespace WinBot.Commands.Fun
 {
-    public class WikiHowCommand : ModuleBase<SocketCommandContext>
+    public class WikiHowCommand : BaseCommandModule
     {
         [Command("wikihow")]
-        [Summary("Sends a random out of context WikiHow image|")]
-        [Priority(Category.Fun)]
-        public async Task WikiHow()
+        [Description("Gets a random out of context wikihow image")]
+        [Category(Category.Fun)]
+        public async Task WikiHow(CommandContext Context)
         {
             var client = new RestClient("https://hargrimm-wikihow-v1.p.rapidapi.com/images?count=1");
             var request = new RestRequest(Method.GET);
@@ -24,12 +30,12 @@ namespace WinBot.Commands.Fun
             dynamic resp = JsonConvert.DeserializeObject(response.Content);
 
             // Create and send the embed
-            var eb = new EmbedBuilder();
-            eb.WithColor(Color.Gold);
+            var eb = new DiscordEmbedBuilder();
+            eb.WithColor(DiscordColor.Gold);
             eb.WithTitle("Here's Your Random WikiHow Image!");
             eb.WithImageUrl((string)resp["1"]);
-            eb.WithCurrentTimestamp();
-            await ReplyAsync("", false, eb.Build());
+            eb.WithTimestamp(DateTime.Now);
+            await Context.RespondAsync("", eb.Build());
             await Task.Delay(1);
         }
     }

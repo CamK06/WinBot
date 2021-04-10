@@ -1,32 +1,33 @@
-/*
-	FOR THE LOVE OF ALL THINGS THAT AREN'T HOLY
-	CLEAN UP THIS BLOODY FILE!!!!!!!!!!!!!!!
-	THIS WAS ONLY PASTED IN BECAUSE NEW CODE WAS BEING WACK
-*/
-
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using Discord;
-using Discord.WebSocket;
-using Discord.Commands;
+using DSharpPlus;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
+
+using WinBot.Commands.Attributes;
 
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 
-namespace WinBot.Commands
+using WinBot.Misc;
+
+namespace WinBot.Commands.Owner
 {
-    public class EvalCommand : ModuleBase<SocketCommandContext>
+    public class EvalCommand : BaseCommandModule
     {
         [Command("ev")]
-        [Summary("It's an eval command <:norton:767557055694635018>|[Code]")]
-        [Priority(Category.Owner)]
-        public async Task Eval([Remainder] string code)
+        [Description("It's an eval command.")]
+        [Usage("[C# Code]")]
+        [Category(Category.Owner)]
+        public async Task Kill(CommandContext Context, [RemainingText]string code)
         {
-            SocketGuildUser author = Context.Message.Author as SocketGuildUser;
-            if(author.Id != Bot.config.ownerId && !author.GuildPermissions.KickMembers) {
+            DiscordMember author = Context.Message.Author as DiscordMember;
+            if (author.Id != Bot.config.ownerId)
+            {
                 await Context.Message.DeleteAsync();
                 return;
             }
@@ -44,18 +45,18 @@ namespace WinBot.Commands
                 {
                     Context = Context,
                     Bot = Bot.client,
-                    Commands = Bot.commands,
-                    Services = Bot.services
+                    Commands = Bot.commands
                 };
                 var asms = AppDomain.CurrentDomain.GetAssemblies(); // .SingleOrDefault(assembly => assembly.GetName().Name == "MyAssembly");
                 foreach (Assembly assembly in asms)
                 {
-                    if (!assembly.IsDynamic && assembly.FullName.ToLower().Contains("discord") || assembly.FullName.ToLower().Contains("newtonsoft") || assembly.FullName.ToLower().Contains("microsoft.csharp") || assembly.FullName.ToLower().Contains("lastfm") || assembly.FullName.ToLower().Contains("scottplot"))
+                    if (!assembly.IsDynamic && assembly.FullName.ToLower().Contains("dsharp") || assembly.FullName.ToLower().Contains("newtonsoft") || assembly.FullName.ToLower().Contains("microsoft.csharp") || assembly.FullName.ToLower().Contains("winbot") || assembly.FullName.ToLower().Contains("scottplot"))
                     {
                         scriptOptions = scriptOptions.AddReferences(assembly);
                     }
                 }
                 scriptOptions = scriptOptions.AddReferences(new string[] { "ScottPlot, Version=4.0.48.0, Culture=neutral, PublicKeyToken=86698dc10387c39e" });
+                scriptOptions.AddReferences(Assembly.GetExecutingAssembly());
 
                 code = @"using System; 
 using System.Linq;
@@ -63,48 +64,47 @@ using System.IO;
 using System.Threading.Tasks; 
 using System.Collections.Generic; 
 using System.Text;
-using Discord;
-using Discord.WebSocket;
-using Discord.Commands;
+using DSharpPlus;
+using DSharpPlus.EventArgs;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 using Newtonsoft.Json;
 using ScottPlot;
-using ScottPlot.Drawing;" + code;
+using ScottPlot.Drawing;
+using WinBot;
+using WinBot.Commands.Attributes;" + code;
 
                 var result = await CSharpScript.EvaluateAsync(code, scriptOptions, globals);
                 if (result != null)
                 {
-                    EmbedBuilder eb = new EmbedBuilder();
+                    DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
                     eb.WithTitle("Eval");
-                    eb.WithColor(Color.Gold);
-                    eb.WithCurrentTimestamp();
+                    eb.WithColor(DiscordColor.Gold);
+                    eb.WithTimestamp(DateTime.Now);
                     eb.AddField("Input", $"```cs\n{OGCode}```");
                     eb.AddField("Output", $"```cs\n" + result + "```");
-                    await ReplyAsync("", false, eb.Build());
+                    await Context.RespondAsync("", eb.Build());
                 }
 
             }
             catch (Exception ex)
             {
-                EmbedBuilder eb = new EmbedBuilder();
+                DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
                 eb.WithTitle("Eval");
-                eb.WithColor(Color.Gold);
-                eb.WithCurrentTimestamp();
+                eb.WithColor(DiscordColor.Gold);
+                eb.WithTimestamp(DateTime.Now);
                 eb.AddField("Input", $"```cs\n{OGCode}```");
                 eb.AddField("Error", $"```cs\n{ex.Message}```");
-                await ReplyAsync($"", false, eb.Build());
+                await Context.RespondAsync($"", eb.Build());
             }
         }
-
     }
 
-    /// <summary>
-    /// Everything that is passed into evals
-    /// </summary>
     public class EVGlobals
     {
-        public SocketCommandContext Context { get; set; }
-        public DiscordSocketClient Bot { get; set; }
-        public IServiceProvider Services { get; set; }
-        public CommandService Commands { get; set; }
+        public CommandContext Context { get; set; }
+        public DiscordClient Bot { get; set; }
+        public CommandsNextExtension Commands { get; set; }
     }
 }

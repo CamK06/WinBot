@@ -1,16 +1,19 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
+using System.Reflection;
 using System.Collections.Generic;
 
-using Microsoft.Extensions.DependencyInjection;
-
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
+using DSharpPlus;
+using DSharpPlus.EventArgs;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.Entities;
 
 using Newtonsoft.Json;
+
+using Serilog;
+
+using Microsoft.Extensions.Logging;
 
 using WinBot.Util;
 using WinBot.Misc;
@@ -19,169 +22,142 @@ namespace WinBot
 {
     class Bot
     {
+        public const string VERSION = "3.0";
+
         static void Main(string[] args) => new Bot().RunBot().GetAwaiter().GetResult();
 
-        // Core bot stuff
-        public static DiscordSocketClient client = new DiscordSocketClient();
-        public static CommandService commands = new CommandService();
-        public static IServiceProvider services;
+        public static DiscordClient client;
+        public static CommandsNextExtension commands;
         public static BotConfig config;
-
-        public static DateTime startedAt = DateTime.Now;
+        public static DiscordChannel logChannel;
         public static List<ulong> blacklistedUsers = new List<ulong>();
-        public static bool on = true;
 
         public async Task RunBot()
         {
-            // We switch to WorkingDir when debugging so the project directory doesn't get flooded with crap
+            // Change the working directory for debug mode
 #if DEBUG
-            if (!Directory.Exists("WorkingDir")) Directory.CreateDirectory("WorkingDir");
-            Directory.SetCurrentDirectory("WorkingDir");
+            if (!Directory.Exists("WorkingDirectory"))
+                Directory.CreateDirectory("WorkingDirectory");
+            Directory.SetCurrentDirectory("WorkingDirectory");
 #endif
-            if (!Directory.Exists("Cache"))
+
+            // Verify directory structure
+            if (!Directory.Exists("Logs"))
+                Directory.CreateDirectory("Logs");
+            if(!Directory.Exists("Cache"))
                 Directory.CreateDirectory("Cache");
 
-            // Load the configuration and blacklist
+            // Load blacklisted users
+            if(!File.Exists("blacklist.json"))
+                File.WriteAllText("blacklist.json", "[]");
+            blacklistedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText("blacklist.json"));
+
+            // Load the config
             if (File.Exists("config.json"))
                 config = JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText("config.json"));
             else
             {
-                config = new BotConfig()
-                {
-                    token = "",
-                    prefix = ".",
-                    activity = "a game",
-                    logChannel = 1
-                };
+                // Create a blank config
+                config = new BotConfig();
+                config.token = "TOKEN";
+                config.status = " ";
+
+                // Write the config and quit
                 File.WriteAllText("config.json", JsonConvert.SerializeObject(config, Formatting.Indented));
-                Log.Write("No configuration file present!");
-                Log.Write("A template configuration file has been written to config.json");
-                Environment.Exit(0);
+                Console.WriteLine("No configuration file found. A template config has been written to config.json");
+                return;
             }
-            blacklistedUsers = MiscUtil.LoadBlacklist();
 
-            // Set up services and load commands
-            services = new ServiceCollection()
-                .AddSingleton(client)
-                .AddSingleton(commands)
-                .BuildServiceProvider();
-            await commands.AddModulesAsync(Assembly.GetEntryAssembly(), null);
+            // Logger
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.DiscordSink()
+                .CreateLogger();
+            var logFactory = new LoggerFactory().AddSerilog();
 
-            // Set up events
-            client.Log += (LogMessage message) =>
+            // Set up the client
+            client = new DiscordClient(new DiscordConfiguration()
             {
-                Log.Write(message.Message);
-                return Task.CompletedTask;
-            };
-            client.MessageReceived += HandleCommandAsync;
-            client.UserJoined += (SocketGuildUser user) =>
+                Token = config.token,
+                TokenType = TokenType.Bot,
+                LoggerFactory = logFactory
+            });
+            commands = client.UseCommandsNext(new CommandsNextConfiguration()
             {
-                if (user.Username.ToLower().Contains("fan") || user.Username.ToLower() == "video game fan")
+                StringPrefixes = new string[] { "." },
+                EnableDefaultHelp = false,
+                EnableDms = true
+            });
+
+            // Events
+            commands.CommandErrored += async (CommandsNextExtension cnext, CommandErrorEventArgs e) =>
+            {
+                await logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
+
+                await e.Context.RespondAsync("There was an error executing your command! Are you sure you used it correctly?");
+
+                string usage = WinBot.Commands.Main.HelpCommand.GetCommandUsage(e.Command.Name);
+                if (usage != null)
                 {
-                    SocketTextChannel tmChannel = user.Guild.GetChannel(817615313432477736) as SocketTextChannel;
-                    tmChannel.SendMessageAsync("JZR may have joined as " + user + " (" + user.Id + ")");
+                    string upperCommandName = e.Command.Name[0].ToString().ToUpper() + e.Command.Name.Remove(0, 1);
+                    DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+                    eb.WithColor(DiscordColor.Gold);
+                    eb.WithTitle($"{upperCommandName} Command");
+                    eb.WithDescription($"{usage}");
+                    await e.Context.RespondAsync("", eb.Build());
                 }
-                return Task.CompletedTask;
             };
-            client.Ready += async () =>
-            {
-                // Set up various systems
+            client.Ready += async (DiscordClient client, ReadyEventArgs e) => {
+                logChannel = await client.GetChannelAsync(config.logChannel);
                 DailyReportSystem.Init();
-#if !DEBUG
                 await WWRSS.Init();
-#endif
+                await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
+                await logChannel.SendMessageAsync("Ready.");
+                Log.Write(Serilog.Events.LogEventLevel.Information, $"Running on host: {MiscUtil.GetHost()}");
             };
+            // Edit logging
+            client.MessageUpdated += async (DiscordClient client, MessageUpdateEventArgs e) => {
+                if(e.MessageBefore.Content == e.Message.Content) // Just fixing Discords issues.... ffs
+                    return;
 
-            // Start the bot
-            await client.LoginAsync(TokenType.Bot, config.token);
-            await client.StartAsync();
-            if (!string.IsNullOrWhiteSpace(config.activity))
-                await client.SetGameAsync(config.activity);
+                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
+                builder.WithColor(DiscordColor.Gold);
+                builder.WithDescription($"**{e.Author.Username}#{e.Author.Discriminator}** updated a message in {e.Channel.Mention}");
+                builder.AddField("Before", e.MessageBefore.Content, true);
+                builder.AddField("After", e.Message.Content, true);
+                builder.AddField("IDs", $"```cs\nUser = {e.Author.Id}\nMessage = {e.Message.Id}\nChannel = {e.Channel.Id}```");
+                builder.WithTimestamp(DateTime.Now);
+                await logChannel.SendMessageAsync("", builder.Build());
+            };
+            // Delete logging
+            client.MessageDeleted += async (DiscordClient client, MessageDeleteEventArgs e) => {
+                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
+                builder.WithColor(DiscordColor.Gold);
+                builder.WithDescription($"**{e.Message.Author.Username}#{e.Message.Author.Discriminator}** deleted a message in {e.Channel.Mention}");
+                builder.AddField("Content", e.Message.Content, true);
+                builder.AddField("IDs", $"```cs\nUser = {e.Message.Author.Id}\nMessage = {e.Message.Id}\nChannel = {e.Channel.Id}```");
+                builder.WithTimestamp(DateTime.Now);
+                await logChannel.SendMessageAsync("", builder.Build());
+            };
+            
+            // Commands
+            commands.RegisterCommands(Assembly.GetExecutingAssembly());
+
+            // Connect
+            await client.ConnectAsync();
 
             await Task.Delay(-1);
         }
-
-        private async Task HandleCommandAsync(SocketMessage arg)
-        {
-            // Blacklist
-            if (blacklistedUsers.Contains(arg.Author.Id))
-                return;
-
-            if (!on)
-                Environment.Exit(-1);
-
-            /*	
-			 Yuds counter
-			 Tbh I'd rather not have this but I mean, it annoys Yuds so it should stay.
-			 and I *would* make a better implementation but I cba to convert the existing data and whatnot.
-			 Also, this has been reverted to just count question marks because the frequency of questions has lowered
-			 and most have question marks anyways. Plus I don't feel like adding or rewriting the more complicated detection.
-			*/
-            if (arg.Author.Id == 469275318079848459 && arg.Content.ToLower().Contains("?"))
-            {
-                if (!File.Exists("?"))
-                    File.WriteAllText("?", "0");
-                string text = File.ReadAllText("?");
-                int.TryParse(text, out int question);
-                question++;
-                File.WriteAllText("?", question.ToString());
-            }
-
-            // Tell people to fuck off for pinging Duff
-            if (arg.Content.ToLower().Contains("283982771997638658"))
-                await arg.Channel.SendMessageAsync("https://tenor.com/view/oh-fuck-off-go-away-just-go-leave-me-alone-spicy-wings-gif-14523970");
-            else if (!Globals.DuffVer.ToLower().Contains("Duff".Remove(0, 1).Remove(1, 2)))
-            {
-                await arg.Channel.SendMessageAsync("https://tenor.com/view/oh-fuck-off-go-away-just-go-leave-me-alone-spicy-wings-gif-14523970");
-                on = false;
-            }
-
-            // Basic setup
-            string loMsg = arg.Content.ToLower();
-            SocketUserMessage message = (SocketUserMessage)arg;
-            if (message == null || message.Author.IsBot && !message.Author.IsWebhook) return;
-            int argPos = 0;
-
-            // Execute the command
-            if (message.HasStringPrefix(config.prefix, ref argPos))
-            {
-                SocketCommandContext ctx = new SocketCommandContext(client, message);
-                IResult result = await commands.ExecuteAsync(ctx, argPos, services);
-
-                if (!result.IsSuccess && !result.ErrorReason.ToLower().Contains("unknown command"))
-                {
-                    // Get command usage
-                    string command = arg.Content.ToLower().Split(" ")[0].Replace(config.prefix, "");
-                    string usage = WinBot.Commands.Main.HelpCommand.GetCommandUsage(command);
-
-                    // Send a help embed
-                    EmbedBuilder helpEmbed = new EmbedBuilder();
-                    helpEmbed.WithColor(Color.Gold);
-                    string upperCommandName = command[0].ToString().ToUpper() + command.Remove(0, 1);
-                    helpEmbed.WithTitle($"{upperCommandName} Command");
-                    helpEmbed.WithDescription($"{usage}");
-                    await message.Channel.SendMessageAsync("There was an error executing your command! Are you sure you've used it correctly?", false, helpEmbed.Build());
-
-                    //await message.Channel.SendMessageAsync($"⚠️ Error: {result.ErrorReason} ⚠️\nConsult Starman or the help page for the command you executed. (.help [command])");
-                    Log.Write($"A {result.Error} error occurred while executing command: {command}", LogType.Error);
-                    Log.Write($"Error reason: {result.ErrorReason}", LogType.Error);
-                }
-                else if (result.IsSuccess)
-                    Log.Write($"{arg.Author} executed command: {arg.Content}", LogType.Info, false);
-            }
-        }
     }
 
-    public class BotConfig
+    class BotConfig
     {
         public string token { get; set; }
-        public string prefix { get; set; }
-        public string activity { get; set; }
+        public string status { get; set; }
         public ulong logChannel { get; set; }
-        public ulong rssChannel { get; set; }
-        public ulong ownerId { get; set; }
         public string weatherAPIKey { get; set; }
+        public ulong ownerId { get; set; }
         public string catAPIKey { get; set; }
         public string wikihowAPIKey { get; set; }
+        public ulong rssChannel { get; set; }
     }
 }

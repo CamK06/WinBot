@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
-using Discord;
-using Discord.WebSocket;
+using DSharpPlus;
+using DSharpPlus.Entities;
+using DSharpPlus.EventArgs;
 
 namespace WinBot.Misc
 {
@@ -33,19 +34,19 @@ namespace WinBot.Misc
 				Directory.CreateDirectory("DailyReports");
 
 			// E v e n t s
-			Bot.client.MessageReceived += (SocketMessage Message) =>
+			Bot.client.MessageCreated += (DiscordClient client, MessageCreateEventArgs e) =>
 			{
 				report.messagesSent++;
-				if (Message.Content.StartsWith(".")) // Inaccurate but oh well.
+				if (e.Message.Content.StartsWith(".")) // Inaccurate but oh well.
 					report.commandsRan++;
 				return Task.CompletedTask;
 			};
-			Bot.client.UserJoined += (SocketGuildUser User) =>
+			Bot.client.GuildMemberAdded += (DiscordClient client, GuildMemberAddEventArgs e) =>
 			{
 				report.usersJoined++;
 				return Task.CompletedTask;
 			};
-			Bot.client.UserLeft += (SocketGuildUser User) =>
+			Bot.client.GuildMemberRemoved += (DiscordClient client, GuildMemberRemoveEventArgs e) =>
 			{
 				report.usersLeft++;
 				return Task.CompletedTask;
@@ -70,15 +71,15 @@ namespace WinBot.Misc
 			File.WriteAllText($"DailyReports/{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day} Report.json", JsonConvert.SerializeObject(report, Formatting.Indented));
 
 			// Create and send the report embed
-			EmbedBuilder eb = new EmbedBuilder();
+			DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
 			eb.WithTitle($"Daily Report For {report.dayOfReport.ToString("dddd, dd, MMMM, yyyy")}");
 			eb.WithTimestamp(report.dayOfReport);
-			eb.WithColor(Color.Gold);
-			eb.AddField("Messages Sent", report.messagesSent, true);
-			eb.AddField("Commands Ran", report.commandsRan, true);
-			eb.AddField("Users Joined", report.usersJoined, true);
-			eb.AddField("Users Left", report.usersLeft, true);
-			await ((SocketTextChannel)Bot.client.GetChannel(Bot.config.logChannel)).SendMessageAsync("", false, eb.Build());
+			eb.WithColor(DiscordColor.Gold);
+			eb.AddField("Messages Sent", report.messagesSent.ToString(), true);
+			eb.AddField("Commands Ran", report.commandsRan.ToString(), true);
+			eb.AddField("Users Joined", report.usersJoined.ToString(), true);
+			eb.AddField("Users Left", report.usersLeft.ToString(), true);
+			await Bot.client.GetChannelAsync(Bot.config.logChannel).Result.SendMessageAsync("", eb.Build());
 
 			// Reset the report
 			report = new DailyReport()

@@ -1,19 +1,22 @@
 using System.Net;
 using System.Threading.Tasks;
 
-using Newtonsoft.Json;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 
-using Discord;
-using Discord.Commands;
+using WinBot.Commands.Attributes;
+
+using Newtonsoft.Json;
 
 namespace WinBot.Commands.Fun
 {
-    public class RoryCommand : ModuleBase<SocketCommandContext>
+    public class RoryCommand : BaseCommandModule
     {
         [Command("rory")]
-        [Summary("Gets a random picture of Rory!|")]
-        [Priority(Category.Fun)]
-        public async Task Rory()
+        [Description("Gets a random picture of rory")]
+        [Category(Category.Fun)]
+        public async Task Rory(CommandContext Context)
         {
             string json = "";
             // Grab the json string from the API
@@ -22,12 +25,12 @@ namespace WinBot.Commands.Fun
             dynamic output = JsonConvert.DeserializeObject(json); // Deserialize the string into a dynamic object
 
             // Send the image in an embed
-			EmbedBuilder eb = new EmbedBuilder();
+			DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
 			eb.WithTitle("Rory");
-			eb.WithColor(Color.Gold);
+			eb.WithColor(DiscordColor.Gold);
 			eb.WithFooter($"Rory ID: {output.id}");
 			eb.WithImageUrl((string)output.url);
-			await ReplyAsync("", false, eb.Build());
+			await Context.RespondAsync("", eb.Build());
         }
     }
 }

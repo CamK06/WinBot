@@ -1,19 +1,22 @@
 using System.Net;
 using System.Threading.Tasks;
 
-using Newtonsoft.Json;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 
-using Discord;
-using Discord.Commands;
+using WinBot.Commands.Attributes;
+
+using Newtonsoft.Json;
 
 namespace WinBot.Commands.Main
 {
-    public class MinecraftInfoCommand : ModuleBase<SocketCommandContext>
+    public class McInfoCommand : BaseCommandModule
     {
         [Command("mcinfo")]
-        [Summary("Gets information on the Minecraft server (WinWorldMC)|")]
-        [Priority(Category.Main)]
-        public async Task MCInfo()
+        [Description("Gets information on the Minecraft server (WinWorldMC)")]
+        [Category(Category.Main)]
+        public async Task McInfo(CommandContext Context)
         {
             await Context.Channel.TriggerTypingAsync();
             
@@ -24,12 +27,12 @@ namespace WinBot.Commands.Main
             dynamic serverInfo = JsonConvert.DeserializeObject(json);
 
             // Format the info in an embed
-            EmbedBuilder eb = new EmbedBuilder();
-            eb.WithColor(Color.Gold);
+            DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+            eb.WithColor(DiscordColor.Gold);
             
 			// Set up the embed
             if((bool)serverInfo.online) {
-                eb.WithThumbnailUrl(Context.Guild.IconUrl);
+                eb.WithThumbnail(Context.Guild.IconUrl);
                 eb.WithTitle((string)serverInfo.motd.clean[0]);
                 eb.AddField("IP", "mc.winworldpc.com:48666", true);
                 eb.AddField("Versions", "1.5.2 -> 1.16.5", true);
@@ -42,10 +45,10 @@ namespace WinBot.Commands.Main
             }
             else {
                 eb.WithTitle("Server is Offline!");
-                eb.WithColor(Color.Red);
+                eb.WithColor(DiscordColor.Red);
             }
 
-            await ReplyAsync("", false, eb.Build());
+            await Context.RespondAsync("", eb.Build());
         }
     }
 }

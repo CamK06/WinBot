@@ -1,20 +1,24 @@
-
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
-using Newtonsoft.Json;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Attributes;
+using DSharpPlus.Entities;
 
-using Discord;
-using Discord.Commands;
+using WinBot.Util;
+using WinBot.Commands.Attributes;
+
+using Newtonsoft.Json;
 
 namespace WinBot.Commands.Fun
 {
-    public class CatCommand : ModuleBase<SocketCommandContext>
+    public class CatCommand : BaseCommandModule
     {
         [Command("cat")]
-        [Summary("Sends a random cat photo|")]
-        [Priority(Category.Fun)]
-        public async Task Cat()
+        [Description("Gets a random cat photo")]
+        [Category(Category.Fun)]
+        public async Task Cat(CommandContext Context)
         {
             string json = "";
             // Download the json string from the API
@@ -23,12 +27,12 @@ namespace WinBot.Commands.Fun
             dynamic output = JsonConvert.DeserializeObject(json); // Deserialize the string into a dynamic object
 
             // Create and send the embed
-            var eb = new EmbedBuilder();
-            eb.WithColor(Color.Gold);
+            var eb = new DiscordEmbedBuilder();
+            eb.WithColor(DiscordColor.Gold);
             eb.WithTitle("Here's Your Random Cat!");
             eb.WithImageUrl((string)output[0].url);
-            eb.WithCurrentTimestamp();
-            await ReplyAsync("", false, eb.Build());
+            eb.WithTimestamp(DateTime.Now);
+            await Context.RespondAsync("", eb.Build());
             await Task.Delay(1);
         }
     }

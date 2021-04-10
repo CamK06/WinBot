@@ -32,10 +32,16 @@ namespace WinBot.Util
         {
             return dt.ToString("dddd, dd MMMM yyyy");
         }
-	}
 
-	public class Globals
-	{
-		public static string DuffVer = Environment.OSVersion.ToString();
+		// For use in about command
+		public static string GetHost()
+		{
+			if(Environment.OSVersion.ToString().ToLower().Contains("unix")) // Run uname if we're on a UNIX system
+				return "uname -sr".Bash();
+			else if(Environment.OSVersion.ToString().ToLower().Contains("windows")) // Run systeminfo if we're on a Windows system
+				return "systeminfo".Bash();
+			else // Otherwise we're on some really fucked up shit
+				return null;
+		}
 	}
 }
