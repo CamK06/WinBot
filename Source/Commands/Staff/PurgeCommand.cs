@@ -33,6 +33,11 @@ namespace WinBot.Commands.Staff
             builder.WithColor(DiscordColor.Gold);
             builder.AddField("IDs", $"```cs\nMod = {Context.User.Id}\nChannel = {Context.Channel.Id}```");
             await Bot.logChannel.SendMessageAsync("", builder.Build());
+
+            // Purged message
+            DiscordMessage msg = await Context.RespondAsync($"{count} messages purged. This message will be deleted in 3 seconds.");
+            await Task.Delay(3000);
+            await msg.DeleteAsync();
         }
     }
 }
