@@ -132,7 +132,7 @@ namespace WinBot
             client.MessageDeleted += async (DiscordClient client, MessageDeleteEventArgs e) => {
                 DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
                 builder.WithColor(DiscordColor.Gold);
-                builder.WithDescription($"**{e.Message.Author.Username}#{e.Message.Author.Discriminator}** deleted a message in {e.Channel.Mention}");
+                builder.WithDescription($"**{e.Message.Author.Username}#{e.Message.Author.Discriminator}**'s message in {e.Channel.Mention} was deleted");
                 builder.AddField("Content", e.Message.Content, true);
                 builder.AddField("IDs", $"```cs\nUser = {e.Message.Author.Id}\nMessage = {e.Message.Id}\nChannel = {e.Channel.Id}```");
                 builder.WithTimestamp(DateTime.Now);
