@@ -28,7 +28,7 @@ namespace WinBot.Commands.Staff
 
             // Logging
             DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
-            builder.WithDescription($"**{Context.User.Username}#{Context.User.Discriminator}** purged {count+1} messages in {Context.Channel.Mention}");
+            builder.WithDescription($"**{Context.User.Username}#{Context.User.Discriminator}** purged {count} messages in {Context.Channel.Mention}");
             builder.WithTimestamp(DateTime.Now);
             builder.WithColor(DiscordColor.Gold);
             builder.AddField("IDs", $"```cs\nMod = {Context.User.Id}\nChannel = {Context.Channel.Id}```");
