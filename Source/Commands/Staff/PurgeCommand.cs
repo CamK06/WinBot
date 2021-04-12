@@ -31,7 +31,7 @@ namespace WinBot.Commands.Staff
             builder.WithDescription($"**{Context.User.Username}#{Context.User.Discriminator}** purged {count+1} messages in {Context.Channel.Mention}");
             builder.WithTimestamp(DateTime.Now);
             builder.WithColor(DiscordColor.Gold);
-            builder.AddField("IDs", $"Mod = {Context.User.Id}\nChannel = {Context.Channel.Id}");
+            builder.AddField("IDs", $"```cs\nMod = {Context.User.Id}\nChannel = {Context.Channel.Id}```");
             await Bot.logChannel.SendMessageAsync("", builder.Build());
         }
     }
