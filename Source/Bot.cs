@@ -121,7 +121,7 @@ namespace WinBot
 
                 DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
                 builder.WithColor(DiscordColor.Gold);
-                builder.WithDescription($"**{e.Author.Username}#{e.Author.Discriminator}** updated a message in {e.Channel.Mention}");
+                builder.WithDescription($"**{e.Author.Username}#{e.Author.Discriminator}** updated a message in {e.Channel.Mention} \n" + Formatter.MaskedUrl("Jump to message!", e.Message.JumpLink));
                 builder.AddField("Before", e.MessageBefore.Content, true);
                 builder.AddField("After", e.Message.Content, true);
                 builder.AddField("IDs", $"```cs\nUser = {e.Author.Id}\nMessage = {e.Message.Id}\nChannel = {e.Channel.Id}```");
