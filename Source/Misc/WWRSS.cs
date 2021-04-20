@@ -58,7 +58,7 @@ namespace WinBot.Misc
                 // Cache the item so it isn't sent in the next fetch
                 sentItems.Add(item.Id);
 
-                await Task.Delay(512);
+                await Task.Delay(1024);
             }
 
             // Save the cache
