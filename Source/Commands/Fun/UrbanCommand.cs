@@ -45,7 +45,7 @@ namespace WinBot.Commands.Fun
 				eb.AddField("Examples", result.Example.Truncate(1024));
 			eb.WithUrl(result.Permalink);
 			eb.WithThumbnail("https://reclaimthenet.org/wp-content/uploads/2020/07/urban-dictionary.png");
-			eb.WithFooter("The information above does not represent the views of WinWorld or Starman, obviously :P");
+			eb.WithFooter($"The information above does not represent the views of {Context.Guild.Name} or {Bot.client.CurrentApplication.Owners.First().Username}, obviously :P");
 
 			await Context.RespondAsync("", eb.Build());
         }
