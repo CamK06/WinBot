@@ -25,7 +25,7 @@ namespace WinBot.Commands.Main
             if (command == null)
             {
                 // List all commands
-                eb.WithTitle("WinBot Commands");
+                eb.WithTitle($"{Bot.client.CurrentUser.Username} Commands");
                 eb.AddField("**Main**", GetCommands(Category.Main), false);
                 eb.AddField("**Fun**", GetCommands(Category.Fun), false);
                 eb.AddField("**Staff**", GetCommands(Category.Staff), false);

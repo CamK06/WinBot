@@ -1,3 +1,4 @@
+#if !TOFU
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -86,3 +87,4 @@ namespace WinBot.Commands.Main
         public string cTotal { get; set; }
     }
 }
+#endif

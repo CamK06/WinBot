@@ -24,4 +24,12 @@
     <PackageReference Include="WikipediaNet" Version="2.0.0" />
   </ItemGroup>
 
+  <PropertyGroup Condition="'$(configuration)'=='TofuDeb'">
+      <DefineConstants>TOFU;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(configuration)'=='TofuRel'">
+    <DefineConstants>TOFU;RELEASE</DefineConstants>
+  </PropertyGroup>
+
+
 </Project>

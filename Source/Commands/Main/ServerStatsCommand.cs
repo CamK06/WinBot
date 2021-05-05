@@ -35,38 +35,73 @@ namespace WinBot.Commands.Main
             }
             reports = reports.OrderByDescending(grp => grp.dayOfReport.DayOfYear).Reverse().ToList();
 
-            // Data parsing
-            double[] messages = new double[reports.Count];
-            double[] commands = new double[reports.Count];
-            //double[] userJoin = new double[reports.Count];
-            //double[] userLeave = new double[reports.Count];
-            for (int i = 0; i < reports.Count; i++)
-            {
-                messages[i] += reports[i].messagesSent;
-                commands[i] += reports[i].commandsRan;
-                //userJoin[i] += reports[i].usersJoined;
-                //userLeave[i] += reports[i].usersLeft;
-            }
+            double[] messages, commands, ys;
+#if TOFU
+            double[] userJoin, userLeave;
+#endif
+            string[] xticks;
 
-            double[] ys = new double[reports.Count];
-            for (int i = 0; i < reports.Count; i++)
+            // Data parsing... this is a huge mess but oh well, I'm lazy and it just works
+            if(reports.Count > 15)
             {
-                ys[i] = reports[i].dayOfReport.ToOADate();
+                messages = new double[15];
+                commands = new double[15];
+                ys = new double[15];
+                xticks = new string[15];
+#if TOFU
+                userJoin = new double[15];
+                userLeave = new double[15];
+#endif
+                for (int i = 0; i < 15; i++)
+                {
+                    ys[i] = i;
+                    xticks[i] = reports[(reports.Count-15)+i].dayOfReport.ToShortDateString();
+                    messages[i] += reports[i].messagesSent;
+                    commands[i] += reports[i].commandsRan;
+#if TOFU
+                    userJoin[i] += reports[i].usersJoined;
+                    userLeave[i] += reports[i].usersLeft;
+#endif
+                }
+            }
+            else
+            {
+                messages = new double[reports.Count];
+                commands = new double[reports.Count];
+                ys = new double[reports.Count];
+                xticks = new string[15];
+#if TOFU
+                userJoin = new double[reports.Count];
+                userLeave = new double[reports.Count];
+#endif
+                for (int i = 0; i < reports.Count; i++)
+                {
+                    ys[i] = i;
+                    xticks[i] = reports[i].dayOfReport.ToShortDateString();
+                    messages[i] += reports[i].messagesSent;
+                    commands[i] += reports[i].commandsRan;
+#if TOFU
+                    userJoin[i] += reports[i].usersJoined;
+                    userLeave[i] += reports[i].usersLeft;
+#endif
+                }
             }
 
             // Plotting
             Plot plt = new Plot(1920, 1080);
             plt.Style(System.Drawing.Color.FromArgb(52, 54, 60), System.Drawing.Color.FromArgb(52, 54, 60), null, System.Drawing.Color.White, System.Drawing.Color.White, System.Drawing.Color.White);
-            //plt.XLabel("Day", null, null, null, 25.5f, false);
+            plt.XLabel("Day", null, null, null, 25.5f, false);
             plt.YLabel("Count", null, null, 25.5f, null, false);
             plt.PlotFillAboveBelow(ys, messages, "Messages", lineWidth: 4, lineColor: System.Drawing.Color.FromArgb(100, 119, 183), fillAlpha: .5, fillColorBelow: System.Drawing.Color.FromArgb(100, 119, 183), fillColorAbove: System.Drawing.Color.FromArgb(100, 119, 183));
             plt.PlotFillAboveBelow(ys, commands, "Command Executions", lineWidth: 4, lineColor: System.Drawing.Color.FromArgb(252, 186, 3), fillAlpha: .5, fillColorBelow: System.Drawing.Color.FromArgb(252, 186, 3), fillColorAbove: System.Drawing.Color.FromArgb(252, 186, 3));
-            //plt.PlotFillAboveBelow(ys, userJoin, "Users Joined", lineWidth: 4, lineColor: System.Drawing.Color.FromArgb(252, 3, 3), fillAlpha: .5, fillColorBelow: System.Drawing.Color.FromArgb(252, 3, 3), fillColorAbove: System.Drawing.Color.FromArgb(252, 3, 3));
-            //plt.PlotFillAboveBelow(ys, userLeave, "Users Left", lineWidth: 4, lineColor: System.Drawing.Color.FromArgb(15, 252, 3), fillAlpha: .5, fillColorBelow: System.Drawing.Color.FromArgb(15, 252, 3), fillColorAbove: System.Drawing.Color.FromArgb(15, 252, 3));
+#if TOFU
+            plt.PlotFillAboveBelow(ys, userJoin, "Users Joined", lineWidth: 4, lineColor: System.Drawing.Color.FromArgb(252, 3, 3), fillAlpha: .5, fillColorBelow: System.Drawing.Color.FromArgb(252, 3, 3), fillColorAbove: System.Drawing.Color.FromArgb(252, 3, 3));
+            plt.PlotFillAboveBelow(ys, userLeave, "Users Left", lineWidth: 4, lineColor: System.Drawing.Color.FromArgb(15, 252, 3), fillAlpha: .5, fillColorBelow: System.Drawing.Color.FromArgb(15, 252, 3), fillColorAbove: System.Drawing.Color.FromArgb(15, 252, 3));
+#endif
             plt.TightenLayout(0, true);
             plt.Layout(xScaleHeight: 128);
             plt.Ticks(dateTimeX: true, xTickRotation: 75);
-            plt.Title("WinWorldPC Statistics", null, null, 45.5f, null, true);
+            plt.Title($"{Context.Guild.Name} Stats", null, null, 45.5f, null, true);
             plt.Grid(xSpacing: 1, xSpacingDateTimeUnit: ScottPlot.Config.DateTimeUnit.Day);
             plt.Legend(true, null, 30, null, null, System.Drawing.Color.FromArgb(100, 52, 54, 60), null, legendLocation.upperRight, shadowDirection.lowerRight, null, null);
 

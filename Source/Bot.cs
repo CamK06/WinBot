@@ -109,7 +109,9 @@ namespace WinBot
             client.Ready += async (DiscordClient client, ReadyEventArgs e) => {
                 logChannel = await client.GetChannelAsync(config.logChannel);
                 DailyReportSystem.Init();
+#if !TOFU
                 await WWRSS.Init();
+#endif
                 await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
                 await logChannel.SendMessageAsync("Ready.");
                 Log.Write(Serilog.Events.LogEventLevel.Information, $"Running on host: {MiscUtil.GetHost()}");
@@ -158,6 +160,8 @@ namespace WinBot
         public ulong ownerId { get; set; }
         public string catAPIKey { get; set; }
         public string wikihowAPIKey { get; set; }
+#if !TOFU
         public ulong rssChannel { get; set; }
+#endif
     }
 }

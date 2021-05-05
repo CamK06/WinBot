@@ -1,3 +1,4 @@
+#if !TOFU
 using System.IO;
 using System.Timers;
 using System.Threading.Tasks;
@@ -65,3 +66,4 @@ namespace WinBot.Misc
         }
     }
 }
+#endif
