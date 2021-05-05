@@ -140,6 +140,11 @@ namespace WinBot
                 builder.WithTimestamp(DateTime.Now);
                 await logChannel.SendMessageAsync("", builder.Build());
             };
+#if TOFU
+            client.GuildMemberAdded += async (DiscordClient client, GuildMemberAddEventArgs e) => {
+                await client.GetChannelAsync(config.welcomeChannel).Result.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Be sure to read the <#774567486069800960> before chatting!");
+            };
+#endif
             
             // Commands
             commands.RegisterCommands(Assembly.GetExecutingAssembly());
@@ -162,6 +167,8 @@ namespace WinBot
         public string wikihowAPIKey { get; set; }
 #if !TOFU
         public ulong rssChannel { get; set; }
+#else
+        public ulong welcomeChannel { get; set; }
 #endif
     }
 }
