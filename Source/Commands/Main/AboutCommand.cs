@@ -25,6 +25,7 @@ namespace WinBot.Commands.Main
             eb.AddField("Version", Bot.VERSION, true);
             eb.AddField("Library", $"DSharpPlus v{Bot.client.VersionString}", true);
             eb.AddField("Host", MiscUtil.GetHost(), true);
+            eb.WithUrl("https://github.com/Starman0620/WinBot");
             eb.WithThumbnail(Bot.client.CurrentUser.AvatarUrl);
             eb.WithColor(DiscordColor.Gold);
 
