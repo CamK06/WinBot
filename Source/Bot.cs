@@ -82,7 +82,8 @@ namespace WinBot
             {
                 Token = config.token,
                 TokenType = TokenType.Bot,
-                LoggerFactory = logFactory
+                LoggerFactory = logFactory,
+                Intents = DiscordIntents.All
             });
             commands = client.UseCommandsNext(new CommandsNextConfiguration()
             {
