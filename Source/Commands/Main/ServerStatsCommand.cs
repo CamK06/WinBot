@@ -26,7 +26,17 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Serverstats(CommandContext Context, [RemainingText]string args = null)
         {
+            DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+			eb.WithTitle($"Daily Report For {DailyReportSystem.report.dayOfReport.ToString("dddd, dd, MMMM, yyyy")}");
+			eb.WithTimestamp(DailyReportSystem.report.dayOfReport);
+			eb.WithColor(DiscordColor.Gold);
+			eb.AddField("Messages Sent", DailyReportSystem.report.messagesSent.ToString(), true);
+			eb.AddField("Commands Ran", DailyReportSystem.report.commandsRan.ToString(), true);
+			eb.AddField("Users Joined", DailyReportSystem.report.usersJoined.ToString(), true);
+			eb.AddField("Users Left", DailyReportSystem.report.usersLeft.ToString(), true);
             await Context.RespondAsync("This command is currently not functioning in WinBot/Tofu V3. I'm not sorry for the inconvenience");
+            await Context.RespondAsync("To make up for it, here's today's current stats:", eb.Build());
+
             return;
             // Report loading
             List<DailyReport> reports = new List<DailyReport>();
