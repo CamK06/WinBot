@@ -26,7 +26,7 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Serverstats(CommandContext Context, [RemainingText]string args = null)
         {
-            await Context.RespondAsync("This command is currently not functioning in WinBot/Tofu V3. Sorry for the inconvenience");
+            await Context.RespondAsync("This command is currently not functioning in WinBot/Tofu V3. I'm not sorry for the inconvenience");
             return;
             // Report loading
             List<DailyReport> reports = new List<DailyReport>();
