@@ -14,7 +14,7 @@ namespace WinBot.Commands.Main
     {
         [Command("remind")]
         [Description("Remind you about something")]
-        [Usage("[Time] [Time Unit (second, minute, hour, day) [Message] (Note that long timespans are likely unreliable due to bot restarts)]")]
+        [Usage("[Time] [Time Unit (seconds/s, minutes/m, hours/h, days/d) [Message] (Note that long timespans are likely unreliable due to bot restarts)]")]
         [Category(Category.Main)]
         public async Task Remind(CommandContext Context, int time, string unit, [RemainingText] string message)
         {
@@ -29,22 +29,22 @@ namespace WinBot.Commands.Main
             switch (unit) // Should really use an if statement here but oh well idc
             {
                 // Second
-                case "second":
+                case "seconds":
                 case "s":
                     t = new Timer(time * 1000);
                     break;
                 // Minute
-                case "minute":
+                case "minutes":
                 case "m":
                     t = new Timer(time * 60000);
                     break;
                 // Hour
-                case "hour":
+                case "hours":
                 case "h":
                     t = new Timer(time * 3600000);
                     break;
                 // Day
-                case "day":
+                case "days":
                 case "d":
                     t = new Timer(time * 432000000);
                     break;
