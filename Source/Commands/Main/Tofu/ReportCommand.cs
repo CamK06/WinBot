@@ -27,7 +27,7 @@ namespace WinBot.Commands.Main.Tofu
             eb.AddField("Issue", issue, true);
             eb.WithTimestamp(DateTime.Now);
             await Bot.staffChannel.SendMessageAsync("", eb.Build());
-            await ((DiscordMember)Context.User).SendMessageAsync("Your report has been sent. Thank you for keeping the Cerro Gordo community safe!");
+            await ((DiscordMember)Context.User).SendMessageAsync("Your report has been sent. Thank you for helping to keep the Cerro Gordo community safe!");
         }
     }
 }
