@@ -19,6 +19,7 @@ namespace WinBot.Commands.Main.Tofu
         [Category(Category.Main)]
         public async Task Report(CommandContext Context, [RemainingText]string issue)
         {
+            await Context.Message.DeleteAsync();
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithTitle("Report");
             eb.WithColor(DiscordColor.Gold);
@@ -26,6 +27,7 @@ namespace WinBot.Commands.Main.Tofu
             eb.AddField("Issue", issue, true);
             eb.WithTimestamp(DateTime.Now);
             await Bot.staffChannel.SendMessageAsync("", eb.Build());
+            await ((DiscordMember)Context.User).SendMessageAsync("Your report has been sent. Thank you for keeping the Cerro Gordo community safe!");
         }
     }
 }
