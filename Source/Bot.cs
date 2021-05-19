@@ -32,6 +32,7 @@ namespace WinBot
         public static DiscordChannel logChannel;
 #if TOFU
         public static DiscordChannel welcomeChannel;
+        public static DiscordChannel staffChannel;
 #endif
         public static List<ulong> blacklistedUsers = new List<ulong>();
 
@@ -114,6 +115,7 @@ namespace WinBot
                 logChannel = await client.GetChannelAsync(config.logChannel);
 #if TOFU
                 welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
+                staffChannel = await client.GetChannelAsync(config.staffChannel);
 #endif
                 DailyReportSystem.Init();
 #if !TOFU
@@ -149,7 +151,7 @@ namespace WinBot
             };
 #if TOFU
             client.GuildMemberAdded += async (DiscordClient client, GuildMemberAddEventArgs e) => {
-                welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Be sure to read the <#774567486069800960> before chatting!");
+                await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Be sure to read the <#774567486069800960> before chatting!");
             };
 #endif
             
@@ -176,6 +178,7 @@ namespace WinBot
         public ulong rssChannel { get; set; }
 #else
         public ulong welcomeChannel { get; set; }
+        public ulong staffChannel { get; set; }
 #endif
     }
 }
