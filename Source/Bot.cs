@@ -97,19 +97,18 @@ namespace WinBot
             commands.CommandErrored += async (CommandsNextExtension cnext, CommandErrorEventArgs e) =>
             {
                 await logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
+                await e.Context.RespondAsync($"There was an error executing your command!\nMessage: `{e.Exception.Message}`");
 
-                await e.Context.RespondAsync("There was an error executing your command! Are you sure you used it correctly?");
-
-                string usage = WinBot.Commands.Main.HelpCommand.GetCommandUsage(e.Command.Name);
-                if (usage != null)
-                {
-                    string upperCommandName = e.Command.Name[0].ToString().ToUpper() + e.Command.Name.Remove(0, 1);
-                    DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-                    eb.WithColor(DiscordColor.Gold);
-                    eb.WithTitle($"{upperCommandName} Command");
-                    eb.WithDescription($"{usage}");
-                    await e.Context.RespondAsync("", eb.Build());
-                }
+                // string usage = WinBot.Commands.Main.HelpCommand.GetCommandUsage(e.Command.Name);
+                // if (usage != null)
+                // {
+                //     string upperCommandName = e.Command.Name[0].ToString().ToUpper() + e.Command.Name.Remove(0, 1);
+                //     DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+                //     eb.WithColor(DiscordColor.Gold);
+                //     eb.WithTitle($"{upperCommandName} Command");
+                //     eb.WithDescription($"{usage}");
+                //     await e.Context.RespondAsync("Are you sure you used it correctly?", eb.Build());
+                // }
             };
             client.Ready += async (DiscordClient client, ReadyEventArgs e) => {
                 logChannel = await client.GetChannelAsync(config.logChannel);

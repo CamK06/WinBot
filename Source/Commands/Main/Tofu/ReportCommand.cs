@@ -19,6 +19,10 @@ namespace WinBot.Commands.Main.Tofu
         [Category(Category.Main)]
         public async Task Report(CommandContext Context, [RemainingText]string issue)
         {
+            if(string.IsNullOrWhiteSpace(issue)) {
+                throw new Exception("You must provide an issue!");
+            }
+
             await Context.Message.DeleteAsync();
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithTitle("Report");

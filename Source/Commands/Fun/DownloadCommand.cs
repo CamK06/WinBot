@@ -23,6 +23,10 @@ namespace WinBot.Commands.Fun
         [Category(Category.Fun)]
         public async Task Dl(CommandContext Context, string verb, [RemainingText] string noun)
         {
+            if(string.IsNullOrWhiteSpace(verb) || string.IsNullOrWhiteSpace(noun)) {
+                throw new Exception("You must provide both a verb and a noun!");
+            }
+
             if (verb.ToLower() == "rick" && noun.ToLower().Contains("roll") || verb.ToLower().Contains("rick") && verb.ToLower().Contains("roll"))
             {
                 await new DiscordMessageBuilder()

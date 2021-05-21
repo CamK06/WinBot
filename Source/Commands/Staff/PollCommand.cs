@@ -19,15 +19,21 @@ namespace WinBot.Commands.Main
         [RequireUserPermissions(DSharpPlus.Permissions.KickMembers)]
         public async Task Poll(CommandContext Context, string title, [RemainingText]string optionString) 
         {
+            // Null checks
+            if(string.IsNullOrWhiteSpace(title)) {
+                throw new Exception("You must provide a title!");
+            }
+            if(string.IsNullOrWhiteSpace(optionString)) {
+                throw new Exception("You must provide options!");
+            }
+
             // Parse/verify options
             string[] options = optionString.Split(" ");
             if(options.Length < 2) {
-                await Context.RespondAsync("You must provide *at least* two options.");
-                return;
+                throw new Exception("You must provide *at least* two options.");
             }
             else if(options.Length > 10) {
-                await Context.RespondAsync("You cannot have more than 10 options!");
-                return;
+                throw new Exception("You cannot have more than 10 options!");
             }
             for(int i = 0; i < options.Length; i++) {
                 options[i] = $"{optionEmotes[i]} {options[i]}";

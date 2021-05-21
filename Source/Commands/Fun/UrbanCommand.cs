@@ -21,6 +21,10 @@ namespace WinBot.Commands.Fun
         [Category(Category.Fun)]
         public async Task Urban(CommandContext Context, [RemainingText]string query)
         {
+			if(string.IsNullOrWhiteSpace(query)) {
+				throw new Exception("You must provide a search query!");
+			}
+
             // Get the definition
 			UrbanDictionaryApi api = new UrbanDictionaryApi();
 			var definition = await api.SearchTermAsync(query);

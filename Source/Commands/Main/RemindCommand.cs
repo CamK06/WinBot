@@ -21,10 +21,8 @@ namespace WinBot.Commands.Main
             Timer t;
 
             // Filter bad values
-            if (time <= 0)
-            {
-                await Context.RespondAsync("Timer length must be greater than 0!");
-                return;
+            if (time <= 0) {
+                throw new Exception("Timer length must be greater than 0!");
             }
             switch (unit) // Should really use an if statement here but oh well idc
             {

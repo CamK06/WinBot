@@ -19,6 +19,10 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Wiki(CommandContext Context, [RemainingText] string query)
         {
+            if(string.IsNullOrWhiteSpace(query)) {
+                throw new System.Exception("You must provide a search query!");
+            }
+
             Wikipedia wiki = new Wikipedia();
             wiki.Limit = 1;
             QueryResult results = wiki.Search(query);
