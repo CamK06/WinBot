@@ -32,6 +32,8 @@ namespace WinBot.Misc
             };
             t.AutoReset = true;
             t.Start();
+
+            Log.Write(Serilog.Events.LogEventLevel.Information, "User data system initialized");
         }
 
         public User GetOrCreateUser(DiscordUser user)

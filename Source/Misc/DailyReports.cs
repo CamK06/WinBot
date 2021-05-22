@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Timers;
 using System.Threading.Tasks;
 
@@ -9,6 +8,8 @@ using Newtonsoft.Json;
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+
+using Serilog;
 
 namespace WinBot.Misc
 {
@@ -63,6 +64,8 @@ namespace WinBot.Misc
 			t2.AutoReset = true;
 			t2.Elapsed += (object sender, ElapsedEventArgs e) => { CreateBackup(); };
 			t2.Start();
+
+			Log.Write(Serilog.Events.LogEventLevel.Information, "Daily report service started");
 		}
 
 		private async static void SendReport()

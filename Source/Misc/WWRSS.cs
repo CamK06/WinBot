@@ -4,13 +4,13 @@ using System.Timers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-using DSharpPlus;
 using DSharpPlus.Entities;
-using DSharpPlus.EventArgs;
 
 using CodeHollow.FeedReader;
 
 using Newtonsoft.Json;
+
+using Serilog;
 
 namespace WinBot.Misc
 {
@@ -34,6 +34,8 @@ namespace WinBot.Misc
 
             // Do an initial fetch of items
             await FetchItems();
+
+            Log.Write(Serilog.Events.LogEventLevel.Information, "WinWorld RSS service started");
         }
 
         public static async Task FetchItems()
