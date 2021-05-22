@@ -13,9 +13,9 @@ namespace WinBot.Commands.Main
         [Command("rank")]
         [Description("Get your current level")]
         [Category(Category.Main)]
-        public async Task Ping(CommandContext Context)
+        public async Task Rank(CommandContext Context)
         {
-            await Context.RespondAsync($"You are currently at level {UserData.GetOrCreateUser(Context.User).level} with {UserData.GetOrCreateUser(Context.User).xp}/{((UserData.GetOrCreateUser(Context.User).level+1)*5)*40} to get to level {UserData.GetOrCreateUser(Context.User).level}");
+            await Context.RespondAsync($"You are currently at level {UserData.GetOrCreateUser(Context.User).level} with {UserData.GetOrCreateUser(Context.User).xp}/{((UserData.GetOrCreateUser(Context.User).level+1)*5)*40}XP to get to level {UserData.GetOrCreateUser(Context.User).level+1}");
         }
     }
 }

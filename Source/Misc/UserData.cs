@@ -57,6 +57,9 @@ namespace WinBot.Misc
     {
         public ulong id { get; set; }
         public string username { get; set; }
+
+        // Leveling
+        public bool levelMessages { get; set; } = true;
         public float xp { get; set; } = 0;
         public int level { get; set; } = 1;
     }
