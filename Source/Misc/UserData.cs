@@ -61,6 +61,7 @@ namespace WinBot.Misc
         // Leveling
         public bool levelMessages { get; set; } = true;
         public float xp { get; set; } = 0;
+        public float totalxp { get; set; } = 0;
         public int level { get; set; } = 1;
     }
 }

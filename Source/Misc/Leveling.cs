@@ -27,7 +27,9 @@ namespace WinBot.Misc
                 lastMessages[e.Author.Id] = DateTime.Now;
 
                 User user = UserData.GetOrCreateUser(e.Author);
-                user.xp += new Random().Next(15, 25);
+                int inc = new Random().Next(15, 25);
+                user.xp += inc;
+                user.totalxp += inc;
                 // Level up
                 if(user.xp >= ((user.level+1)*5)*40) {
                     user.level++;
