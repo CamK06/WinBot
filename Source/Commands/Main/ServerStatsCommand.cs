@@ -39,6 +39,7 @@ namespace WinBot.Commands.Main
 
             return;
             // Report loading
+            /*
             List<DailyReport> reports = new List<DailyReport>();
             foreach (string file in Directory.GetFiles("DailyReports"))
             {
@@ -135,7 +136,7 @@ namespace WinBot.Commands.Main
             }
 
             chad.Save("stats.png");
-            await new DiscordMessageBuilder().WithFile("stats.png").SendAsync(Context.Channel);
+            await new DiscordMessageBuilder().WithFile("stats.png").SendAsync(Context.Channel);*/
         }
 
         static Point[] graphPos = new Point[] {
