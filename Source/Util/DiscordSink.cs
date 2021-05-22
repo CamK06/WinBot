@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Timers;
 
 using Serilog;
 using Serilog.Core;
@@ -10,11 +11,23 @@ namespace WinBot.Util
 {
     public class DiscordSink : ILogEventSink
     {
+        private string logBuffer = "";
+
         private readonly IFormatProvider _formatProvider;
 
         public DiscordSink(IFormatProvider formatProvider)
         {
             _formatProvider = formatProvider;
+
+            Timer t = new Timer(5000);
+            t.AutoReset = true;
+            t.Elapsed += async (s, e) => {
+                if(!string.IsNullOrWhiteSpace(logBuffer)) {
+                    await Bot.logChannel.SendMessageAsync(logBuffer);
+                    logBuffer = "";
+                }
+            };
+            t.Start();
         }
 
         public void Emit(LogEvent logEvent)
@@ -26,8 +39,8 @@ namespace WinBot.Util
             Console.WriteLine(finalMessage);
             File.AppendAllText($"Logs/{DateTime.Now.ToShortDateString().Replace("/", "-")}.log", finalMessage + "\n");
 
-            // Send the message to Discord
-            Bot.logChannel.SendMessageAsync(finalMessage);
+            // Store the log in the Discord buffer
+            logBuffer += finalMessage + "\n";
         }
     }
 
