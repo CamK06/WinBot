@@ -117,10 +117,11 @@ namespace WinBot
                 staffChannel = await client.GetChannelAsync(config.staffChannel);
 #endif
                 DailyReportSystem.Init();
+                UserData.Init();
+                await Leveling.Init();
 #if !TOFU
                 await WWRSS.Init();
 #endif
-                UserData.Init();
                 await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
                 await logChannel.SendMessageAsync("Ready.");
                 Log.Write(Serilog.Events.LogEventLevel.Information, $"Running on host: {MiscUtil.GetHost()}");

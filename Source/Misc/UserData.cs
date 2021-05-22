@@ -36,7 +36,7 @@ namespace WinBot.Misc
             Log.Write(Serilog.Events.LogEventLevel.Information, "User data system initialized");
         }
 
-        public User GetOrCreateUser(DiscordUser user)
+        public static User GetOrCreateUser(DiscordUser user)
         {
             // This probably could and should be improved but oh well, it works.
             if(users.FirstOrDefault(x => x.id == user.Id) != null) {
