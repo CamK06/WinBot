@@ -15,7 +15,7 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Ping(CommandContext Context)
         {
-            await Context.RespondAsync($"You are currently at level {UserData.GetOrCreateUser(Context.User).level} with {UserData.GetOrCreateUser(Context.User).xp}/{((UserData.GetOrCreateUser(Context.User).level+1)*5)*50} to get to level {UserData.GetOrCreateUser(Context.User).level}");
+            await Context.RespondAsync($"You are currently at level {UserData.GetOrCreateUser(Context.User).level} with {UserData.GetOrCreateUser(Context.User).xp}/{((UserData.GetOrCreateUser(Context.User).level+1)*5)*40} to get to level {UserData.GetOrCreateUser(Context.User).level}");
         }
     }
 }

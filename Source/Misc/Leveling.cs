@@ -29,7 +29,7 @@ namespace WinBot.Misc
                 User user = UserData.GetOrCreateUser(e.Author);
                 user.xp += new Random().Next(15, 25);
                 // Level up
-                if(user.xp >= ((user.level+1)*5)*50) {
+                if(user.xp >= ((user.level+1)*5)*40) {
                     user.level++;
                     user.xp = 0;
                 }
