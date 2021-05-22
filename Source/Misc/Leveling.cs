@@ -21,6 +21,9 @@ namespace WinBot.Misc
 
         private static async Task MessageCreated(DiscordClient sender, MessageCreateEventArgs e)
         {
+            if(e.Author.IsBot)
+                return;
+
             // NOTE: This has the minor bug where if a user sends a message during one hour and sends the next message one hour later during the same minute
             // it will not add XP. This isn't really game-breaking so to speak though, so I don't think it's worth doing either an hour check or getting time between the DateTimes
             if((lastMessages.ContainsKey(e.Author.Id) && lastMessages[e.Author.Id].Minute != DateTime.Now.Minute) || !lastMessages.ContainsKey(e.Author.Id)) {
