@@ -13,7 +13,7 @@ namespace WinBot.Misc
     {
         static Dictionary<ulong, DateTime> lastMessages = new Dictionary<ulong, DateTime>();
 
-        public static async Task Init()
+        public static void Init()
         {
             Bot.client.MessageCreated += MessageCreated;
             Log.Write(Serilog.Events.LogEventLevel.Information, "Leveling service started");

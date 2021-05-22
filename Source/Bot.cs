@@ -116,15 +116,15 @@ namespace WinBot
                 welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
                 staffChannel = await client.GetChannelAsync(config.staffChannel);
 #endif
-                DailyReportSystem.Init();
                 UserData.Init();
-                await Leveling.Init();
+                DailyReportSystem.Init();
+                Leveling.Init();
 #if !TOFU
                 await WWRSS.Init();
 #endif
                 await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
-                await logChannel.SendMessageAsync("Ready.");
-                Log.Write(Serilog.Events.LogEventLevel.Information, $"Running on host: {MiscUtil.GetHost()}");
+                Log.Write(Serilog.Events.LogEventLevel.Information, $"Running on host: {MiscUtil.GetHost().Replace('\n', ' ')}");
+                Log.Write(Serilog.Events.LogEventLevel.Information, "Ready");
             };
             // Edit logging
             client.MessageUpdated += async (DiscordClient client, MessageUpdateEventArgs e) => {

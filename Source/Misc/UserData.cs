@@ -18,8 +18,9 @@ namespace WinBot.Misc
         public static void Init()
         {
             // Load/create data
-            if(File.Exists("userdata.json"))
+            if(File.Exists("userdata.json")) {
                 users = JsonConvert.DeserializeObject<List<User>>(File.ReadAllText("userdata.json"));
+            }
             else {
                 users = new List<User>();
                 File.WriteAllText("userdata.json", JsonConvert.SerializeObject(users, Formatting.Indented));
@@ -45,7 +46,7 @@ namespace WinBot.Misc
             
             // Possible trouble point; adding to a list but returning original valie
             // Remove these comments if no issues arise
-            User newUser = new User(user);
+            User newUser = new User() { id = user.Id, username = user.Username };
             users.Add(newUser);
             Log.Write(Serilog.Events.LogEventLevel.Information, $"Created data entry for user: {user.Username}#{user.Discriminator} ({user.Id})");
             return newUser;
@@ -54,16 +55,9 @@ namespace WinBot.Misc
 
     public class User
     {
-        public User(DiscordUser user) {
-            this.id = user.Id;
-            this.username = user.Username;
-            this.xp = 0;
-            this.level = 1;
-        }
-
         public ulong id { get; set; }
         public string username { get; set; }
-        public float xp { get; set; }
-        public int level { get; set; }
+        public float xp { get; set; } = 0;
+        public int level { get; set; } = 1;
     }
 }
