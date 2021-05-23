@@ -44,7 +44,7 @@ namespace WinBot.Misc
                 return users.FirstOrDefault(x => x.id == user.Id);
             }
             
-            // Possible trouble point; adding to a list but returning original valie
+            // Possible trouble point; adding to a list but returning original value
             // Remove these comments if no issues arise
             User newUser = new User() { id = user.Id, username = user.Username };
             users.Add(newUser);
@@ -59,7 +59,11 @@ namespace WinBot.Misc
         public string username { get; set; }
 
         // Leveling
+#if TOFU
         public bool levelMessages { get; set; } = true;
+#else
+        public bool levelMessages { get; set; } = false;
+#endif
         public float xp { get; set; } = 0;
         public float totalxp { get; set; } = 0;
         public int level { get; set; } = 1;
