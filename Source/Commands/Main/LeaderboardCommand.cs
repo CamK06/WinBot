@@ -24,15 +24,18 @@ namespace WinBot.Commands.Main
             // Generate an embed description
             string description = "";
             int userCounter = 0;
+            bool hasDisplayedCurrentUser = false;
             foreach(User lbUser in leaderboard) {
                 if(userCounter < 10) {
                     description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({lbUser.totalxp} Total XP)\n";
+                    if(lbUser.id == Context.User.Id)
+                        hasDisplayedCurrentUser = true;
                 }
                 else if(lbUser.id == Context.User.Id) {
                     description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({lbUser.totalxp} Total XP)\n";
                     if(userCounter != 10) description += "...";
                 }
-                else if(userCounter == 10) {
+                else if(userCounter == 10 && !hasDisplayedCurrentUser) {
                     description += "...\n";
                 }
                 userCounter++;
