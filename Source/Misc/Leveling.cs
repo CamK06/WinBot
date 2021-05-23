@@ -47,7 +47,7 @@ namespace WinBot.Misc
         // Just an abstraction to linq because nobody likes doing linq stuff over and over
         public static List<User> GetOrderedLeaderboard()
         {
-            return UserData.users.OrderByDescending(x => x.xp).ToList();
+            return UserData.users.OrderByDescending(x => x.totalxp).ToList();
         }
     }
 }
