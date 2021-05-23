@@ -22,7 +22,7 @@ namespace WinBot
 {
     class Bot
     {
-        public const string VERSION = "3.3 INDEV";
+        public const string VERSION = "3.3";
 
         static void Main(string[] args) => new Bot().RunBot().GetAwaiter().GetResult();
 
