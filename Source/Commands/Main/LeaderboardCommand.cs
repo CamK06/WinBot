@@ -28,6 +28,13 @@ namespace WinBot.Commands.Main
                 if(userCounter < 10) {
                     description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({lbUser.totalxp} Total XP)\n";
                 }
+                else if(lbUser.id == Context.User.Id) {
+                    description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({lbUser.totalxp} Total XP)\n";
+                    if(userCounter != 10) description += "...";
+                }
+                else if(userCounter == 10) {
+                    description += "...\n";
+                }
                 userCounter++;
             }
 
