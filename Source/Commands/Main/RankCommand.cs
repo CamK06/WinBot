@@ -10,6 +10,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using WinBot.Commands.Attributes;
 using WinBot.Misc;
 using WinBot.Util;
+using System.Text.RegularExpressions;
 
 namespace WinBot.Commands.Main
 {
@@ -41,7 +42,7 @@ namespace WinBot.Commands.Main
             Font robotoSmall = new Font(fonts.Families[0].Name, 35, FontStyle.Regular, GraphicsUnit.Pixel);
 
             // Calculate offsets
-            SizeF usernameSize = MiscUtil.MeasureString(dUser.Username, roboto);
+            SizeF usernameSize = MiscUtil.MeasureString(Regex.Replace(dUser.Username, @"\p{Cs}", ""), roboto);
             SizeF levelSize = MiscUtil.MeasureString("LEVEL", robotoSmall);
             SizeF levelNumSize = MiscUtil.MeasureString($"{user.level}", roboto);
             SizeF xpSize = MiscUtil.MeasureString($"{MiscUtil.FormatNumber((int)user.xp)}/{MiscUtil.FormatNumber((int)neededXP)}", robotoSmall);
@@ -67,7 +68,7 @@ namespace WinBot.Commands.Main
 
             // Strings
             brush.Color = Color.White;
-            img.DrawString(dUser.Username, roboto, brush, new PointF(292, 140));
+            img.DrawString(Regex.Replace(dUser.Username, @"\p{Cs}", ""), roboto, brush, new PointF(292, 140));
             img.DrawString($"{MiscUtil.FormatNumber((int)user.xp)}/{MiscUtil.FormatNumber((int)neededXP)}", robotoSmall, brush, new Point(600-((int)xpSize.Width/2), 205));
             brush.Color = MiscUtil.GetAverageColor(avatar);
             img.DrawString($"LEVEL", robotoSmall, brush, new Point(908-(int)levelNumSize.Width-6-(int)levelSize.Width, 26));
