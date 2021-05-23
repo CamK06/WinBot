@@ -33,10 +33,12 @@ namespace WinBot.Commands.Main
             Bitmap avatar = new Bitmap(Image.FromFile("avatar.jpg"), new Size(230, 230));
 
             // Set up text drawing
+            PrivateFontCollection fonts = new PrivateFontCollection();
+            fonts.AddFontFile("Roboto-Regular.ttf");
             SolidBrush brush = new SolidBrush(Color.White);
             StringFormat drawForm = new StringFormat();
-            Font roboto = new Font(FontFamily.GenericSerif, 50, FontStyle.Regular, GraphicsUnit.Pixel);
-            Font robotoSmall = new Font(FontFamily.GenericSerif, 35, FontStyle.Regular, GraphicsUnit.Pixel);
+            Font roboto = new Font(fonts.Families[0].Name, 50, FontStyle.Regular, GraphicsUnit.Pixel);
+            Font robotoSmall = new Font(fonts.Families[0].Name, 35, FontStyle.Regular, GraphicsUnit.Pixel);
 
             // Calculate offsets
             SizeF usernameSize = MiscUtil.MeasureString(dUser.Username, roboto);
@@ -66,7 +68,7 @@ namespace WinBot.Commands.Main
             // Strings
             brush.Color = Color.White;
             img.DrawString(dUser.Username, roboto, brush, new PointF(292, 140));
-            img.DrawString($"{MiscUtil.FormatNumber((int)user.xp)}/{MiscUtil.FormatNumber((int)neededXP)}", robotoSmall, brush, new Point(600-((int)xpSize.Width/2), 212));
+            img.DrawString($"{MiscUtil.FormatNumber((int)user.xp)}/{MiscUtil.FormatNumber((int)neededXP)}", robotoSmall, brush, new Point(600-((int)xpSize.Width/2), 205));
             brush.Color = MiscUtil.GetAverageColor(avatar);
             img.DrawString($"LEVEL", robotoSmall, brush, new Point(908-(int)levelNumSize.Width-6-(int)levelSize.Width, 26));
             img.DrawString($"{user.level}", roboto, brush, new Point(908-(int)levelNumSize.Width, 16));
