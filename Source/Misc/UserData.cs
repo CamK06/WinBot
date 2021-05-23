@@ -29,12 +29,17 @@ namespace WinBot.Misc
             // Autosave
             Timer t = new Timer(300000);
             t.Elapsed += (e, s) => { 
-                File.WriteAllText("userdata.json", JsonConvert.SerializeObject(users, Formatting.Indented));
+                SaveData();
             };
             t.AutoReset = true;
             t.Start();
 
             Log.Write(Serilog.Events.LogEventLevel.Information, "User data system initialized");
+        }
+
+        public static void SaveData()
+        {
+            File.WriteAllText("userdata.json", JsonConvert.SerializeObject(users, Formatting.Indented));
         }
 
         public static User GetOrCreateUser(DiscordUser user)

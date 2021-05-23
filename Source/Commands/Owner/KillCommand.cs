@@ -24,6 +24,7 @@ namespace WinBot.Commands.Owner
 			await Context.RespondAsync("Shutting down...");
 			await Bot.logChannel.SendMessageAsync("Shutdown triggered by command");
 			DailyReportSystem.CreateBackup();
+            UserData.SaveData();
 			Environment.Exit(0);
         }
     }
