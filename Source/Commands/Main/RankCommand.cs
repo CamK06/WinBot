@@ -24,7 +24,7 @@ namespace WinBot.Commands.Main
                 dUser = Context.User;
 
             // Get info
-            User user = UserData.GetOrCreateUser(Context.User);
+            User user = UserData.GetOrCreateUser(dUser);
             float neededXP = ((user.level+1)*5)*40;
 
             // Fetch the user avater
