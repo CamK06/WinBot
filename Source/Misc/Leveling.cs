@@ -21,7 +21,7 @@ namespace WinBot.Misc
 
         private static async Task MessageCreated(DiscordClient sender, MessageCreateEventArgs e)
         {
-            if(e.Author.IsBot)
+            if(e.Author.IsBot || e.Channel.IsPrivate)
                 return;
 
             // NOTE: This has the minor bug where if a user sends a message during one hour and sends the next message one hour later during the same minute
