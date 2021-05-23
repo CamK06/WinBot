@@ -11,8 +11,6 @@ using WinBot.Commands.Attributes;
 using WinBot.Misc;
 using WinBot.Util;
 
-using Humanizer;
-
 namespace WinBot.Commands.Main
 {
     public class RankCommand : BaseCommandModule
