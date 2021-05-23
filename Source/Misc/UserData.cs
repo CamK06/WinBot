@@ -13,7 +13,7 @@ namespace WinBot.Misc
 {
     public class UserData
     {
-        static List<User> users;
+        public static List<User> users;
 
         public static void Init()
         {

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -41,6 +42,12 @@ namespace WinBot.Misc
                         await e.Guild.GetMemberAsync(user.id).Result.SendMessageAsync($"You've just advanced to level {user.level}!");
                 }
             }
+        }
+
+        // Just an abstraction to linq because nobody likes doing linq stuff over and over
+        public static List<User> GetOrderedLeaderboard()
+        {
+            return UserData.users.OrderByDescending(x => x.level).ToList();
         }
     }
 }
