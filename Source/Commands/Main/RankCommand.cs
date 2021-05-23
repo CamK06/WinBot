@@ -35,10 +35,8 @@ namespace WinBot.Commands.Main
             // Set up text drawing
             SolidBrush brush = new SolidBrush(Color.White);
             StringFormat drawForm = new StringFormat();
-            PrivateFontCollection fonts = new PrivateFontCollection();
-            fonts.AddFontFile("Roboto-Regular.ttf");
-            Font roboto = new Font(fonts.Families[0].Name, 50, FontStyle.Regular, GraphicsUnit.Pixel);
-            Font robotoSmall = new Font(fonts.Families[0].Name, 35, FontStyle.Regular, GraphicsUnit.Pixel);
+            Font roboto = new Font(FontFamily.GenericSansSerif, 50, FontStyle.Regular, GraphicsUnit.Pixel);
+            Font robotoSmall = new Font(FontFamily.GenericSansSerif, 35, FontStyle.Regular, GraphicsUnit.Pixel);
 
             // Calculate offsets
             SizeF usernameSize = MiscUtil.MeasureString(dUser.Username, roboto);
