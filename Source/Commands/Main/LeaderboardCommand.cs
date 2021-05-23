@@ -12,8 +12,7 @@ namespace WinBot.Commands.Main
 {
     public class LeaderboardCommand : BaseCommandModule
     {
-        [Command("leaderboard")]
-        [Aliases(new string[]{ "lb" })]
+        [Command("lb")]
         [Description("Show the server leaderboard")]
         [Category(Category.Main)]
         public async Task Leaderboard(CommandContext Context)
