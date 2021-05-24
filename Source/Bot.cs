@@ -90,7 +90,8 @@ namespace WinBot
             {
                 StringPrefixes = new string[] { "." },
                 EnableDefaultHelp = false,
-                EnableDms = true
+                EnableDms = true,
+                UseDefaultCommandHandler = false
             });
 
             // Events
@@ -150,6 +151,7 @@ namespace WinBot
                 builder.WithTimestamp(DateTime.Now);
                 await logChannel.SendMessageAsync("", builder.Build());
             };
+            client.MessageCreated += CommandHandler;
 #if TOFU
             client.GuildMemberAdded += async (DiscordClient client, GuildMemberAddEventArgs e) => {
                 await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Be sure to read the <#774567486069800960> before chatting!");
@@ -163,6 +165,39 @@ namespace WinBot
             await client.ConnectAsync();
 
             await Task.Delay(-1);
+        }
+
+        private async Task CommandHandler(DiscordClient client, MessageCreateEventArgs e)
+        {
+            DiscordMessage msg = e.Message;
+
+            // Prefix check
+            int start = msg.GetStringPrefixLength(".");
+            if(start == -1) return;
+
+            string prefix = msg.Content.Substring(0, start);
+            string cmdString = msg.Content.Substring(start);
+
+            // Multi-command check and execution
+            if(cmdString.Contains(" && ")) {
+                string[] commands = cmdString.Split(" && ");
+                if(commands.Length > 2) return;
+                for(int i = 0; i < commands.Length; i++) {
+                    await DoCommand(commands[i], prefix, msg);
+                    await Task.Delay(500);
+                }
+                return;
+            }
+
+            // Execute single command
+            await DoCommand(cmdString, prefix, msg);
+        }
+
+        private async Task DoCommand(string commandString, string prefix, DiscordMessage msg) {
+            Command cmd = commands.FindCommand(commandString, out var args);
+            if(cmd == null) return;
+            CommandContext ctx = commands.CreateFakeContext(msg.Author, msg.Channel, commandString, prefix, cmd, args);
+            await commands.ExecuteCommandAsync(ctx);
         }
     }
 
