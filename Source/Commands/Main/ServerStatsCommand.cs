@@ -56,7 +56,7 @@ namespace WinBot.Commands.Main
             for (int i = 0; i < reports.Count; i++)
             {
                 ys[i] = i;
-                xticks[i] = reports[i].dayOfReport.ToShortDateString();
+                xticks[i] = (i+1).ToString();
                 messages[i] += reports[i].messagesSent;
                 commands[i] += reports[i].commandsRan;
 #if TOFU
@@ -76,11 +76,11 @@ namespace WinBot.Commands.Main
             plt.PlotFillAboveBelow(ys, userJoin, "Users Joined", lineWidth: 4, lineColor: System.Drawing.Color.FromArgb(252, 3, 3), fillAlpha: .5, fillColorBelow: System.Drawing.Color.FromArgb(252, 3, 3), fillColorAbove: System.Drawing.Color.FromArgb(252, 3, 3));
             plt.PlotFillAboveBelow(ys, userLeave, "Users Left", lineWidth: 4, lineColor: System.Drawing.Color.FromArgb(15, 252, 3), fillAlpha: .5, fillColorBelow: System.Drawing.Color.FromArgb(15, 252, 3), fillColorAbove: System.Drawing.Color.FromArgb(15, 252, 3));
 #endif
-            plt.TightenLayout(0, true);
+            //plt.TightenLayout(0, true);
             plt.Layout(xScaleHeight: 128);
-            plt.Ticks(dateTimeX: true, xTickRotation: 75);
+            //plt.Ticks(dateTimeX: true, xTickRotation: 75);
             plt.Title($"{Context.Guild.Name} Stats", null, null, 45.5f, null, true);
-            plt.Grid(xSpacing: 1, xSpacingDateTimeUnit: ScottPlot.Config.DateTimeUnit.Day);
+            //plt.Grid(xSpacing: 1, xSpacingDateTimeUnit: ScottPlot.Config.DateTimeUnit.Day);
             plt.Legend(true, null, 30, null, null, System.Drawing.Color.FromArgb(100, 52, 54, 60), null, legendLocation.upperRight, shadowDirection.lowerRight, null, null);
 
             // Save and send
