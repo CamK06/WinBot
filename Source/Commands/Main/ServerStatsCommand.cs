@@ -30,7 +30,10 @@ namespace WinBot.Commands.Main
             List<DailyReport> reports = new List<DailyReport>();
             foreach (string file in Directory.GetFiles("DailyReports"))
             {
-                DailyReport newReport = JsonConvert.DeserializeObject<DailyReport>(File.ReadAllText(file));
+                string json = File.ReadAllText(file).Replace("UsersLeft", "usersLeft").Replace("UsersJoined", "usersJoined")
+                                                    .Replace("CommandsRan", "commandsRan").Replace("MessagesSent", "messagesSent")
+                                                    .Replace("DayOfReport", "dayOfReport");
+                DailyReport newReport = JsonConvert.DeserializeObject<DailyReport>(json);
                 reports.Add(newReport);
             }
             reports = reports.OrderByDescending(grp => grp.dayOfReport.DayOfYear).Reverse().ToList();
