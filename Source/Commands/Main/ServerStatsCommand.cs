@@ -52,7 +52,7 @@ namespace WinBot.Commands.Main
                 userJoin = new double[15];
                 userLeave = new double[15];
 #endif
-                reports.OrderByDescending(x => x.dayOfReport);
+                reports.OrderByDescending(x => x.dayOfReport.Day);
                 for (int i = 0; i < 15; i++)
                 {
                     ys[i] = i;
