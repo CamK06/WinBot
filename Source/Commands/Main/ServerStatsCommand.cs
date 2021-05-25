@@ -52,10 +52,11 @@ namespace WinBot.Commands.Main
                 userJoin = new double[15];
                 userLeave = new double[15];
 #endif
+                reports.OrderByDescending(x => x.dayOfReport);
                 for (int i = 0; i < 15; i++)
                 {
                     ys[i] = i;
-                    xticks[i] = reports[(reports.Count-15)+i].dayOfReport.ToShortDateString();
+                    xticks[i] = reports[i].dayOfReport.ToShortDateString();
                     messages[i] += reports[i].messagesSent;
                     commands[i] += reports[i].commandsRan;
 #if TOFU
