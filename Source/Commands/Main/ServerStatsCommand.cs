@@ -48,7 +48,7 @@ namespace WinBot.Commands.Main
             messages = new double[reports.Count];
             commands = new double[reports.Count];
             ys = new double[reports.Count];
-            xticks = new string[15];
+            xticks = new string[reports.Count];
 #if TOFU
                 userJoin = new double[reports.Count];
                 userLeave = new double[reports.Count];
