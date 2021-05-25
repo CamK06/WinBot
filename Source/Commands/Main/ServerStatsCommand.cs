@@ -24,7 +24,7 @@ namespace WinBot.Commands.Main
         [Command("serverstats")]
         [Description("Show basic statistics about the server")]
         [Category(Category.Main)]
-        public async Task Serverstats(CommandContext Context, [RemainingText]string args = null)
+        public async Task Serverstats(CommandContext Context, [RemainingText] string args = null)
         {
             // Report loading
             List<DailyReport> reports = new List<DailyReport>();
@@ -45,50 +45,24 @@ namespace WinBot.Commands.Main
             string[] xticks;
 
             // Data parsing... this is a huge mess but oh well, I'm lazy and it just works
-            if(reports.Count > 15)
-            {
-                messages = new double[15];
-                commands = new double[15];
-                ys = new double[15];
-                xticks = new string[15];
-#if TOFU
-                userJoin = new double[15];
-                userLeave = new double[15];
-#endif
-                reports.OrderByDescending(x => x.dayOfReport.Day);
-                for (int i = 0; i < 15; i++)
-                {
-                    ys[i] = i;
-                    xticks[i] = reports[i].dayOfReport.ToShortDateString();
-                    messages[i] += reports[i].messagesSent;
-                    commands[i] += reports[i].commandsRan;
-#if TOFU
-                    userJoin[i] += reports[i].usersJoined;
-                    userLeave[i] += reports[i].usersLeft;
-#endif
-                }
-            }
-            else
-            {
-                messages = new double[reports.Count];
-                commands = new double[reports.Count];
-                ys = new double[reports.Count];
-                xticks = new string[15];
+            messages = new double[reports.Count];
+            commands = new double[reports.Count];
+            ys = new double[reports.Count];
+            xticks = new string[15];
 #if TOFU
                 userJoin = new double[reports.Count];
                 userLeave = new double[reports.Count];
 #endif
-                for (int i = 0; i < reports.Count; i++)
-                {
-                    ys[i] = i;
-                    xticks[i] = reports[i].dayOfReport.ToShortDateString();
-                    messages[i] += reports[i].messagesSent;
-                    commands[i] += reports[i].commandsRan;
+            for (int i = 0; i < reports.Count; i++)
+            {
+                ys[i] = i;
+                xticks[i] = reports[i].dayOfReport.ToShortDateString();
+                messages[i] += reports[i].messagesSent;
+                commands[i] += reports[i].commandsRan;
 #if TOFU
                     userJoin[i] += reports[i].usersJoined;
                     userLeave[i] += reports[i].usersLeft;
 #endif
-                }
             }
 
             // Plotting
