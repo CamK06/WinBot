@@ -13,7 +13,7 @@ namespace WinBot.Commands.Main
         [Description("Lemme Google that for you...")]
         [Usage("[query]")]
         [Category(Category.Main)]
-        public async Task LMGTFY(CommandContext Context, [RemainingText]string query)
+        public async Task LMGTFY(CommandContext Context, [RemainingText]string query = null)
         {
             if(query == null)
                 await Context.RespondAsync("https://www.google.com/");
