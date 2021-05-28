@@ -7,14 +7,15 @@ using WinBot.Commands.Attributes;
 
 namespace WinBot.Commands.Main
 {
-    public class PingCommand : BaseCommandModule
+    public class LMGTFYCommand : BaseCommandModule
     {
         [Command("lmgtfy")]
         [Description("Lemme Google that for you...")]
+        [Usage("[query]")]
         [Category(Category.Main)]
-        public async Task Ping(CommandContext Context)
+        public async Task LMGTFY(CommandContext Context, [RemainingText]string query)
         {
-            await Context.RespondAsync("https://www.google.com/");
+            await Context.RespondAsync($"https://www.google.com/search?q={System.Web.HttpUtility.UrlEncode(query)}");
         }
     }
 }
