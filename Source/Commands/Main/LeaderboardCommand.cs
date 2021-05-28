@@ -7,6 +7,7 @@ using DSharpPlus.CommandsNext.Attributes;
 
 using WinBot.Commands.Attributes;
 using WinBot.Misc;
+using WinBot.Util;
 
 namespace WinBot.Commands.Main
 {
@@ -27,12 +28,12 @@ namespace WinBot.Commands.Main
             bool hasDisplayedCurrentUser = false;
             foreach(User lbUser in leaderboard) {
                 if(userCounter < 10) {
-                    description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({lbUser.totalxp} Total XP)\n";
+                    description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({MiscUtil.FormatNumber((int)lbUser.totalxp)} Total XP)\n";
                     if(lbUser.id == Context.User.Id)
                         hasDisplayedCurrentUser = true;
                 }
                 else if(lbUser.id == Context.User.Id) {
-                    description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({lbUser.totalxp} Total XP)\n";
+                    description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({MiscUtil.FormatNumber((int)lbUser.totalxp)} Total XP)\n";
                     if(userCounter != 10) description += "...";
                 }
                 else if(userCounter == 10 && !hasDisplayedCurrentUser) {
