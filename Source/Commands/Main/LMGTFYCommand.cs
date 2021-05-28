@@ -15,6 +15,9 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task LMGTFY(CommandContext Context, [RemainingText]string query)
         {
+            if(query == null)
+                await Context.RespondAsync("https://www.google.com/");
+
             await Context.RespondAsync($"https://www.google.com/search?q={System.Web.HttpUtility.UrlEncode(query)}");
         }
     }
