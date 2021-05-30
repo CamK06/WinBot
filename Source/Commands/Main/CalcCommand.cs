@@ -5,6 +5,8 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using WinBot.Commands.Attributes;
 
+using NCalc;
+
 namespace WinBot.Commands.Main
 {
     public class CalcCommand : BaseCommandModule
@@ -15,8 +17,7 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Calc(CommandContext Context, [RemainingText]string expression)
         {
-            var res = new DataTable().Compute(expression, "");
-            await Context.RespondAsync($"{res}");
+            await Context.RespondAsync($"{new Expression(expression).Evaluate()}");
         }
     }
 }
