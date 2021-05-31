@@ -45,7 +45,7 @@ namespace WinBot.Commands.Main
 
                 // Create the embed
                 DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-                eb.WithTitle("Random Picture");
+                eb.WithTitle("Random Image");
                 eb.WithColor(DiscordColor.Gold);
                 eb.WithImageUrl(randImage.url);
                 eb.WithFooter($"ID: {randImage.id}\nSubmitted by: {randImage.author}\nSubmit your own with the \"img add\" command");
