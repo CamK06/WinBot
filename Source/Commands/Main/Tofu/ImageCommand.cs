@@ -38,7 +38,7 @@ namespace WinBot.Commands.Main
             }
 
             // If we're viewing a random image
-            if(command == null || command.ToLower() != "add" && command.ToLower() != "del") {
+            if(command == null || command.ToLower() != "add" && command.ToLower() != "del" && command.ToLower() != "count") {
                 if(imageUrls.Count == 0)
                     throw new System.Exception("There are no images! Use the image add command to add some.");
                 UserImage randImage = imageUrls[new System.Random().Next(0, imageUrls.Count)];
@@ -93,6 +93,9 @@ idRecalc:
                 imageUrls.Remove(imageUrls.FirstOrDefault(x => x.id == image));
                 File.WriteAllText("randomImages.json", JsonConvert.SerializeObject(imageUrls, Formatting.Indented));
                 await Context.RespondAsync($"Successfully removed `{image}`");
+            }
+            else if(command.ToLower() == "count") {
+                await Context.RespondAsync($"There are {imageUrls.Count} images.");
             }
         }
 
