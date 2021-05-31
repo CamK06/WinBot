@@ -1,7 +1,6 @@
 // Stupid random picture command that'll probably end up having to be removed because of abuse lmfao
 // Just a joke command anyways
 // Thanks Jan.
-#if TOFU
 using System;
 using System.IO;
 using System.Net;
@@ -110,4 +109,3 @@ idRecalc:
         public System.DateTime date;
     }
 }
-#endif
