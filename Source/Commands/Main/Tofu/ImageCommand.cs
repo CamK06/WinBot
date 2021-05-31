@@ -69,6 +69,8 @@ namespace WinBot.Commands.Main
                 if (!client.ResponseHeaders["Content-Type"].Contains("image") || client.ResponseHeaders["Content-Type"].Contains("svg")) {
                     throw new System.Exception("Your file is not a valid image!");
                 }
+                if(imageUrls.FirstOrDefault(x => x.url == newImg) != null)
+                    throw new Exception("That image already exists!");
 
                 // Add the image
 idRecalc:
