@@ -84,7 +84,7 @@ idRecalc:
                     id = id
                 });
                 File.WriteAllText("randomImages.json", JsonConvert.SerializeObject(imageUrls, Formatting.Indented));
-                await Context.RespondAsync($"Successfully added your image");
+                await Context.RespondAsync($"Successfully added your image! ID:`{id}`");
             }
             // If we're removing an image
             else if(command.ToLower() == "del" && Context.User.Id == Bot.client.CurrentApplication.Owners.FirstOrDefault().Id) {
