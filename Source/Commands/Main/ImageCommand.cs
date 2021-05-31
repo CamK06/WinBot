@@ -36,6 +36,21 @@ namespace WinBot.Commands.Main
                 }
             }
 
+            // If we're viewing an existing image
+            if(imageUrls.FirstOrDefault(x => x.id == command) != null) {
+                UserImage nImage = imageUrls.FirstOrDefault(x => x.id == command);
+
+                // Create the embed
+                DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+                eb.WithTitle("Image");
+                eb.WithColor(DiscordColor.Gold);
+                eb.WithImageUrl(nImage.url);
+                eb.WithFooter($"ID: {nImage.id}\nSubmitted by: {nImage.author}\nSubmit your own with the \"img add\" command");
+                await Context.RespondAsync("", eb.Build());
+
+                return;
+            }
+
             // If we're viewing a random image
             if(command == null || command.ToLower() != "add" && command.ToLower() != "del" && command.ToLower() != "count") {
                 if(imageUrls.Count == 0)
