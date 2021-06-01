@@ -171,6 +171,11 @@ namespace WinBot
         {
             DiscordMessage msg = e.Message;
 
+            // DONT PING DUFF!
+            if(msg.Content.Contains("283982771997638658")) {
+                await msg.Channel.SendMessageAsync("https://tenor.com/view/gordon-ramsay-fuck-off-hells-kitchen-gif-5239890");
+            }
+
             // Prefix check
             int start = msg.GetStringPrefixLength(".");
             if(start == -1) return;
