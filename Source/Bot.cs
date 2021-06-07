@@ -176,6 +176,20 @@ namespace WinBot
                 await msg.Channel.SendMessageAsync("https://tenor.com/view/gordon-ramsay-fuck-off-hells-kitchen-gif-5239890");
             }
 
+            // IRC handling
+            if(e.Author.IsBot && msg.Content.ToLower().Contains("/irc>")) {
+                string[] msgSplit = msg.Content.Split("/IRC>");
+
+                // Prefix stuff
+                int ircStart = msg.GetStringPrefixLength($"{msgSplit[1]}/IRC>");
+                if(ircStart == -1) return;
+                string ircPrefix = msg.Content.Substring(0, ircStart);
+                string ircCmdString = msg.Content.Substring(ircStart);
+
+                await DoCommand(ircCmdString, ircPrefix, msg);
+                return;
+            }
+
             // Prefix check
             int start = msg.GetStringPrefixLength(".");
             if(start == -1) return;
