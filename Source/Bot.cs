@@ -185,7 +185,7 @@ namespace WinBot
                 Log.Write(Serilog.Events.LogEventLevel.Information, $"SPLIT:\n{msgSplit[0]}\n{msgSplit[1]}");
 
                 // Prefix stuff
-                int ircStart = msg.GetStringPrefixLength($"{msgSplit[1]}/IRC>** ");
+                int ircStart = msg.GetStringPrefixLength($"{msgSplit[1]}/IRC>** .");
                 Log.Write(Serilog.Events.LogEventLevel.Information, $"{ircStart}");
                 //if(ircStart == -1) return;
                 string ircPrefix = msg.Content.Substring(0, ircStart);
