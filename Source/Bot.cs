@@ -181,8 +181,10 @@ namespace WinBot
                 Log.Write(Serilog.Events.LogEventLevel.Information, "Reached IRC handler");
                 string[] msgSplit = msg.Content.Split("/IRC>** .");
 
-                if(!msg.Content.Contains($"{msgSplit[1]}/IRC>** ."))
+                if(!msg.Content.Contains($"{msgSplit[1]}/IRC>** .")) {
+                    Log.Write(Serilog.Events.LogEventLevel.Information, $"```\n{msgSplit[1]}/IRC>** .```");
                     return;
+                }
                 int ircStart = $"{msgSplit[1]}/IRC>** .".Length;
                 string ircPrefix = msg.Content.Substring(0, ircStart);
                 string ircCmdString = msg.Content.Substring(ircStart);
