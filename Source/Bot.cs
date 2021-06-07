@@ -178,6 +178,7 @@ namespace WinBot
 
             // IRC handling
             if(e.Author.IsBot && msg.Content.ToLower().Contains("/irc>")) {
+                Log.Write(Serilog.Events.LogEventLevel.Information, "Reached IRC handler");
                 string[] msgSplit = msg.Content.Split("/IRC>**");
 
                 // Prefix stuff
@@ -185,6 +186,8 @@ namespace WinBot
                 if(ircStart == -1) return;
                 string ircPrefix = msg.Content.Substring(0, ircStart);
                 string ircCmdString = msg.Content.Substring(ircStart);
+
+                Log.Write(Serilog.Events.LogEventLevel.Information, $"{msg.Author}\n{msg.Content}\n{ircPrefix}\n{ircCmdString}\n{msgSplit[1]}");
 
                 await DoCommand(ircCmdString, ircPrefix, msg);
                 return;
