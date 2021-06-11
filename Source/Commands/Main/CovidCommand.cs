@@ -1,4 +1,4 @@
-#if !TOFU
+/*#if !TOFU
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -88,3 +88,4 @@ namespace WinBot.Commands.Main
     }
 }
 #endif
+*/
