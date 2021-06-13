@@ -58,7 +58,7 @@ namespace WinBot.Commands.Fun
             bool would = false;
             bool will = false;
             bool inline = false;
-            if (noun.Contains("-noa")) noA = true;
+            if (noun.Contains("-noa") || noun.EndsWith("s")) noA = true;
             if (noun.Contains("-red")) red = true;
             if (noun.Contains("-would")) would = true;
             if (noun.Contains("-will")) will = true;
