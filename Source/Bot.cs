@@ -120,7 +120,7 @@ namespace WinBot
                 UserData.Init();
                 DailyReportSystem.Init();
                 Leveling.Init();
-                UnitConverter.Init();
+                //UnitConverter.Init();
 #if !TOFU
                 await WWRSS.Init();
 #endif
