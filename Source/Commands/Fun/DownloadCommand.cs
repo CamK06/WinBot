@@ -1,4 +1,3 @@
-#if !TOFU
 using System;
 using System.IO;
 using System.Drawing;
@@ -119,4 +118,3 @@ namespace WinBot.Commands.Fun
         }
     }
 }
-#endif
