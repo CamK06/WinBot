@@ -1,5 +1,6 @@
 #if !TOFU
 using System;
+using System.IO;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Threading.Tasks;
@@ -17,14 +18,30 @@ namespace WinBot.Commands.Fun
 {
     public class DownloadCommand : BaseCommandModule
     {
+        string[] nouns = null;
+        string[] verbs = null;
+
         [Command("dl")]
         [Description("You wouldn't download a WinBot!")]
         [Usage("[verb] [noun] [args] (arguments: -noa -red- would -will -inline)")]
         [Category(Category.Fun)]
-        public async Task Dl(CommandContext Context, string verb, [RemainingText] string noun)
+        public async Task Dl(CommandContext Context, string verb = null, [RemainingText] string noun = null)
         {
             if(string.IsNullOrWhiteSpace(verb) || string.IsNullOrWhiteSpace(noun)) {
-                throw new Exception("You must provide both a verb and a noun!");
+                // Download missing nouns and verbs
+                if(!File.Exists("nouns.txt"))
+                    new System.Net.WebClient().DownloadFile("https://raw.githubusercontent.com/aaronbassett/Pass-phrase/master/nouns.txt", "nouns.txt");
+                if(!File.Exists("verbs.txt"))
+                    new System.Net.WebClient().DownloadFile("https://raw.githubusercontent.com/aaronbassett/Pass-phrase/master/verbs.txt", "verbs.txt");
+
+                // Fill nouns and verbs if they're empty
+                if(nouns == null)
+                    nouns = File.ReadAllLines("nouns.txt");
+                if(verbs == null)
+                    verbs = File.ReadAllLines("verbs.txt");
+
+                verb = verbs[new Random().Next(verbs.Length)];
+                noun = nouns[new Random().Next(nouns.Length)];
             }
 
             if (verb.ToLower() == "rick" && noun.ToLower().Contains("roll") || verb.ToLower().Contains("rick") && verb.ToLower().Contains("roll"))
@@ -85,8 +102,11 @@ namespace WinBot.Commands.Fun
             if (!would && !will) bmp.DrawString("wouldn't", YOUWOULDNTDOWNLOADACARfont, brush, 465.0f + youWouldnt, 125.0f);
             else if (!will) bmp.DrawString("would", YOUWOULDNTDOWNLOADACARfont, brush, 465.0f + youWouldnt, 125.0f);
             else bmp.DrawString("will", YOUWOULDNTDOWNLOADACARfont, brush, 465.0f + youWouldnt, 125.0f);
-            bmp.DrawString(verb, YOUWOULDNTDOWNLOADACARfont, brush, verbX, 325.5f);
-            if (!noA) bmp.DrawString("a", YOUWOULDNTDOWNLOADACARfont, brush, verbX + (verb.Length * 95), 300.5f);
+            bmp.DrawString(verb + (noA ? "" : " a"), YOUWOULDNTDOWNLOADACARfont, brush, verbX, 325.5f);
+            //if (!noA) { 
+            //    SizeF aOff = MiscUtil.MeasureString("a", YOUWOULDNTDOWNLOADACARfont);
+            //    bmp.DrawString("a", YOUWOULDNTDOWNLOADACARfont, brush, verbX + (verb.Length * 95), 300.5f);
+            //}
             bmp.DrawString(noun, YOUWOULDNTDOWNLOADACARfont, brush, nounX, 500.3f);
 
             // Save the image to a temporary file, this has to be two separate Save functions because apparently that's what Microsoft thinks is good
