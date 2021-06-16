@@ -29,11 +29,11 @@ namespace WinBot.Commands.Staff
                 string list = "";
                 foreach(ulong blacklistuser in Bot.blacklistedUsers) {
                     string username = $"{blacklistuser}";
+                    try {
                     if(Context.Guild.GetMemberAsync(blacklistuser).Result != null) {
-                        try { 
                         username = Context.Guild.GetMemberAsync(blacklistuser).Result.Username;
-                        } catch{}
                     }
+                    } catch{}
                     list += username + "\n";
                 }
                 if(Bot.blacklistedUsers.Count <= 0)
