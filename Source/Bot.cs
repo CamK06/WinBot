@@ -171,6 +171,12 @@ namespace WinBot
         private async Task CommandHandler(DiscordClient client, MessageCreateEventArgs e)
         {
             DiscordMessage msg = e.Message;
+#if TOFU
+            if(e.Message.Content.ToLower().Contains("brett") && !msg.Author.IsBot) {
+                await msg.Channel.SendMessageAsync("Brent*");
+                await msg.CreateReactionAsync(DiscordEmoji.FromGuildEmote(client, 838910961485742130));
+            }
+#endif
 
             if(blacklistedUsers.Contains(msg.Author.Id))
                 return;
