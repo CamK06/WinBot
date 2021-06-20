@@ -171,6 +171,10 @@ namespace WinBot
         private async Task CommandHandler(DiscordClient client, MessageCreateEventArgs e)
         {
             DiscordMessage msg = e.Message;
+
+            if(blacklistedUsers.Contains(msg.Author.Id))
+                return;
+
 #if TOFU
             if(e.Message.Content.ToLower().Contains("brett") && !msg.Author.IsBot) {
                 await msg.Channel.SendMessageAsync("Brent*");
@@ -178,33 +182,10 @@ namespace WinBot
             }
 #endif
 
-            if(blacklistedUsers.Contains(msg.Author.Id))
-                return;
-
             // DONT PING DUFF!
             if(msg.Content.Contains("283982771997638658")) {
                 await msg.Channel.SendMessageAsync("https://tenor.com/view/gordon-ramsay-fuck-off-hells-kitchen-gif-5239890");
             }
-
-            // IRC handling
-            /*
-            if(e.Author.IsBot && msg.Content.ToLower().Contains("/irc>")) {
-                Log.Write(Serilog.Events.LogEventLevel.Information, "Reached IRC handler");
-                string[] msgSplit = msg.Content.Split("/IRC>** .");
-
-                if(!msg.Content.Contains($"{msgSplit[1]}/IRC>** .")) {
-                    Log.Write(Serilog.Events.LogEventLevel.Information, $"```\n{msgSplit[1]}/IRC>** .```");
-                    return;
-                }
-                int ircStart = $"{msgSplit[1]}/IRC>** .".Length;
-                string ircPrefix = msg.Content.Substring(0, ircStart);
-                string ircCmdString = msg.Content.Substring(ircStart);
-
-                Log.Write(Serilog.Events.LogEventLevel.Information, $"{msg.Author}\n{msg.Content}\n{ircPrefix}\n{ircCmdString}\n{msgSplit[1]}");
-
-                await DoCommand(ircCmdString, ircPrefix, msg);
-                return;
-            }*/
 
             // Prefix check
             int start = msg.GetStringPrefixLength(".");
