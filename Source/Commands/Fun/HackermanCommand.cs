@@ -35,7 +35,7 @@ namespace WinBot.Commands.Fun
             // Send an embed
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithColor(DiscordColor.Gold);
-            eb.WithDescription($"```cpp\n{jargon}```");
+            eb.WithDescription($"```cpp\n{jargon.Truncate(2048)}```");
             await Context.RespondAsync("", eb.Build());
         }
 
