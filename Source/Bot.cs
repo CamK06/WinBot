@@ -113,6 +113,9 @@ namespace WinBot
             };
             client.Ready += async (DiscordClient client, ReadyEventArgs e) => {
                 logChannel = await client.GetChannelAsync(config.logChannel);
+                if(logChannel == null) {
+                    throw new Exception("Shitcord is failing to return a log channel");
+                }
 #if TOFU
                 welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
                 staffChannel = await client.GetChannelAsync(config.staffChannel);
@@ -176,9 +179,11 @@ namespace WinBot
                 return;
 
 #if TOFU
-            if(e.Message.Content.ToLower().Contains("brett") && !msg.Author.IsBot) {
-                await msg.Channel.SendMessageAsync("Brent*");
-                await msg.CreateReactionAsync(DiscordEmoji.FromGuildEmote(client, 838910961485742130));
+            if(!msg.Author.IsBot) {
+                if(e.Message.Content.ToLower().Contains("brett") || e.Message.Content.ToLower().Contains("bret")) {
+                    await msg.Channel.SendMessageAsync("Brent*");
+                    await msg.CreateReactionAsync(DiscordEmoji.FromGuildEmote(client, 838910961485742130));
+                }
             }
 #endif
 
