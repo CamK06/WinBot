@@ -20,7 +20,7 @@ namespace WinBot.Commands.Owner
         {
             // Owner check
             if(Context.User.Id != Bot.config.ownerId)
-				return;
+				throw new Exception("You must be the bot owner to run this command!");
 			
             // Find the command
             Command realCommand = Bot.commands.FindCommand(command, out var args);

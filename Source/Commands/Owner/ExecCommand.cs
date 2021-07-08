@@ -19,7 +19,7 @@ namespace WinBot.Commands.Owner
         public async Task Exec(CommandContext Context, [RemainingText]string command)
         {
             if(Context.User.Id != Bot.config.ownerId)
-                return;
+                throw new Exception("You must be the bot owner to run this command!");
 
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithTitle("Exec");

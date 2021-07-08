@@ -19,7 +19,7 @@ namespace WinBot.Commands.Owner
         public async Task Kill(CommandContext Context)
         {
             if(Context.User.Id != Bot.config.ownerId)
-				return;
+				throw new Exception("You must be the bot owner to run this command!");
 			
 			await Context.RespondAsync("Shutting down...");
 			await Bot.logChannel.SendMessageAsync("Shutdown triggered by command");
