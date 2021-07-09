@@ -124,6 +124,7 @@ namespace WinBot
                 UserData.Init();
                 DailyReportSystem.Init();
                 Leveling.Init();
+                DMSystem.Init();
                 //UnitConverter.Init();
 #if !TOFU
                 await WWRSS.Init();
@@ -176,7 +177,7 @@ namespace WinBot
         {
             DiscordMessage msg = e.Message;
 
-            if(blacklistedUsers.Contains(msg.Author.Id))
+            if(blacklistedUsers.Contains(msg.Author.Id) || e.Author.IsBot)
                 return;
 
 #if TOFU
