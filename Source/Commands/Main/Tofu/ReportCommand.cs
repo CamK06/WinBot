@@ -15,7 +15,7 @@ namespace WinBot.Commands.Main.Tofu
     {
         [Command("report")]
         [Description("Report something to staff")]
-        [Usage("[Issue]")]
+        [Usage("[issue]")]
         [Category(Category.Main)]
         public async Task Report(CommandContext Context, [RemainingText]string issue)
         {

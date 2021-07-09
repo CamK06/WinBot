@@ -15,7 +15,7 @@ namespace WinBot.Commands.Main
     {
         [Command("wiki")]
         [Description("Search wikipedia")]
-        [Usage("query")]
+        [Usage("[query]")]
         [Category(Category.Main)]
         public async Task Wiki(CommandContext Context, [RemainingText] string query)
         {

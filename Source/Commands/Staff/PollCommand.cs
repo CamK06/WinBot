@@ -14,7 +14,7 @@ namespace WinBot.Commands.Main
     {
         [Command("poll")]
         [Description("Create a poll")]
-        [Usage("[Title] [Options]")]
+        [Usage("[title] [options]")]
         [Category(Category.Staff)]
         [RequireUserPermissions(DSharpPlus.Permissions.KickMembers)]
         public async Task Poll(CommandContext Context, string title, [RemainingText]string optionString) 

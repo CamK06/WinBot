@@ -13,6 +13,7 @@ namespace WinBot.Commands.Owner
     {
         [Command("chanexec")]
         [Description("Execute a command in another channel")]
+        [Usage("[channel] [command]")]
         [Category(Category.Owner)]
         public async Task ChanExec(CommandContext Context, DiscordChannel channel, [RemainingText]string command)
         {

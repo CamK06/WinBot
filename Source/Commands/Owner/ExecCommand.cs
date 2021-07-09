@@ -15,6 +15,7 @@ namespace WinBot.Commands.Owner
     {
         [Command("exec")]
         [Description("Execute a terminal command")]
+        [Usage("[command]")]
         [Category(Category.Owner)]
         public async Task Exec(CommandContext Context, [RemainingText]string command)
         {

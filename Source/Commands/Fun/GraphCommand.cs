@@ -22,7 +22,7 @@ namespace WinBot.Commands.Fun
     {
         [Command("graph")]
         [Description("It's that one Nickelback meme.")]
-        [Usage("[Image]")]
+        [Usage("[image]")]
         [Category(Category.Fun)]
         public async Task Graph(CommandContext Context, string image = null)
         {

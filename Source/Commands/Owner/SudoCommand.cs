@@ -15,6 +15,7 @@ namespace WinBot.Commands.Owner
     {
         [Command("sudo")]
         [Description("Execute a command as another user")]
+        [Usage("[user] [command]")]
         [Category(Category.Owner)]
         public async Task Sudo(CommandContext Context, DiscordUser user, [RemainingText]string command)
         {

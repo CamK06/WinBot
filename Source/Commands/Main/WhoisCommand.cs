@@ -14,7 +14,7 @@ namespace WinBot.Commands.Main
     {
         [Command("whois")]
         [Description("Gets basic info about a user")]
-        [Usage("user")]
+        [Usage("[user]")]
         [Category(Category.Main)]
         public async Task Whois(CommandContext Context, [RemainingText] DiscordMember user)
         {
