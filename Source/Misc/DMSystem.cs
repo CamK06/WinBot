@@ -28,6 +28,8 @@ namespace WinBot
                     var chat = chats.FirstOrDefault(x => x.user.Id == args.Author.Id);
                     DiscordChannel channel = await client.GetChannelAsync(chat.channelId);
 
+                    if(chat.webhookId != 1) {
+
                     var webhook = channel.GetWebhooksAsync().Result.FirstOrDefault(x => x.Id == chat.webhookId);
                     if(webhook != null) {
                         DiscordWebhookBuilder wb = new DiscordWebhookBuilder();
@@ -44,6 +46,11 @@ namespace WinBot
                             userId = args.Author.Id,
                             userName = args.Author.Username
                         });
+                    }
+
+                    }
+                    else {
+                        await channel.SendMessageAsync($"**<{args.Author.Username}/DM>** {args.Message.Content}");
                     }
                 }
 #if TOFU
@@ -70,8 +77,11 @@ namespace WinBot
 
             DiscordChannel channel = Bot.client.GetChannelAsync(channelId).Result;
             if(channel != null) {
+                try { 
                 var webhook = await channel.CreateWebhookAsync(user.Username);
                 chat.webhookId = webhook.Id;
+                }
+                catch { chat.webhookId = 1; }
                 await channel.SendMessageAsync($"Successfully created DM chat in this channel with " + user.Username + " **ALL** messages sent here will be sent to them, so be careful!");
                 chats.Add(chat);
             }
