@@ -26,7 +26,7 @@ namespace WinBot.Commands.Owner
         public async Task Kill(CommandContext Context, [RemainingText]string code)
         {
             DiscordMember author = Context.Message.Author as DiscordMember;
-            if (author.Id != Bot.config.ownerId)
+            if (author.Id != Bot.config.ownerId && !Bot.whitelistedUsers.Contains(Context.User.Id))
             {
                 await Context.Message.DeleteAsync();
                 return;

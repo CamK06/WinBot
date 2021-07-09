@@ -35,6 +35,7 @@ namespace WinBot
         public static DiscordChannel staffChannel;
 #endif
         public static List<ulong> blacklistedUsers = new List<ulong>();
+        public static List<ulong> whitelistedUsers = new List<ulong>();
 
         public async Task RunBot()
         {

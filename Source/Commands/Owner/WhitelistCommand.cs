@@ -11,21 +11,19 @@ using WinBot.Misc;
 
 namespace WinBot.Commands.Owner
 {
-    public class KillCommand : BaseCommandModule
+    public class WhitelistCommand : BaseCommandModule
     {
-        [Command("kill")]
-        [Description("Kills the bot")]
+        [Command("whitelist")]
+        [Description("Whitelist a user to use owner commands temporarily")]
+        [Usage("[user]")]
         [Category(Category.Owner)]
-        public async Task Kill(CommandContext Context)
+        public async Task Whitelist(CommandContext Context, DiscordUser user)
         {
             if(Context.User.Id != Bot.config.ownerId && !Bot.whitelistedUsers.Contains(Context.User.Id))
 				throw new Exception("You must be the bot owner to run this command!");
 			
-			await Context.RespondAsync("Shutting down...");
-			await Bot.logChannel.SendMessageAsync("Shutdown triggered by command");
-			DailyReportSystem.CreateBackup();
-            UserData.SaveData();
-			Environment.Exit(0);
+			Bot.whitelistedUsers.Add(user.Id);
+            await Context.RespondAsync("Whitelisted " + user.Mention);
         }
     }
 }
