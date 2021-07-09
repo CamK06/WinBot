@@ -21,24 +21,6 @@ namespace WinBot
 
         public static void Init()
         {
-            Bot.client.TypingStarted += async (DiscordClient client, TypingStartEventArgs args) => {
-                var chat = chats.FirstOrDefault(x => x.user.Id == args.User.Id || x.channelId == args.Channel.Id);
-                if(chat != null) {
-                    var user = args.User as DiscordMember;
-                    if(user != null) {
-
-                        if(args.Channel.Id == chat.channelId) {
-                            var dmChannel = await user.CreateDmChannelAsync();
-                            if(dmChannel != null) await dmChannel.TriggerTypingAsync();
-                        }
-                        else if(user.Id == chat.user.Id) {
-                            var channel = await client.GetChannelAsync(chat.channelId);
-                            if(channel != null) await channel.TriggerTypingAsync();
-                        }
-                    }
-                }
-            };
-
             Bot.client.MessageCreated += async (DiscordClient client, MessageCreateEventArgs args) => {
 
                 if(chats.FirstOrDefault(x => x.user.Id == args.Author.Id) != null && args.Channel.IsPrivate) {
@@ -65,14 +47,14 @@ namespace WinBot
                     }
                 }
 #if TOFU
-                else if(args.Channel.IsPrivate) {
+                else if(args.Channel.IsPrivate && !args.Author.IsBot) {
                     Bot.staffChannel.SendMessageAsync("DM From " + args.Author.Username + ": " + args.Message.Content);
                 }
 #endif
                 var chat2 = chats.FirstOrDefault(x => x.channelId == args.Channel.Id);
                 if(chat2 != null && !args.Author.IsBot && !args.Message.Content.ToLower().Contains(".cdm")) {
                     if(chat2.showNames) await chat2.user.SendMessageAsync($"**{args.Author.Username}:** {args.Message.Content}");
-                    await chat2.user.SendMessageAsync(args.Message.Content);
+                    else await chat2.user.SendMessageAsync(args.Message.Content);
                 }
             };
         }
