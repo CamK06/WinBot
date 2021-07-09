@@ -98,8 +98,10 @@ namespace WinBot
         public static async void Close(ulong channelId)
         {
             var chat = chats.FirstOrDefault(x => x.channelId == channelId);
+            if(chat.webhookId != 1) {
             var webhook = Bot.client.GetChannelAsync(chat.channelId).Result.GetWebhooksAsync().Result.FirstOrDefault(x => x.Id == chat.webhookId);
             await webhook.DeleteAsync();
+            }
 
             chats.Remove(chat);
         }
