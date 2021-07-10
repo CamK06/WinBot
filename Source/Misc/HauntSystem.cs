@@ -1,4 +1,5 @@
 // The system for haunting the bot in channels. Same idea as the DM system but operating within the server
+#if TOFU
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -95,3 +96,4 @@ namespace WinBot
         public DiscordWebhook webhook { get; set; }
     }
 }
+#endif

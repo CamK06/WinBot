@@ -120,12 +120,12 @@ namespace WinBot
 #if TOFU
                 welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
                 staffChannel = await client.GetChannelAsync(config.staffChannel);
+                HauntSystem.Init();
 #endif
                 UserData.Init();
                 DailyReportSystem.Init();
                 Leveling.Init();
                 DMSystem.Init();
-                HauntSystem.Init();
                 //UnitConverter.Init();
 #if !TOFU
                 await WWRSS.Init();
