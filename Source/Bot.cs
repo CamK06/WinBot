@@ -125,6 +125,7 @@ namespace WinBot
                 DailyReportSystem.Init();
                 Leveling.Init();
                 DMSystem.Init();
+                HauntSystem.Init();
                 //UnitConverter.Init();
 #if !TOFU
                 await WWRSS.Init();
