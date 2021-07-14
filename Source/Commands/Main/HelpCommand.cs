@@ -20,7 +20,7 @@ namespace WinBot.Commands.Main
             // Set up the embed
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithColor(DiscordColor.Gold);
-            eb.WithFooter("Type \".help [command]\" to get more info on a command");
+            eb.WithFooter($"Type \"{Bot.config.prefix}help [command]\" to get more info on a command");
 
             if (command == null)
             {
@@ -77,7 +77,7 @@ namespace WinBot.Commands.Main
             UsageAttribute usage = (UsageAttribute)command.CustomAttributes.FirstOrDefault(x => x.GetType() == typeof(UsageAttribute));
             
             // Create the usage string
-            string desc = $"{command.Description}\n\n**Usage:** .{commandName}";
+            string desc = $"{command.Description}\n\n**Usage:** {Bot.config.prefix}{commandName}";
             if (usage != null)
                 desc += $" {usage.Usage}";
 
