@@ -46,7 +46,7 @@ namespace WinBot
                 }
                 // Host to target
                 else if(chats.FirstOrDefault(x => x.host.Id == args.Channel.Id) != null) {
-                    if(args.Message.Content.StartsWith("."))
+                    if(args.Message.Content.StartsWith($"{Bot.config.prefix"))
                         return;
                     chat = chats.FirstOrDefault(x => x.host.Id == args.Channel.Id);
                     await chat.target.SendMessageAsync(args.Message.Content);
