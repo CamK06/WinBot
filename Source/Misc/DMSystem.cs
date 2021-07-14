@@ -59,7 +59,7 @@ namespace WinBot
                 }
 #endif
                 var chat2 = chats.FirstOrDefault(x => x.channelId == args.Channel.Id);
-                if(chat2 != null && !args.Author.IsBot && !args.Message.Content.ToLower().Contains(".cdm")) {
+                if(chat2 != null && !args.Author.IsBot && !args.Message.Content.ToLower().Contains($"{Bot.config.prefix}cdm")) {
                     if(chat2.showNames) await chat2.user.SendMessageAsync($"**{args.Author.Username}:** {args.Message.Content}");
                     else await chat2.user.SendMessageAsync(args.Message.Content);
                 }
