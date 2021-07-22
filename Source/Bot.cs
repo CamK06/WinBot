@@ -99,6 +99,10 @@ namespace WinBot
             // Events
             commands.CommandErrored += async (CommandsNextExtension cnext, CommandErrorEventArgs e) =>
             {
+                string msg = e.Exception.Message;
+                if(msg == "One or more pre-execution checks failed.")
+                    msg += " This is likely a permissions issue.";
+                
                 await logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
                 await e.Context.RespondAsync($"There was an error executing your command!\nMessage: `{e.Exception.Message}`");
                 
