@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Reflection;
@@ -66,6 +66,7 @@ namespace WinBot
                 config = new BotConfig();
                 config.token = "TOKEN";
                 config.status = " ";
+                config.prefix = ".";
 
                 // Write the config and quit
                 File.WriteAllText("config.json", JsonConvert.SerializeObject(config, Formatting.Indented));
@@ -89,7 +90,7 @@ namespace WinBot
             });
             commands = client.UseCommandsNext(new CommandsNextConfiguration()
             {
-                StringPrefixes = new string[] { "." },
+                StringPrefixes = new string[] { config.prefix },
                 EnableDefaultHelp = false,
                 EnableDms = true,
                 UseDefaultCommandHandler = false
@@ -196,7 +197,7 @@ namespace WinBot
             }
 
             // Prefix check
-            int start = msg.GetStringPrefixLength(".");
+            int start = msg.GetStringPrefixLength(config.prefix);
             if(start == -1) return;
 
             string prefix = msg.Content.Substring(0, start);
@@ -231,6 +232,7 @@ namespace WinBot
     class BotConfig
     {
         public string token { get; set; }
+        public string prefix { get; set; }
         public string status { get; set; }
         public ulong logChannel { get; set; }
         public string weatherAPIKey { get; set; }
