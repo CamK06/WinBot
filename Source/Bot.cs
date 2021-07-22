@@ -100,7 +100,7 @@ namespace WinBot
             {
                 await logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
                 await e.Context.RespondAsync($"There was an error executing your command!\nMessage: `{e.Exception.Message}`");
-
+                
                 // string usage = WinBot.Commands.Main.HelpCommand.GetCommandUsage(e.Command.Name);
                 // if (usage != null)
                 // {
