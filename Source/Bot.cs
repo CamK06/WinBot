@@ -187,10 +187,13 @@ namespace WinBot
         {
             DiscordMessage msg = e.Message;
 
-            if(blacklistedUsers.Contains(msg.Author.Id) || e.Author.IsBot)
+            if(blacklistedUsers.Contains(msg.Author.Id))
                 return;
 
 #if TOFU
+            if(e.Author.IsBot)
+                return;
+
             if(!msg.Author.IsBot) {
                 if(e.Message.Content.ToLower().Contains("brett") || e.Message.Content.ToLower().Contains("bret")) {
                     await msg.Channel.SendMessageAsync("Brent*");
