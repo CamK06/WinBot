@@ -110,7 +110,11 @@ idRecalc:
                 if(image == null)
                     throw new System.Exception("You must provide an image to remove");
 
-                imageUrls.Remove(imageUrls.FirstOrDefault(x => x.id == image));
+                UserImage imageToRemove = imageUrls.FirstOrDefault(x => x.id == image);
+                if(imageToRemove == null)
+                    throw new System.Exception("You must provide a valid image ID");
+
+                imageUrls.Remove(imageToRemove);
                 File.WriteAllText("randomImages.json", JsonConvert.SerializeObject(imageUrls, Formatting.Indented));
                 await Context.RespondAsync($"Successfully removed `{image}`");
             }
