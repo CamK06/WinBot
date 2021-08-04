@@ -15,6 +15,7 @@ using DSharpPlus.Entities;
 using WinBot.Commands.Attributes;
 
 using Newtonsoft.Json;
+using DSharpPlus;
 
 namespace WinBot.Commands.Main
 {
@@ -102,7 +103,10 @@ idRecalc:
                 await Context.RespondAsync($"Successfully added your image! ID:`{id}`");
             }
             // If we're removing an image
-            else if(command.ToLower() == "del" && Context.User.Id == Bot.client.CurrentApplication.Owners.FirstOrDefault().Id) {
+            else if(command.ToLower() == "del") {
+                if(!PermissionMethods.HasPermission(Context.Member.PermissionsIn(Context.Channel), Permissions.ManageMessages) && Context.User.Id != Bot.client.CurrentApplication.Owners.FirstOrDefault().Id)
+                    throw new System.Exception("You lack the sufficient permissions to run this command");
+
                 if(image == null)
                     throw new System.Exception("You must provide an image to remove");
 
