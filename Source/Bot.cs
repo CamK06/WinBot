@@ -199,7 +199,7 @@ namespace WinBot
             }
 #else
             // DONT PING DUFF!
-            if(msg.Content.Contains("283982771997638658") || msg.MentionedUsers.Contains(duff) || msg.ReferencedMessage.Author == duff) {
+            if(msg.Content.Contains("283982771997638658") || msg.MentionedUsers.Contains(duff)) {
                 await msg.Channel.SendMessageAsync("https://tenor.com/view/gordon-ramsay-fuck-off-hells-kitchen-gif-5239890");
             }
 #endif
