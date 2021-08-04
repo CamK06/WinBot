@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Collections.Generic;
@@ -33,6 +34,8 @@ namespace WinBot
 #if TOFU
         public static DiscordChannel welcomeChannel;
         public static DiscordChannel staffChannel;
+#else
+        public static DiscordUser duff;
 #endif
         public static List<ulong> blacklistedUsers = new List<ulong>();
         public static List<ulong> whitelistedUsers = new List<ulong>();
@@ -134,6 +137,7 @@ namespace WinBot
                 //UnitConverter.Init();
 #if !TOFU
                 await WWRSS.Init();
+                duff = await client.GetUserAsync(283982771997638658);
 #endif
                 await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
                 Log.Write(Serilog.Events.LogEventLevel.Information, $"Running on host: {MiscUtil.GetHost().Replace('\n', ' ')}");
@@ -193,12 +197,12 @@ namespace WinBot
                     await msg.CreateReactionAsync(DiscordEmoji.FromGuildEmote(client, 838910961485742130));
                 }
             }
-#endif
-
+#else
             // DONT PING DUFF!
-            if(msg.Content.Contains("283982771997638658")) {
+            if(msg.Content.Contains("283982771997638658") || msg.MentionedUsers.Contains(duff)) {
                 await msg.Channel.SendMessageAsync("https://tenor.com/view/gordon-ramsay-fuck-off-hells-kitchen-gif-5239890");
             }
+#endif
 
             // Prefix check
             int start = msg.GetStringPrefixLength(config.prefix);
