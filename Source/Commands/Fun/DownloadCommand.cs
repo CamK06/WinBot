@@ -48,9 +48,7 @@ namespace WinBot.Commands.Fun
 
             if (verb.ToLower() == "rick" && noun.ToLower().Contains("roll") || verb.ToLower().Contains("rick") && verb.ToLower().Contains("roll"))
             {
-                await new DiscordMessageBuilder()
-                    .WithFile("rick.gif")
-                    .SendAsync(Context.Channel);
+                await Context.Channel.SendFileAsync("rick.gif");
                 return;
             }
 
@@ -121,9 +119,7 @@ namespace WinBot.Commands.Fun
             bmp.Save();
             img.Save("download.png");
 
-            await new DiscordMessageBuilder()
-                    .WithFile("download.png")
-                    .SendAsync(Context.Channel);
+            await Context.Channel.SendFileAsync("download.png");
         }
     }
 }

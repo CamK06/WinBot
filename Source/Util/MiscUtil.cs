@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using DSharpPlus.Entities;
+using Serilog;
+using System.Threading.Tasks;
 
 namespace WinBot.Util
 {
@@ -143,6 +146,20 @@ namespace WinBot.Util
                 return (num / 1000D).ToString("#.0") + "K";
             }
             return num.ToString("#,0");
+        }
+
+        public static async Task<DiscordMessage> SendFileAsync(this DiscordChannel channel, string fileName)
+        {
+            if(!File.Exists(fileName)) {
+                Log.Warning($"File does not exist! (SendFileAsync @ {channel.Name})");
+                return null;
+            }
+
+            FileStream fStream = new FileStream(fileName, FileMode.Open);
+            DiscordMessage msg = await new DiscordMessageBuilder().WithFile(fileName, fStream).SendAsync(channel);
+            fStream.Close();
+
+            return msg;
         }
     }
 }

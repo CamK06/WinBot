@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using ScottPlot;
 
 using WinBot.Misc;
+using WinBot.Util;
 
 namespace WinBot.Commands.Main
 {
@@ -87,7 +88,7 @@ namespace WinBot.Commands.Main
             plt.SaveFig("stats.png");
             if (args != null)
             {
-                await new DiscordMessageBuilder().WithFile("stats.png").SendAsync(Context.Channel);
+                await Context.Channel.SendFileAsync("stats.png");
                 return;
             }
 
@@ -101,7 +102,7 @@ namespace WinBot.Commands.Main
             }
 
             chad.Save("stats.png");
-            await new DiscordMessageBuilder().WithFile("stats.png").SendAsync(Context.Channel);
+            await Context.Channel.SendFileAsync("stats.png");
         }
 
         static Point[] graphPos = new Point[] {

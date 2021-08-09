@@ -121,10 +121,12 @@ namespace WinBot
                 // }
             };
             client.Ready += async (DiscordClient client, ReadyEventArgs e) => {
+                
                 logChannel = await client.GetChannelAsync(config.logChannel);
                 if(logChannel == null) {
                     throw new Exception("Shitcord is failing to return a log channel");
                 }
+                
 #if TOFU
                 welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
                 staffChannel = await client.GetChannelAsync(config.staffChannel);
@@ -136,9 +138,10 @@ namespace WinBot
                 DMSystem.Init();
                 //UnitConverter.Init();
 #if !TOFU
-                await WWRSS.Init();
+                //await WWRSS.Init();
                 duff = await client.GetUserAsync(283982771997638658);
 #endif
+
                 await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
                 Log.Write(Serilog.Events.LogEventLevel.Information, $"Running on host: {MiscUtil.GetHost().Replace('\n', ' ')}");
                 Log.Write(Serilog.Events.LogEventLevel.Information, "Ready");
@@ -186,7 +189,7 @@ namespace WinBot
         private async Task CommandHandler(DiscordClient client, MessageCreateEventArgs e)
         {
             DiscordMessage msg = e.Message;
-
+            
             if(blacklistedUsers.Contains(msg.Author.Id) || e.Author.IsBot)
                 return;
 

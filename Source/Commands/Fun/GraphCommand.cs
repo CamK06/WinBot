@@ -66,9 +66,7 @@ namespace WinBot.Commands.Fun
 
             // Send the image
             chad.Save($"graph.{extension}");
-            await new DiscordMessageBuilder()
-                    .WithFile($"graph.{extension}")
-                    .SendAsync(Context.Channel);
+            await Context.Channel.SendFileAsync($"graph.{extension}");
         }
 
         static Point[] graphPos = new Point[] {
@@ -110,9 +108,7 @@ namespace WinBot.Commands.Fun
 
             // Send the gif
             if (File.ReadAllBytes("nickelback.gif").Length < 8388608)
-                await new DiscordMessageBuilder()
-                    .WithFile("nickelback.gif")
-                    .SendAsync(Context.Channel);
+                await Context.Channel.SendFileAsync("nickelback.gif");
             else
                 await Context.RespondAsync("Cannot send GIF. File size is too large. Blame Discord");
         }
