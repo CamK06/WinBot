@@ -243,7 +243,7 @@ namespace WinBot
     class BotConfig
     {
         public string token { get; set; }
-        public string prefix { get; set; }
+        public string prefix { get; set; } = ".";
         public string status { get; set; }
         public ulong logChannel { get; set; }
         public string weatherAPIKey { get; set; }
