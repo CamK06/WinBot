@@ -219,7 +219,7 @@ namespace WinBot
                 string[] commands = cmdString.Split(" && ");
                 if(commands.Length > 2) return;
                 for(int i = 0; i < commands.Length; i++) {
-                    await DoCommand(commands[i], prefix, msg);
+                    DoCommand(commands[i], prefix, msg);
                     await Task.Delay(500);
                 }
                 return;
@@ -229,14 +229,14 @@ namespace WinBot
             Command cmd = commands.FindCommand(cmdString, out var args);
             if(cmd == null) return;
             CommandContext ctx = commands.CreateContext(msg, prefix, cmd, args);
-            await commands.ExecuteCommandAsync(ctx);
+            _ = Task.Run(async () => await commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
         }
 
-        private async Task DoCommand(string commandString, string prefix, DiscordMessage msg) {
+        private void DoCommand(string commandString, string prefix, DiscordMessage msg) {
             Command cmd = commands.FindCommand(commandString, out var args);
             if(cmd == null) return;
             CommandContext ctx = commands.CreateFakeContext(msg.Author, msg.Channel, commandString, prefix, cmd, args);
-            await commands.ExecuteCommandAsync(ctx);
+            _ = Task.Run(async () => await commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
         }
     }
 
