@@ -18,7 +18,7 @@ namespace WinBot.Commands.Main
             User user = UserData.GetOrCreateUser(Context.User);
             user.levelMessages = !user.levelMessages;
             string state = user.levelMessages ? "on" : "off";
-            await Context.RespondAsync($"Your level messages are now {state}!");
+            await Context.ReplyAsync($"Your level messages are now {state}!");
         }
     }
 }

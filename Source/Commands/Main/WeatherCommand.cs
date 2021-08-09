@@ -30,7 +30,7 @@ namespace WinBot.Commands.Main
             IRestResponse response = client.Execute(request);
             if (!response.IsSuccessful)
             {
-                await Context.RespondAsync("Unable to get the weather for that location, are you sure it exists?");
+                await Context.ReplyAsync("Unable to get the weather for that location, are you sure it exists?");
                 return;
             }
             dynamic data = JsonConvert.DeserializeObject(response.Content);
@@ -54,7 +54,7 @@ namespace WinBot.Commands.Main
             eb.AddField("Wind Speed", $"{data.current.wind_kph} km/h ({data.current.wind_mph} mph) with gusts up to {data.current.gust_kph} km/h ({data.current.gust_mph} mph)", true);
             eb.AddField("Wind Direction", $"{data.current.wind_dir}", true);
 
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
         }
     }
 }

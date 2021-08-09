@@ -23,7 +23,7 @@ namespace WinBot.Commands.Owner
 				throw new Exception("You must be the bot owner to run this command!");
 			
 			Bot.whitelistedUsers.Add(user.Id);
-            await Context.RespondAsync("Whitelisted " + user.Mention);
+            await Context.ReplyAsync("Whitelisted " + user.Mention);
         }
     }
 }

@@ -33,7 +33,7 @@ namespace WinBot.Commands.Fun
 			bool hasExample = true;
 			if (definition.List.Count < 1 || string.IsNullOrWhiteSpace(definition.List.First().Definition.Truncate(1024)))
 			{
-				await Context.RespondAsync("Error: There are no results for that query.");
+				await Context.ReplyAsync("Error: There are no results for that query.");
 				return;
 			}
 			else if(string.IsNullOrWhiteSpace(definition.List.First().Example.Truncate(1024)))
@@ -51,7 +51,7 @@ namespace WinBot.Commands.Fun
 			eb.WithThumbnail("https://reclaimthenet.org/wp-content/uploads/2020/07/urban-dictionary.png");
 			eb.WithFooter($"The information above does not represent the views of {Context.Guild.Name} or {Bot.client.CurrentApplication.Owners.First().Username}, obviously :P");
 
-			await Context.RespondAsync("", eb.Build());
+			await Context.ReplyAsync("", eb.Build());
         }
     }
 }

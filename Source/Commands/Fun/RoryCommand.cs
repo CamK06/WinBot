@@ -30,7 +30,7 @@ namespace WinBot.Commands.Fun
 			eb.WithColor(DiscordColor.Gold);
 			eb.WithFooter($"Rory ID: {output.id}");
 			eb.WithImageUrl((string)output.url);
-			await Context.RespondAsync("", eb.Build());
+			await Context.ReplyAsync("", eb.Build());
         }
     }
 }

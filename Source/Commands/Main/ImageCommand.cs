@@ -47,7 +47,7 @@ namespace WinBot.Commands.Main
                 eb.WithColor(DiscordColor.Gold);
                 eb.WithImageUrl(nImage.url);
                 eb.WithFooter($"ID: {nImage.id}\nSubmitted by: {nImage.author}\nSubmit your own with the \"img add\" command");
-                await Context.RespondAsync("", eb.Build());
+                await Context.ReplyAsync("", eb.Build());
 
                 return;
             }
@@ -64,7 +64,7 @@ namespace WinBot.Commands.Main
                 eb.WithColor(DiscordColor.Gold);
                 eb.WithImageUrl(randImage.url);
                 eb.WithFooter($"ID: {randImage.id}\nSubmitted by: {randImage.author}\nSubmit your own with the \"img add\" command");
-                await Context.RespondAsync("", eb.Build());
+                await Context.ReplyAsync("", eb.Build());
             }
             // If we're adding a new image
             else if(command.ToLower() == "add") {
@@ -100,7 +100,7 @@ idRecalc:
                     id = id
                 });
                 File.WriteAllText("randomImages.json", JsonConvert.SerializeObject(imageUrls, Formatting.Indented));
-                await Context.RespondAsync($"Successfully added your image! ID:`{id}`");
+                await Context.ReplyAsync($"Successfully added your image! ID:`{id}`");
             }
             // If we're removing an image
             else if(command.ToLower() == "del") {
@@ -116,10 +116,10 @@ idRecalc:
 
                 imageUrls.Remove(imageToRemove);
                 File.WriteAllText("randomImages.json", JsonConvert.SerializeObject(imageUrls, Formatting.Indented));
-                await Context.RespondAsync($"Successfully removed `{image}`");
+                await Context.ReplyAsync($"Successfully removed `{image}`");
             }
             else if(command.ToLower() == "count") {
-                await Context.RespondAsync($"There are {imageUrls.Count} images.");
+                await Context.ReplyAsync($"There are {imageUrls.Count} images.");
             }
         }
 

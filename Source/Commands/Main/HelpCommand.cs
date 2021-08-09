@@ -43,12 +43,12 @@ namespace WinBot.Commands.Main
                 }
                 else
                 {
-                    await Context.RespondAsync("That command doesn't seem to exist.");
+                    await Context.ReplyAsync("That command doesn't seem to exist.");
                     return;
                 }
             }
 
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
         }
 
         static string GetCommands(Category searchCategory)

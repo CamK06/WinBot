@@ -29,7 +29,7 @@ namespace WinBot.Commands.Main
             eb.WithThumbnail(Bot.client.CurrentUser.AvatarUrl);
             eb.WithColor(DiscordColor.Gold);
 
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
         }
     }
 }

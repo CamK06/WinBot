@@ -29,11 +29,11 @@ namespace WinBot.Commands.Main
 
             if (results.SearchInfo.TotalHits < 1)
             {
-                await Context.RespondAsync($"Error: There are no results for that query.");
+                await Context.ReplyAsync($"Error: There are no results for that query.");
                 return;
             }
 
-            await Context.RespondAsync(results.Search.First().Url.ToString().Replace(" ", "_"));
+            await Context.ReplyAsync(results.Search.First().Url.ToString().Replace(" ", "_"));
         }
     }
 }

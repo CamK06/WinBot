@@ -38,7 +38,7 @@ namespace WinBot.Commands.Owner
             try {
                 DMSystem.Save(DMSystem.chats.FirstOrDefault(x => x.channelId == Context.Channel.Id).user.Id);
                 DMSystem.Close(Context.Channel.Id);
-                await Context.RespondAsync("Conversation closed!");
+                await Context.ReplyAsync("Conversation closed!");
             }
             catch {}
         }

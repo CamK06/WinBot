@@ -19,7 +19,7 @@ namespace WinBot.Commands.Fun
         public async Task Inspire(CommandContext Context)
         {
             string url = new WebClient().DownloadString("https://inspirobot.me/api?generate=true");
-            await Context.RespondAsync(url);
+            await Context.ReplyAsync(url);
         }
     }
 }

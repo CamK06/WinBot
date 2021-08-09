@@ -79,7 +79,7 @@ namespace WinBot.Commands.Main
 
             // Save and send the image
             bmp.Save("card.png");
-            await new DiscordMessageBuilder().WithFile("card.png", new FileStream("card.png", FileMode.Open)).SendAsync(Context.Channel);
+            await Context.Channel.SendFileAsync("card.png");
         }
     }
 }

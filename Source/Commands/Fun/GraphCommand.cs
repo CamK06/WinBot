@@ -37,12 +37,12 @@ namespace WinBot.Commands.Fun
             Int64 fileSize = Convert.ToInt64(client.ResponseHeaders["Content-Length"]);
             if (!client.ResponseHeaders["Content-Type"].Contains("image") || client.ResponseHeaders["Content-Type"].Contains("svg"))
             {
-                await Context.RespondAsync("Your file is not a valid image!");
+                await Context.ReplyAsync("Your file is not a valid image!");
                 return;
             }
             if (fileSize > 16777216) // 16MB limit
             {
-                await Context.RespondAsync("Your file must be below 16MB in size!");
+                await Context.ReplyAsync("Your file must be below 16MB in size!");
                 return;
             }
             string extension = client.ResponseHeaders["Content-Type"].Split("image/").Last();
@@ -110,7 +110,7 @@ namespace WinBot.Commands.Fun
             if (File.ReadAllBytes("nickelback.gif").Length < 8388608)
                 await Context.Channel.SendFileAsync("nickelback.gif");
             else
-                await Context.RespondAsync("Cannot send GIF. File size is too large. Blame Discord");
+                await Context.ReplyAsync("Cannot send GIF. File size is too large. Blame Discord");
         }
     }
 }

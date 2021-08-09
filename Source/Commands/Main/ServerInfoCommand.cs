@@ -24,7 +24,7 @@ namespace WinBot.Commands.Main
             eb.AddField("Created", MiscUtil.FormatDate(Context.Guild.CreationTimestamp), true);
             eb.AddField("Channels", $"{Context.Guild.Channels.Count}", true);
             eb.AddField("Owner", Context.Guild.Owner.Username, true);
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
         }
     }
 }

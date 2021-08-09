@@ -8,6 +8,7 @@ using System.Drawing.Drawing2D;
 using DSharpPlus.Entities;
 using Serilog;
 using System.Threading.Tasks;
+using DSharpPlus.CommandsNext;
 
 namespace WinBot.Util
 {
@@ -147,7 +148,13 @@ namespace WinBot.Util
             }
             return num.ToString("#,0");
         }
+    }
+}
 
+namespace DSharpPlus.CommandsNext
+{
+    public static class DSharpImprovements
+    {
         public static async Task<DiscordMessage> SendFileAsync(this DiscordChannel channel, string fileName)
         {
             if(!File.Exists(fileName)) {
@@ -160,6 +167,21 @@ namespace WinBot.Util
             fStream.Close();
 
             return msg;
+        }
+
+        public static async Task<DiscordMessage> ReplyAsync(this CommandContext Context, string Content)
+        {
+            return await Context.Channel.SendMessageAsync(Content);
+        }
+
+        public static async Task<DiscordMessage> ReplyAsync(this CommandContext Context, string Content, DiscordEmbed Embed)
+        {
+            return await Context.Channel.SendMessageAsync(Content, Embed);
+        }
+
+        public static async Task<DiscordMessage> ReplyAsync(this CommandContext Context, DiscordEmbed Embed)
+        {
+            return await Context.Channel.SendMessageAsync("", Embed);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace WinBot.Commands.Staff
             await Bot.logChannel.SendMessageAsync("", builder.Build());
 
             // Purged message
-            DiscordMessage msg = await Context.RespondAsync($"{count} messages purged. This message will be deleted in 3 seconds.");
+            DiscordMessage msg = await Context.ReplyAsync($"{count} messages purged. This message will be deleted in 3 seconds.");
             await Task.Delay(3000);
             await msg.DeleteAsync();
         }
