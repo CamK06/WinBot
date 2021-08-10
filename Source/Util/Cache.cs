@@ -52,6 +52,9 @@ namespace WinBot.Util
 
         public static void Flush()
         {
+            if(!Directory.Exists("Cache"))
+                return;
+
             Directory.Delete("Cache", true);
             Directory.CreateDirectory("Cache");
             Log.Write(LogEventLevel.Information, "Cache has been flushed");
