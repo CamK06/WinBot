@@ -136,6 +136,7 @@ namespace WinBot
                 DailyReportSystem.Init();
                 Leveling.Init();
                 DMSystem.Init();
+                Cache.InitTimer();
                 //UnitConverter.Init();
 #if !TOFU
                 //await WWRSS.Init();
