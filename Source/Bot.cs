@@ -220,7 +220,6 @@ namespace WinBot
                 if(commands.Length > 2) return;
                 for(int i = 0; i < commands.Length; i++) {
                     DoCommand(commands[i], prefix, msg);
-                    await Task.Delay(500);
                 }
                 return;
             }
