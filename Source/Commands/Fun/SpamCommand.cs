@@ -41,7 +41,7 @@ namespace WinBot.Commands.Main
                 eb.AddField($"Subject: {spamSubject}", $"{spamContent}");
                 eb.WithFooter($"ID: {spamID}");
                 eb.WithUrl("http://www.nick99nack.com/spam/");
-                await Context.RespondAsync("", eb.Build());
+                await Context.ReplyAsync("", eb.Build());
             }
             
             else
@@ -54,7 +54,7 @@ namespace WinBot.Commands.Main
                 eb.AddField($"Subject: {spamSubject}", $"{spamContent}");
                 eb.WithFooter($"ID: {spamID}");
                 eb.WithUrl("http://www.nick99nack.com/spam/");
-                await Context.RespondAsync("", eb.Build());
+                await Context.ReplyAsync("", eb.Build());
             }
         }
     }
