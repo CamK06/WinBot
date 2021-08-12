@@ -35,7 +35,7 @@ namespace WinBot.Commands.Fun
             eb.WithTitle("Here's Your Random WikiHow Image!");
             eb.WithImageUrl((string)resp["1"]);
             eb.WithTimestamp(DateTime.Now);
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
             await Task.Delay(1);
         }
     }

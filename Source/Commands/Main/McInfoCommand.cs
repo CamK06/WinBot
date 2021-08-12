@@ -57,7 +57,7 @@ namespace WinBot.Commands.Main
                 eb.WithColor(DiscordColor.Red);
             }
 
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
         }
     }
 }

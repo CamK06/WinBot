@@ -27,7 +27,7 @@ namespace WinBot.Commands.Owner
             eb.WithColor(DiscordColor.Gold);
             eb.AddField("Input", $"```sh\n{command}```");
             eb.AddField("Output", $"```sh\n{command.Bash()}```");
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
         }
     }
 }

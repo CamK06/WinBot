@@ -32,7 +32,7 @@ namespace WinBot.Commands.Fun
             eb.WithTitle("Here's Your Random Cat!");
             eb.WithImageUrl((string)output[0].url);
             eb.WithTimestamp(DateTime.Now);
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
             await Task.Delay(1);
         }
     }

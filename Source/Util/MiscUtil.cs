@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using DSharpPlus.Entities;
+using Serilog;
+using System.Threading.Tasks;
+using DSharpPlus.CommandsNext;
 
 namespace WinBot.Util
 {
@@ -143,6 +147,41 @@ namespace WinBot.Util
                 return (num / 1000D).ToString("#.0") + "K";
             }
             return num.ToString("#,0");
+        }
+    }
+}
+
+namespace DSharpPlus.CommandsNext
+{
+    public static class DSharpImprovements
+    {
+        public static async Task<DiscordMessage> SendFileAsync(this DiscordChannel channel, string fileName)
+        {
+            if(!File.Exists(fileName)) {
+                Log.Warning($"File does not exist! (SendFileAsync @ {channel.Name})");
+                return null;
+            }
+
+            FileStream fStream = new FileStream(fileName, FileMode.Open);
+            DiscordMessage msg = await new DiscordMessageBuilder().WithFile(fileName, fStream).SendAsync(channel);
+            fStream.Close();
+
+            return msg;
+        }
+
+        public static async Task<DiscordMessage> ReplyAsync(this CommandContext Context, string Content)
+        {
+            return await Context.Channel.SendMessageAsync(Content);
+        }
+
+        public static async Task<DiscordMessage> ReplyAsync(this CommandContext Context, string Content, DiscordEmbed Embed)
+        {
+            return await Context.Channel.SendMessageAsync(Content, Embed);
+        }
+
+        public static async Task<DiscordMessage> ReplyAsync(this CommandContext Context, DiscordEmbed Embed)
+        {
+            return await Context.Channel.SendMessageAsync("", Embed);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace WinBot.Commands.Owner
             if(Context.User.Id != Bot.config.ownerId && !Bot.whitelistedUsers.Contains(Context.User.Id))
 				throw new Exception("You must be the bot owner to run this command!");
 			
-			await Context.RespondAsync("Shutting down...");
+			await Context.ReplyAsync("Shutting down...");
 			await Bot.logChannel.SendMessageAsync("Shutdown triggered by command");
 			DailyReportSystem.CreateBackup();
             UserData.SaveData();

@@ -35,7 +35,7 @@ namespace WinBot.Commands.Owner
 
             try {
                 HauntSystem.Close(Context.Channel);
-                await Context.RespondAsync("Conversation closed!");
+                await Context.ReplyAsync("Conversation closed!");
             }
             catch {}
         }

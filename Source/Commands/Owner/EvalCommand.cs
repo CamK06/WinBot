@@ -84,7 +84,7 @@ using WinBot.Commands.Attributes;" + code;
                     eb.WithTimestamp(DateTime.Now);
                     eb.AddField("Input", $"```cs\n{OGCode}```");
                     eb.AddField("Output", $"```cs\n" + result + "```");
-                    await Context.RespondAsync("", eb.Build());
+                    await Context.ReplyAsync("", eb.Build());
                 }
 
             }
@@ -96,7 +96,7 @@ using WinBot.Commands.Attributes;" + code;
                 eb.WithTimestamp(DateTime.Now);
                 eb.AddField("Input", $"```cs\n{OGCode}```");
                 eb.AddField("Error", $"```cs\n{ex.Message}```");
-                await Context.RespondAsync($"", eb.Build());
+                await Context.ReplyAsync($"", eb.Build());
             }
         }
     }

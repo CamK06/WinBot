@@ -43,11 +43,11 @@ namespace WinBot.Commands.Main
                 Embed.AddField("**Created On**", $"{MiscUtil.FormatDate(user.CreationTimestamp)} ({(int)DateTime.Now.Subtract(user.CreationTimestamp.DateTime).TotalDays} days ago)", true);
                 Embed.AddField("**Joined On**", $"{MiscUtil.FormatDate(user.JoinedAt.DateTime)} ({(int)DateTime.Now.Subtract(user.JoinedAt.DateTime).TotalDays} days ago)", true);
 
-                await Context.RespondAsync("", Embed.Build());
+                await Context.ReplyAsync("", Embed.Build());
             }
             catch (Exception ex)
             {
-                await Context.RespondAsync("Error: " + ex.Message + "\nStack Trace:" + ex.StackTrace);
+                await Context.ReplyAsync("Error: " + ex.Message + "\nStack Trace:" + ex.StackTrace);
             }
         }
     }

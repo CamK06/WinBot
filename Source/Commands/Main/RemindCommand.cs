@@ -55,11 +55,11 @@ namespace WinBot.Commands.Main
             t.AutoReset = false;
             t.Elapsed += async (object sender, ElapsedEventArgs args) =>
             {
-                await Context.RespondAsync($"{Context.User.Mention}: {message.Replace("@", "-")}");
+                await Context.ReplyAsync($"{Context.User.Mention}: {message.Replace("@", "-")}");
             };
             t.Start();
 
-            await Context.RespondAsync("Your reminder has been set!");
+            await Context.ReplyAsync("Your reminder has been set!");
         }
     }
 }

@@ -26,7 +26,10 @@ namespace WinBot.Commands.Fun
         [Category(Category.Fun)]
         public async Task Dl(CommandContext Context, string verb = null, [RemainingText] string noun = null)
         {
+            bool random = false;
             if(string.IsNullOrWhiteSpace(verb) || string.IsNullOrWhiteSpace(noun)) {
+                random = true;
+
                 // Download missing nouns and verbs
                 if(!File.Exists("nouns.txt"))
                     new System.Net.WebClient().DownloadFile("https://raw.githubusercontent.com/aaronbassett/Pass-phrase/master/nouns.txt", "nouns.txt");
@@ -45,9 +48,7 @@ namespace WinBot.Commands.Fun
 
             if (verb.ToLower() == "rick" && noun.ToLower().Contains("roll") || verb.ToLower().Contains("rick") && verb.ToLower().Contains("roll"))
             {
-                await new DiscordMessageBuilder()
-                    .WithFile("rick.gif")
-                    .SendAsync(Context.Channel);
+                await Context.Channel.SendFileAsync("rick.gif");
                 return;
             }
 
@@ -63,6 +64,12 @@ namespace WinBot.Commands.Fun
             if (noun.Contains("-will")) will = true;
             if (noun.Contains("-inline")) inline = true;
             noun = noun.Replace("-noa", "").Replace("-red", "").Replace("-would", "").Replace("-will", "").Replace("-inline", "");
+
+            if(random) {
+                would = new Random().Next(0, 100) > 75;
+                if(!would)
+                    will = new Random().Next(0, 100) > 95;
+            }
 
             // Shit I shouldn't have to do
             PrivateFontCollection fonts = new PrivateFontCollection();
@@ -112,9 +119,7 @@ namespace WinBot.Commands.Fun
             bmp.Save();
             img.Save("download.png");
 
-            await new DiscordMessageBuilder()
-                    .WithFile("download.png")
-                    .SendAsync(Context.Channel);
+            await Context.Channel.SendFileAsync("download.png");
         }
     }
 }

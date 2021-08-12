@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace WinBot
 {
     class Bot
     {
-        public const string VERSION = "3.5 Dev";
+        public const string VERSION = "3.6";
 
         static void Main(string[] args) => new Bot().RunBot().GetAwaiter().GetResult();
 
@@ -33,6 +34,8 @@ namespace WinBot
 #if TOFU
         public static DiscordChannel welcomeChannel;
         public static DiscordChannel staffChannel;
+#else
+        public static DiscordUser duff;
 #endif
         public static List<ulong> blacklistedUsers = new List<ulong>();
         public static List<ulong> whitelistedUsers = new List<ulong>();
@@ -99,9 +102,13 @@ namespace WinBot
             // Events
             commands.CommandErrored += async (CommandsNextExtension cnext, CommandErrorEventArgs e) =>
             {
+                string msg = e.Exception.Message;
+                if(msg == "One or more pre-execution checks failed.")
+                    msg += " This is likely a permissions issue.";
+                
                 await logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
-                await e.Context.RespondAsync($"There was an error executing your command!\nMessage: `{e.Exception.Message}`");
-
+                await e.Context.RespondAsync($"There was an error executing your command!\nMessage: `{msg}`");
+                
                 // string usage = WinBot.Commands.Main.HelpCommand.GetCommandUsage(e.Command.Name);
                 // if (usage != null)
                 // {
@@ -114,10 +121,12 @@ namespace WinBot
                 // }
             };
             client.Ready += async (DiscordClient client, ReadyEventArgs e) => {
+                
                 logChannel = await client.GetChannelAsync(config.logChannel);
                 if(logChannel == null) {
                     throw new Exception("Shitcord is failing to return a log channel");
                 }
+                
 #if TOFU
                 welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
                 staffChannel = await client.GetChannelAsync(config.staffChannel);
@@ -127,10 +136,13 @@ namespace WinBot
                 DailyReportSystem.Init();
                 Leveling.Init();
                 DMSystem.Init();
+                Cache.InitTimer();
                 //UnitConverter.Init();
 #if !TOFU
-                await WWRSS.Init();
+                //await WWRSS.Init();
+                duff = await client.GetUserAsync(283982771997638658);
 #endif
+
                 await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
                 Log.Write(Serilog.Events.LogEventLevel.Information, $"Running on host: {MiscUtil.GetHost().Replace('\n', ' ')}");
                 Log.Write(Serilog.Events.LogEventLevel.Information, "Ready");
@@ -178,7 +190,7 @@ namespace WinBot
         private async Task CommandHandler(DiscordClient client, MessageCreateEventArgs e)
         {
             DiscordMessage msg = e.Message;
-
+            
             if(blacklistedUsers.Contains(msg.Author.Id) || e.Author.IsBot)
                 return;
 
@@ -189,12 +201,12 @@ namespace WinBot
                     await msg.CreateReactionAsync(DiscordEmoji.FromGuildEmote(client, 838910961485742130));
                 }
             }
-#endif
-
+#else
             // DONT PING DUFF!
-            if(msg.Content.Contains("283982771997638658")) {
+            if(msg.Content.Contains("283982771997638658") || msg.MentionedUsers.Contains(duff)) {
                 await msg.Channel.SendMessageAsync("https://tenor.com/view/gordon-ramsay-fuck-off-hells-kitchen-gif-5239890");
             }
+#endif
 
             // Prefix check
             int start = msg.GetStringPrefixLength(config.prefix);
@@ -208,8 +220,7 @@ namespace WinBot
                 string[] commands = cmdString.Split(" && ");
                 if(commands.Length > 2) return;
                 for(int i = 0; i < commands.Length; i++) {
-                    await DoCommand(commands[i], prefix, msg);
-                    await Task.Delay(500);
+                    DoCommand(commands[i], prefix, msg);
                 }
                 return;
             }
@@ -218,21 +229,21 @@ namespace WinBot
             Command cmd = commands.FindCommand(cmdString, out var args);
             if(cmd == null) return;
             CommandContext ctx = commands.CreateContext(msg, prefix, cmd, args);
-            await commands.ExecuteCommandAsync(ctx);
+            _ = Task.Run(async () => await commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
         }
 
-        private async Task DoCommand(string commandString, string prefix, DiscordMessage msg) {
+        private void DoCommand(string commandString, string prefix, DiscordMessage msg) {
             Command cmd = commands.FindCommand(commandString, out var args);
             if(cmd == null) return;
             CommandContext ctx = commands.CreateFakeContext(msg.Author, msg.Channel, commandString, prefix, cmd, args);
-            await commands.ExecuteCommandAsync(ctx);
+            _ = Task.Run(async () => await commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
         }
     }
 
     class BotConfig
     {
         public string token { get; set; }
-        public string prefix { get; set; }
+        public string prefix { get; set; } = ".";
         public string status { get; set; }
         public ulong logChannel { get; set; }
         public string weatherAPIKey { get; set; }

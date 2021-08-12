@@ -55,7 +55,7 @@ namespace WinBot
                 }
 #if TOFU
                 else if(args.Channel.IsPrivate && !args.Author.IsBot) {
-                    Bot.staffChannel.SendMessageAsync("DM From " + args.Author.Username + ": " + args.Message.Content);
+                    Bot.staffChannel.SendMessageAsync("DM From " + args.Author.Username + ": " + args.Message.Content.Replace("@", "(at)"));
                 }
 #endif
                 var chat2 = chats.FirstOrDefault(x => x.channelId == args.Channel.Id);

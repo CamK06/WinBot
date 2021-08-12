@@ -21,7 +21,9 @@ namespace WinBot.Commands.Fun
             Random r = new Random();
             if(length < 6)
                 throw new Exception("Length must be greater than or equal to 6");
-            
+            else if(length > 100)
+                throw new Exception("Length must be less than 100");
+
             // Generate pure nonsense
             string jargon = actions[r.Next(0, actions.Length)];
             for(int i = 0; i < length; i++) {
@@ -36,7 +38,7 @@ namespace WinBot.Commands.Fun
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithColor(DiscordColor.Gold);
             eb.WithDescription($"```cpp\n{jargon.Truncate(2000)}```");
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
         }
 
         static string[] things = new string[] {

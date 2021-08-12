@@ -43,7 +43,7 @@ namespace WinBot.Commands.Staff
                 eb.WithTitle("Blacklist");
                 eb.WithColor(DiscordColor.Gold);
                 eb.WithDescription($"```\n{list}```");
-                await Context.RespondAsync("", eb.Build());
+                await Context.ReplyAsync("", eb.Build());
                 return;
             }
 
@@ -51,12 +51,12 @@ namespace WinBot.Commands.Staff
             if(Bot.blacklistedUsers.Contains(user.Id)) {
                 Bot.blacklistedUsers.Remove(user.Id);
                 File.WriteAllText("blacklist.json", JsonConvert.SerializeObject(Bot.blacklistedUsers, Formatting.Indented));
-                await Context.RespondAsync($"Unblacklisted {user.Username}#{user.Discriminator}!");
+                await Context.ReplyAsync($"Unblacklisted {user.Username}#{user.Discriminator}!");
             }
             else {
                 Bot.blacklistedUsers.Add(user.Id);
                 File.WriteAllText("blacklist.json", JsonConvert.SerializeObject(Bot.blacklistedUsers, Formatting.Indented));
-                await Context.RespondAsync($"Blacklisted {user.Username}#{user.Discriminator}!");
+                await Context.ReplyAsync($"Blacklisted {user.Username}#{user.Discriminator}!");
             }
         }
     }

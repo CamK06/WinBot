@@ -46,7 +46,7 @@ namespace WinBot.Commands.Main
             eb.WithTimestamp(DateTime.Now);
             eb.WithFooter($"Poll started by {Context.User.Username}#{Context.User.Discriminator}");
             eb.AddField("Options", string.Join('\n', options));
-            var msg = await Context.RespondAsync("", eb.Build());
+            var msg = await Context.ReplyAsync("", eb.Build());
 
             // Add reactions
             for(int i = 0; i < options.Length; i++) {

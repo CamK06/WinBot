@@ -27,7 +27,7 @@ namespace WinBot.Commands.Fun
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithColor(DiscordColor.Gold);
             eb.WithTitle($"🤔 I pick {choice}".Truncate(256));
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
         }
     }
 }

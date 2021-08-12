@@ -14,7 +14,7 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Ping(CommandContext Context)
         {
-            await Context.RespondAsync($"🏓 Pong! **{Bot.client.Ping}ms**");
+            await Context.ReplyAsync($"🏓 Pong! **{Bot.client.Ping}ms**");
         }
     }
 }
