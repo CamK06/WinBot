@@ -42,7 +42,7 @@ namespace WinBot.Commands.Fun
             eb.WithFooter($"ID: {ticketID}");
 	    eb.WithColor(DiscordColor.Gold);
             eb.WithUrl("https://www.chroniclesofgeorge.com/");
-            await Context.RespondAsync("", eb.Build());
+            await Context.ReplyAsync("", eb.Build());
         }
     }
 }
