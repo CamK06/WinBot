@@ -1,29 +1,18 @@
 #if !TOFU
 
-using System;
-using System.IO;
-using System.Net;
-using System.Linq;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Threading.Tasks;
 
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
 
-using WinBot.Util;
 using WinBot.Commands.Attributes;
-
-using Newtonsoft.Json;
-using System.Text.RegularExpressions;
 
 namespace WinBot.Commands.Fun
 {
     public class BedCommand : BaseCommandModule
     {
-		
 		[Command("bed")]
         [Description("Tell someone to go to bed.")]
         [Usage("[Name of person you want to go to bed]")]
@@ -61,7 +50,6 @@ namespace WinBot.Commands.Fun
             parz.Save("bed.png");
 
             await Context.Channel.SendFileAsync("bed.png");
-        
 		}
 		
 	}
