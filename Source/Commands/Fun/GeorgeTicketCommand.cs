@@ -40,6 +40,7 @@ namespace WinBot.Commands.Fun
             eb.WithTitle("Random George Ticket");
             eb.WithImageUrl(ticketUrl);
             eb.WithFooter($"ID: {ticketID}");
+	    eb.WithColor(DiscordColor.Gold);
             eb.WithUrl("https://www.chroniclesofgeorge.com/");
             await Context.RespondAsync("", eb.Build());
         }
