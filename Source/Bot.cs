@@ -1,8 +1,10 @@
 using System;
 using System.IO;
+using System.Net;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Reflection;
+using System.IO.Compression;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using DSharpPlus;
@@ -49,11 +51,31 @@ namespace WinBot
             Directory.SetCurrentDirectory("WorkingDirectory");
 #endif
 
+            // Logger
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.DiscordSink()
+                .CreateLogger();
+            var logFactory = new LoggerFactory().AddSerilog();
+
             // Verify directory structure
             if (!Directory.Exists("Logs"))
                 Directory.CreateDirectory("Logs");
             if(!Directory.Exists("Cache"))
                 Directory.CreateDirectory("Cache");
+
+            // Verify resources
+            if(!File.Exists("xband.ttf")) {
+                Log.Write(Serilog.Events.LogEventLevel.Information, "Resources not found!");
+                Log.Write(Serilog.Events.LogEventLevel.Information, "Downloading resources...");
+                new WebClient().DownloadFile("https://github.com/Starman0620/WinBot/raw/main/Res.zip", "res.zip");
+                ZipFile.ExtractToDirectory("res.zip", "Res");
+                Log.Write(Serilog.Events.LogEventLevel.Information, "Copying resources...");
+                foreach(string file in Directory.GetFiles("Res"))
+                    File.Copy(file, Path.GetFileName(file));
+                Log.Write(Serilog.Events.LogEventLevel.Information, "Cleaning up...");
+                Directory.Delete("Res", true);
+                File.Delete("res.zip");
+            }
 
             // Load blacklisted users
             if(!File.Exists("blacklist.json"))
@@ -76,12 +98,6 @@ namespace WinBot
                 Console.WriteLine("No configuration file found. A template config has been written to config.json");
                 return;
             }
-
-            // Logger
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.DiscordSink()
-                .CreateLogger();
-            var logFactory = new LoggerFactory().AddSerilog();
 
             // Set up the client
             client = new DiscordClient(new DiscordConfiguration()
