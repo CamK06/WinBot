@@ -42,8 +42,6 @@ namespace WinBot.Commands.Fun
             eb.WithFooter($"ID: {ticketID}");
             eb.WithUrl("https://www.chroniclesofgeorge.com/");
             await Context.RespondAsync("", eb.Build());
-
-
         }
     }
 }
