@@ -46,15 +46,22 @@ namespace WinBot.Commands.Main
             string[] xticks;
 
             // Data parsing... this is a huge mess but oh well, I'm lazy and it just works
-            messages = new double[reports.Count];
-            commands = new double[reports.Count];
-            ys = new double[reports.Count];
-            xticks = new string[reports.Count];
-#if TOFU
-                userJoin = new double[reports.Count];
-                userLeave = new double[reports.Count];
-#endif
+            // now even MORE of a mess! - Starman Aug 2021
+
             int realCount = 0;
+            for(int i = 0; i < reports.Count; i++) {
+                if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 14)
+                    realCount++;
+            }
+
+            messages = new double[realCount];
+            commands = new double[realCount];
+            ys = new double[realCount];
+            xticks = new string[realCount];
+#if TOFU
+                userJoin = new double[realCount];
+                userLeave = new double[realCount];
+#endif
             for (int i = 0; i < reports.Count; i++)
             {
                 if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 14) {
