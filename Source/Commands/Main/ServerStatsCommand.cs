@@ -50,7 +50,7 @@ namespace WinBot.Commands.Main
 
             int realCount = 0;
             for(int i = 0; i < reports.Count; i++) {
-                if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 13)
+                if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 15)
                     realCount++;
             }
 
@@ -66,7 +66,7 @@ namespace WinBot.Commands.Main
             realCount = 0;
             for (int i = 0; i < reports.Count; i++)
             {
-                if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 13) {
+                if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 15) {
                 ys[realCount] = i;
                 xticks[realCount] = reports[i].dayOfReport.ToShortDateString();
                 messages[realCount] += reports[i].messagesSent;
