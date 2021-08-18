@@ -54,16 +54,19 @@ namespace WinBot.Commands.Main
                 userJoin = new double[reports.Count];
                 userLeave = new double[reports.Count];
 #endif
+            int realCount;
             for (int i = 0; i < reports.Count; i++)
             {
+                if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 14) {
                 ys[i] = i;
-                xticks[i] = (i+1).ToString();
+                xticks[i] = reports[i].dayOfReport.ToShortDateString();
                 messages[i] += reports[i].messagesSent;
                 commands[i] += reports[i].commandsRan;
 #if TOFU
                     userJoin[i] += reports[i].usersJoined;
                     userLeave[i] += reports[i].usersLeft;
 #endif
+                }
             }
 
             // Plotting
@@ -79,6 +82,7 @@ namespace WinBot.Commands.Main
 #endif
             //plt.TightenLayout(0, true);
             plt.Layout(xScaleHeight: 128);
+            plt.XTicks(xticks);
             //plt.Ticks(dateTimeX: true, xTickRotation: 75);
             plt.Title($"{Context.Guild.Name} Stats", null, null, 45.5f, null, true);
             //plt.Grid(xSpacing: 1, xSpacingDateTimeUnit: ScottPlot.Config.DateTimeUnit.Day);
