@@ -25,7 +25,7 @@ namespace WinBot.Commands.Main
         [Command("serverstats")]
         [Description("Show basic statistics about the server")]
         [Category(Category.Main)]
-        public async Task Serverstats(CommandContext Context, [RemainingText] string args = null)
+        public async Task Serverstats(CommandContext Context)
         {
             // Report loading
             List<DailyReport> reports = new List<DailyReport>();
@@ -50,7 +50,7 @@ namespace WinBot.Commands.Main
 
             int realCount = 0;
             for(int i = 0; i < reports.Count; i++) {
-                if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 14)
+                if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 13)
                     realCount++;
             }
 
@@ -66,7 +66,7 @@ namespace WinBot.Commands.Main
             realCount = 0;
             for (int i = 0; i < reports.Count; i++)
             {
-                if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 14) {
+                if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 13) {
                 ys[realCount] = i;
                 xticks[realCount] = reports[i].dayOfReport.ToShortDateString();
                 messages[realCount] += reports[i].messagesSent;
@@ -92,37 +92,15 @@ namespace WinBot.Commands.Main
 #endif
             //plt.TightenLayout(0, true);
             plt.Layout(xScaleHeight: 128);
-            plt.XTicks(xticks);
+            plt.XTicks(ys, xticks);
             //plt.Ticks(dateTimeX: true, xTickRotation: 75);
-            plt.Title($"{Context.Guild.Name} Stats", null, null, 45.5f, null, true);
+            plt.Title($"{Context.Guild.Name} Stats (Past 14 days)", null, null, 45.5f, null, true);
             //plt.Grid(xSpacing: 1, xSpacingDateTimeUnit: ScottPlot.Config.DateTimeUnit.Day);
             plt.Legend(true, null, 30, null, null, System.Drawing.Color.FromArgb(100, 52, 54, 60), null, legendLocation.upperRight, shadowDirection.lowerRight, null, null);
 
             // Save and send
             plt.SaveFig("stats.png");
-            if (args != null)
-            {
-                await Context.Channel.SendFileAsync("stats.png");
-                return;
-            }
-
-            // Draw it onto C H A D
-            Bitmap chad = new Bitmap(Bitmap.FromFile("chad.png"));
-            Bitmap stats = new Bitmap(Bitmap.FromFile("stats.png"));
-            using (Graphics canvas = Graphics.FromImage(chad))
-            {
-                canvas.DrawImage(stats, graphPos);
-                canvas.Save();
-            }
-
-            chad.Save("stats.png");
             await Context.Channel.SendFileAsync("stats.png");
         }
-
-        static Point[] graphPos = new Point[] {
-            new Point(900, 500),  // Top left
-			new Point(1440, 385), // Top right
-			new Point(985, 890),  // Bottom left
-		};
     }
 }
