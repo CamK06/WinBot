@@ -62,6 +62,8 @@ namespace WinBot.Commands.Main
                 userJoin = new double[realCount];
                 userLeave = new double[realCount];
 #endif
+
+            realCount = 0;
             for (int i = 0; i < reports.Count; i++)
             {
                 if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 14) {
