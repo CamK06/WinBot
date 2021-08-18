@@ -54,18 +54,19 @@ namespace WinBot.Commands.Main
                 userJoin = new double[reports.Count];
                 userLeave = new double[reports.Count];
 #endif
-            int realCount;
+            int realCount = 0;
             for (int i = 0; i < reports.Count; i++)
             {
                 if(DateTime.Now.Subtract(reports[i].dayOfReport).TotalDays <= 14) {
-                ys[i] = i;
-                xticks[i] = reports[i].dayOfReport.ToShortDateString();
-                messages[i] += reports[i].messagesSent;
-                commands[i] += reports[i].commandsRan;
+                ys[realCount] = i;
+                xticks[realCount] = reports[i].dayOfReport.ToShortDateString();
+                messages[realCount] += reports[i].messagesSent;
+                commands[realCount] += reports[i].commandsRan;
 #if TOFU
-                    userJoin[i] += reports[i].usersJoined;
-                    userLeave[i] += reports[i].usersLeft;
+                    userJoin[realCount] += reports[i].usersJoined;
+                    userLeave[realCount] += reports[i].usersLeft;
 #endif
+                realCount++;
                 }
             }
 
