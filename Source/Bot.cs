@@ -123,7 +123,7 @@ namespace WinBot
                     msg += " This is likely a permissions issue.";
                 
                 await logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
-                await e.Context.RespondAsync($"There was an error executing your command!\nMessage: `{msg}`");
+                await e.Context.ReplyAsync($"There was an error executing your command!\nMessage: `{msg}`");
                 
                 // string usage = WinBot.Commands.Main.HelpCommand.GetCommandUsage(e.Command.Name);
                 // if (usage != null)
