@@ -1,6 +1,5 @@
 #if !TOFU
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 using DSharpPlus.CommandsNext;
@@ -26,15 +25,7 @@ namespace WinBot.Commands.Fun
             var rand = new Random();
             ticketID = rand.Next(1, 223);
 
-            if (ticketID < 10){
-                ticketUrl = $"https://cdn.chroniclesofgeorge.com/images/00{ticketID}.png";
-            }
-            else if(ticketID > 9 && ticketID < 100){
-                ticketUrl = $"https://cdn.chroniclesofgeorge.com/images/0{ticketID}.png";
-            }
-            else{
-                ticketUrl = $"https://cdn.chroniclesofgeorge.com/images/{ticketID}.png";
-            }
+            ticketUrl = $"https://cdn.chroniclesofgeorge.com/images/{ticketID.ToString().PadLeft(3,'0')}.png";
         
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithTitle("Random George Ticket");
