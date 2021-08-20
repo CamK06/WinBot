@@ -55,9 +55,9 @@ namespace WinBot
                 }
 #if TOFU
                 else if(args.Channel.IsPrivate && !args.Author.IsBot) {
-                    Bot.staffChannel.SendMessageAsync("DM From " + args.Author.Username + ": " + args.Message.Content.Replace("@", "(at)"));
+                    await Bot.staffChannel.SendMessageAsync("DM From " + args.Author.Username + ": " + args.Message.Content.Replace("@", "(at)"));
                     if(args.Message.Attachments.FirstOrDefault() != null) {
-                        Bot.staffChannel.SendMessageAsync(args.Message.Attachments.FirstOrDefault().Url);
+                        await Bot.staffChannel.SendMessageAsync(args.Message.Attachments.FirstOrDefault().Url);
                     }
                 }
 #endif
