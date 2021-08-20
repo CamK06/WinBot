@@ -6,10 +6,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 
-using WinBot.Util;
 using WinBot.Commands.Attributes;
-
-using RestSharp;
 
 namespace WinBot.Commands.Fun
 {
