@@ -23,7 +23,9 @@ namespace WinBot.Commands.Main.Tofu
                 throw new Exception("You must provide an issue!");
             }
 
+            try{ 
             await Context.Message.DeleteAsync();
+            }catch{}
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithTitle("Report");
             eb.WithColor(DiscordColor.Gold);
