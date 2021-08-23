@@ -1,5 +1,5 @@
 // The system for haunting the bot in channels. Same idea as the DM system but operating within the server
-// #if TOFU
+#if TOFU
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,14 +46,27 @@ namespace WinBot.Misc
 
                     // TEMPORARY: Attempt to respond using chat system
                     // TODO: Replace this with standalone chat system
+                    // TODO: Clean this up, it's a mess and sucks.
                     Random r = new Random();
-                    //if(r.Next(0, 5000) < 500) {
+                    if(r.Next(0, 100) < 65) {
                         string response = ChatSystem.Respond(args.Message.Content, args.Author);
                         if(!string.IsNullOrWhiteSpace(response)) {
+                            bool hasGif = false;
+                            string gif = "";
+                            if(response.Contains("@g")) {
+                                response = response.Replace("@g", "");
+                                hasGif = true;
+                                string[] gifs = File.ReadAllLines("chatGifs");
+                                gif = gifs[r.Next(0, gifs.Length)];
+                            }
+
                             await chat.target.SendMessageAsync(response);
-                            await chat.host.SendMessageAsync($"**<TOFUCHAT/{chat.target.Mention}>** {response}");
+                            await chat.host.SendMessageAsync($"**<TOFUCHAT/{chat.target.Mention}>** {response.Replace("@", "-")}");
+                            if(hasGif && r.Next(0, 100) < 35)
+                                await chat.target.SendMessageAsync(gif);
+                            await Task.Delay(250);
                         }
-                    //}
+                    }
                 }
                 // Host to target
                 else if(chats.FirstOrDefault(x => x.host.Id == args.Channel.Id) != null) {
@@ -107,4 +120,4 @@ namespace WinBot.Misc
         public DiscordWebhook webhook { get; set; }
     }
 }
-//#endif
+#endif

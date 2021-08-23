@@ -25,7 +25,7 @@ namespace WinBot.Misc
             if(prompt == null)
                 return null;
 
-            return prompt.responses.Random().Replace("@u", user.Mention).Replace("@g", "");
+            return prompt.responses.Random().Replace("@u", user.Mention);
         }
 
         private static Prompt GetPrompt(string msg)
