@@ -48,7 +48,7 @@ namespace WinBot.Misc
                     // TODO: Replace this with standalone chat system
                     // TODO: Clean this up, it's a mess and sucks.
                     Random r = new Random();
-                    if(r.Next(0, 100) < 65) {
+                    //if(r.Next(0, 100) < 65) {
                         string response = ChatSystem.Respond(args.Message.Content, args.Author);
                         if(!string.IsNullOrWhiteSpace(response)) {
                             bool hasGif = false;
@@ -66,7 +66,7 @@ namespace WinBot.Misc
                                 await chat.target.SendMessageAsync(gif);
                             await Task.Delay(250);
                         }
-                    }
+                    //}
                 }
                 // Host to target
                 else if(chats.FirstOrDefault(x => x.host.Id == args.Channel.Id) != null) {
