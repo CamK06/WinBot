@@ -8,6 +8,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 
 using WinBot.Commands.Attributes;
+using WinBot.Misc;
 
 namespace WinBot.Commands.Owner
 {

@@ -1,5 +1,5 @@
 // The system for haunting the bot in channels. Same idea as the DM system but operating within the server
-#if TOFU
+// #if TOFU
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
 
-namespace WinBot
+namespace WinBot.Misc
 {
     public class HauntSystem
     {
@@ -43,6 +43,17 @@ namespace WinBot
                     else {
                         await chat.host.SendMessageAsync($"**<{args.Author.Username}/{chat.target.Mention}>** {args.Message.Content}");
                     }
+
+                    // TEMPORARY: Attempt to respond using chat system
+                    // TODO: Replace this with standalone chat system
+                    Random r = new Random();
+                    //if(r.Next(0, 5000) < 500) {
+                        string response = ChatSystem.Respond(args.Message.Content, args.Author);
+                        if(!string.IsNullOrWhiteSpace(response)) {
+                            await chat.target.SendMessageAsync(response);
+                            await chat.host.SendMessageAsync($"**<TOFUCHAT/{chat.target.Mention}>** {response}");
+                        }
+                    //}
                 }
                 // Host to target
                 else if(chats.FirstOrDefault(x => x.host.Id == args.Channel.Id) != null) {
@@ -96,4 +107,4 @@ namespace WinBot
         public DiscordWebhook webhook { get; set; }
     }
 }
-#endif
+//#endif
