@@ -44,6 +44,8 @@ namespace WinBot.Misc
                 for(int i = 0; i < words.Length; i++) {
                     if(prompt.weights.TryGetValue(words[i], out float weight)) {
                         totalWeight += weight;
+                    } else {
+                        totalWeight -= 1.0f; // If we don't know what tf is being said, remove one from weight
                     }
                 }
                 if(totalWeight > bestWeight) {
