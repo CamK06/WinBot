@@ -85,10 +85,10 @@ namespace WinBot
                 File.WriteAllText("blacklist.json", "[]");
             blacklistedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText("blacklist.json"));
 
+#if TOFU
             // Load muted users
             if(!File.Exists("mute.json"))
                 File.WriteAllText("mute.json", "[]");
-#if TOFU
             mutedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText("mute.json"));
 #endif
 
@@ -152,7 +152,7 @@ namespace WinBot
                 if(logChannel == null) {
                     throw new Exception("Shitcord is failing to return a log channel");
                 }
-                
+                        
 #if TOFU
                 welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
                 staffChannel = await client.GetChannelAsync(config.staffChannel);
