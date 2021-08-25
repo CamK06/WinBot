@@ -34,13 +34,16 @@ namespace WinBot
         public static BotConfig config;
         public static DiscordChannel logChannel;
 #if TOFU
+        public static DiscordRole mutedRole;
         public static DiscordChannel welcomeChannel;
         public static DiscordChannel staffChannel;
+        public static List<ulong> mutedUsers = new List<ulong>();
 #else
         public static DiscordUser duff;
 #endif
         public static List<ulong> blacklistedUsers = new List<ulong>();
         public static List<ulong> whitelistedUsers = new List<ulong>();
+
 
         public async Task RunBot()
         {
@@ -81,6 +84,13 @@ namespace WinBot
             if(!File.Exists("blacklist.json"))
                 File.WriteAllText("blacklist.json", "[]");
             blacklistedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText("blacklist.json"));
+
+            // Load muted users
+            if(!File.Exists("mute.json"))
+                File.WriteAllText("mute.json", "[]");
+#if TOFU
+            mutedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText("mute.json"));
+#endif
 
             // Load the config
             if (File.Exists("config.json"))
@@ -144,6 +154,7 @@ namespace WinBot
                 }
                 
 #if TOFU
+                mutedRole = client.Guilds.FirstOrDefault().Value.Roles.FirstOrDefault(x => x.Value.Name.ToLower() == "muted").Value;
                 welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
                 staffChannel = await client.GetChannelAsync(config.staffChannel);
                 HauntSystem.Init();
@@ -191,6 +202,12 @@ namespace WinBot
             client.MessageCreated += CommandHandler;
 #if TOFU
             client.GuildMemberAdded += async (DiscordClient client, GuildMemberAddEventArgs e) => {
+                if(mutedUsers.Contains(e.Member.Id)) {
+                    await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Unfortunately it seems as if you have failed to read <#774567486069800960>, have fun in the hole!");
+                    await e.Member.GrantRoleAsync(mutedRole, "succ");
+                    return;
+                }
+
                 await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Be sure to read the <#774567486069800960> before chatting!");
             };
 #endif
