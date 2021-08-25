@@ -33,7 +33,7 @@ namespace WinBot.Commands.Staff
                 Bot.mutedUsers.Remove(user.Id);
                 await Context.ReplyAsync($"Unmuted {user.Username}!");
             }
-            File.WriteAllText("muted.json", JsonConvert.SerializeObject(Bot.mutedUsers));
+            File.WriteAllText("mute.json", JsonConvert.SerializeObject(Bot.mutedUsers, Formatting.Indented));
         }
     }
 }
