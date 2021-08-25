@@ -13,7 +13,7 @@ namespace WinBot.Misc
 {
     public class ChatSystem
     {
-        private static List<Prompt> prompts;
+        public static List<Prompt> prompts;
         private static float threshold = 25.0f;
 
         public static string Respond(string msg, DiscordUser user)
@@ -60,12 +60,17 @@ namespace WinBot.Misc
                 return null;
         }
 
-        private static void LoadPrompts()
+        public static void LoadPrompts()
         {
             if(!File.Exists("chatPrompts.json"))
                 throw new Exception("There is no prompts file!");
 
             prompts = JsonConvert.DeserializeObject<List<Prompt>>(File.ReadAllText("chatPrompts.json"));
+        }
+
+        public static void SavePrompts()
+        {
+            File.WriteAllText("chatPrompts.json", JsonConvert.SerializeObject(prompts, Formatting.Indented));
         }
     }
 

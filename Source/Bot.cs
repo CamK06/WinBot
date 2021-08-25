@@ -153,6 +153,7 @@ namespace WinBot
                 Leveling.Init();
                 DMSystem.Init();
                 Cache.InitTimer();
+                ChatSystem.LoadPrompts();
                 //UnitConverter.Init();
 #if !TOFU
                 //await WWRSS.Init();
