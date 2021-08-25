@@ -154,7 +154,7 @@ namespace WinBot
                 }
                 
 #if TOFU
-                mutedRole = client.Guilds.FirstOrDefault().Value.GetRole(874370290900140084); // TODO: make role ID not hardcoded
+                mutedRole = client.GetGuildAsync(774566729379741706).Result.GetRole(874370290900140084); // TODO: make role ID not hardcoded
                 welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
                 staffChannel = await client.GetChannelAsync(config.staffChannel);
                 HauntSystem.Init();
