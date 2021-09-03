@@ -20,6 +20,7 @@ namespace WinBot.Misc
 
         public static async Task Init()
         {
+            try {
             // Load cached items
             if (File.Exists("Cache/rss.cache"))
                 sentItems = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText("Cache/rss.cache"));
@@ -36,6 +37,9 @@ namespace WinBot.Misc
             await FetchItems();
 
             Log.Write(Serilog.Events.LogEventLevel.Information, "WinWorld RSS service started");
+            }catch(System.Exception ex) {
+                Log.Write(Serilog.Events.LogEventLevel.Information, ex.Message);
+            }
         }
 
         public static async Task FetchItems()
