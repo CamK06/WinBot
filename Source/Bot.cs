@@ -38,6 +38,7 @@ namespace WinBot
         public static DiscordChannel welcomeChannel;
         public static DiscordChannel staffChannel;
         public static List<ulong> mutedUsers = new List<ulong>();
+        public static bool serverLocked = false;
 #else
         public static DiscordUser duff;
 #endif
@@ -201,8 +202,11 @@ namespace WinBot
             client.MessageCreated += CommandHandler;
 #if TOFU
             client.GuildMemberAdded += async (DiscordClient client, GuildMemberAddEventArgs e) => {
-                if(mutedUsers.Contains(e.Member.Id)) {
-                    await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Unfortunately it seems as if you have failed to read <#774567486069800960>, have fun in the hole!");
+                if(mutedUsers.Contains(e.Member.Id) || serverLocked) {
+                    if(!serverLocked)
+                        await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Unfortunately it seems as if you have failed to read <#774567486069800960>, have fun in the hole!");
+                    else
+                        await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Be sure to read the <#774567486069800960> before chatting!");
                     await e.Member.GrantRoleAsync(mutedRole, "succ");
                     return;
                 }
@@ -228,8 +232,10 @@ namespace WinBot
                 return;
 
 #if TOFU
+#if !DEBUG
             if(mutedRole == null)
                 mutedRole = client.GetGuildAsync(774566729379741706).Result.GetRole(874370290900140084); // TODO: make role and guild ID not hardcoded
+#endif
             if(!msg.Author.IsBot) {
                 if(e.Message.Content.ToLower().Contains("brett") || e.Message.Content.ToLower().Contains("bret")) {
                     await msg.Channel.SendMessageAsync("Brent*");
