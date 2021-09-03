@@ -40,6 +40,7 @@ namespace WinBot.Misc
 
         public static async Task FetchItems()
         {
+            try {
             // Setup
             var feed = await FeedReader.ReadAsync("https://winworldpc.com/downloads/latest.rss");
             DiscordChannel additions = await Bot.client.GetChannelAsync(Bot.config.rssChannel);
@@ -64,6 +65,9 @@ namespace WinBot.Misc
                 await Task.Delay(1024);
                 File.WriteAllText("Cache/rss.cache", JsonConvert.SerializeObject(sentItems, Formatting.Indented));
                 await Task.Delay(1024);
+            }
+            } catch(System.Exception ex) {
+                Log.Write(Serilog.Events.LogEventLevel.Information, ex.Message);
             }
         }
     }
