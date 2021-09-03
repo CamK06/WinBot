@@ -167,7 +167,7 @@ namespace WinBot
                 ChatSystem.LoadPrompts();
                 //UnitConverter.Init();
 #if !TOFU
-                //await WWRSS.Init();
+                await WWRSS.Init();
                 duff = await client.GetUserAsync(283982771997638658);
 #endif
 
