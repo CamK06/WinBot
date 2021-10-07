@@ -16,7 +16,7 @@ namespace WinBot.Commands.Main
         [Description("Remind you about something")]
         [Usage("[Time] [Time Unit (seconds/s, minutes/m, hours/h, days/d) [Message] (Note that long timespans are likely unreliable due to bot restarts)]")]
         [Category(Category.Main)]
-        public async Task Remind(CommandContext Context, int time, string unit, [RemainingText] string message)
+        public async Task Remind(CommandContext Context, int time, string unit, [RemainingText] string message = "")
         {
             Timer t;
 
@@ -55,7 +55,8 @@ namespace WinBot.Commands.Main
             t.AutoReset = false;
             t.Elapsed += async (object sender, ElapsedEventArgs args) =>
             {
-                await Context.ReplyAsync($"{Context.User.Mention}: {message.Replace("@", "-")}");
+                if (message == "") { await Context.ReplyAsync(Context.User.Mention); }
+                else { await Context.ReplyAsync($"{Context.User.Mention}: {message.Replace("@", "-")}"); }
             };
             t.Start();
 
