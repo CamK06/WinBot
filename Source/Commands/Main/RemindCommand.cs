@@ -55,8 +55,7 @@ namespace WinBot.Commands.Main
             t.AutoReset = false;
             t.Elapsed += async (object sender, ElapsedEventArgs args) =>
             {
-                if (message == "") { await Context.ReplyAsync(Context.User.Mention); }
-                else { await Context.ReplyAsync($"{Context.User.Mention}: {message.Replace("@", "-")}"); }
+                await Context.ReplyAsync($"{Context.User.Mention}{(message == "" ? "" : ":")} {message.Replace("@", "-")}");
             };
             t.Start();
 
