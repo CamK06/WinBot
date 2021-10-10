@@ -1,3 +1,4 @@
+#if TOFU
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -92,3 +93,4 @@ namespace WinBot.Commands.Owner
         }
     }
 }
+#endif
