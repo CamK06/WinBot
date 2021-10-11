@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Threading.Tasks;
 
+using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 

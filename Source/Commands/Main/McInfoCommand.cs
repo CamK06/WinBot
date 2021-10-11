@@ -26,7 +26,7 @@ namespace WinBot.Commands.Main
 #if !TOFU
                 json = webClient.DownloadString("https://api.mcsrvstat.us/2/mc.winworldpc.com:48666");
 #else
-                json = webClient.DownloadString("https://api.mcsrvstat.us/2/minecraft.cerrogordo.club");
+                json = webClient.DownloadString("https://api.mcsrvstat.us/2/cgmc.nick99nack.com");
 #endif
             dynamic serverInfo = JsonConvert.DeserializeObject(json);
 
@@ -42,9 +42,9 @@ namespace WinBot.Commands.Main
                 eb.AddField("IP", "mc.winworldpc.com:48666", true);
                 eb.AddField("Versions", "1.5.2 -> 1.16.5", true);
 #else
-                eb.AddField("IP", "minecraft.cerrogordo.club", true);
-                eb.AddField("Versions", "1.5.2 -> 1.16.5 & Bedrock", true);
-                eb.AddField("Dynmap", "http://minecraft.cerrogordo.club:1865/", true);
+                eb.AddField("IP", "cgmc.nick99nack.com", true);
+                eb.AddField("Versions", "1.5.2 -> 1.16.5", true);
+                //eb.AddField("Dynmap", "http://minecraft.cerrogordo.club:1865/", true);
 #endif
                 eb.AddField("Online?", ((bool)serverInfo.online) ? "Yes" : "No", true);
                 eb.AddField("Users Count", $"{(int)serverInfo.players.online}/{(int)serverInfo.players.max}", true);
