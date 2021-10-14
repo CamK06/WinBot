@@ -158,13 +158,14 @@ namespace WinBot
                 welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
                 staffChannel = await client.GetChannelAsync(config.staffChannel);
                 HauntSystem.Init();
+                DMSystem.Init();
+                ChatSystem.LoadPrompts();
 #endif
                 UserData.Init();
                 DailyReportSystem.Init();
                 Leveling.Init();
-                DMSystem.Init();
                 Cache.InitTimer();
-                ChatSystem.LoadPrompts();
+                
                 //UnitConverter.Init();
 #if !TOFU
                 await WWRSS.Init();
