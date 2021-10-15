@@ -20,7 +20,7 @@ namespace WinBot.Commands.Main
                 return;
             }
 
-            await Context.ReplyAsync($"https://www.google.com/search?q={System.Web.HttpUtility.UrlEncode(query)}");
+            await Context.ReplyAsync($"https://letmegooglethat.com/?q={System.Web.HttpUtility.UrlEncode(query)}");
         }
     }
 }
