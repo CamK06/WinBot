@@ -22,7 +22,7 @@ namespace WinBot.Commands.Fun
 
         [Command("dl")]
         [Description("You wouldn't download a WinBot!")]
-        [Usage("[verb] [noun] [args] (arguments: -noa -red- would -will -inline)")]
+        [Usage("[verb] [noun] [args] (arguments: -noa -red -would -will -inline)")]
         [Category(Category.Fun)]
         public async Task Dl(CommandContext Context, string verb = null, [RemainingText] string noun = null)
         {
