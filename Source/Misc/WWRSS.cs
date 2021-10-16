@@ -22,8 +22,8 @@ namespace WinBot.Misc
         {
             try {
             // Load cached items
-            if (File.Exists("Cache/rss.cache"))
-                sentItems = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText("Cache/rss.cache"));
+            if (File.Exists("rss.cache"))
+                sentItems = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText("rss.cache"));
 
             // Set up the timer
             Timer t = new Timer(43200000);
@@ -67,7 +67,7 @@ namespace WinBot.Misc
                 sentItems.Add(item.Id);
                 
                 await Task.Delay(1024);
-                File.WriteAllText("Cache/rss.cache", JsonConvert.SerializeObject(sentItems, Formatting.Indented));
+                File.WriteAllText("rss.cache", JsonConvert.SerializeObject(sentItems, Formatting.Indented));
                 await Task.Delay(1024);
             }
             } catch(System.Exception ex) {
