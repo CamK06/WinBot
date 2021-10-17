@@ -260,7 +260,7 @@ namespace WinBot
             // Multi-command check and execution
             if(cmdString.Contains(" && ")) {
                 string[] commands = cmdString.Split(" && ");
-                if(commands.Length > 2) return;
+                if(commands.Length > 2 && e.Author.Id != client.CurrentApplication.Owners.FirstOrDefault().Id) return;
                 for(int i = 0; i < commands.Length; i++) {
                     DoCommand(commands[i], prefix, msg);
                 }
