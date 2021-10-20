@@ -39,10 +39,10 @@ namespace WinBot.Commands.Main
                 eb.WithThumbnail(Context.Guild.IconUrl);
                 eb.WithTitle((string)serverInfo.motd.clean[0]);
 #if !TOFU
-                eb.AddField("IP", "mc.winworldpc.com:48666", true);
+                eb.AddField("Address", "mc.winworldpc.com:48666", true);
                 eb.AddField("Versions", "1.5.2 -> 1.16.5", true);
 #else
-                eb.AddField("IP", "cgmc.nick99nack.com", true);
+                eb.AddField("Address", "cgmc.nick99nack.com", true);
                 eb.AddField("Versions", "1.5.2 -> 1.16.5", true);
                 //eb.AddField("Dynmap", "http://minecraft.cerrogordo.club:1865/", true);
 #endif
