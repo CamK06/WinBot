@@ -271,7 +271,7 @@ namespace WinBot
             Command cmd = commands.FindCommand(cmdString, out var args);
             if(cmd == null) return;
             CommandContext ctx = commands.CreateContext(msg, prefix, cmd, args);
-            _ = Task.Run(async () => await commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
+            await Task.Run(async () => await commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
         }
 
         private void DoCommand(string commandString, string prefix, DiscordMessage msg) {

@@ -1,10 +1,14 @@
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using DSharpPlus;
+using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+
+using Newtonsoft.Json;
 
 using Serilog;
 
@@ -13,10 +17,15 @@ namespace WinBot.Misc
     public class Leveling
     {
         static Dictionary<ulong, DateTime> lastMessages = new Dictionary<ulong, DateTime>();
+        static Dictionary<int, ulong> levelRoles = new Dictionary<int, ulong>();
 
         public static void Init()
         {
             Bot.client.MessageCreated += MessageCreated;
+
+            if(File.Exists("levelRoles.json"))
+                levelRoles = JsonConvert.DeserializeObject<Dictionary<int, ulong>>(File.ReadAllText("levelRoles.json"));
+
             Log.Write(Serilog.Events.LogEventLevel.Information, "Leveling service started");
         }
 
@@ -41,7 +50,27 @@ namespace WinBot.Misc
                     if(user.levelMessages)
                         await e.Guild.GetMemberAsync(user.id).Result.SendMessageAsync($"You've just advanced to level {user.level}!");
                 }
+
+                // Check for level roles
+                foreach(var lvlRole in levelRoles)
+                    if(user.level > lvlRole.Key) {
+                        // Check for the role
+                        DiscordRole role = e.Channel.Guild.GetRole(lvlRole.Value);
+                        if(e.Channel.Guild.GetMemberAsync(user.id).Result.Roles.Contains(role) || role == null)
+                            return;
+
+                        // Add the role
+                        try {
+                            await e.Channel.Guild.GetMemberAsync(user.id).Result.GrantRoleAsync(role, "Level up");
+                        } catch {}
+                    }
             }
+        }
+
+        public static void AddRole(ulong id, int level)
+        {
+            levelRoles.Add(level, id);
+            File.WriteAllText("levelRoles.json", JsonConvert.SerializeObject(levelRoles, Formatting.Indented));
         }
 
         // Just an abstraction to linq because nobody likes doing linq stuff over and over
