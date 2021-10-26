@@ -53,11 +53,11 @@ namespace WinBot.Misc
 
                 // Check for level roles
                 foreach(var lvlRole in levelRoles)
-                    if(user.level > lvlRole.Key) {
+                    if(user.level >= lvlRole.Key) {
                         // Check for the role
                         DiscordRole role = e.Channel.Guild.GetRole(lvlRole.Value);
                         if(e.Channel.Guild.GetMemberAsync(user.id).Result.Roles.Contains(role) || role == null)
-                            return;
+                            continue;
 
                         // Add the role
                         try {
