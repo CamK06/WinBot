@@ -32,7 +32,7 @@ namespace WinBot
         public static DiscordClient client;
         public static CommandsNextExtension commands;
         public static BotConfig config;
-        public static DiscordChannel logChannel;
+        public static DiscordChannel logChannel = null;
 #if TOFU
         public static DiscordRole mutedRole;
         public static DiscordChannel welcomeChannel;

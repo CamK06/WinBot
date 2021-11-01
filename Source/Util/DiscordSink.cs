@@ -22,7 +22,7 @@ namespace WinBot.Util
             Timer t = new Timer(5000);
             t.AutoReset = true;
             t.Elapsed += async (s, e) => {
-                if(!string.IsNullOrWhiteSpace(logBuffer)) {
+                if(!string.IsNullOrWhiteSpace(logBuffer) && Bot.logChannel != null) {
                     await Bot.logChannel.SendMessageAsync(logBuffer);
                     logBuffer = "";
                 }
