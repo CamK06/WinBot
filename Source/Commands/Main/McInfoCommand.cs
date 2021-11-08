@@ -43,8 +43,8 @@ namespace WinBot.Commands.Main
                 eb.AddField("Versions", "1.5.2 -> 1.16.5", true);
 #else
                 eb.AddField("Address", "cgmc.nick99nack.com", true);
-                eb.AddField("Versions", "1.5.2 -> 1.16.5", true);
-                //eb.AddField("Dynmap", "http://minecraft.cerrogordo.club:1865/", true);
+                eb.AddField("Versions", "1.5.2 -> 1.16.5 & Bedrock", true);
+                eb.AddField("Dynmap", "http://cgmc.nick99nack.com:8123/", true);
 #endif
                 eb.AddField("Online?", ((bool)serverInfo.online) ? "Yes" : "No", true);
                 eb.AddField("Users Count", $"{(int)serverInfo.players.online}/{(int)serverInfo.players.max}", true);
