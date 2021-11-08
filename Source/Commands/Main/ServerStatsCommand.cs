@@ -94,7 +94,11 @@ namespace WinBot.Commands.Main
             plt.Layout(xScaleHeight: 128);
             plt.XTicks(ys, xticks);
             //plt.Ticks(dateTimeX: true, xTickRotation: 75);
+#if !TOFU
             plt.Title($"{Context.Guild.Name} Stats (Past 14 days)", null, null, 45.5f, null, true);
+#else
+            plt.Title($"{Context.Guild.Name} Stats (UTC, Past 14 days)", null, null, 45.5f, null, true);
+#endif
             //plt.Grid(xSpacing: 1, xSpacingDateTimeUnit: ScottPlot.Config.DateTimeUnit.Day);
             plt.Legend(true, null, 30, null, null, System.Drawing.Color.FromArgb(100, 52, 54, 60), null, legendLocation.upperRight, shadowDirection.lowerRight, null, null);
 
