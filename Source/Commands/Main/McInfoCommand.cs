@@ -14,7 +14,7 @@ namespace WinBot.Commands.Main
     public class McInfoCommand : BaseCommandModule
     {
         [Command("mcinfo")]
-        [Description("Gets information on the Minecraft server (WinWorldMC)")]
+        [Description("Gets information on the Minecraft server")]
         [Category(Category.Main)]
         public async Task McInfo(CommandContext Context)
         {
@@ -24,7 +24,7 @@ namespace WinBot.Commands.Main
             string json = "";
             using(WebClient webClient = new WebClient())
 #if !TOFU
-                json = webClient.DownloadString("https://api.mcsrvstat.us/2/mc.winworldpc.com:48666");
+                json = webClient.DownloadString("https://api.mcsrvstat.us/2/comserv.winworldpc.com");
 #else
                 json = webClient.DownloadString("https://api.mcsrvstat.us/2/cgmc.nick99nack.com");
 #endif
@@ -39,8 +39,9 @@ namespace WinBot.Commands.Main
                 eb.WithThumbnail(Context.Guild.IconUrl);
                 eb.WithTitle((string)serverInfo.motd.clean[0]);
 #if !TOFU
-                eb.AddField("Address", "mc.winworldpc.com:48666", true);
+                eb.AddField("Address", "comserv.winworldpc.com", true);
                 eb.AddField("Versions", "1.5.2 -> 1.16.5", true);
+		eb.AddField("Dynmap", "http://comserv.winworldpc.com:8123/", true);
 #else
                 eb.AddField("Address", "cgmc.nick99nack.com", true);
                 eb.AddField("Versions", "1.5.2 -> 1.16.5 & Bedrock", true);
