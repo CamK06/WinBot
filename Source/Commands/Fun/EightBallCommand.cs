@@ -16,7 +16,7 @@ namespace WinBot.Commands.Fun
         [Description("Let the magic 8-ball give you advice.")]
         [Usage("[Question]")]
         [Category(Category.Fun)]
-        public async Task EightBall(CommandContext Context, string question)
+        public async Task EightBall(CommandContext Context, [RemainingText] string question)
         {
             if(question == string.Empty) 
                 throw new Exception("You must provide a question!");
@@ -27,11 +27,11 @@ namespace WinBot.Commands.Fun
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithTitle($"🎱 {answers[dex]}");
             // Set the embed's color
-            if (dex <= 10) {
+            if (dex <= 9) {
                 eb.WithColor(DiscordColor.Green);
-            } else if (dex <= 15) {
+            } else if (dex <= 14) {
                 eb.WithColor(DiscordColor.Yellow);
-            } else if (dex <= 20) {
+            } else if (dex <= 19) {
                 eb.WithColor(DiscordColor.Red);
             }
             await Context.ReplyAsync("", eb.Build());
