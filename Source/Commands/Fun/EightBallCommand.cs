@@ -14,12 +14,10 @@ namespace WinBot.Commands.Fun
     {
         [Command("8ball")]
         [Description("Let the magic 8-ball give you advice.")]
-        [Usage("[Question]")]
+        [Usage("[question]")]
         [Category(Category.Fun)]
         public async Task EightBall(CommandContext Context, [RemainingText] string question)
         {
-            if(question == string.Empty) 
-                throw new Exception("You must provide a question!");
             // Select a random answer
             Random r = new Random();  
             int dex = r.Next(answers.Length);  
