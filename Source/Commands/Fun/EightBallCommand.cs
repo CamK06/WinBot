@@ -13,8 +13,8 @@ namespace WinBot.Commands.Fun
         public class EightBallCommand : BaseCommandModule
     {
         [Command("8ball")]
-        [Description("Let the magic 8-ball give you advice. Description hazy, nick fill it out.")]
-        [Usage("[question]")]
+        [Description("Let the magic 8-ball give you advice.")]
+        [Usage("[Question]")]
         [Category(Category.Fun)]
         public async Task EightBall(CommandContext Context, string question)
         {
@@ -25,7 +25,7 @@ namespace WinBot.Commands.Fun
             int dex = r.Next(answers.Length);  
             // Send an embed
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-            eb.WithTitle($"{answers[dex]}");
+            eb.WithTitle($"🎱 {answers[dex]}");
             // Set the embed's color
             if (dex <= 10) {
                 eb.WithColor(DiscordColor.Green);
