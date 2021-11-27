@@ -20,7 +20,7 @@ namespace WinBot.Commands.Main
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithTitle($"{Bot.client.CurrentUser.Username}");
             eb.AddField("Maintainer", $"{Bot.client.CurrentApplication.Owners.First().Username}", true);
-            eb.AddField("Contributors", $"nick99nack\nfloppydisk", true);
+            eb.AddField("Contributors", $"nick99nack\nfloppydisk\nxproot", true);
             eb.AddField("Language", "C#", true);
             eb.AddField("Version", Bot.VERSION, true);
             eb.AddField("Library", $"DSharpPlus v{Bot.client.VersionString}", true);
