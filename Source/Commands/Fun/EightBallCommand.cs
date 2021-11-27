@@ -27,9 +27,9 @@ namespace WinBot.Commands.Fun
             // Set the embed's color
             if (dex <= 9) 
                 eb.WithColor(DiscordColor.Green);
-             else if (dex <= 14) 
+            else if (dex <= 14) 
                 eb.WithColor(DiscordColor.Yellow);
-             else if (dex <= 19) 
+            else if (dex <= 19) 
                 eb.WithColor(DiscordColor.Red);
             await Context.ReplyAsync("", eb.Build());
         }
