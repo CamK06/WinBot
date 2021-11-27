@@ -10,7 +10,7 @@ using WinBot.Commands.Attributes;
 
 namespace WinBot.Commands.Fun
 {
-        public class EightBallCommand : BaseCommandModule
+    public class EightBallCommand : BaseCommandModule
     {
         [Command("8ball")]
         [Description("Let the magic 8-ball give you advice.")]
