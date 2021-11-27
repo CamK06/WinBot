@@ -15,6 +15,7 @@ namespace WinBot.Commands.Fun
         [Command("8ball")]
         [Description("Let the magic 8-ball give you advice.")]
         [Usage("[question]")]
+        [Aliases("eightball")]
         [Category(Category.Fun)]
         public async Task EightBall(CommandContext Context, [RemainingText] string question)
         {
