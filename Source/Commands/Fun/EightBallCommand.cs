@@ -1,5 +1,5 @@
-
 using System;
+using System.Timers;
 using System.Threading.Tasks;
 
 using DSharpPlus.CommandsNext;
@@ -7,6 +7,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 
 using DiscARC.Commands.Attributes;
+using DiscARC.Util;
 
 
 namespace DiscARC.Commands.Main
@@ -17,15 +18,13 @@ namespace DiscARC.Commands.Main
         [Description("The magic 8 ball reaches into the future, to find the answers to your questions. It knows what will be, and is willing to share this with you.")]
         [Usage("[Query]")]
         [Category(Category.Fun)]
-        public async Task EightBall(CommandContext Context, string query = null)
+        public async Task EightBall(CommandContext Context, [RemainingText] string query = null)
         {
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-            Random r = new Random();  
-            string[] predictions = {"It is certain", "It is decidedly so", "Without a doubt", "Yes – definitely", "You may rely on it", "As I see it, yes", "Most likely", "Outlook good", "Yes", "Signs point to yes", "Reply hazy, try again", "Ask again later", "Better not tell you now", "Cannot predict now", "Concentrate and ask again", "Don't count on it", "My reply is no", "My sources say no", "Outlook not so good", "Very doubtful"};
+            Random r = new Random();              
             
-            
-            int choiceIndex = r.Next(predictions.Length); 
-            string choice = predictions[choiceIndex];
+            int choiceIndex = r.Next(Bot.predictions.Length); 
+            string choice = Bot.predictions[choiceIndex];
 
             // Choose an embed color based on the response selected
             switch (choiceIndex) {
@@ -41,11 +40,14 @@ namespace DiscARC.Commands.Main
             }
 
             // If no query is provided, throw an exception
-            if (query == null) { throw new Exception("No query provided!"); }
-            else { eb.AddField($"The answer to your question, \"{query}\", is...", choice);}
+            if (query == null)
+                throw new Exception("No query provided!");
+            else
+                eb.AddField($"The answer to your question, \"{query}\", is..." , choice);
             eb.WithTitle("🎱 I reach into the future...");
             
             await Context.ReplyAsync("", eb.Build());
         }
+        
     }
 }
