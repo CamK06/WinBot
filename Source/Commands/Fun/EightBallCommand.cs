@@ -26,11 +26,11 @@ namespace WinBot.Commands.Fun
             eb.WithTitle($"🎱 {answers[dex]}");
             // Set the embed's color
             if (dex <= 9) 
-                eb.WithColor(DiscordColor.Green);
+                eb.WithColor(DiscordColor.SapGreen);
             else if (dex <= 14) 
-                eb.WithColor(DiscordColor.Yellow);
+                eb.WithColor(DiscordColor.Orange);
             else if (dex <= 19) 
-                eb.WithColor(DiscordColor.Red);
+                eb.WithColor(DiscordColor.IndianRed);
             await Context.ReplyAsync("", eb.Build());
         }
 
