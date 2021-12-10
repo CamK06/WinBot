@@ -19,18 +19,18 @@ namespace WinBot.Commands.Fun
         public async Task EightBall(CommandContext Context, [RemainingText] string question)
         {
             // Select a random answer
-            Random r = new Random();  
-            int dex = r.Next(answers.Length);  
+            Random r = new Random();
+            int index = r.Next(answers.Length);
             // Send an embed
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-            eb.WithTitle($"🎱 {answers[dex]}");
+            eb.WithTitle($"🎱 {answers[index]}");
             // Set the embed's color
-            if (dex <= 9) 
-                eb.WithColor(DiscordColor.Green);
-            else if (dex <= 14) 
-                eb.WithColor(DiscordColor.Yellow);
-            else if (dex <= 19) 
-                eb.WithColor(DiscordColor.Red);
+            if (index <= 9)
+                eb.WithColor("#3a8c2b");
+            else if (index <= 14)
+                eb.WithColor("#b47112");
+            else if (index <= 19)
+                eb.WithColor("#b0270b");
             await Context.ReplyAsync("", eb.Build());
         }
 
