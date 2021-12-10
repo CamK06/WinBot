@@ -238,6 +238,16 @@ namespace WinBot
                 builder.WithTimestamp(DateTime.Now);
                 await logChannel.SendMessageAsync("", builder.Build());
             };
+            client.InviteCreated += async(DiscordClient client, InviteCreateEventArgs e) => {
+
+                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
+                builder.WithColor(DiscordColor.Gold);
+                builder.WithDescription($"**{e.Invite.Inviter.Username}#{e.Invite.Inviter.Discriminator}** created an invite in **{e.Channel.Mention}**");
+                builder.AddField("Code", e.Invite.Code);
+                builder.AddField("IDs", $"```cs\nUser = {e.Invite.Inviter.Id}\nChannel = {e.Channel.Id}```");
+                builder.WithTimestamp(DateTime.Now);
+                await logChannel.SendMessageAsync("", builder.Build());
+            };
             
             // Commands
             commands.RegisterCommands(Assembly.GetExecutingAssembly());
