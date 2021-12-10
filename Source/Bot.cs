@@ -192,16 +192,21 @@ namespace WinBot
             };
             // Delete logging
             client.MessageDeleted += async (DiscordClient client, MessageDeleteEventArgs e) => {
-                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
-                builder.WithColor(DiscordColor.Gold);
-                builder.WithDescription($"**{e.Message.Author.Username}#{e.Message.Author.Discriminator}**'s message in {e.Channel.Mention} was deleted");
-                if(!string.IsNullOrWhiteSpace(e.Message.Content))
-                    builder.AddField("Content", e.Message.Content, true);
-                else
-                    builder.AddField("Content", "[Content is media or an embed]");
-                builder.AddField("IDs", $"```cs\nUser = {e.Message.Author.Id}\nMessage = {e.Message.Id}\nChannel = {e.Channel.Id}```");
-                builder.WithTimestamp(DateTime.Now);
-                await logChannel.SendMessageAsync("", builder.Build());
+                try { 
+                    DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
+                    builder.WithColor(DiscordColor.Gold);
+                    builder.WithDescription($"**{e.Message.Author.Username}#{e.Message.Author.Discriminator}**'s message in {e.Channel.Mention} was deleted");
+                    if(!string.IsNullOrWhiteSpace(e.Message.Content))
+                        builder.AddField("Content", e.Message.Content, true);
+                    else
+                        builder.AddField("Content", "[Content is media or an embed]");
+                    builder.AddField("IDs", $"```cs\nUser = {e.Message.Author.Id}\nMessage = {e.Message.Id}\nChannel = {e.Channel.Id}```");
+                    builder.WithTimestamp(DateTime.Now);
+                    await logChannel.SendMessageAsync("", builder.Build());
+                }
+                catch (Exception ex) {
+                    Log.Write(Serilog.Events.LogEventLevel.Information, ex.Message);
+                }
             };
             client.MessageCreated += CommandHandler;
             client.GuildMemberAdded += async (DiscordClient client, GuildMemberAddEventArgs e) => {
