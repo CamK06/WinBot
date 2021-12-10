@@ -195,14 +195,17 @@ namespace WinBot
                 DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
                 builder.WithColor(DiscordColor.Gold);
                 builder.WithDescription($"**{e.Message.Author.Username}#{e.Message.Author.Discriminator}**'s message in {e.Channel.Mention} was deleted");
-                builder.AddField("Content", e.Message.Content, true);
+                if(!string.IsNullOrWhiteSpace(e.Message.Content))
+                    builder.AddField("Content", e.Message.Content, true);
+                else
+                    builder.AddField("Content", "[Content is media or an embed]");
                 builder.AddField("IDs", $"```cs\nUser = {e.Message.Author.Id}\nMessage = {e.Message.Id}\nChannel = {e.Channel.Id}```");
                 builder.WithTimestamp(DateTime.Now);
                 await logChannel.SendMessageAsync("", builder.Build());
             };
             client.MessageCreated += CommandHandler;
-#if TOFU
             client.GuildMemberAdded += async (DiscordClient client, GuildMemberAddEventArgs e) => {
+#if TOFU
                 if(mutedUsers.Contains(e.Member.Id) || serverLocked) {
                     if(!serverLocked)
                         await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Unfortunately it seems as if you have failed to read <#774567486069800960>, have fun in the hole!");
@@ -213,8 +216,23 @@ namespace WinBot
                 }
 
                 await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Be sure to read the <#774567486069800960> before chatting!");
-            };
 #endif
+                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
+                builder.WithColor(DiscordColor.Gold);
+                builder.WithDescription($"**{e.Member.Username}#{e.Member.Discriminator}** joined the server");
+                builder.AddField("IDs", $"```cs\nUser = {e.Member.Id}```");
+                builder.WithTimestamp(DateTime.Now);
+                await logChannel.SendMessageAsync("", builder.Build());
+            };
+            client.GuildMemberRemoved += async(DiscordClient client, GuildMemberRemoveEventArgs e) => {
+
+                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
+                builder.WithColor(DiscordColor.Gold);
+                builder.WithDescription($"**{e.Member.Username}#{e.Member.Discriminator}** left the server");
+                builder.AddField("IDs", $"```cs\nUser = {e.Member.Id}```");
+                builder.WithTimestamp(DateTime.Now);
+                await logChannel.SendMessageAsync("", builder.Build());
+            };
             
             // Commands
             commands.RegisterCommands(Assembly.GetExecutingAssembly());
