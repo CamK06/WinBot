@@ -20,10 +20,10 @@ namespace WinBot.Commands.Fun
         {
             // Select a random answer
             Random r = new Random();  
-            int dex = r.Next(answers.Length);  
+            int index = r.Next(answers.Length);  
             // Send an embed
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-            eb.WithTitle($"🎱 {answers[dex]}");
+            eb.WithTitle($"🎱 {answers[index]}");
             // Set the embed's color
             if (index <= 9)
                 eb.WithColor(new DiscordColor("#3BA55D"));
