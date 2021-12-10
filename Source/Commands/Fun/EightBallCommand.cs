@@ -20,18 +20,19 @@ namespace WinBot.Commands.Fun
         {
             // Select a random answer
             Random r = new Random();  
-            int dex = r.Next(answers.Length);  
+            int index = r.Next(answers.Length);  
             // Send an embed
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-            eb.WithTitle($"🎱 {answers[dex]}");
+            eb.WithTitle($"🎱 {answers[index]}");
             // Set the embed's color
-            if (dex <= 9) 
-                eb.WithColor(DiscordColor.Green);
-            else if (dex <= 14) 
-                eb.WithColor(DiscordColor.Yellow);
-            else if (dex <= 19) 
-                eb.WithColor(DiscordColor.Red);
+            if (index <= 9)
+                eb.WithColor(new DiscordColor("#3BA55D"));
+            else if (index <= 14)
+                eb.WithColor(new DiscordColor("#FAA81A"));
+            else if (index <= 19)
+                eb.WithColor(new DiscordColor("#ED4245"));
             await Context.ReplyAsync("", eb.Build());
+
         }
 
         static string[] answers = new string[] {
