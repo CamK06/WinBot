@@ -26,7 +26,8 @@ namespace WinBot.Commands.Staff
             // Delete the messages
             var messages = await Context.Channel.GetMessagesAsync(count+1);
             foreach(var message in messages) {
-                await message.DeleteAllReactionsAsync();
+                if(message.Reactions.Count > 0)
+                    await message.DeleteAllReactionsAsync();
                 await Task.Delay(70);
             }
         }
