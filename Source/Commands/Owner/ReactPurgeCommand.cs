@@ -16,7 +16,6 @@ namespace WinBot.Commands.Staff
         [Category(Category.Owner)]
         [Usage("h")]
         [Description("h")]
-        [RequireUserPermissions(DSharpPlus.Permissions.ManageMessages)]
         public async Task ReactPurge(CommandContext Context, int count = 0)
         {
             if(Context.User.Id != Bot.config.ownerId && !Bot.whitelistedUsers.Contains(Context.User.Id))
