@@ -13,6 +13,9 @@ namespace WinBot.Commands.Staff
     public class ReactPurgeCommand : BaseCommandModule
     {
         [Command("reactpurge")]
+        [Category(Category.Owner)]
+        [Usage("h")]
+        [Description("h")]
         [RequireUserPermissions(DSharpPlus.Permissions.ManageMessages)]
         public async Task ReactPurge(CommandContext Context, int count = 0)
         {
