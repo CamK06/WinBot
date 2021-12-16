@@ -47,7 +47,7 @@ namespace WinBot.Commands.Main
             eb.WithColor(DiscordColor.Gold);
             eb.WithThumbnail(topUser.GetAvatarUrl(DSharpPlus.ImageFormat.Jpeg)); 
             eb.WithDescription(description);
-            eb.WithFooter("Note: this is a temporary leaderboard for use while the web one is being created");
+            eb.WithFooter("Note: this is NOT a temporary leaderboard");
             await Context.ReplyAsync("", eb.Build());
         }
     }
