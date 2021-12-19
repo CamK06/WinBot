@@ -1,116 +1,65 @@
-using System;
+﻿using System;
 using System.IO;
-using System.Net;
-using System.Linq;
 using System.Reflection;
-using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using DSharpPlus;
+using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.CommandsNext;
-using DSharpPlus.Entities;
 
 using Newtonsoft.Json;
 
 using Serilog;
-
 using Microsoft.Extensions.Logging;
 
 using WinBot.Util;
-using WinBot.Misc;
+using static WinBot.Util.ResourceManager;
 
 namespace WinBot
 {
     class Bot
     {
-        public const string VERSION = "3.6.4";
+        public const string VERSION = "4.0.0-Dev";
 
-        static void Main(string[] args) => new Bot().RunBot().GetAwaiter().GetResult();
+        public static void Main(string[] args) => new Bot().RunBot().GetAwaiter().GetResult();
 
+        // DSharpPlus
         public static DiscordClient client;
         public static CommandsNextExtension commands;
+
+        // Bot
         public static BotConfig config;
         public static DiscordChannel logChannel = null;
-#if TOFU
-        public static DiscordRole mutedRole;
-        public static DiscordChannel welcomeChannel;
-        public static DiscordChannel staffChannel;
-        public static List<ulong> mutedUsers = new List<ulong>();
-        public static bool serverLocked = false;
-#else
-        public static DiscordUser duff;
-#endif
+        
+        // Bot moderation
         public static List<ulong> blacklistedUsers = new List<ulong>();
-        public static List<ulong> whitelistedUsers = new List<ulong>();
-
+#if TOFU
+        public static List<ulong> mutedUsers = new List<ulong>();
+#endif
 
         public async Task RunBot()
         {
-            // Change the working directory for debug mode
+            // Change workingdir in debug mode
 #if DEBUG
             if (!Directory.Exists("WorkingDirectory"))
                 Directory.CreateDirectory("WorkingDirectory");
             Directory.SetCurrentDirectory("WorkingDirectory");
 #endif
 
-            // Logger
+            // Logging
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.DiscordSink()
                 .CreateLogger();
-            var logFactory = new LoggerFactory().AddSerilog();
+            ILoggerFactory logFactory = new LoggerFactory().AddSerilog();
+            Log.Write(Serilog.Events.LogEventLevel.Information, $"WinBot {VERSION}");
+            Log.Write(Serilog.Events.LogEventLevel.Information, $"Starting bot...");
 
-            // Verify directory structure
-            if (!Directory.Exists("Logs"))
-                Directory.CreateDirectory("Logs");
-            if(!Directory.Exists("Cache"))
-                Directory.CreateDirectory("Cache");
-
-            // Verify resources
-            if(!File.Exists("xband.ttf")) {
-                Log.Write(Serilog.Events.LogEventLevel.Information, "Resources not found!");
-                Log.Write(Serilog.Events.LogEventLevel.Information, "Downloading resources...");
-                new WebClient().DownloadFile("https://github.com/Starman0620/WinBot/raw/main/Res.zip", "res.zip");
-                ZipFile.ExtractToDirectory("res.zip", "Res");
-                Log.Write(Serilog.Events.LogEventLevel.Information, "Copying resources...");
-                foreach(string file in Directory.GetFiles("Res"))
-                    File.Copy(file, Path.GetFileName(file));
-                Log.Write(Serilog.Events.LogEventLevel.Information, "Cleaning up...");
-                Directory.Delete("Res", true);
-                File.Delete("res.zip");
-            }
-
-            // Load blacklisted users
-            if(!File.Exists("blacklist.json"))
-                File.WriteAllText("blacklist.json", "[]");
-            blacklistedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText("blacklist.json"));
-
-#if TOFU
-            // Load muted users
-            if(!File.Exists("mute.json"))
-                File.WriteAllText("mute.json", "[]");
-            mutedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText("mute.json"));
-#endif
-
-            // Load the config
-            if (File.Exists("config.json"))
-                config = JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText("config.json"));
-            else
-            {
-                // Create a blank config
-                config = new BotConfig();
-                config.token = "TOKEN";
-                config.status = " ";
-                config.prefix = ".";
-
-                // Write the config and quit
-                File.WriteAllText("config.json", JsonConvert.SerializeObject(config, Formatting.Indented));
-                Console.WriteLine("No configuration file found. A template config has been written to config.json");
-                return;
-            }
-
-            // Set up the client
+            VerifyIntegrity();
+            LoadConfigs();
+            
+            // Set up the Discord client
             client = new DiscordClient(new DiscordConfiguration()
             {
                 Token = config.token,
@@ -125,211 +74,87 @@ namespace WinBot
                 EnableDms = true,
                 UseDefaultCommandHandler = false
             });
-
-            // Events
-            commands.CommandErrored += async (CommandsNextExtension cnext, CommandErrorEventArgs e) =>
-            {
-                string msg = e.Exception.Message;
-                if(msg == "One or more pre-execution checks failed.")
-                    msg += " This is likely a permissions issue.";
-                
-                await logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
-                await e.Context.ReplyAsync($"There was an error executing your command!\nMessage: `{msg}`");
-                
-                // string usage = WinBot.Commands.Main.HelpCommand.GetCommandUsage(e.Command.Name);
-                // if (usage != null)
-                // {
-                //     string upperCommandName = e.Command.Name[0].ToString().ToUpper() + e.Command.Name.Remove(0, 1);
-                //     DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-                //     eb.WithColor(DiscordColor.Gold);
-                //     eb.WithTitle($"{upperCommandName} Command");
-                //     eb.WithDescription($"{usage}");
-                //     await e.Context.RespondAsync("Are you sure you used it correctly?", eb.Build());
-                // }
-            };
-            client.Ready += async (DiscordClient client, ReadyEventArgs e) => {
-                
-                logChannel = await client.GetChannelAsync(config.logChannel);
-                if(logChannel == null) {
-                    throw new Exception("Shitcord is failing to return a log channel");
-                }
-                        
-#if TOFU
-                welcomeChannel = await client.GetChannelAsync(config.welcomeChannel);
-                staffChannel = await client.GetChannelAsync(config.staffChannel);
-                HauntSystem.Init();
-                DMSystem.Init();
-                ChatSystem.LoadPrompts();
-#endif
-                UserData.Init();
-                DailyReportSystem.Init();
-                Leveling.Init();
-                Cache.InitTimer();
-                
-                //UnitConverter.Init();
-#if !TOFU
-                await WWRSS.Init();
-                duff = await client.GetUserAsync(283982771997638658);
-#endif
-
-                await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
-                Log.Write(Serilog.Events.LogEventLevel.Information, $"Running on host: {MiscUtil.GetHost().Replace('\n', ' ')}");
-                Log.Write(Serilog.Events.LogEventLevel.Information, "Ready");
-            };
-            // Edit logging
-            client.MessageUpdated += async (DiscordClient client, MessageUpdateEventArgs e) => {
-                if(e.MessageBefore.Content == e.Message.Content) // Just fixing Discords issues.... ffs
-                    return;
-
-                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
-                builder.WithColor(DiscordColor.Gold);
-                builder.WithDescription($"**{e.Author.Username}#{e.Author.Discriminator}** updated a message in {e.Channel.Mention} \n" + Formatter.MaskedUrl("Jump to message!", e.Message.JumpLink));
-                builder.AddField("Before", e.MessageBefore.Content, true);
-                builder.AddField("After", e.Message.Content, true);
-                builder.AddField("IDs", $"```cs\nUser = {e.Author.Id}\nMessage = {e.Message.Id}\nChannel = {e.Channel.Id}```");
-                builder.WithTimestamp(DateTime.Now);
-                await logChannel.SendMessageAsync("", builder.Build());
-            };
-            // Delete logging
-            client.MessageDeleted += async (DiscordClient client, MessageDeleteEventArgs e) => {
-                try { 
-                    DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
-                    builder.WithColor(DiscordColor.Gold);
-                    builder.WithDescription($"**{e.Message.Author.Username}#{e.Message.Author.Discriminator}**'s message in {e.Channel.Mention} was deleted");
-                    if(!string.IsNullOrWhiteSpace(e.Message.Content))
-                        builder.AddField("Content", e.Message.Content, true);
-                    else
-                        builder.AddField("Content", "[Content is media or an embed]");
-                    builder.AddField("IDs", $"```cs\nUser = {e.Message.Author.Id}\nMessage = {e.Message.Id}\nChannel = {e.Channel.Id}```");
-                    builder.WithTimestamp(DateTime.Now);
-                    await logChannel.SendMessageAsync("", builder.Build());
-                }
-                catch (Exception ex) {
-                    Log.Write(Serilog.Events.LogEventLevel.Information, ex.Message);
-                }
-            };
-            client.MessageCreated += CommandHandler;
-            client.GuildMemberAdded += async (DiscordClient client, GuildMemberAddEventArgs e) => {
-#if TOFU
-                if(mutedUsers.Contains(e.Member.Id) || serverLocked) {
-                    if(!serverLocked)
-                        await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Unfortunately it seems as if you have failed to read <#774567486069800960>, have fun in the hole!");
-                    else
-                        await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Be sure to read the <#774567486069800960> before chatting!");
-                    await e.Member.GrantRoleAsync(mutedRole, "succ");
-                    return;
-                }
-
-                await welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Be sure to read the <#774567486069800960> before chatting!");
-#endif
-                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
-                builder.WithColor(DiscordColor.Gold);
-                builder.WithDescription($"**{e.Member.Username}#{e.Member.Discriminator}** joined the server");
-                builder.AddField("IDs", $"```cs\nUser = {e.Member.Id}```");
-                builder.WithTimestamp(DateTime.Now);
-                await logChannel.SendMessageAsync("", builder.Build());
-            };
-            client.GuildMemberRemoved += async(DiscordClient client, GuildMemberRemoveEventArgs e) => {
-
-                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
-                builder.WithColor(DiscordColor.Gold);
-                builder.WithDescription($"**{e.Member.Username}#{e.Member.Discriminator}** left the server");
-                builder.AddField("IDs", $"```cs\nUser = {e.Member.Id}```");
-                builder.WithTimestamp(DateTime.Now);
-                await logChannel.SendMessageAsync("", builder.Build());
-            };
-            client.InviteCreated += async(DiscordClient client, InviteCreateEventArgs e) => {
-
-                DiscordEmbedBuilder builder = new DiscordEmbedBuilder();
-                builder.WithColor(DiscordColor.Gold);
-                builder.WithDescription($"**{e.Invite.Inviter.Username}#{e.Invite.Inviter.Discriminator}** created an invite in **{e.Channel.Mention}**");
-                builder.AddField("Code", e.Invite.Code);
-                builder.AddField("IDs", $"```cs\nUser = {e.Invite.Inviter.Id}\nChannel = {e.Channel.Id}```");
-                builder.WithTimestamp(DateTime.Now);
-                await logChannel.SendMessageAsync("", builder.Build());
-            };
-            
-            // Commands
+            HookEvents();
             commands.RegisterCommands(Assembly.GetExecutingAssembly());
-
-            // Connect
             await client.ConnectAsync();
 
             await Task.Delay(-1);
         }
 
-        private async Task CommandHandler(DiscordClient client, MessageCreateEventArgs e)
+        async Task Ready(DiscordClient client, ReadyEventArgs e)
         {
-            DiscordMessage msg = e.Message;
+            logChannel = await client.GetChannelAsync(config.logChannel);
+            if(logChannel == null)
+                throw new Exception("Shitcord is failing to return a valid log channel");
             
-            if(blacklistedUsers.Contains(msg.Author.Id) || e.Author.IsBot)
-                return;
-
-#if TOFU
-#if !DEBUG
-            if(mutedRole == null)
-                mutedRole = client.GetGuildAsync(774566729379741706).Result.GetRole(874370290900140084); // TODO: make role and guild ID not hardcoded
-#endif
-            if(!msg.Author.IsBot) {
-                if(e.Message.Content.ToLower().Contains("brett") || e.Message.Content.ToLower().Contains("bret")) {
-                    await msg.Channel.SendMessageAsync("Brent*");
-                    await msg.CreateReactionAsync(DiscordEmoji.FromGuildEmote(client, 838910961485742130));
-                }
-            }
-#else
-            // DONT PING DUFF!
-            //if(msg.Content.Contains("283982771997638658") || msg.MentionedUsers.Contains(duff)) {
-            //    await msg.Channel.SendMessageAsync("https://tenor.com/view/gordon-ramsay-fuck-off-hells-kitchen-gif-5239890");
-            //}
-#endif
-
-            // Prefix check
-            int start = msg.GetStringPrefixLength(config.prefix);
-            if(start == -1) return;
-
-            string prefix = msg.Content.Substring(0, start);
-            string cmdString = msg.Content.Substring(start);
-
-            // Multi-command check and execution
-            if(cmdString.Contains(" && ")) {
-                string[] commands = cmdString.Split(" && ");
-                if(commands.Length > 2 && e.Author.Id != client.CurrentApplication.Owners.FirstOrDefault().Id) return;
-                for(int i = 0; i < commands.Length; i++) {
-                    DoCommand(commands[i], prefix, msg);
-                }
-                return;
-            }
-
-            // Execute single command
-            Command cmd = commands.FindCommand(cmdString, out var args);
-            if(cmd == null) return;
-            CommandContext ctx = commands.CreateContext(msg, prefix, cmd, args);
-            await Task.Run(async () => await commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
+            await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
+            Log.Write(Serilog.Events.LogEventLevel.Information, "Ready");
         }
 
-        private void DoCommand(string commandString, string prefix, DiscordMessage msg) {
-            Command cmd = commands.FindCommand(commandString, out var args);
-            if(cmd == null) return;
-            CommandContext ctx = commands.CreateFakeContext(msg.Author, msg.Channel, commandString, prefix, cmd, args);
-            _ = Task.Run(async () => await commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
+        void HookEvents()
+        {
+            client.Ready += Ready;
+        }
+
+        void VerifyIntegrity()
+        {
+            Log.Write(Serilog.Events.LogEventLevel.Information, "Verifying integrity of bot files...");
+
+            // Verify directories
+            if(!Directory.Exists("Logs"))
+                Directory.CreateDirectory("Logs");
+            if(!Directory.Exists("Data"))
+                Directory.CreateDirectory("Data");
+            if(!Directory.Exists("Images"))
+                Directory.CreateDirectory("Images");
+            if(!Directory.Exists("Temp"))
+                Directory.CreateDirectory("Temp");
+
+            // Verify configs & similar files
+            if(!ResourceExists("config", ResourceType.Config)) {
+
+                // Create a blank config
+                config = new BotConfig();
+                config.token = "TOKEN";
+                config.status = " ";
+                config.prefix = ".";
+
+                // Write the config and quit
+                File.WriteAllText(GetResourcePath("config", ResourceType.Config), JsonConvert.SerializeObject(config, Formatting.Indented));
+                Log.Write(Serilog.Events.LogEventLevel.Fatal, "No configuration file found. A template config has been written to config.json");
+                Environment.Exit(-1);
+            }
+            if(!ResourceExists("blacklist", ResourceType.JsonData))
+                File.WriteAllText(GetResourcePath("blacklist", ResourceType.JsonData), "[]");
+#if TOFU
+            if(!ResourceExists("mute", ResourceType.JsonData))
+                File.WriteAllText(GetResourcePath("mute", ResourceType.JsonData), "[]");
+#endif
+
+            // TODO: Add resource verification
+        }
+
+        void LoadConfigs()
+        {
+            // Main bot config
+            config = JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText(GetResourcePath("config", ResourceType.Config)));
+            if(config == null) {
+                Log.Write(Serilog.Events.LogEventLevel.Fatal, "Failed to load configuration!");
+                Environment.Exit(-1);
+            }
+            blacklistedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText(GetResourcePath("blacklist", ResourceType.JsonData)));
+#if TOFU
+            mutedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText(GetResourcePath("mute", ResourceType.JsonData)));
+#endif
+            
         }
     }
 
     class BotConfig
     {
         public string token { get; set; }
-        public string prefix { get; set; } = ".";
+        public string prefix { get; set; }
         public string status { get; set; }
         public ulong logChannel { get; set; }
-        public string weatherAPIKey { get; set; }
-        public ulong ownerId { get; set; }
-        public string catAPIKey { get; set; }
-        public string wikihowAPIKey { get; set; }
-#if !TOFU
-        public ulong rssChannel { get; set; }
-#else
-        public ulong welcomeChannel { get; set; }
-        public ulong staffChannel { get; set; }
-#endif
     }
 }
