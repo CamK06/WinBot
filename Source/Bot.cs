@@ -15,6 +15,7 @@ using Serilog;
 using Microsoft.Extensions.Logging;
 
 using WinBot.Util;
+using WinBot.Commands;
 using static WinBot.Util.ResourceManager;
 
 namespace WinBot
@@ -31,6 +32,7 @@ namespace WinBot
 
         // Bot
         public static BotConfig config;
+        public static IDConfig ids;
         public static DiscordChannel logChannel = null;
         
         // Bot moderation
@@ -83,6 +85,7 @@ namespace WinBot
 
         async Task Ready(DiscordClient client, ReadyEventArgs e)
         {
+            // Set the log channel
             logChannel = await client.GetChannelAsync(config.logChannel);
             if(logChannel == null)
                 throw new Exception("Shitcord is failing to return a valid log channel");
@@ -93,7 +96,12 @@ namespace WinBot
 
         void HookEvents()
         {
+            // Bot
             client.Ready += Ready;
+            client.MessageCreated += CommandHandler.HandleCommand;
+
+            // Commands
+            commands.CommandErrored += CommandHandler.HandleError;
         }
 
         void VerifyIntegrity()
@@ -123,6 +131,15 @@ namespace WinBot
                 File.WriteAllText(GetResourcePath("config", ResourceType.Config), JsonConvert.SerializeObject(config, Formatting.Indented));
                 Log.Write(Serilog.Events.LogEventLevel.Fatal, "No configuration file found. A template config has been written to config.json");
                 Environment.Exit(-1);
+            }
+            if(!ResourceExists("ids", ResourceType.Config)) {
+
+                // Create a blank ID config
+                ids = new IDConfig();
+
+                // Write the config and warn
+                File.WriteAllText(GetResourcePath("ids", ResourceType.Config), JsonConvert.SerializeObject(ids, Formatting.Indented));
+                Log.Write(Serilog.Events.LogEventLevel.Warning, "No ID config found. A blank ID config has been written to ids.json. The ID config needs to be filled out for some bot functionality.");
             }
             if(!ResourceExists("blacklist", ResourceType.JsonData))
                 File.WriteAllText(GetResourcePath("blacklist", ResourceType.JsonData), "[]");
@@ -156,5 +173,11 @@ namespace WinBot
         public string prefix { get; set; }
         public string status { get; set; }
         public ulong logChannel { get; set; }
+    }
+    
+    class IDConfig
+    {
+        public ulong logChannel { get; set; } = 0;
+        public ulong mutedRole { get; set; } = 0;
     }
 }
