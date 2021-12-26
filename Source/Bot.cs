@@ -33,16 +33,15 @@ namespace WinBot
         // Bot
         public static BotConfig config;
         public static IDConfig ids;
-        public static DiscordChannel logChannel = null;
-        
-        // Bot moderation
-        public static List<ulong> blacklistedUsers = new List<ulong>();
-#if TOFU
-        public static List<ulong> mutedUsers = new List<ulong>();
-#endif
 
         public async Task RunBot()
         {
+            // Stop it.
+            // DO NOT. DONT DO IT.
+            // DONT RUN IT ON THAT ACCURSED OS!
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                return;
+
             // Change workingdir in debug mode
 #if DEBUG
             if (!Directory.Exists("WorkingDirectory"))
@@ -55,8 +54,8 @@ namespace WinBot
                 .WriteTo.DiscordSink()
                 .CreateLogger();
             ILoggerFactory logFactory = new LoggerFactory().AddSerilog();
-            Log.Write(Serilog.Events.LogEventLevel.Information, $"WinBot {VERSION}");
-            Log.Write(Serilog.Events.LogEventLevel.Information, $"Starting bot...");
+            Log.Information($"WinBot {VERSION}");
+            Log.Information($"Starting bot...");
 
             VerifyIntegrity();
             LoadConfigs();
@@ -85,13 +84,26 @@ namespace WinBot
 
         async Task Ready(DiscordClient client, ReadyEventArgs e)
         {
-            // Set the log channel
-            logChannel = await client.GetChannelAsync(config.logChannel);
-            if(logChannel == null)
+            // Set guilds
+            Global.hostGuild = await client.GetGuildAsync(ids.hostGuild);
+            Global.targetGuild = await client.GetGuildAsync(ids.targetGuild);
+
+            // Set channels
+            Global.logChannel = await client.GetChannelAsync(ids.logChannel);
+            if(Global.logChannel == null) {
+                Log.Error("Shitcord is failing to return a valid log channel");
                 throw new Exception("Shitcord is failing to return a valid log channel");
-            
+            }
+
+            // Set misc stuff
+#if TOFU
+            Global.mutedRole = Global.targetGuild.GetRole(ids.mutedRole);
+            if(Global.mutedRole == null)
+                Log.Error("Shitcord is failing to return a valid muted role");
+#endif
+
             await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
-            Log.Write(Serilog.Events.LogEventLevel.Information, "Ready");
+            Log.Information("Ready");
         }
 
         void HookEvents()
@@ -129,7 +141,7 @@ namespace WinBot
 
                 // Write the config and quit
                 File.WriteAllText(GetResourcePath("config", ResourceType.Config), JsonConvert.SerializeObject(config, Formatting.Indented));
-                Log.Write(Serilog.Events.LogEventLevel.Fatal, "No configuration file found. A template config has been written to config.json");
+                Log.Fatal("No configuration file found. A template config has been written to config.json");
                 Environment.Exit(-1);
             }
             if(!ResourceExists("ids", ResourceType.Config)) {
@@ -156,14 +168,20 @@ namespace WinBot
             // Main bot config
             config = JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText(GetResourcePath("config", ResourceType.Config)));
             if(config == null) {
-                Log.Write(Serilog.Events.LogEventLevel.Fatal, "Failed to load configuration!");
+                Log.Fatal("Failed to load configuration!");
                 Environment.Exit(-1);
             }
-            blacklistedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText(GetResourcePath("blacklist", ResourceType.JsonData)));
+            Global.blacklistedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText(GetResourcePath("blacklist", ResourceType.JsonData)));
 #if TOFU
-            mutedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText(GetResourcePath("mute", ResourceType.JsonData)));
+            Global.mutedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText(GetResourcePath("mute", ResourceType.JsonData)));
 #endif
-            
+
+            // ID config
+            ids = JsonConvert.DeserializeObject<IDConfig>(File.ReadAllText(GetResourcePath("ids", ResourceType.Config)));
+            if(ids == null) {
+                Log.Fatal("Failed to load ID config!");
+                Environment.Exit(-1);
+            }
         }
     }
 
@@ -172,12 +190,27 @@ namespace WinBot
         public string token { get; set; }
         public string prefix { get; set; }
         public string status { get; set; }
-        public ulong logChannel { get; set; }
     }
     
     class IDConfig
     {
+        public ulong hostGuild { get; set; } = 0;   // Where logs etc are
+        public ulong targetGuild { get; set; } = 0; // Where muted role etc are
         public ulong logChannel { get; set; } = 0;
         public ulong mutedRole { get; set; } = 0;
+    }
+
+    class Global
+    {
+        public static DiscordGuild hostGuild;
+        public static DiscordGuild targetGuild;
+        public static DiscordChannel logChannel = null;
+        
+        // Moderation
+        public static List<ulong> blacklistedUsers = new List<ulong>();
+#if TOFU
+        public static List<ulong> mutedUsers = new List<ulong>();
+        public static DiscordRole mutedRole;
+#endif
     }
 }

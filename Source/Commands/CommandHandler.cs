@@ -18,7 +18,7 @@ namespace WinBot.Commands
         {
             DiscordMessage msg = e.Message;
             
-            if(Bot.blacklistedUsers.Contains(msg.Author.Id) || e.Author.IsBot)
+            if(Global.blacklistedUsers.Contains(msg.Author.Id) || e.Author.IsBot)
                 return;
 
 #if !DEBUG
@@ -70,7 +70,7 @@ namespace WinBot.Commands
             if(msg == "One or more pre-execution checks failed.")
                 msg += " This is likely a permissions issue.";
             
-            await Bot.logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
+            await Global.logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
             await e.Context.ReplyAsync($"There was an error executing your command!\nMessage: `{msg}`");
         }
     }
