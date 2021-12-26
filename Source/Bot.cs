@@ -96,11 +96,6 @@ namespace WinBot
             }
 
             // Set misc stuff
-#if TOFU
-            Global.mutedRole = Global.targetGuild.GetRole(ids.mutedRole);
-            if(Global.mutedRole == null)
-                Log.Error("Shitcord is failing to return a valid muted role");
-#endif
 
             await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
             Log.Information("Ready");
