@@ -32,7 +32,6 @@ namespace WinBot
 
         // Bot
         public static BotConfig config;
-        public static IDConfig ids;
 
         public async Task RunBot()
         {
@@ -85,15 +84,14 @@ namespace WinBot
         async Task Ready(DiscordClient client, ReadyEventArgs e)
         {
             // Set guilds
-            Global.hostGuild = await client.GetGuildAsync(ids.hostGuild);
-            Global.targetGuild = await client.GetGuildAsync(ids.targetGuild);
+            Global.hostGuild = await client.GetGuildAsync(config.ids.hostGuild);
+            Global.targetGuild = await client.GetGuildAsync(config.ids.targetGuild);
 
             // Set channels
-            Global.logChannel = await client.GetChannelAsync(ids.logChannel);
-            if(Global.logChannel == null) {
-                Log.Error("Shitcord is failing to return a valid log channel");
-                throw new Exception("Shitcord is failing to return a valid log channel");
-            }
+            if(config.ids.logChannel != 0)
+                Global.logChannel = await client.GetChannelAsync(config.ids.logChannel);
+            if(Global.logChannel == null)
+                Log.Error("Shitcord is failing to return a valid log channel or no channel ID is set in the config");
 
             // Set misc stuff
 
@@ -133,20 +131,12 @@ namespace WinBot
                 config.token = "TOKEN";
                 config.status = " ";
                 config.prefix = ".";
+                config.ids = new IDConfig();
 
                 // Write the config and quit
                 File.WriteAllText(GetResourcePath("config", ResourceType.Config), JsonConvert.SerializeObject(config, Formatting.Indented));
                 Log.Fatal("No configuration file found. A template config has been written to config.json");
                 Environment.Exit(-1);
-            }
-            if(!ResourceExists("ids", ResourceType.Config)) {
-
-                // Create a blank ID config
-                ids = new IDConfig();
-
-                // Write the config and warn
-                File.WriteAllText(GetResourcePath("ids", ResourceType.Config), JsonConvert.SerializeObject(ids, Formatting.Indented));
-                Log.Write(Serilog.Events.LogEventLevel.Warning, "No ID config found. A blank ID config has been written to ids.json. The ID config needs to be filled out for some bot functionality.");
             }
             if(!ResourceExists("blacklist", ResourceType.JsonData))
                 File.WriteAllText(GetResourcePath("blacklist", ResourceType.JsonData), "[]");
@@ -170,13 +160,6 @@ namespace WinBot
 #if TOFU
             Global.mutedUsers = JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText(GetResourcePath("mute", ResourceType.JsonData)));
 #endif
-
-            // ID config
-            ids = JsonConvert.DeserializeObject<IDConfig>(File.ReadAllText(GetResourcePath("ids", ResourceType.Config)));
-            if(ids == null) {
-                Log.Fatal("Failed to load ID config!");
-                Environment.Exit(-1);
-            }
         }
     }
 
@@ -185,6 +168,7 @@ namespace WinBot
         public string token { get; set; }
         public string prefix { get; set; }
         public string status { get; set; }
+        public IDConfig ids { get; set; }
     }
     
     class IDConfig

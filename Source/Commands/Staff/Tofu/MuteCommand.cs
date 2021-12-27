@@ -1,4 +1,5 @@
 #if TOFU
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -26,11 +27,17 @@ namespace WinBot.Commands.Staff
         public async Task Mute(CommandContext Context, DiscordMember user)
         {
             // Try to set the muted role
+            if(Bot.config.ids.mutedRole == 0) {
+                await Context.ReplyAsync("No muted role is set in the bot config!");
+                Log.Error("Muted role is not set in the config!");
+                return;
+            }
             if(Global.mutedRole == null)
-                Global.mutedRole = Global.targetGuild.GetRole(Bot.ids.mutedRole);
+                Global.mutedRole = Global.targetGuild.GetRole(Bot.config.ids.mutedRole);
             if(Global.mutedRole == null)
-                Log.Error("Shitcord is failing to return a valid muted role");
+                throw new Exception("Shitcord is failing to return a valid muted role");
 
+            // Toggle the role on the user
             if (!Global.mutedUsers.Contains(user.Id)) {
                 await user.GrantRoleAsync(Global.mutedRole);
                 Global.mutedUsers.Add(user.Id);
