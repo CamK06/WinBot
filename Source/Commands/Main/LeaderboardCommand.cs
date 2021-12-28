@@ -31,29 +31,20 @@ namespace WinBot.Commands.Main
             int userCounter = 0;
             int lineCounter = 0;
             string longestLine = "";
-            bool hasDisplayedCurrentUser = false;
             foreach(User lbUser in leaderboard) {
 
                 string toAdd = $"{userCounter+1}. {lbUser.username} - {lbUser.level} ({MiscUtil.FormatNumber((int)lbUser.totalxp)} Total XP)";
 
                 if(userCounter < 10) {
                     description += $"{toAdd}\n\n";
-                    if(lbUser.id == Context.User.Id)
-                        hasDisplayedCurrentUser = true;
                     if(toAdd.Length > longestLine.Length)
                         longestLine = toAdd;
                     lineCounter++;
                 }
                 else if(lbUser.id == Context.User.Id) {
                     description += $"{toAdd}\n\n";
-                    if(userCounter != 10) 
-                        description += "...";
                     if(toAdd.Length > longestLine.Length)
                         longestLine = toAdd;
-                    lineCounter++;
-                }
-                else if(userCounter == 10 && !hasDisplayedCurrentUser) {
-                    description += "...\n";
                     lineCounter++;
                 }
                 userCounter++; 
