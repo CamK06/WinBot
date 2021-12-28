@@ -73,9 +73,8 @@ namespace WinBot.Commands.Main
             img.DrawString(description, roboto, brush, new PointF(26, 26));
 
             // Save and send the image
-            string imagePath = "leaderboard.png";
-            bmp.Save(imagePath);
-            await Context.Channel.SendFileAsync(imagePath);
+            bmp.Save("leaderboard.png");
+            await Context.Channel.SendFileAsync("leaderboard.png");
         }
     }
 }
