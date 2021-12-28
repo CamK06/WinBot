@@ -13,10 +13,10 @@ namespace WinBot.Commands
         public static Task HandleMessage(DiscordClient client, MessageCreateEventArgs e)
         {
 #if TOFU
-            if(!msg.Author.IsBot) {
+            if(!e.Message.Author.IsBot) {
                 if(e.Message.Content.ToLower().Contains("brett") || e.Message.Content.ToLower().Contains("bret")) {
-                    await msg.Channel.SendMessageAsync("Brent*");
-                    await msg.CreateReactionAsync(DiscordEmoji.FromGuildEmote(client, 838910961485742130));
+                    e.Message.Channel.SendMessageAsync("Brent*");
+                    e.Message.CreateReactionAsync(DiscordEmoji.FromGuildEmote(client, 838910961485742130));
                 }
             }
 #endif

@@ -93,7 +93,12 @@ namespace WinBot
                 Global.logChannel = await client.GetChannelAsync(config.ids.logChannel);
             if(Global.logChannel == null)
                 Log.Error("Shitcord is failing to return a valid log channel or no channel ID is set in the config");
-
+#if TOFU
+            if(config.ids.welcomeChannel != 0)
+                Global.welcomeChannel = await client.GetChannelAsync(config.ids.welcomeChannel);
+            if(Global.welcomeChannel == null)
+                Log.Error("Shitcord is failing to return a valid welcome channel or no channel ID is set in the config");
+#endif
             // Set misc stuff
 
             // Start misc systems
@@ -116,7 +121,16 @@ namespace WinBot
                     CommandHandler.HandleCommand(e.Message, e.Author);
                 return Task.CompletedTask;
             };
-
+#if TOFU
+            client.GuildMemberAdded += async (DiscordClient client, GuildMemberAddEventArgs e) => {
+                if(!Global.mutedUsers.Contains(e.Member.Id))
+                    await Global.welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Be sure to read the <#774567486069800960> before chatting!");
+                else {
+                    await Global.welcomeChannel.SendMessageAsync($"Welcome, {e.Member.Mention} to Cerro Gordo! Unfortunately it seems as if you have failed to read <#774567486069800960>, have fun in the hole!");
+                    await e.Member.GrantRoleAsync(Global.mutedRole, "succ");
+                }
+            };
+#endif
             // Commands
             commands.CommandErrored += CommandHandler.HandleError;
         }
@@ -189,6 +203,9 @@ namespace WinBot
         public ulong targetGuild { get; set; } = 0; // Where muted role etc are
         public ulong logChannel { get; set; } = 0;
         public ulong mutedRole { get; set; } = 0;
+#if TOFU
+        public ulong welcomeChannel { get; set; } = 0;
+#endif
     }
 
     class Global
@@ -202,6 +219,7 @@ namespace WinBot
 #if TOFU
         public static List<ulong> mutedUsers = new List<ulong>();
         public static DiscordRole mutedRole;
+        public static DiscordChannel welcomeChannel = null;
 #endif
     }
 }
