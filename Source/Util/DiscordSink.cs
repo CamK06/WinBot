@@ -33,11 +33,20 @@ namespace WinBot.Util
         public void Emit(LogEvent logEvent)
         {
             var message = logEvent.RenderMessage(_formatProvider);
-            string finalMessage =$"[{DateTime.Now.ToShortDateString().Replace("/", "-")} {DateTime.Now.ToShortTimeString()}] " + message;
+            string finalMessage =$"[{DateTime.Now.ToShortDateString().Replace("/", "-")} {DateTime.Now.ToShortTimeString()} {logEvent.Level.ToString()}] " + message;
+
+            // Change console colour
+            if(logEvent.Level == LogEventLevel.Warning)
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            else if(logEvent.Level == LogEventLevel.Error || logEvent.Level == LogEventLevel.Fatal)
+                Console.ForegroundColor = ConsoleColor.Red;
+            else if(logEvent.Level == LogEventLevel.Debug || logEvent.Level == LogEventLevel.Verbose)
+                Console.ForegroundColor = ConsoleColor.DarkGray;
 
             // Print and write the log message
             Console.WriteLine(finalMessage);
             File.AppendAllText($"Logs/{DateTime.Now.ToShortDateString().Replace("/", "-")}.log", finalMessage + "\n");
+            Console.ResetColor();
 
             // Store the log in the Discord buffer
             logBuffer += finalMessage + "\n";
