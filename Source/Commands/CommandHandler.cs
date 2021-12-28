@@ -6,10 +6,6 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.CommandsNext;
 
-using Serilog;
-
-// TODO: Re-do command handler(?)
-
 namespace WinBot.Commands
 {
     public class CommandHandler

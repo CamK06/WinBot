@@ -15,6 +15,7 @@ using Serilog;
 using Microsoft.Extensions.Logging;
 
 using WinBot.Util;
+using WinBot.Misc;
 using WinBot.Commands;
 using static WinBot.Util.ResourceManager;
 
@@ -95,6 +96,11 @@ namespace WinBot
 
             // Set misc stuff
 
+            // Start misc systems
+            UserData.Init();
+            Leveling.Init();
+            TempManager.Init();
+
             await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
             Log.Information("Ready");
         }
@@ -123,8 +129,8 @@ namespace WinBot
                 Directory.CreateDirectory("Logs");
             if(!Directory.Exists("Data"))
                 Directory.CreateDirectory("Data");
-            if(!Directory.Exists("Images"))
-                Directory.CreateDirectory("Images");
+            if(!Directory.Exists("Resources"))
+                Directory.CreateDirectory("Resources");
             if(!Directory.Exists("Temp"))
                 Directory.CreateDirectory("Temp");
 

@@ -7,6 +7,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 
+using static WinBot.Util.ResourceManager;
 using WinBot.Commands.Attributes;
 
 using Newtonsoft.Json;
@@ -49,12 +50,12 @@ namespace WinBot.Commands.Staff
             // Blacklist/unblacklist
             if(Global.blacklistedUsers.Contains(user.Id)) {
                 Global.blacklistedUsers.Remove(user.Id);
-                File.WriteAllText("blacklist.json", JsonConvert.SerializeObject(Global.blacklistedUsers, Formatting.Indented));
+                File.WriteAllText(GetResourcePath("blacklist", Util.ResourceType.JsonData), JsonConvert.SerializeObject(Global.blacklistedUsers, Formatting.Indented));
                 await Context.ReplyAsync($"Unblacklisted {user.Username}#{user.Discriminator}!");
             }
             else {
                 Global.blacklistedUsers.Add(user.Id);
-                File.WriteAllText("blacklist.json", JsonConvert.SerializeObject(Global.blacklistedUsers, Formatting.Indented));
+                File.WriteAllText(GetResourcePath("blacklist", Util.ResourceType.JsonData), JsonConvert.SerializeObject(Global.blacklistedUsers, Formatting.Indented));
                 await Context.ReplyAsync($"Blacklisted {user.Username}#{user.Discriminator}!");
             }
         }

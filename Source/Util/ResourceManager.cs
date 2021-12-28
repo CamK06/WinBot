@@ -10,16 +10,14 @@ namespace WinBot.Util
             string fileName = name;
             if(type == ResourceType.Config || type == ResourceType.JsonData)
                 fileName += ".json";
-            else if(type == ResourceType.Image)
-                fileName += ".png";
-            // MiscData is treated as is
+            // MiscData and Resource are treated as is
 
             // Get the full path
             string path = fileName;
             if(type == ResourceType.JsonData || type == ResourceType.MiscData)
                 path = "Data/" + path;
-            else if(type == ResourceType.Image)
-                path = "Images/" + path;
+            else if(type == ResourceType.Resource)
+                path = "Resources/" + path;
 
             return path;
         }
@@ -32,6 +30,6 @@ namespace WinBot.Util
 
     public enum ResourceType
     {
-        JsonData, MiscData, Config, Image
+        JsonData, MiscData, Config, Resource
     }
 }
