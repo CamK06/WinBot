@@ -54,6 +54,9 @@ namespace WinBot.Commands.Main
             string finalString = "";
             foreach (Command command in Bot.commands.RegisteredCommands.Values) {
 
+                if(command.IsHidden)
+                    continue;
+
                 // I fucking hate linq but I cba to come up with easier ways to do this stuff
                 Category category = ((CategoryAttribute)command.CustomAttributes.FirstOrDefault(x => x.GetType() == typeof(CategoryAttribute))).category;
                 if (category != searchCategory)
