@@ -25,7 +25,7 @@ namespace WinBot.Commands.Main
         [Command("img")]
         [Description("Gets a random user-submitted image")]
         [Usage("[add (or leave blank)] [image (or leave blank)]")]
-        [Category(Category.Main)]
+        [Category(Category.Fun)]
         public async Task Image(CommandContext Context, string command = null, string image = null)
         {
             string jsonFile = GetResourcePath("randomImages", Util.ResourceType.JsonData);
