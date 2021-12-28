@@ -29,6 +29,7 @@ namespace WinBot.Commands.Main
             // Generate text
             string description = "";
             int userCounter = 0;
+            int lineCounter = 0;
             string longestLine = "";
             bool hasDisplayedCurrentUser = false;
             foreach(User lbUser in leaderboard) {
@@ -41,6 +42,7 @@ namespace WinBot.Commands.Main
                         hasDisplayedCurrentUser = true;
                     if(toAdd.Length > longestLine.Length)
                         longestLine = toAdd;
+                    lineCounter++;
                 }
                 else if(lbUser.id == Context.User.Id) {
                     description += $"{toAdd}\n\n";
@@ -48,9 +50,11 @@ namespace WinBot.Commands.Main
                         description += "...";
                     if(toAdd.Length > longestLine.Length)
                         longestLine = toAdd;
+                    lineCounter++;
                 }
                 else if(userCounter == 10 && !hasDisplayedCurrentUser) {
                     description += "...\n";
+                    lineCounter++;
                 }
                 userCounter++; 
             }
@@ -66,7 +70,7 @@ namespace WinBot.Commands.Main
             // Image creation:
 
             // Setup
-            Bitmap bmp = new Bitmap((int)longestLineLen.Width+52, (100*userCounter)-14);
+            Bitmap bmp = new Bitmap((int)longestLineLen.Width+52, (100*lineCounter)-44);
             Graphics img = Graphics.FromImage(bmp);
             img.Clear(Color.FromArgb(35, 39, 42));
 
