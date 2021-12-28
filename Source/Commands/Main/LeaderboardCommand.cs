@@ -8,6 +8,10 @@ using DSharpPlus.CommandsNext.Attributes;
 using WinBot.Commands.Attributes;
 using WinBot.Misc;
 using WinBot.Util;
+using static WinBot.Util.ResourceManager;
+
+using System.Drawing;
+using System.Drawing.Text;
 
 namespace WinBot.Commands.Main
 {
@@ -22,34 +26,58 @@ namespace WinBot.Commands.Main
             List<User> leaderboard = Leveling.GetOrderedLeaderboard();
             DiscordUser topUser = Bot.client.GetUserAsync(leaderboard[0].id).Result;
 
-            // Generate an embed description
+            // Generate text
             string description = "";
             int userCounter = 0;
+            string longestLine = "";
             bool hasDisplayedCurrentUser = false;
             foreach(User lbUser in leaderboard) {
+
+                string toAdd = $"{userCounter+1}. {lbUser.username} - {lbUser.level} ({MiscUtil.FormatNumber((int)lbUser.totalxp)} Total XP)";
+
                 if(userCounter < 10) {
-                    description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({MiscUtil.FormatNumber((int)lbUser.totalxp)} Total XP)\n";
+                    description += $"{toAdd}\n\n";
                     if(lbUser.id == Context.User.Id)
                         hasDisplayedCurrentUser = true;
+                    if(toAdd.Length > longestLine.Length)
+                        longestLine = toAdd;
                 }
                 else if(lbUser.id == Context.User.Id) {
-                    description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({MiscUtil.FormatNumber((int)lbUser.totalxp)} Total XP)\n";
+                    description += $"{toAdd}\n\n";
                     if(userCounter != 10) 
                         description += "...";
+                    if(toAdd.Length > longestLine.Length)
+                        longestLine = toAdd;
                 }
                 else if(userCounter == 10 && !hasDisplayedCurrentUser) {
                     description += "...\n";
                 }
-                userCounter++;
+                userCounter++; 
             }
 
-            // Create the embed
-            DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-            eb.WithColor(DiscordColor.Gold);
-            eb.WithThumbnail(topUser.GetAvatarUrl(DSharpPlus.ImageFormat.Jpeg)); 
-            eb.WithDescription(description);
-            eb.WithFooter("Note: this is NOT a temporary leaderboard");
-            await Context.ReplyAsync("", eb.Build());
+            // Set up text drawing
+            PrivateFontCollection fonts = new PrivateFontCollection();
+            fonts.AddFontFile(GetResourcePath("Roboto-Regular.ttf", ResourceType.Resource));
+            SolidBrush brush = new SolidBrush(Color.White);
+            StringFormat drawForm = new StringFormat();
+            Font roboto = new Font(fonts.Families[0].Name, 50, FontStyle.Regular, GraphicsUnit.Pixel);
+            SizeF longestLineLen = MiscUtil.MeasureString(longestLine, roboto);
+
+            // Image creation:
+
+            // Setup
+            Bitmap bmp = new Bitmap((int)longestLineLen.Width+52, (100*userCounter)-14);
+            Graphics img = Graphics.FromImage(bmp);
+            img.Clear(Color.FromArgb(35, 39, 42));
+
+            brush.Color = Color.White;
+            img.DrawString(description, roboto, brush, new PointF(26, 26));
+
+            // Save and send the image
+            string imagePath = TempManager.GetTempFile($"leaderBoard.png", true);
+            bmp.Save(imagePath);
+            await Context.Channel.SendFileAsync(imagePath);
+            TempManager.RemoveTempFile($"leaderBoard.png");
         }
     }
 }
