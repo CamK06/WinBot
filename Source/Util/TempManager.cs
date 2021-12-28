@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 using Serilog;
 
+using Newtonsoft.Json;
+
+using static WinBot.Util.ResourceManager;
+
 namespace WinBot.Util
 {
     public class TempManager
@@ -18,6 +22,12 @@ namespace WinBot.Util
             t.Elapsed += (object sender, ElapsedEventArgs e) => {
                 Flush();
             };
+
+            // Load temp files
+            if(File.Exists(GetResourcePath("tempFiles", ResourceType.JsonData))) {
+                string json = File.ReadAllText(GetResourcePath("tempFiles", ResourceType.JsonData));
+                tempFiles = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            }
         }
 
         public static string GetTempFile(string name, bool replaceExisting = false)
@@ -33,6 +43,11 @@ namespace WinBot.Util
             string filePath = $"Temp/{new Random().Next(9999, 99999)}-{name}";
             tempFiles.Add(name, filePath);
             Log.Information($"Created temp file with name: {name} and path: {filePath}");
+
+            // Save temp files
+            File.WriteAllText(GetResourcePath("tempFiles", ResourceType.JsonData),
+                              JsonConvert.SerializeObject(tempFiles, Formatting.Indented));
+
             return filePath;
         }
 
@@ -45,6 +60,10 @@ namespace WinBot.Util
             // Remove the file
             File.Delete(tempFiles[name]);
             tempFiles.Remove(name);
+
+            // Save temp files
+            File.WriteAllText(GetResourcePath("tempFiles", ResourceType.JsonData), 
+                              JsonConvert.SerializeObject(tempFiles, Formatting.Indented));
         }
 
         public static void Flush()
@@ -56,6 +75,8 @@ namespace WinBot.Util
             Directory.Delete("Temp", true);
             Directory.CreateDirectory("Temp");
             tempFiles.Clear();
+            File.WriteAllText(GetResourcePath("tempFiles", ResourceType.JsonData), 
+                              JsonConvert.SerializeObject(tempFiles, Formatting.Indented));
             Log.Information("Temp files have been cleared");
         }
     }

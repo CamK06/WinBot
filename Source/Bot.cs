@@ -100,6 +100,7 @@ namespace WinBot
             UserData.Init();
             Leveling.Init();
             TempManager.Init();
+            DailyReportSystem.Init();
 
             await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
             Log.Information("Ready");
