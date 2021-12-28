@@ -103,7 +103,12 @@ namespace WinBot
         {
             // Bot
             client.Ready += Ready;
-            client.MessageCreated += CommandHandler.HandleCommand;
+            client.MessageCreated += CommandHandler.HandleMessage;
+            client.MessageUpdated += (DiscordClient client, MessageUpdateEventArgs e) => {
+                if(DateTime.Now.Subtract(e.Message.Timestamp.DateTime).TotalMinutes < 1)
+                    CommandHandler.HandleCommand(e.Message, e.Author);
+                return Task.CompletedTask;
+            };
 
             // Commands
             commands.CommandErrored += CommandHandler.HandleError;

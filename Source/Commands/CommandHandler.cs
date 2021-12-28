@@ -14,17 +14,8 @@ namespace WinBot.Commands
 {
     public class CommandHandler
     {
-        public static async Task HandleCommand(DiscordClient client, MessageCreateEventArgs e)
+        public static Task HandleMessage(DiscordClient client, MessageCreateEventArgs e)
         {
-            DiscordMessage msg = e.Message;
-            
-            if(Global.blacklistedUsers.Contains(msg.Author.Id) || e.Author.IsBot)
-                return;
-
-#if !DEBUG
-            if(mutedRole == null)
-                mutedRole = client.GetGuildAsync(774566729379741706).Result.GetRole(874370290900140084); // TODO: make role and guild ID not hardcoded
-#endif
 #if TOFU
             if(!msg.Author.IsBot) {
                 if(e.Message.Content.ToLower().Contains("brett") || e.Message.Content.ToLower().Contains("bret")) {
@@ -33,6 +24,16 @@ namespace WinBot.Commands
                 }
             }
 #endif
+            
+            HandleCommand(e.Message, e.Author);
+            return Task.CompletedTask;
+        }
+
+        public static async void HandleCommand(DiscordMessage msg, DiscordUser author)
+        {
+            if(Global.blacklistedUsers.Contains(author.Id) || author.IsBot)
+                return;
+
             // Prefix check
             int start = msg.GetStringPrefixLength(Bot.config.prefix);
             if(start == -1) return;
@@ -43,7 +44,7 @@ namespace WinBot.Commands
             // Multi-command check and execution
             if(cmdString.Contains(" && ")) {
                 string[] commands = cmdString.Split(" && ");
-                if(commands.Length > 2 && e.Author.Id != client.CurrentApplication.Owners.FirstOrDefault().Id) return;
+                if(commands.Length > 2 && author.Id != Bot.client.CurrentApplication.Owners.FirstOrDefault().Id) return;
                 for(int i = 0; i < commands.Length; i++) {
                     DoCommand(commands[i], prefix, msg);
                 }
