@@ -1,13 +1,10 @@
-using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
 
 using WinBot.Commands.Attributes;
-
-using Newtonsoft.Json;
 
 namespace WinBot.Commands.Fun
 {
@@ -18,7 +15,7 @@ namespace WinBot.Commands.Fun
         [Category(Category.Fun)]
         public async Task Inspire(CommandContext Context)
         {
-            string url = new WebClient().DownloadString("https://inspirobot.me/api?generate=true");
+            string url = await new HttpClient().GetStringAsync("https://inspirobot.me/api?generate=true");
             await Context.ReplyAsync(url);
         }
     }

@@ -8,11 +8,11 @@ namespace WinBot.Commands.Attributes
         /// <summary>
         /// Gets the category of this command
         /// </summary>
-        public Category Category { get; }
+        public Category category { get; }
 
         public CategoryAttribute(Category category)
         {
-            this.Category = category;
+            this.category = category;
         }
     }
 

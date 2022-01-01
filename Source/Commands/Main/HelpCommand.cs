@@ -17,13 +17,13 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Help(CommandContext Context, [RemainingText] string command = null)
         {
-            // Set up the embed
+            // Embed setup
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithColor(DiscordColor.Gold);
-            eb.WithFooter($"Type \"{Bot.config.prefix}help [command]\" to get more info on a command");
+            eb.WithFooter($"Type \"{Bot.config.prefix}help [command]\" for more info on a specific command");
 
-            if (command == null)
-            {
+            if(command == null) {
+                
                 // List all commands
                 eb.WithTitle($"{Bot.client.CurrentUser.Username} Commands");
                 eb.AddField("**Main**", GetCommands(Category.Main), false);
@@ -31,18 +31,16 @@ namespace WinBot.Commands.Main
                 eb.AddField("**Staff**", GetCommands(Category.Staff), false);
                 eb.AddField("**Owner**", GetCommands(Category.Owner), false);
             }
-            else
-            {
+            else {
+
                 // Get the usage of a specific command
                 string usage = GetCommandUsage(command);
-                if (usage != null)
-                {
+                if (usage != null) {
                     string upperCommandName = command[0].ToString().ToUpper() + command.Remove(0, 1);
                     eb.WithTitle($"{upperCommandName} Command");
                     eb.WithDescription($"{usage}");
                 }
-                else
-                {
+                else {
                     await Context.ReplyAsync("That command doesn't seem to exist.");
                     return;
                 }
@@ -54,10 +52,13 @@ namespace WinBot.Commands.Main
         static string GetCommands(Category searchCategory)
         {
             string finalString = "";
-            foreach (Command command in Bot.commands.RegisteredCommands.Values)
-            {
+            foreach (Command command in Bot.commands.RegisteredCommands.Values) {
+
+                if(command.IsHidden)
+                    continue;
+
                 // I fucking hate linq but I cba to come up with easier ways to do this stuff
-                Category category = ((CategoryAttribute)command.CustomAttributes.FirstOrDefault(x => x.GetType() == typeof(CategoryAttribute))).Category;
+                Category category = ((CategoryAttribute)command.CustomAttributes.FirstOrDefault(x => x.GetType() == typeof(CategoryAttribute))).category;
                 if (category != searchCategory)
                     continue;
 
@@ -65,6 +66,9 @@ namespace WinBot.Commands.Main
                 if (!string.IsNullOrWhiteSpace(finalString)) finalString += $" | `{command.Name}`";
                 else finalString = $"`{command.Name}`";
             }
+
+            if(finalString.Length <= 0)
+                finalString = "*No commands found in category*";
             return finalString;
         }
 

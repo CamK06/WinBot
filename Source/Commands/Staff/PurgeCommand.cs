@@ -7,7 +7,6 @@ using DSharpPlus.Entities;
 
 using WinBot.Commands.Attributes;
 
-
 namespace WinBot.Commands.Staff
 {
     public class PurgeCommand : BaseCommandModule
@@ -32,7 +31,7 @@ namespace WinBot.Commands.Staff
             builder.WithTimestamp(DateTime.Now);
             builder.WithColor(DiscordColor.Gold);
             builder.AddField("IDs", $"```cs\nMod = {Context.User.Id}\nChannel = {Context.Channel.Id}```");
-            await Bot.logChannel.SendMessageAsync("", builder.Build());
+            await Global.logChannel.SendMessageAsync("", builder.Build());
 
             // Purged message
             DiscordMessage msg = await Context.ReplyAsync($"{count} messages purged. This message will be deleted in 3 seconds.");

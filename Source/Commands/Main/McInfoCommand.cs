@@ -1,4 +1,4 @@
-using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using DSharpPlus.CommandsNext;
@@ -19,17 +19,17 @@ namespace WinBot.Commands.Main
         public async Task McInfo(CommandContext Context)
         {
             await Context.Channel.TriggerTypingAsync();
-            
+
             // Download the server info
             string json = "";
-            using(WebClient webClient = new WebClient())
+            using(HttpClient http = new HttpClient())
 #if !TOFU
-                json = webClient.DownloadString("https://api.mcsrvstat.us/2/comserv.winworldpc.com");
+                json = await http.GetStringAsync("https://api.mcsrvstat.us/2/comserv.winworldpc.com");
 #else
-                json = webClient.DownloadString("https://api.mcsrvstat.us/2/cgmc.nick99nack.com");
+                json = await http.GetStringAsync("https://api.mcsrvstat.us/2/cgmc.nick99nack.com");
 #endif
             dynamic serverInfo = JsonConvert.DeserializeObject(json);
-
+            
             // Format the info in an embed
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithColor(DiscordColor.Gold);

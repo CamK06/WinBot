@@ -18,22 +18,20 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Whois(CommandContext Context, [RemainingText] DiscordMember user)
         {
-            if (user == null) user = Context.Message.Author as DiscordMember;
+            if (user == null) 
+                user = Context.Message.Author as DiscordMember;
 
-            try
-            {
+            try {
                 // Set up the embed
                 DiscordEmbedBuilder Embed = new DiscordEmbedBuilder();
                 Embed.WithColor(DiscordColor.Gold);
 
                 // Basic user info
-                if (user.AvatarUrl != null)
-                {
+                if (user.AvatarUrl != null) {
                     Embed.WithThumbnail(user.AvatarUrl);
                     Embed.WithAuthor(user.Username, null, user.AvatarUrl);
                 }
-                else
-                {
+                else {
                     Embed.WithThumbnail(user.DefaultAvatarUrl);
                     Embed.WithAuthor(user.Username, null, user.DefaultAvatarUrl);
                 }
@@ -45,8 +43,7 @@ namespace WinBot.Commands.Main
 
                 await Context.ReplyAsync("", Embed.Build());
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 await Context.ReplyAsync("Error: " + ex.Message + "\nStack Trace:" + ex.StackTrace);
             }
         }

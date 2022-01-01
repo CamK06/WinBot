@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Timers;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -10,6 +11,9 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 
 using Serilog;
+
+using static WinBot.Util.ResourceManager;
+using WinBot.Util;
 
 namespace WinBot.Misc
 {
@@ -24,31 +28,33 @@ namespace WinBot.Misc
 			usersLeft = 0
 		};
 
+		public static List<DailyReport> reports = new List<DailyReport>();
+
 		public static void Init()
 		{
 			// Load the backup report if it exists.
-			if (File.Exists("DailyReports/backup.json"))
-				report = JsonConvert.DeserializeObject<DailyReport>(File.ReadAllText("DailyReports/backup.json"));
+			if (File.Exists(TempManager.GetTempFile("dailyreport")))
+				report = JsonConvert.DeserializeObject<DailyReport>(File.ReadAllText(TempManager.GetTempFile("dailyreport")));
 
-			// Create the report directory if it isn't present
-			if (!Directory.Exists("DailyReports"))
-				Directory.CreateDirectory("DailyReports");
+			// Load previous reports
+			if (File.Exists(GetResourcePath("dailyReports", ResourceType.JsonData)))
+				reports = JsonConvert.DeserializeObject<List<DailyReport>>(File.ReadAllText(GetResourcePath("dailyReports", ResourceType.JsonData)));
 
 			// E v e n t s
-			Bot.client.MessageCreated += (DiscordClient client, MessageCreateEventArgs e) =>
-			{
+			Bot.client.MessageCreated += (DiscordClient client, MessageCreateEventArgs e) => {
+
 				report.messagesSent++;
 				if (e.Message.Content.StartsWith(".")) // Inaccurate but oh well.
 					report.commandsRan++;
 				return Task.CompletedTask;
 			};
-			Bot.client.GuildMemberAdded += (DiscordClient client, GuildMemberAddEventArgs e) =>
-			{
+			Bot.client.GuildMemberAdded += (DiscordClient client, GuildMemberAddEventArgs e) => {
+
 				report.usersJoined++;
 				return Task.CompletedTask;
 			};
-			Bot.client.GuildMemberRemoved += (DiscordClient client, GuildMemberRemoveEventArgs e) =>
-			{
+			Bot.client.GuildMemberRemoved += (DiscordClient client, GuildMemberRemoveEventArgs e) => {
+
 				report.usersLeft++;
 				return Task.CompletedTask;
 			};
@@ -70,8 +76,10 @@ namespace WinBot.Misc
 
 		private async static void SendReport()
 		{
-			// Write the report
-			File.WriteAllText($"DailyReports/{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day} Report.json", JsonConvert.SerializeObject(report, Formatting.Indented));
+			// Write the reports
+			reports.Add(report);
+			File.WriteAllText(GetResourcePath("dailyReports", ResourceType.JsonData),
+							  JsonConvert.SerializeObject(reports, Formatting.Indented));
 
 			// Create and send the report embed
 			DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
@@ -82,7 +90,7 @@ namespace WinBot.Misc
 			eb.AddField("Commands Ran", report.commandsRan.ToString(), true);
 			eb.AddField("Users Joined", report.usersJoined.ToString(), true);
 			eb.AddField("Users Left", report.usersLeft.ToString(), true);
-			await Bot.client.GetChannelAsync(Bot.config.logChannel).Result.SendMessageAsync("", eb.Build());
+			await Global.logChannel.SendMessageAsync("", eb.Build());
 
 			// Reset the report
 			report = new DailyReport()
@@ -95,13 +103,13 @@ namespace WinBot.Misc
 			};
 
 			// Remove the backup so it doesn't pass onto the next day
-			File.Delete("DailyReports/backup.json");
+			TempManager.RemoveTempFile("dailyreport");
 		}
 
 		// This is done in its own method rather than the lambda function so it can be called from other parts of the program
 		public static void CreateBackup()
 		{
-			File.WriteAllText("DailyReports/backup.json", JsonConvert.SerializeObject(report, Formatting.Indented));
+			File.WriteAllText(TempManager.GetTempFile("dailyreport"), JsonConvert.SerializeObject(report, Formatting.Indented));
 		}
 	}
 

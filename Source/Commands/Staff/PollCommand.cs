@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
@@ -14,30 +13,25 @@ namespace WinBot.Commands.Main
     {
         [Command("poll")]
         [Description("Create a poll")]
-        [Usage("[title] [options]")]
+        [Usage("[title] ['|' separated options]")]
         [Category(Category.Staff)]
         [RequireUserPermissions(DSharpPlus.Permissions.KickMembers)]
         public async Task Poll(CommandContext Context, string title, [RemainingText]string optionString) 
         {
             // Null checks
-            if(string.IsNullOrWhiteSpace(title)) {
+            if(string.IsNullOrWhiteSpace(title))
                 throw new Exception("You must provide a title!");
-            }
-            if(string.IsNullOrWhiteSpace(optionString)) {
+            if(string.IsNullOrWhiteSpace(optionString))
                 throw new Exception("You must provide options!");
-            }
 
             // Parse/verify options
-            string[] options = optionString.Split(" ");
-            if(options.Length < 2) {
+            string[] options = optionString.Split('|');
+            if(options.Length < 2)
                 throw new Exception("You must provide *at least* two options.");
-            }
-            else if(options.Length > 10) {
+            else if(options.Length > 10)
                 throw new Exception("You cannot have more than 10 options!");
-            }
-            for(int i = 0; i < options.Length; i++) {
+            for(int i = 0; i < options.Length; i++)
                 options[i] = $"{optionEmotes[i]} {options[i]}";
-            }
 
             // Create an embed
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();

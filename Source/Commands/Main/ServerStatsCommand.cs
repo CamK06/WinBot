@@ -28,15 +28,8 @@ namespace WinBot.Commands.Main
         public async Task Serverstats(CommandContext Context)
         {
             // Report loading
-            List<DailyReport> reports = new List<DailyReport>();
-            foreach (string file in Directory.GetFiles("DailyReports"))
-            {
-                string json = File.ReadAllText(file).Replace("UsersLeft", "usersLeft").Replace("UsersJoined", "usersJoined")
-                                                    .Replace("CommandsRan", "commandsRan").Replace("MessagesSent", "messagesSent")
-                                                    .Replace("DayOfReport", "dayOfReport");
-                DailyReport newReport = JsonConvert.DeserializeObject<DailyReport>(json);
-                reports.Add(newReport);
-            }
+            List<DailyReport> reports = DailyReportSystem.reports;
+            reports.Add(DailyReportSystem.report);
             reports = reports.OrderByDescending(grp => grp.dayOfReport.DayOfYear).Reverse().ToList();
 
             double[] messages, commands, ys;
@@ -103,8 +96,10 @@ namespace WinBot.Commands.Main
             plt.Legend(true, null, 30, null, null, System.Drawing.Color.FromArgb(100, 52, 54, 60), null, legendLocation.upperRight, shadowDirection.lowerRight, null, null);
 
             // Save and send
-            plt.SaveFig("stats.png");
-            await Context.Channel.SendFileAsync("stats.png");
+            string fileName = TempManager.GetTempFile("serverstats.png", true);
+            plt.SaveFig(fileName);
+            await Context.Channel.SendFileAsync(fileName);
+            TempManager.RemoveTempFile("serverstats.png");
         }
     }
 }

@@ -34,7 +34,8 @@ namespace WinBot.Commands.Main
                 }
                 else if(lbUser.id == Context.User.Id) {
                     description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({MiscUtil.FormatNumber((int)lbUser.totalxp)} Total XP)\n";
-                    if(userCounter != 10) description += "...";
+                    if(userCounter != 10) 
+                        description += "...";
                 }
                 else if(userCounter == 10 && !hasDisplayedCurrentUser) {
                     description += "...\n";

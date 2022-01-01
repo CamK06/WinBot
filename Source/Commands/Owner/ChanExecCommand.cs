@@ -15,12 +15,9 @@ namespace WinBot.Commands.Owner
         [Description("Execute a command in another channel")]
         [Usage("[channel] [command]")]
         [Category(Category.Owner)]
+        [RequireOwner]
         public async Task ChanExec(CommandContext Context, DiscordChannel channel, [RemainingText]string command)
         {
-            // Owner check
-            if(Context.User.Id != Bot.config.ownerId && !Bot.whitelistedUsers.Contains(Context.User.Id))
-				throw new Exception("You must be the bot owner to run this command!");
-
             // Channel check
             if(channel == null || channel.Type == DSharpPlus.ChannelType.Voice)
                 throw new Exception("Invalid channel");

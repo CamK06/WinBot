@@ -3,11 +3,12 @@ using System.Threading.Tasks;
 
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
 
 using WinBot.Commands.Attributes;
 
 using WinBot.Misc;
+
+using Serilog;
 
 namespace WinBot.Commands.Owner
 {
@@ -16,14 +17,12 @@ namespace WinBot.Commands.Owner
         [Command("kill")]
         [Description("Kills the bot")]
         [Category(Category.Owner)]
+        [RequireOwner]
         public async Task Kill(CommandContext Context)
         {
-            if(Context.User.Id != Bot.config.ownerId && !Bot.whitelistedUsers.Contains(Context.User.Id))
-				throw new Exception("You must be the bot owner to run this command!");
-			
 			await Context.ReplyAsync("Shutting down...");
-			await Bot.logChannel.SendMessageAsync("Shutdown triggered by command");
-			DailyReportSystem.CreateBackup();
+			Log.Information("Shutdown triggered by command");
+			//DailyReportSystem.CreateBackup();
             UserData.SaveData();
 			Environment.Exit(0);
         }

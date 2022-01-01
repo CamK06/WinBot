@@ -1,32 +1,28 @@
 using System;
-using System.IO;
-using System.Collections.Generic;
-
-using Newtonsoft.Json;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using DSharpPlus.Entities;
-using Serilog;
-using System.Threading.Tasks;
-using DSharpPlus.CommandsNext;
 
 namespace WinBot.Util
 {
     public static class MiscUtil
     {
-        public static List<ulong> LoadBlacklist()
+        public static string FormatDate(DateTimeOffset dt)
         {
-            if (!File.Exists("blacklist.json"))
-            {
-                File.WriteAllText("blacklist.json", JsonConvert.SerializeObject(new List<ulong>()));
-                return new List<ulong>();
-            }
-            return JsonConvert.DeserializeObject<List<ulong>>(File.ReadAllText("blacklist.json"));
+            return dt.ToString("dddd, dd MMMM yyyy");
         }
 
-        public static void SaveBlacklist()
+        public static string FormatNumber(int num)
         {
-            File.WriteAllText("blacklist.json", JsonConvert.SerializeObject(Bot.blacklistedUsers, Formatting.Indented));
+            if (num >= 100000)
+                return FormatNumber(num / 1000) + "K";
+            if (num >= 10000)
+            {
+                return (num / 1000D).ToString("0.#") + "K";
+            }
+            if(num >= 1000) {
+                return (num / 1000D).ToString("#.0") + "K";
+            }
+            return num.ToString("#,0");
         }
 
         public static string Truncate(this string value, int maxLength)
@@ -34,27 +30,6 @@ namespace WinBot.Util
             if (string.IsNullOrEmpty(value)) return value;
             return value.Length <= maxLength ? value : value.Substring(0, maxLength - 3) + "...";
         }
-
-        public static string FormatDate(DateTimeOffset dt)
-        {
-            return dt.ToString("dddd, dd MMMM yyyy");
-        }
-
-        // For use in about command
-        public static string GetHost()
-        {
-            try
-            {
-                if (Environment.OSVersion.ToString().ToLower().Contains("unix")) // Run uname if we're on a UNIX system
-                    return "uname -sr".Bash();
-                else if (Environment.OSVersion.ToString().ToLower().Contains("windows")) // Run systeminfo if we're on a Windows system
-                    return "systeminfo".Bash();
-                else // Otherwise we're on some really fucked up shit
-                    return null;
-            }
-            catch { Environment.Exit(0); return null; }
-        }
-
 
         // Taken from stackoverflow because of course it is: https://stackoverflow.com/a/33853557
         public static GraphicsPath RoundedRect(Rectangle bounds, int radius)
@@ -118,7 +93,7 @@ namespace WinBot.Util
                 for (int y = 0; y < bmp.Height; y++)
                 {
                     Color clr = bmp.GetPixel(x, y);
-
+                    
                     r += clr.R;
                     g += clr.G;
                     b += clr.B;
@@ -132,56 +107,11 @@ namespace WinBot.Util
             g /= total;
             b /= total;
 
+            // If any issues arise with this; try different threshold values
+            if((r+g+b)/3 < 128)
+                r = g = b = 128;
+
             return Color.FromArgb(r, g, b);
-        }
-
-        public static string FormatNumber(int num)
-        {
-            if (num >= 100000)
-                return FormatNumber(num / 1000) + "K";
-            if (num >= 10000)
-            {
-                return (num / 1000D).ToString("0.#") + "K";
-            }
-            if(num >= 1000) {
-                return (num / 1000D).ToString("#.0") + "K";
-            }
-            return num.ToString("#,0");
-        }
-    }
-}
-
-namespace DSharpPlus.CommandsNext
-{
-    public static class DSharpImprovements
-    {
-        public static async Task<DiscordMessage> SendFileAsync(this DiscordChannel channel, string fileName)
-        {
-            if(!File.Exists(fileName)) {
-                Log.Warning($"File does not exist! (SendFileAsync @ {channel.Name})");
-                return null;
-            }
-
-            FileStream fStream = new FileStream(fileName, FileMode.Open);
-            DiscordMessage msg = await new DiscordMessageBuilder().WithFile(fileName, fStream).SendAsync(channel);
-            fStream.Close();
-
-            return msg;
-        }
-
-        public static async Task<DiscordMessage> ReplyAsync(this CommandContext Context, string Content)
-        {
-            return await Context.Channel.SendMessageAsync(Content);
-        }
-
-        public static async Task<DiscordMessage> ReplyAsync(this CommandContext Context, string Content, DiscordEmbed Embed)
-        {
-            return await Context.Channel.SendMessageAsync(Content, Embed);
-        }
-
-        public static async Task<DiscordMessage> ReplyAsync(this CommandContext Context, DiscordEmbed Embed)
-        {
-            return await Context.Channel.SendMessageAsync("", Embed);
         }
     }
 }

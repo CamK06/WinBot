@@ -2,6 +2,7 @@
 using System;
 using System.Timers;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
@@ -16,9 +17,14 @@ namespace WinBot.Commands.Main
         [Description("Remind you about something")]
         [Usage("[Time] [Time Unit (seconds/s, minutes/m, hours/h, days/d) [Message] (Note that long timespans are likely unreliable due to bot restarts)]")]
         [Category(Category.Main)]
-        public async Task Remind(CommandContext Context, int time, string unit, [RemainingText] string message = "")
+        public async Task Remind(CommandContext Context, string timeStr, [RemainingText] string message = "")
         {
             Timer t;
+            int time = 0;
+            string unit = "";
+
+            int.TryParse(Regex.Replace(timeStr, "[A-Za-z ]", ""), out time);
+            unit = Regex.Match(timeStr, "[A-Za-z ]", RegexOptions.None).Value;
 
             // Filter bad values
             if (time <= 0) {
@@ -53,8 +59,7 @@ namespace WinBot.Commands.Main
 
             // Start the timer
             t.AutoReset = false;
-            t.Elapsed += async (object sender, ElapsedEventArgs args) =>
-            {
+            t.Elapsed += async (object sender, ElapsedEventArgs args) => {
                 await Context.ReplyAsync($"{Context.User.Mention}{(message == "" ? "" : ":")} {message.Replace("@", "-")}");
             };
             t.Start();
