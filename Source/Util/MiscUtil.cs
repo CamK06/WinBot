@@ -101,6 +101,10 @@ namespace WinBot.Util
             g /= total;
             b /= total;
 
+            // If any issues arise with this; try different threshold values
+            if((r+g+b)/3 < 128)
+                r = g = b = 128;
+
             return Color.FromArgb(r, g, b);
         }
     }
