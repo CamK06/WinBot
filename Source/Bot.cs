@@ -133,6 +133,8 @@ namespace WinBot
 #endif
             // Commands
             commands.CommandErrored += CommandHandler.HandleError;
+
+            EventLogging.Init();
         }
 
         void VerifyIntegrity()
