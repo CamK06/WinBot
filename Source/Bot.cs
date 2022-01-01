@@ -158,6 +158,7 @@ namespace WinBot
                 config.status = " ";
                 config.prefix = ".";
                 config.ids = new IDConfig();
+                config.apiKeys = new APIConfig();
 
                 // Write the config and quit
                 File.WriteAllText(GetResourcePath("config", ResourceType.Config), JsonConvert.SerializeObject(config, Formatting.Indented));
@@ -195,6 +196,7 @@ namespace WinBot
         public string prefix { get; set; }
         public string status { get; set; }
         public IDConfig ids { get; set; }
+        public APIConfig apiKeys { get; set; }
     }
     
     class IDConfig
@@ -206,6 +208,11 @@ namespace WinBot
 #if TOFU
         public ulong welcomeChannel { get; set; } = 0;
 #endif
+    }
+
+    class APIConfig
+    {
+        public string weatherAPI { get; set; } = "";
     }
 
     class Global
