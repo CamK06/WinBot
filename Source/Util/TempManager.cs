@@ -51,6 +51,11 @@ namespace WinBot.Util
             return filePath;
         }
 
+        public static bool TempFileExists(string name)
+        {
+            return tempFiles.ContainsKey(name);
+        }
+
         public static void RemoveTempFile(string name)
         {
             // Do nothing if the file doesn't exist

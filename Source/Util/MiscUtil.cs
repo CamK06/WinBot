@@ -25,6 +25,12 @@ namespace WinBot.Util
             return num.ToString("#,0");
         }
 
+        public static string Truncate(this string value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength - 3) + "...";
+        }
+
         // Taken from stackoverflow because of course it is: https://stackoverflow.com/a/33853557
         public static GraphicsPath RoundedRect(Rectangle bounds, int radius)
         {
