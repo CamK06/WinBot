@@ -87,7 +87,7 @@ namespace WinBot.Util
                 for (int y = 0; y < bmp.Height; y++)
                 {
                     Color clr = bmp.GetPixel(x, y);
-
+                    
                     r += clr.R;
                     g += clr.G;
                     b += clr.B;

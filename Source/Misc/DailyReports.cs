@@ -36,6 +36,10 @@ namespace WinBot.Misc
 			if (File.Exists(TempManager.GetTempFile("dailyreport")))
 				report = JsonConvert.DeserializeObject<DailyReport>(File.ReadAllText(TempManager.GetTempFile("dailyreport")));
 
+			// Load previous reports
+			if (File.Exists(GetResourcePath("dailyReports", ResourceType.JsonData)))
+				reports = JsonConvert.DeserializeObject<List<DailyReport>>(File.ReadAllText(GetResourcePath("dailyReports", ResourceType.JsonData)));
+
 			// E v e n t s
 			Bot.client.MessageCreated += (DiscordClient client, MessageCreateEventArgs e) => {
 
