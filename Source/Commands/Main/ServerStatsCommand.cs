@@ -28,7 +28,7 @@ namespace WinBot.Commands.Main
         public async Task Serverstats(CommandContext Context)
         {
             // Report loading
-            List<DailyReport> reports = DailyReportSystem.reports;
+            List<DailyReport> reports = DailyReportSystem.reports.ToList();
             reports.Add(DailyReportSystem.report);
             reports = reports.OrderByDescending(grp => grp.dayOfReport.DayOfYear).Reverse().ToList();
 
