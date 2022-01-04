@@ -19,6 +19,8 @@ using WinBot.Misc;
 using WinBot.Commands;
 using static WinBot.Util.ResourceManager;
 
+using ImageMagick;
+
 namespace WinBot
 {
     class Bot
@@ -106,6 +108,7 @@ namespace WinBot
             Leveling.Init();
             TempManager.Init();
             DailyReportSystem.Init();
+            MagickNET.Initialize();
 
             await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
             Log.Information("Ready");
