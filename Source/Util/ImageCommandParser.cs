@@ -1,6 +1,8 @@
 using System;
 using System.Net;
 using System.Linq;
+
+using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 
 namespace WinBot.Util
@@ -29,7 +31,7 @@ namespace WinBot.Util
                 return args;
             }
             // Arguments, Image URL
-            else {
+            else if(!string.IsNullOrWhiteSpace(input) && input.Split(' ').Count() > 1 && !input.Split(' ')[0].StartsWith("-")) {
 
                 string[] splitArgs = input.Split(' ');
                 for(int i = 0; i < splitArgs.Length; i++) {
@@ -38,6 +40,23 @@ namespace WinBot.Util
                     if(Uri.IsWellFormedUriString(splitArgs[i], UriKind.Absolute))
                         args.url = splitArgs[i];
                 }
+            }
+            // Recent message
+            else {
+                var messages = Context.Channel.GetMessagesAsync(30).Result;
+                foreach(DiscordMessage msg in messages) {
+                    
+                    if(msg.Attachments.Count > 0) {
+                        args.url = msg.Attachments[0].Url;
+                        break;
+                    }
+                    else if(Uri.IsWellFormedUriString(msg.Content, UriKind.Absolute)) {
+                        args.url = msg.Content;
+                        break;
+                    }
+                }
+                if(args.url == null)
+                    throw new Exception("Invalid or no image! The image has to have been sent in the past 30 messages!");
             }
             args.url = args.url.Split('?')[0];
 
@@ -80,7 +99,7 @@ namespace WinBot.Util
 
     class ImageArgs
     {
-        public string url { get; set; }
+        public string url { get; set; } = null;
         public string extension { get; set; }
         public int layers { get; set; } = 1;
         public int size { get; set; } = 1;

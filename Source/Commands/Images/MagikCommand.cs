@@ -30,12 +30,13 @@ namespace WinBot.Commands.Images
             string tempImgFile = TempManager.GetTempFile("magikDL."+args.extension, true);
             new WebClient().DownloadFile(args.url, tempImgFile);
 
-            await Context.ReplyAsync("Processing...\nThis may take a while depending on the image size");
+            var msg = await Context.ReplyAsync("Processing...\nThis may take a while depending on the image size");
 
             // MAGIKIFY
             MagickImage img = new MagickImage(tempImgFile);
             img.Scale(img.Width/2, img.Height/2);
             TempManager.RemoveTempFile("magikDL."+args.extension);
+            args.extension = img.Format.ToString().ToLower();
             for(int i = 0; i < args.layers; i++) {
                 img.LiquidRescale((int)(img.Width * 0.5), (int)(img.Height * 0.5), args.scale > 1 ? 0.5*args.scale : 1, 0);
                 img.LiquidRescale((int)(img.Width * 1.5), (int)(img.Height * 1.5), args.scale > 1 ? args.scale : 2, 0);
@@ -48,6 +49,7 @@ namespace WinBot.Commands.Images
 
             // Send the image
             await Context.Channel.SendFileAsync(finalimgFile);
+            await msg.DeleteAsync();
             TempManager.RemoveTempFile("magik."+args.extension);
         }
     }
