@@ -30,6 +30,8 @@ namespace WinBot.Commands.Images
             string tempImgFile = TempManager.GetTempFile("magikDL."+args.extension, true);
             new WebClient().DownloadFile(args.url, tempImgFile);
 
+            await Context.ReplyAsync("Processing...\nThis may take a while depending on the image size");
+
             // MAGIKIFY
             MagickImage img = new MagickImage(tempImgFile);
             img.Scale(img.Width/2, img.Height/2);
