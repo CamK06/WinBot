@@ -60,6 +60,26 @@ namespace WinBot.Util
             }
             args.url = args.url.Split('?')[0];
 
+            // Tenor handling
+            WebClient client = new WebClient();
+            if(args.url.Contains("tenor.com/view/")) {
+
+                // Download the tenor webpage
+                string html = client.DownloadString(args.url);
+                string htmlFrag = "<meta itemprop=\"contentUrl\" content=\"";
+                if(!html.Contains(htmlFrag))
+                    throw new Exception("Invalid or no image!");
+                args.url = "";
+                
+                // Extract the URL from the string
+                int first = html.IndexOf(htmlFrag) + htmlFrag.Length;
+                for(int i = first; i < html.Length; i++) {
+                    if(html[i] == '"')
+                        break;
+                    args.url += html[i];
+                }
+            }
+
             if(!string.IsNullOrWhiteSpace(input)) {
 
                 // Handle arguments
@@ -84,7 +104,6 @@ namespace WinBot.Util
             }
 
             // Verify the image
-            WebClient client = new WebClient();
             client.OpenRead(args.url);
             Int64 fileSize = Convert.ToInt64(client.ResponseHeaders["Content-Length"]);
             if (!client.ResponseHeaders["Content-Type"].Contains("image") || client.ResponseHeaders["Content-Type"].Contains("svg"))
