@@ -71,7 +71,7 @@ namespace WinBot.Util
                     throw new Exception("Invalid or no image!");
                 args.url = "";
                 
-                // Extract the URL from the string
+                // Extract the URL from the HTML
                 int first = html.IndexOf(htmlFrag) + htmlFrag.Length;
                 for(int i = first; i < html.Length; i++) {
                     if(html[i] == '"')
