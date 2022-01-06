@@ -36,16 +36,13 @@ namespace WinBot.Commands.Images
             MagickImage img = null;
             MagickImageCollection gif = null;
             if(args.extension.ToLower() != "gif") {
-                
                 img = new MagickImage(tempImgFile);
                 DoMagik(img, args);
             }
             else {
-
                 gif = new MagickImageCollection(tempImgFile);
-                foreach(var frame in gif) {
+                foreach(var frame in gif)
                     DoMagik((MagickImage)frame, args);
-                }
             }
             TempManager.RemoveTempFile("magikDL."+args.extension);
 
