@@ -32,17 +32,33 @@ namespace WinBot.Commands.Images
             var msg = await Context.ReplyAsync("Processing...\nThis may take a while depending on the image size");
 
             // R e s i z e
-            MagickImage img = new MagickImage(tempImgFile);
+            MagickImage img = null;
+            MagickImageCollection gif = null;
+            if(args.extension.ToLower() != "gif") {
+                img = new MagickImage(tempImgFile);
+                if(args.size != 1) 
+                    img.Resize(new MagickGeometry(args.size));
+                else if(args.scale != 1)
+                    img.Scale(args.scale*img.Width, args.scale*img.Height);
+            }
+            else {
+                gif = new MagickImageCollection(tempImgFile);
+                foreach(var frame in gif) {
+                    if(args.size != 1) 
+                        frame.Resize(new MagickGeometry(args.size));
+                    else if(args.scale != 1)
+                        frame.Scale(args.scale*frame.Width, args.scale*frame.Height);
+                }
+            }
+
             TempManager.RemoveTempFile(seed+"-resizeDL."+args.extension);
-            args.extension = img.Format.ToString().ToLower();
-            if(args.size != 1) 
-                img.Resize(new MagickGeometry(args.size));
-            else if(args.scale != 1)
-                img.Scale(args.scale*img.Width, args.scale*img.Height);
 
             // Save the image
             string finalimgFile = TempManager.GetTempFile(seed+"-resize." + args.extension, true);
-            img.Write(finalimgFile);
+            if(args.extension.ToLower() != "gif")
+                img.Write(finalimgFile);
+            else
+                gif.Write(finalimgFile);
 
             // Send the image
             await Context.Channel.SendFileAsync(finalimgFile);
