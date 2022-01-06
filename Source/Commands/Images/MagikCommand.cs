@@ -33,24 +33,44 @@ namespace WinBot.Commands.Images
             var msg = await Context.ReplyAsync("Processing...\nThis may take a while depending on the image size");
 
             // MAGIKIFY
-            MagickImage img = new MagickImage(tempImgFile);
-            img.Scale(img.Width/2, img.Height/2);
+            MagickImage img = null;
+            MagickImageCollection gif = null;
+            if(args.extension.ToLower() != "gif") {
+                
+                img = new MagickImage(tempImgFile);
+                DoMagik(img, args);
+            }
+            else {
+
+                gif = new MagickImageCollection(tempImgFile);
+                foreach(var frame in gif) {
+                    DoMagik((MagickImage)frame, args);
+                }
+            }
             TempManager.RemoveTempFile("magikDL."+args.extension);
+
+            // Save the image
+            string finalimgFile = TempManager.GetTempFile("magik." + args.extension, true);
+            if(args.extension.ToLower() != "gif")
+                img.Write(finalimgFile);
+            else
+                gif.Write(finalimgFile);
+
+            // Send the image
+            await Context.Channel.SendFileAsync(finalimgFile);
+            await msg.DeleteAsync();
+            TempManager.RemoveTempFile("magik."+args.extension);
+        }
+
+        void DoMagik(MagickImage img, ImageArgs args)
+        {
+            img.Scale(img.Width/2, img.Height/2);
             args.extension = img.Format.ToString().ToLower();
             for(int i = 0; i < args.layers; i++) {
                 img.LiquidRescale((int)(img.Width * 0.5), (int)(img.Height * 0.5), args.scale > 1 ? 0.5*args.scale : 1, 0);
                 img.LiquidRescale((int)(img.Width * 1.5), (int)(img.Height * 1.5), args.scale > 1 ? args.scale : 2, 0);
             }
             img.Scale(img.Width*2, img.Height*2);
-
-            // Save the image
-            string finalimgFile = TempManager.GetTempFile("magik." + args.extension, true);
-            img.Write(finalimgFile);
-
-            // Send the image
-            await Context.Channel.SendFileAsync(finalimgFile);
-            await msg.DeleteAsync();
-            TempManager.RemoveTempFile("magik."+args.extension);
         }
     }
 }
