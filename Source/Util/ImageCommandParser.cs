@@ -5,6 +5,8 @@ using System.Linq;
 using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 
+using ImageMagick;
+
 namespace WinBot.Util
 {
     class ImageCommandParser
@@ -28,7 +30,6 @@ namespace WinBot.Util
             // No arguments, Image URL
             else if(Uri.IsWellFormedUriString(input, UriKind.Absolute)) {
                 args.url = input;
-                return args;
             }
             // Arguments, Image URL
             else if(!string.IsNullOrWhiteSpace(input) && input.Split(' ').Count() > 1 && !input.Split(' ')[0].StartsWith("-")) {
@@ -80,7 +81,7 @@ namespace WinBot.Util
                 }
             }
 
-            if(!string.IsNullOrWhiteSpace(input)) {
+            if(!string.IsNullOrWhiteSpace(input) && !Uri.IsWellFormedUriString(input, UriKind.Absolute)) {
 
                 // Handle arguments
                 string[] argsStr = input.Split(' ');
