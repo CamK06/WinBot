@@ -29,16 +29,32 @@ namespace WinBot.Commands.Images
             var msg = await Context.ReplyAsync("Processing...\nThis may take a while depending on the image size");
 
             // I m p l o d e
-            MagickImage img = new MagickImage(tempImgFile);
-            img.Scale(img.Width/2, img.Height/2);
+            MagickImage img = null;
+            MagickImageCollection gif = null;
+            if(args.extension.ToLower() != "gif") {
+                img = new MagickImage(tempImgFile);
+                img.Scale(img.Width/2, img.Height/2);
+                img.Implode(args.scale*.3f, PixelInterpolateMethod.Undefined);
+                img.Scale(img.Width*2, img.Height*2);
+            }
+            else {
+                gif = new MagickImageCollection(tempImgFile);
+                foreach(var frame in gif) {
+                    frame.Scale(frame.Width/2, frame.Height/2);
+                    frame.Implode(args.scale*.3f, PixelInterpolateMethod.Undefined);
+                    frame.Scale(frame.Width*2, frame.Height*2);
+                }
+            }
             TempManager.RemoveTempFile("implodeDL."+args.extension);
-            args.extension = img.Format.ToString().ToLower();
-            img.Implode(args.scale*.3f, PixelInterpolateMethod.Undefined);
-            img.Scale(img.Width*2, img.Height*2);
+            if(args.extension.ToLower() != "gif")
+                args.extension = img.Format.ToString().ToLower();
 
             // Save the image
             string finalimgFile = TempManager.GetTempFile("implode." + args.extension, true);
-            img.Write(finalimgFile);
+            if(args.extension.ToLower() != "gif")
+                img.Write(finalimgFile);
+            else
+                gif.Write(finalimgFile);
 
             // Send the image
             await Context.Channel.SendFileAsync(finalimgFile);
