@@ -29,17 +29,32 @@ namespace WinBot.Commands.Images
             var msg = await Context.ReplyAsync("Processing...\nThis may take a while depending on the image size");
 
             // W a l l
-            MagickImage img = new MagickImage(tempImgFile);
+            MagickImage img = null;
+            MagickImageCollection gif = null;
+            if(args.extension.ToLower() != "gif") {
+                img = new MagickImage(tempImgFile);
+                img.VirtualPixelMethod = VirtualPixelMethod.Tile;
+                img.Distort(DistortMethod.Perspective, new double[] { 0,0,57,42,  0,128,63,130,  128,0,140,60,  128,128,140,140 });
+                img.Resize(512, 512);
+            }
+            else {
+                gif = new MagickImageCollection(tempImgFile);
+                foreach(var frame in gif) {
+                    frame.VirtualPixelMethod = VirtualPixelMethod.Tile;
+                    frame.Distort(DistortMethod.Perspective, new double[] { 0,0,57,42,  0,128,63,130,  128,0,140,60,  128,128,140,140 });
+                    frame.Resize(512, 512);   
+                }
+            }
             TempManager.RemoveTempFile("wallDL."+args.extension);
-            args.extension = img.Format.ToString().ToLower();
-            
-            img.VirtualPixelMethod = VirtualPixelMethod.Tile;
-            img.Distort(DistortMethod.Perspective, new double[] { 0,0,57,42,  0,128,63,130,  128,0,140,60,  128,128,140,140 });
-            img.Resize(512, 512);
+            if(args.extension.ToLower() != "gif")
+                args.extension = img.Format.ToString().ToLower();
 
             // Save the image
             string finalimgFile = TempManager.GetTempFile("wall." + args.extension, true);
-            img.Write(finalimgFile);
+            if(args.extension.ToLower() != "gif")
+                img.Write(finalimgFile);
+            else
+                gif.Write(finalimgFile);
 
             // Send the image
             await Context.Channel.SendFileAsync(finalimgFile);
