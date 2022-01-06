@@ -21,12 +21,13 @@ namespace WinBot.Commands.Images
         {
             // Handle arguments
             ImageArgs args = ImageCommandParser.ParseArgs(Context, input);
+            int seed = new System.Random().Next(1000, 99999);
 
             if(args.extension.ToLower() != "gif")
                 throw new System.Exception("Image provided is not a gif!");
 
             // Download the image
-            string tempImgFile = TempManager.GetTempFile("reverseDL."+args.extension, true);
+            string tempImgFile = TempManager.GetTempFile(seed+"-reverseDL."+args.extension, true);
             new WebClient().DownloadFile(args.url, tempImgFile);
 
             var msg = await Context.ReplyAsync("Processing...\nThis may take a while depending on the image size");
@@ -34,16 +35,16 @@ namespace WinBot.Commands.Images
             // Add s p e e d
             MagickImageCollection gif = new MagickImageCollection(tempImgFile);
             gif.Reverse();
-            TempManager.RemoveTempFile("reverseDL."+args.extension);
+            TempManager.RemoveTempFile(seed+"-reverseDL."+args.extension);
 
             // Save the image
-            string finalimgFile = TempManager.GetTempFile("reverse." + args.extension, true);
+            string finalimgFile = TempManager.GetTempFile(seed+"-reverse." + args.extension, true);
             gif.Write(finalimgFile);
 
             // Send the image
             await Context.Channel.SendFileAsync(finalimgFile);
             await msg.DeleteAsync();
-            TempManager.RemoveTempFile("reverse."+args.extension);
+            TempManager.RemoveTempFile(seed+"-reverse."+args.extension);
         }
     }
 }

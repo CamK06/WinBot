@@ -21,9 +21,10 @@ namespace WinBot.Commands.Images
         {
             // Handle arguments
             ImageArgs args = ImageCommandParser.ParseArgs(Context, input);
+            int seed = new System.Random().Next(1000, 99999);
 
             // Download the image
-            string tempImgFile = TempManager.GetTempFile("wallDL."+args.extension, true);
+            string tempImgFile = TempManager.GetTempFile(seed+"-wallDL."+args.extension, true);
             new WebClient().DownloadFile(args.url, tempImgFile);
 
             var msg = await Context.ReplyAsync("Processing...\nThis may take a while depending on the image size");
@@ -45,12 +46,12 @@ namespace WinBot.Commands.Images
                     frame.Resize(512, 512);   
                 }
             }
-            TempManager.RemoveTempFile("wallDL."+args.extension);
+            TempManager.RemoveTempFile(seed+"-wallDL."+args.extension);
             if(args.extension.ToLower() != "gif")
                 args.extension = img.Format.ToString().ToLower();
 
             // Save the image
-            string finalimgFile = TempManager.GetTempFile("wall." + args.extension, true);
+            string finalimgFile = TempManager.GetTempFile(seed+"-wall." + args.extension, true);
             if(args.extension.ToLower() != "gif")
                 img.Write(finalimgFile);
             else
@@ -59,7 +60,7 @@ namespace WinBot.Commands.Images
             // Send the image
             await Context.Channel.SendFileAsync(finalimgFile);
             await msg.DeleteAsync();
-            TempManager.RemoveTempFile("wall."+args.extension);
+            TempManager.RemoveTempFile(seed+"-wall."+args.extension);
         }
     }
 }

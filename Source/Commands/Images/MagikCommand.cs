@@ -21,13 +21,14 @@ namespace WinBot.Commands.Images
         {
             // Handle arguments
             ImageArgs args = ImageCommandParser.ParseArgs(Context, input);
+            int seed = new System.Random().Next(1000, 99999);
             if(args.layers > 3)
                 args.layers = 3;
             else if(args.scale > 5)
                 args.scale = 5;
 
             // Download the image
-            string tempImgFile = TempManager.GetTempFile("magikDL."+args.extension, true);
+            string tempImgFile = TempManager.GetTempFile(seed+"-magikDL."+args.extension, true);
             new WebClient().DownloadFile(args.url, tempImgFile);
 
             var msg = await Context.ReplyAsync("Processing...\nThis may take a while depending on the image size");
@@ -44,10 +45,10 @@ namespace WinBot.Commands.Images
                 foreach(var frame in gif)
                     DoMagik((MagickImage)frame, args);
             }
-            TempManager.RemoveTempFile("magikDL."+args.extension);
+            TempManager.RemoveTempFile(seed+"-magikDL."+args.extension);
 
             // Save the image
-            string finalimgFile = TempManager.GetTempFile("magik." + args.extension, true);
+            string finalimgFile = TempManager.GetTempFile(seed+"-magik." + args.extension, true);
             if(args.extension.ToLower() != "gif")
                 img.Write(finalimgFile);
             else
@@ -56,7 +57,7 @@ namespace WinBot.Commands.Images
             // Send the image
             await Context.Channel.SendFileAsync(finalimgFile);
             await msg.DeleteAsync();
-            TempManager.RemoveTempFile("magik."+args.extension);
+            TempManager.RemoveTempFile(seed+"-magik."+args.extension);
         }
 
         void DoMagik(MagickImage img, ImageArgs args)
