@@ -34,17 +34,12 @@ namespace WinBot.Commands.Images
             MagickImageCollection gif = null;
             if(args.extension.ToLower() != "gif") {
                 img = new MagickImage(tempImgFile);
-                img.VirtualPixelMethod = VirtualPixelMethod.Tile;
-                img.Distort(DistortMethod.Perspective, new double[] { 0,0,57,42,  0,128,63,130,  128,0,140,60,  128,128,140,140 });
-                img.Resize(512, 512);
+                DoWall(img, args);
             }
             else {
                 gif = new MagickImageCollection(tempImgFile);
-                foreach(var frame in gif) {
-                    frame.VirtualPixelMethod = VirtualPixelMethod.Tile;
-                    frame.Distort(DistortMethod.Perspective, new double[] { 0,0,57,42,  0,128,63,130,  128,0,140,60,  128,128,140,140 });
-                    frame.Resize(512, 512);   
-                }
+                foreach(var frame in gif)
+                    DoWall((MagickImage)frame, args);
             }
             TempManager.RemoveTempFile(seed+"-wallDL."+args.extension);
             if(args.extension.ToLower() != "gif")
@@ -61,6 +56,16 @@ namespace WinBot.Commands.Images
             await Context.Channel.SendFileAsync(finalimgFile);
             await msg.DeleteAsync();
             TempManager.RemoveTempFile(seed+"-wall."+args.extension);
+        }
+
+        void DoWall(MagickImage img, ImageArgs args)
+        {
+            img.Resize(new MagickGeometry("128"));
+            img.VirtualPixelMethod = VirtualPixelMethod.Tile;
+            img.MatteColor = MagickColors.None;
+            img.BackgroundColor = MagickColors.None;
+            img.Resize(new MagickGeometry("512x512!"));
+            img.Distort(DistortMethod.Perspective, new double[] { 0,0,57,42,  0,128,63,130,  128,0,140,60,  128,128,140,140 });
         }
     }
 }
