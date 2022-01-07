@@ -22,6 +22,7 @@ namespace WinBot.Commands.Images
             // Handle arguments
             ImageArgs args = ImageCommandParser.ParseArgs(Context, input);
             int seed = new System.Random().Next(1000, 99999);
+            args.scale+=2;
 
             // Download the image
             string tempImgFile = TempManager.GetTempFile(seed+"-explodeDL."+args.extension, true);
