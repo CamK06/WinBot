@@ -12,6 +12,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 
+using WinBot.Util;
 using WinBot.Commands.Attributes;
 using static WinBot.Util.ResourceManager;
 
@@ -26,7 +27,7 @@ namespace WinBot.Commands.Main
         [Description("Gets a random user-submitted image")]
         [Usage("[add (or leave blank)] [image (or leave blank)]")]
         [Category(Category.Fun)]
-        public async Task Image(CommandContext Context, string command = null, string image = null)
+        public async Task Image(CommandContext Context, string command = null, [RemainingText]string image = null)
         {
             string jsonFile = GetResourcePath("randomImages", Util.ResourceType.JsonData);
 
@@ -71,15 +72,9 @@ namespace WinBot.Commands.Main
             }
             // If we're adding a new image
             else if(command.ToLower() == "add") {
-                string newImg = "";
 
-                // Check for an image
-                if(image == null && Context.Message.Attachments == null)
-                    throw new System.Exception("You must provide an image to add!");
-                else if(Context.Message.Attachments.Count > 0)
-                    newImg = Context.Message.Attachments[0].Url;
-                else if(image != null)
-                    newImg = image;
+                ImageArgs args = ImageCommandParser.ParseArgs(Context, image);
+                string newImg = args.url;
 
                 // Verify that the image is indeed a valid image
                 WebClient client = new WebClient();
