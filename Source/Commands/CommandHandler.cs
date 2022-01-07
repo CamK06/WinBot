@@ -51,6 +51,7 @@ namespace WinBot.Commands
             Command cmd = Bot.commands.FindCommand(cmdString, out var args);
             if(cmd == null) return;
             CommandContext ctx = Bot.commands.CreateContext(msg, prefix, cmd, args);
+            await ctx.Channel.TriggerTypingAsync();
             await Task.Run(async () => await Bot.commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
         }
 
@@ -58,6 +59,7 @@ namespace WinBot.Commands
             Command cmd = Bot.commands.FindCommand(commandString, out var args);
             if(cmd == null) return;
             CommandContext ctx = Bot.commands.CreateFakeContext(msg.Author, msg.Channel, commandString, prefix, cmd, args);
+            ctx.Channel.TriggerTypingAsync();
             _ = Task.Run(async () => await Bot.commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
         }
 
