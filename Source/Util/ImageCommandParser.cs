@@ -113,6 +113,12 @@ namespace WinBot.Util
                 throw new Exception("Your image must be below 32MB in size!");
             args.extension = client.ResponseHeaders["Content-Type"].Split("image/").Last();
 
+            // Verify the args
+            if(args.scale > 10)
+                throw new Exception("Scale must not be greater than 10!");
+            if(args.size > 3000)
+                throw new Exception("Size must not be greater than 3000!");
+
             return args;
         }
     }
