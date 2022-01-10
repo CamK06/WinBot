@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -177,7 +178,18 @@ namespace WinBot
                 File.WriteAllText(GetResourcePath("mute", ResourceType.JsonData), "[]");
 #endif
 
-            // TODO: Add resource verification
+            // Verify and download resources
+            Log.Information("Verifying resources...");
+            WebClient webClient = new WebClient();
+            string resourcesJson = webClient.DownloadString("https://raw.githubusercontent.com/CamK06/WinBot/main/Resources/resources.json");
+            string[] resources = JsonConvert.DeserializeObject<string[]>(resourcesJson);
+            foreach(string resource in resources) {
+                if(!ResourceExists(resource, ResourceType.Resource)) {
+                    Log.Information("Could not find " + resource);
+                    webClient.DownloadFile($"https://raw.githubusercontent.com/CamK06/WinBot/main/Resources/{resource}", GetResourcePath(resource, ResourceType.Resource));
+                    Log.Information("Downloaded " + resource);
+                }
+            }
         }
 
         void LoadConfigs()
