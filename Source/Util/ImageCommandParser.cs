@@ -21,11 +21,18 @@ namespace WinBot.Util
             }
             // Reply
             else if(Context.Message.ReferencedMessage != null) {
-
-                if(Context.Message.ReferencedMessage.Attachments.Count > 0)
-                    args.url = Context.Message.ReferencedMessage.Attachments[0].Url;
-                else if(Uri.IsWellFormedUriString(Context.Message.ReferencedMessage.Content, UriKind.Absolute))
-                    args.url = Context.Message.ReferencedMessage.Content;
+                
+                DiscordMessage referencedMessage = Context.Message.ReferencedMessage;
+                if(referencedMessage.Attachments.Count > 0)
+                    args.url = referencedMessage.Attachments[0].Url;
+                else if(Uri.IsWellFormedUriString(referencedMessage.Content, UriKind.Absolute))
+                    args.url = referencedMessage.Content;
+                else if(referencedMessage.Embeds.Count > 0) {
+                    if(referencedMessage.Embeds.FirstOrDefault(x => x.Image != null) != null) 
+                        args.url = referencedMessage.Embeds.FirstOrDefault(x => x.Image != null).Image.Url.ToString();
+                    else if (referencedMessage.Embeds.FirstOrDefault(x => x.Thumbnail != null) != null)
+                        args.url = referencedMessage.Embeds.FirstOrDefault(x => x.Thumbnail != null).Thumbnail.Url.ToString();
+                }
             }
             // No arguments, Image URL
             else if(Uri.IsWellFormedUriString(input, UriKind.Absolute)) {
@@ -53,6 +60,13 @@ namespace WinBot.Util
                     }
                     else if(Uri.IsWellFormedUriString(msg.Content, UriKind.Absolute)) {
                         args.url = msg.Content;
+                        break;
+                    }
+                    else if(msg.Embeds.Count > 0) {
+                        if(msg.Embeds.FirstOrDefault(x => x.Image != null) != null) 
+                            args.url = msg.Embeds.FirstOrDefault(x => x.Image != null).Image.Url.ToString();
+                        else if (msg.Embeds.FirstOrDefault(x => x.Thumbnail != null) != null)
+                            args.url = msg.Embeds.FirstOrDefault(x => x.Thumbnail != null).Thumbnail.Url.ToString();
                         break;
                     }
                 }
