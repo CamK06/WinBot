@@ -38,10 +38,12 @@ namespace WinBot.Commands.Images
             TempManager.RemoveTempFile(seed+"-reverseDL."+args.extension);
 
             // Save the image
+            await msg.ModifyAsync("Saving...\nThis may take a while depending on the image size");
             string finalimgFile = TempManager.GetTempFile(seed+"-reverse." + args.extension, true);
             gif.Write(finalimgFile);
 
             // Send the image
+            await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
             await Context.Channel.SendFileAsync(finalimgFile);
             await msg.DeleteAsync();
             TempManager.RemoveTempFile(seed+"-reverse."+args.extension);

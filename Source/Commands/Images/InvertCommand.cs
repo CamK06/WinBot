@@ -47,6 +47,7 @@ namespace WinBot.Commands.Images
                 args.extension = img.Format.ToString().ToLower();
 
             // Save the image
+            await msg.ModifyAsync("Saving...\nThis may take a while depending on the image size");
             string finalimgFile = TempManager.GetTempFile(seed+"-invert." + args.extension, true);
             if(args.extension.ToLower() != "gif")
                 img.Write(finalimgFile);
@@ -54,6 +55,7 @@ namespace WinBot.Commands.Images
                 gif.Write(finalimgFile);
 
             // Send the image
+            await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
             await Context.Channel.SendFileAsync(finalimgFile);
             await msg.DeleteAsync();
             TempManager.RemoveTempFile(seed+"-invert."+args.extension);
