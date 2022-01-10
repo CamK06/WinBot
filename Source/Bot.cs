@@ -185,9 +185,8 @@ namespace WinBot
             string[] resources = JsonConvert.DeserializeObject<string[]>(resourcesJson);
             foreach(string resource in resources) {
                 if(!ResourceExists(resource, ResourceType.Resource)) {
-                    Log.Information("Could not find " + resource);
                     webClient.DownloadFile($"https://raw.githubusercontent.com/CamK06/WinBot/main/Resources/{resource}", GetResourcePath(resource, ResourceType.Resource));
-                    Log.Information("Downloaded " + resource);
+                    Log.Information("Downloaded " + resource + "");
                 }
             }
         }
