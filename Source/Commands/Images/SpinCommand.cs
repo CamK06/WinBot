@@ -69,14 +69,15 @@ namespace WinBot.Commands.Images
                 MagickImage newFrame = (MagickImage)img.Clone();
                 newFrame.Rotate(i);
                 newFrame.Crop(new MagickGeometry("256x256+0+0!"));
-                newFrame.Composite(mask, Channels.Alpha);
                 gifOut.Add(newFrame);
             }
             foreach(var frame in gifOut) {
-                frame.GifDisposeMethod = GifDisposeMethod.None;
+                frame.GifDisposeMethod = GifDisposeMethod.Previous;
+                frame.Composite(mask, Channels.Alpha);
                 frame.AnimationDelay = 5;
             }
             gifOut.Deconstruct();
+            gifOut.RePage();
             
             return gifOut;
         }
