@@ -27,6 +27,13 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Trivia(CommandContext Context, string input = null)
         {
+            // If the user is requesting their stats
+            if(input.ToLower() == "stats") {
+                User u = UserData.GetOrCreateUser(Context.User);
+                await Context.ReplyAsync($"You've answered {u.totalTrivia} questions. Of those, {u.correctTrivia} ({Math.Round((float)u.correctTrivia/(float)u.totalTrivia*100.0f)}%) were correct");
+                return;
+            }
+
             // Generate an API request
             string URL = "https://opentdb.com/api.php?amount=1";
             if(!string.IsNullOrWhiteSpace(input) && Categories.ContainsKey(input.ToLower()))
