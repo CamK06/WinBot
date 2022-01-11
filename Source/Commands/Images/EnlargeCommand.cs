@@ -11,14 +11,14 @@ using WinBot.Commands.Attributes;
 
 using ImageMagick;
 
-namespace WinBot.Commands.Main
+namespace WinBot.Commands.Images
 {
     public class EnlargeCommand : BaseCommandModule
     {
         [Command("enlarge")]
         [Aliases("e")]
         [Description("Get the raw image of an emote")]
-        [Category(Category.Main)]
+        [Category(Category.Images)]
         public async Task Enlarge(CommandContext Context, string emoteStr = null)
         {
             // Parse the emote string

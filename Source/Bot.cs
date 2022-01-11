@@ -9,6 +9,8 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Interactivity;
+using DSharpPlus.Interactivity.Extensions;
 
 using Newtonsoft.Json;
 
@@ -77,6 +79,11 @@ namespace WinBot
                 EnableDefaultHelp = false,
                 EnableDms = true,
                 UseDefaultCommandHandler = false
+            });
+            client.UseInteractivity(new InteractivityConfiguration()
+            {
+                PollBehaviour = DSharpPlus.Interactivity.Enums.PollBehaviour.KeepEmojis,
+                Timeout = TimeSpan.FromSeconds(60)
             });
             HookEvents();
             commands.RegisterCommands(Assembly.GetExecutingAssembly());
