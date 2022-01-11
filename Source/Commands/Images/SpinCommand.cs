@@ -74,7 +74,7 @@ namespace WinBot.Commands.Images
             }
             foreach(var frame in gifOut) {
                 frame.GifDisposeMethod = GifDisposeMethod.None;
-                frame.AnimationDelay = 15;
+                frame.AnimationDelay = 5;
             }
             gifOut.Deconstruct();
             
