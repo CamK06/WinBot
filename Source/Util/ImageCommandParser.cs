@@ -115,6 +115,8 @@ namespace WinBot.Util
                         else if(argName == "scale")
                             args.scale = argVal;
                     }
+                    else if(!Uri.IsWellFormedUriString(argsStr[i], UriKind.Absolute))
+                        args.textArg = argsStr[i];
                 }
             }
 
@@ -141,6 +143,7 @@ namespace WinBot.Util
     {
         public string url { get; set; } = null;
         public string extension { get; set; }
+        public string textArg { get; set; }
         public int layers { get; set; } = 1;
         public int size { get; set; } = 1;
         public int scale { get; set; } = 1;
