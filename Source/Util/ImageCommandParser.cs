@@ -50,7 +50,7 @@ namespace WinBot.Util
                 }
             }
             // Recent message
-            else {
+            if(args.url == null) {
                 var messages = Context.Channel.GetMessagesAsync(30).Result;
                 foreach(DiscordMessage msg in messages) {
                     

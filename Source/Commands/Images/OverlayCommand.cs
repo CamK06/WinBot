@@ -69,15 +69,13 @@ namespace WinBot.Commands.Images
             args.textArg = args.textArg.Replace("/", "").Replace("\\", "").Replace(".", "");
             if(!ResourceExists(args.textArg + ".png", ResourceType.Resource))
                 throw new System.Exception($"Image '{args.textArg}' does not exist!");
-            if(args.scale > 4)
-                args.scale = 4;
 
             // Load the image
             MagickImage overlayImage = new MagickImage(GetResourcePath(args.textArg + ".png", ResourceType.Resource));
             overlayImage.Resize(new MagickGeometry($"{image.Width}x{image.Height}!"));
             overlayImage.Alpha(AlphaOption.Set);
             overlayImage.BackgroundColor = MagickColors.None;
-            overlayImage.Evaluate(Channels.Alpha, EvaluateOperator.Multiply, 0.25f*args.scale);
+            overlayImage.Evaluate(Channels.Alpha, EvaluateOperator.Multiply, 0.25f);
             image.Composite(overlayImage, CompositeOperator.SrcAtop);
         }
     }
