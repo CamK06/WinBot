@@ -116,10 +116,7 @@ namespace WinBot
             Leveling.Init();
             TempManager.Init();
             DailyReportSystem.Init();
-            MagickNET.Initialize();
-#if TOFU
-            No.Init();
-#endif
+            MagickNET.Initialize(); 
 
             await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
             Log.Information("Ready");
