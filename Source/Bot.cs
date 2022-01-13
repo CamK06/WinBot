@@ -117,6 +117,9 @@ namespace WinBot
             TempManager.Init();
             DailyReportSystem.Init();
             MagickNET.Initialize();
+#if TOFU
+            No.Init();
+#endif
 
             await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
             Log.Information("Ready");
