@@ -42,8 +42,9 @@ namespace WinBot.Misc
 
 			// E v e n t s
 			Bot.client.MessageCreated += (DiscordClient client, MessageCreateEventArgs e) => {
-
-				report.messagesSent++;
+				
+				if(!e.Author.IsBot)
+					report.messagesSent++;
 				if (e.Message.Content.StartsWith(".")) // Inaccurate but oh well.
 					report.commandsRan++;
 				return Task.CompletedTask;
