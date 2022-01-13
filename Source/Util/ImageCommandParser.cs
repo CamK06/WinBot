@@ -77,7 +77,7 @@ namespace WinBot.Util
 
             // Tenor handling
             WebClient client = new WebClient();
-            if(args.url.Contains("tenor.com/")) {
+            if(args.url.Contains("tenor.com/" && !args.url.Contains(".gif"))) {
 
                 // Download the tenor webpage
                 string html = client.DownloadString(args.url);
