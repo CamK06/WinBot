@@ -1,4 +1,4 @@
-using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using DSharpPlus;
@@ -18,7 +18,7 @@ namespace WinBot.Misc
 
         private static async Task OnMessage(DiscordClient sender, MessageCreateEventArgs e)
         {
-            if(!e.Message.Content.Contains("?") && !e.Message.Content.Contains("starman"))
+            if(!e.Message.Content.Contains("?") && !e.Message.Content.Contains("starman") && e.MentionedUsers.FirstOrDefault(x => x.Id == 363850072309497876) == null)
                 return;
 
             DiscordWebhook hook = await e.Channel.CreateWebhookAsync("Starman0620");
