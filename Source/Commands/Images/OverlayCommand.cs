@@ -66,6 +66,8 @@ namespace WinBot.Commands.Images
         void DoOverlay(MagickImage image, ImageArgs args)
         {
             // Validate the image argument
+            if(string.IsNullOrWhiteSpace(args.textArg))
+                throw new System.Exception("No overlay provided!");
             args.textArg = args.textArg.Replace("/", "").Replace("\\", "").Replace(".", "");
             if(!ResourceExists(args.textArg + ".png", ResourceType.Resource))
                 throw new System.Exception($"Image '{args.textArg}' does not exist!");
