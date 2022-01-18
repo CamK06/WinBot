@@ -36,20 +36,22 @@ namespace WinBot.Commands.Main
             }
             else if(input != null && input.ToLower() == "lb") {
                 
-                List<User> leaderboard = UserData.users.OrderByDescending(x => x.correctTrivia).ToList();
+                List<User> leaderboard = UserData.users.OrderByDescending(x => (x.correctTrivia/x.totalTrivia)*x.correctTrivia).ToList();
 
                 // Generate an embed description
                 string description = "";
                 int userCounter = 0;
                 bool hasDisplayedCurrentUser = false;
                 foreach(User lbUser in leaderboard) {
+                    double percentage = Math.Round((float)lbUser.correctTrivia/(float)lbUser.totalTrivia*100.0f);
+
                     if(userCounter < 10) {
-                        description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.correctTrivia} Correct of Total: {lbUser.totalTrivia} ({Math.Round((float)lbUser.correctTrivia/(float)lbUser.totalTrivia*100.0f)}%)\n";
+                        description += $"**{userCounter+1}.** {lbUser.username} - {percentage}% ({lbUser.correctTrivia}/{lbUser.totalTrivia})\n";
                         if(lbUser.id == Context.User.Id)
                             hasDisplayedCurrentUser = true;
                     }
                     else if(lbUser.id == Context.User.Id) {
-                        description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.correctTrivia} Correct of Total: {lbUser.totalTrivia} ({Math.Round((float)lbUser.correctTrivia/(float)lbUser.totalTrivia*100.0f)}%)\n";
+                        description += $"**{userCounter+1}.** {lbUser.username} - {percentage}% ({lbUser.correctTrivia}/{lbUser.totalTrivia})\n";
                         if(userCounter != 10) 
                             description += "...";
                     }
