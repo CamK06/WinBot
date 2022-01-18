@@ -36,7 +36,7 @@ namespace WinBot.Commands.Main
             }
             else if(input != null && input.ToLower() == "lb") {
                 
-                List<User> leaderboard = UserData.users.OrderByDescending(x => (x.correctTrivia/x.totalTrivia)*x.correctTrivia).ToList();
+                List<User> leaderboard = UserData.users.OrderByDescending(x => (x.correctTrivia <= 0 || x.totalTrivia <= 0) ? x.correctTrivia : (x.correctTrivia/x.totalTrivia)*x.correctTrivia).ToList();
 
                 // Generate an embed description
                 string description = "";
