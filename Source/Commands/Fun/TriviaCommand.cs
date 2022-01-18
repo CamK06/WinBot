@@ -38,8 +38,8 @@ namespace WinBot.Commands.Main
                 
                 List<User> leaderboard = UserData.users.OrderByDescending(x => x.correctTrivia).ToList();
                 foreach(User tUser in leaderboard)
-                    tUser.totalTrivia = (int)((float)tUser.correctTrivia/(float)tUser.totalTrivia*100.0f)*tUser.correctTrivia;
-                leaderboard = leaderboard.OrderByDescending(x => x.totalTrivia).ToList();
+                    tUser.triviaScore = (int)((float)tUser.correctTrivia/(float)tUser.totalTrivia*100.0f)*tUser.correctTrivia;
+                leaderboard = leaderboard.OrderByDescending(x => x.triviaScore).ToList();
 
                 // Generate an embed description
                 string description = "";

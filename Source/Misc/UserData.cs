@@ -80,5 +80,6 @@ namespace WinBot.Misc
         // Trivia
         public int correctTrivia { get; set; } = 0;
         public int totalTrivia { get; set; } = 0;
+        public int triviaScore { get; set; } = 0;
     }
 }
