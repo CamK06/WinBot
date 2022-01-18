@@ -69,7 +69,7 @@ namespace WinBot.Commands.Main
                 lbeb.WithColor(DiscordColor.Gold);
                 lbeb.WithThumbnail(Bot.client.GetUserAsync(leaderboard[0].id).Result.GetAvatarUrl(DSharpPlus.ImageFormat.Jpeg));
                 lbeb.WithDescription(description);
-                lbeb.WithFooter("Note: this is NOT a temporary leaderboard");
+                lbeb.WithFooter("Note: this leaderboard is ordered by [correctPercentage]*[correctAnswers]");
                 await Context.ReplyAsync("", lbeb.Build());
                 return;
             }
