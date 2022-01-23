@@ -27,8 +27,8 @@ namespace WinBot.Commands
 
         public static async void HandleCommand(DiscordMessage msg, DiscordUser author)
         {
-            // if(Global.blacklistedUsers.Contains(author.Id) || author.IsBot)
-            //     return;
+            if(Global.blacklistedUsers.Contains(author.Id) || author.IsBot)
+                return;
 
             // Prefix check
             int start = msg.GetStringPrefixLength(Bot.config.prefix);
