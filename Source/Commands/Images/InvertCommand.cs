@@ -1,6 +1,8 @@
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
+using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 
@@ -49,14 +51,17 @@ namespace WinBot.Commands.Images
             // Save the image
             await msg.ModifyAsync("Saving...\nThis may take a while depending on the image size");
             string finalimgFile = TempManager.GetTempFile(seed+"-invert." + args.extension, true);
+            Stream imgStream = Stream.Null;
             if(args.extension.ToLower() != "gif")
-                img.Write(finalimgFile);
+                img.Write(imgStream);
             else
-                gif.Write(finalimgFile);
+                gif.Write(imgStream);
 
             // Send the image
             await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
-            await Context.Channel.SendFileAsync(finalimgFile);
+            DiscordMessageBuilder mb = new DiscordMessageBuilder();
+            mb.WithFile("invert." + args.extension, imgStream);
+            //await Context.Channel.SendFileAsync(finalimgFile);
             await msg.DeleteAsync();
             TempManager.RemoveTempFile(seed+"-invert."+args.extension);
         }
