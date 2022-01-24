@@ -56,11 +56,12 @@ namespace WinBot.Commands.Images
                 img.Write(imgStream);
             else
                 gif.Write(imgStream);
+            imgStream.Position = 0;
 
             // Send the image
             await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
             DiscordMessageBuilder mb = new DiscordMessageBuilder();
-            mb.WithFile("invert." + args.extension, imgStream, true);
+            mb.WithFile("invert." + args.extension, imgStream);
             await mb.SendAsync(Context.Channel);
             await msg.DeleteAsync();
             TempManager.RemoveTempFile(seed+"-invert."+args.extension);
