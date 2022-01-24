@@ -61,6 +61,7 @@ namespace WinBot.Commands.Images
             await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
             DiscordMessageBuilder mb = new DiscordMessageBuilder();
             mb.WithFile("invert." + args.extension, imgStream);
+            await mb.SendAsync(Context.Channel);
             //await Context.Channel.SendFileAsync(finalimgFile);
             await msg.DeleteAsync();
             TempManager.RemoveTempFile(seed+"-invert."+args.extension);
