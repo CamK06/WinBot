@@ -68,6 +68,10 @@ namespace WinBot.Commands
             string msg = e.Exception.Message;
             if(msg == "One or more pre-execution checks failed.")
                 msg += " This is likely a permissions issue.";
+            if(msg.ToLower().Contains(": 413.")) {
+                await e.Context.RespondAsync("https://http.cat/413");
+                return;
+            }
             
             await Global.logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
             await e.Context.RespondAsync($"There was an error executing your command!\nMessage: `{msg}`");
