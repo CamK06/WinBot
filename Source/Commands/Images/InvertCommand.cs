@@ -51,7 +51,7 @@ namespace WinBot.Commands.Images
             // Save the image
             await msg.ModifyAsync("Saving...\nThis may take a while depending on the image size");
             string finalimgFile = TempManager.GetTempFile(seed+"-invert." + args.extension, true);
-            Stream imgStream = Stream.Null;
+            MemoryStream imgStream = new MemoryStream();
             if(args.extension.ToLower() != "gif")
                 img.Write(imgStream);
             else
