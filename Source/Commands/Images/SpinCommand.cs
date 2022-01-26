@@ -20,6 +20,8 @@ namespace WinBot.Commands.Images
         [Category(Category.Images)]
         public async Task Spin(CommandContext Context, [RemainingText]string input)
         {
+            throw new System.Exception("This command is temporarily disabled.");
+
             // Handle arguments
             ImageArgs args = ImageCommandParser.ParseArgs(Context, input);
             int seed = new System.Random().Next(1000, 99999);
