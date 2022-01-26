@@ -41,10 +41,7 @@ namespace WinBot.Commands.Images
 
             // Save the image
             MemoryStream imgStream = new MemoryStream();
-            if(args.extension.ToLower() != "gif")
-                img.Write(imgStream);
-            else
-                gif.Write(imgStream);
+            gif.Write(imgStream);
             imgStream.Position = 0;
 
             // Send the image
