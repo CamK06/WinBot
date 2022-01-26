@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -39,15 +40,17 @@ namespace WinBot.Commands.Images
             TempManager.RemoveTempFile(seed+"-spinDL."+args.extension);
 
             // Save the image
-            await msg.ModifyAsync("Saving...\nThis may take a while depending on the image size");
-            string finalimgFile = TempManager.GetTempFile(seed+"-spin.gif", true);
-            gif.Write(finalimgFile);
+            MemoryStream imgStream = new MemoryStream();
+            if(args.extension.ToLower() != "gif")
+                img.Write(imgStream);
+            else
+                gif.Write(imgStream);
+            imgStream.Position = 0;
 
             // Send the image
             await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
-            await Context.Channel.SendFileAsync(finalimgFile);
+            await Context.Channel.SendFileAsync(imgStream, "spin."+args.extension);
             await msg.DeleteAsync();
-            TempManager.RemoveTempFile(seed+"-spin.gif");
         }
 
         MagickImageCollection DoSpin(MagickImage img, ImageArgs args)

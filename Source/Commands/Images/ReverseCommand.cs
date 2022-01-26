@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -38,15 +39,14 @@ namespace WinBot.Commands.Images
             TempManager.RemoveTempFile(seed+"-reverseDL."+args.extension);
 
             // Save the image
-            await msg.ModifyAsync("Saving...\nThis may take a while depending on the image size");
-            string finalimgFile = TempManager.GetTempFile(seed+"-reverse." + args.extension, true);
-            gif.Write(finalimgFile);
+            MemoryStream imgStream = new MemoryStream();
+            gif.Write(imgStream);
+            imgStream.Position = 0;
 
             // Send the image
             await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
-            await Context.Channel.SendFileAsync(finalimgFile);
+            await Context.Channel.SendFileAsync(imgStream, "reverse."+args.extension);
             await msg.DeleteAsync();
-            TempManager.RemoveTempFile(seed+"-reverse."+args.extension);
         }
     }
 }

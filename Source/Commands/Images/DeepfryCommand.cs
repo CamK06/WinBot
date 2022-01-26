@@ -1,3 +1,4 @@
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -47,18 +48,17 @@ namespace WinBot.Commands.Images
                 args.extension = img.Format.ToString().ToLower();
 
             // Save the image
-            await msg.ModifyAsync("Saving...\nThis may take a while depending on the image size");
-            string finalimgFile = TempManager.GetTempFile(seed+"-fry." + args.extension, true);
+            MemoryStream imgStream = new MemoryStream();
             if(args.extension.ToLower() != "gif")
-                img.Write(finalimgFile);
+                img.Write(imgStream);
             else
-                gif.Write(finalimgFile);
+                gif.Write(imgStream);
+            imgStream.Position = 0;
 
             // Send the image
             await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
-            await Context.Channel.SendFileAsync(finalimgFile);
+            await Context.Channel.SendFileAsync(imgStream, "deepfry."+args.extension);
             await msg.DeleteAsync();
-            TempManager.RemoveTempFile(seed+"-fry."+args.extension);
         }
 
         void DoEnhancedFrying(MagickImage image, ImageArgs args)
