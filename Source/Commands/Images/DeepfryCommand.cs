@@ -61,7 +61,7 @@ namespace WinBot.Commands.Images
             await msg.DeleteAsync();
         }
 
-        void DoEnhancedFrying(MagickImage image, ImageArgs args)
+        public static void DoEnhancedFrying(MagickImage image, ImageArgs args)
         {
             if(args.scale > 3)
                 throw new System.Exception("Scale must not be greater than 3");

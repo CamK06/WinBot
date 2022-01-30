@@ -62,7 +62,7 @@ namespace WinBot.Commands.Images
             await msg.DeleteAsync();
         }
 
-        void DoHooh(MagickImage image)
+        public static void DoHooh(MagickImage image)
         {
             MagickImage top;
             top = (MagickImage)image.Clone();

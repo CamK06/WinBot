@@ -36,16 +36,12 @@ namespace WinBot.Commands.Images
             MagickImageCollection gif = null;
             if(args.extension.ToLower() != "gif") {
                 img = new MagickImage(tempImgFile);
-                img.Scale(img.Width/2, img.Height/2);
-                img.Implode(args.scale*-.3f, PixelInterpolateMethod.Undefined);
-                img.Scale(img.Width*2, img.Height*2);
+                DoExplode(img, args);
             }
             else {
                 gif = new MagickImageCollection(tempImgFile);
                 foreach(var frame in gif) {
-                    frame.Scale(frame.Width/2, frame.Height/2);
-                    frame.Implode(args.scale*-.3f, PixelInterpolateMethod.Undefined);
-                    frame.Scale(frame.Width*2, frame.Height*2);
+                    DoExplode((MagickImage)frame, args);
                 }
             }
             TempManager.RemoveTempFile(seed+"-explodeDL."+args.extension);
@@ -64,6 +60,13 @@ namespace WinBot.Commands.Images
             await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
             await Context.Channel.SendFileAsync(imgStream, "explode."+args.extension);
             await msg.DeleteAsync();
+        }
+
+        public static void DoExplode(MagickImage img, ImageArgs args)
+        {
+            img.Scale(img.Width/2, img.Height/2);
+            img.Implode(args.scale*-.3f, PixelInterpolateMethod.Undefined);
+            img.Scale(img.Width*2, img.Height*2);
         }
     }
 }

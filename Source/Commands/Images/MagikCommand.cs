@@ -62,7 +62,7 @@ namespace WinBot.Commands.Images
             await msg.DeleteAsync();
         }
 
-        void DoMagik(MagickImage img, ImageArgs args)
+        public static void DoMagik(MagickImage img, ImageArgs args)
         {
             img.Scale(img.Width/2, img.Height/2);
             args.extension = img.Format.ToString().ToLower();

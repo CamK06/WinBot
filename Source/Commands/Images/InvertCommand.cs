@@ -36,12 +36,12 @@ namespace WinBot.Commands.Images
             MagickImageCollection gif = null;
             if(args.extension.ToLower() != "gif") {
                 img = new MagickImage(tempImgFile);
-                img.Negate(Channels.RGB);
+                DoInvert(img);
             }
             else {
                 gif = new MagickImageCollection(tempImgFile);
                 foreach(var frame in gif) {
-                    frame.Negate(Channels.RGB);
+                    DoInvert((MagickImage)frame);
                 }
             }
             TempManager.RemoveTempFile(seed+"-invertDL."+args.extension);
@@ -60,6 +60,11 @@ namespace WinBot.Commands.Images
             await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
             await Context.Channel.SendFileAsync(imgStream, "invert."+args.extension);
             await msg.DeleteAsync();
+        }
+
+        public static void DoInvert(MagickImage img)
+        {
+            img.Negate(Channels.RGB);
         }
     }
 }

@@ -139,7 +139,7 @@ namespace WinBot.Util
         }
     }
 
-    class ImageArgs
+    public class ImageArgs
     {
         public string url { get; set; } = null;
         public string extension { get; set; }

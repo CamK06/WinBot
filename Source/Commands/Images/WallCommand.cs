@@ -60,7 +60,7 @@ namespace WinBot.Commands.Images
             await msg.DeleteAsync();
         }
 
-        void DoWall(MagickImage img, ImageArgs args)
+        public static void DoWall(MagickImage img, ImageArgs args)
         {
             img.Resize(new MagickGeometry("128"));
             img.VirtualPixelMethod = VirtualPixelMethod.Tile;
