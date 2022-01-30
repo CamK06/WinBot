@@ -20,8 +20,6 @@ namespace WinBot.Commands.Images
         [Category(Category.Images)]
         public async Task Spin(CommandContext Context, [RemainingText]string input)
         {
-            throw new System.Exception("This command is temporarily disabled.");
-
             // Handle arguments
             ImageArgs args = ImageCommandParser.ParseArgs(Context, input);
             int seed = new System.Random().Next(1000, 99999);
@@ -42,14 +40,15 @@ namespace WinBot.Commands.Images
             TempManager.RemoveTempFile(seed+"-spinDL."+args.extension);
 
             // Save the image
-            MemoryStream imgStream = new MemoryStream();
-            gif.Write(imgStream);
-            imgStream.Position = 0;
+            await msg.ModifyAsync("Saving...\nThis may take a while depending on the image size");
+            string finalimgFile = TempManager.GetTempFile(seed+"-spin.gif", true);
+            gif.Write(finalimgFile);
 
             // Send the image
             await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
-            await Context.Channel.SendFileAsync(imgStream, "spin."+args.extension);
+            await Context.Channel.SendFileAsync(finalimgFile);
             await msg.DeleteAsync();
+            TempManager.RemoveTempFile(seed+"-spin.gif");
         }
 
         MagickImageCollection DoSpin(MagickImage img, ImageArgs args)
