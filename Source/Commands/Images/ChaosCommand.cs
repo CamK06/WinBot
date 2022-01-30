@@ -38,15 +38,25 @@ namespace WinBot.Commands.Images
             // Create C H A O S
             MagickImage img = null;
             MagickImageCollection gif = null;
+            string effects = "";
             if(args.extension.ToLower() != "gif") {
                 img = new MagickImage(tempImgFile);
-                for(int i = 0; i < 5; i++)
-                    DoChaos(img, args);
+                for(int i = 0; i < 5; i++) { 
+                    Random r = new Random();
+                    ImageEffect effect = (ImageEffect)r.Next(0, 9);
+                    effects += $"{effect.ToString()} ";
+                    ApplyEffect(img, args, effect);
+                }
             }
             else {
                 gif = new MagickImageCollection(tempImgFile);
-                for(int i = 0; i < 5; i++)
-                    DoGifChaos(gif, args);
+                for(int i = 0; i < 5; i++) {
+                    Random r = new Random();
+                    ImageEffect effect = (ImageEffect)r.Next(0, 9);
+                    effects += $"{effect.ToString()} ";
+                    foreach(var frame in gif)
+                        ApplyEffect((MagickImage)frame, args, effect);
+                }
             }
             TempManager.RemoveTempFile(seed+"-chaosDL."+args.extension);
 
@@ -60,45 +70,12 @@ namespace WinBot.Commands.Images
 
             // Send the image
             await msg.ModifyAsync("Uploading...\nThis WILL take a while, it's chaos.");
-            await Context.Channel.SendFileAsync(imgStream, "chaos."+args.extension);
+            await Context.Channel.SendFileAsync($"Applied effects: ``{effects}``", imgStream, "chaos."+args.extension);
             await msg.DeleteAsync();
         }
 
-        void DoGifChaos(MagickImageCollection gif, ImageArgs args)
+        void ApplyEffect(MagickImage img, ImageArgs args, ImageEffect effect)
         {
-            Random r = new Random();
-            ImageEffect effect = (ImageEffect)r.Next(0, 9);
-
-            // YANDEV CODE G O
-            foreach(var img in gif) {
-                if(effect == ImageEffect.Explode)
-                    ExplodeCommand.DoExplode((MagickImage)img, args);
-                else if(effect == ImageEffect.Deepfry)
-                    DeepfryCommand.DoEnhancedFrying((MagickImage)img, args);
-                else if(effect == ImageEffect.Haah)
-                    HaahCommand.DoHaah((MagickImage)img);
-                else if(effect == ImageEffect.Hooh)
-                    HoohCommand.DoHooh((MagickImage)img);
-                else if(effect == ImageEffect.Waaw)
-                    WaawCommand.DoWaaw((MagickImage)img);
-                else if(effect == ImageEffect.Woow)
-                    WoowCommand.DoWoow((MagickImage)img);
-                else if(effect == ImageEffect.Wall)
-                    WallCommand.DoWall((MagickImage)img, args);
-                else if(effect == ImageEffect.Magik)
-                    MagikCommand.DoMagik((MagickImage)img, args);
-                else if(effect == ImageEffect.Invert)
-                    InvertCommand.DoInvert((MagickImage)img);
-                else if(effect == ImageEffect.Implode)
-                    ImplodeCommand.DoImplode((MagickImage)img, args);
-            }
-        }
-
-        void DoChaos(MagickImage img, ImageArgs args)
-        {
-            Random r = new Random();
-            ImageEffect effect = (ImageEffect)r.Next(0, 9);
-
             // YANDEV CODE G O
             if(effect == ImageEffect.Explode)
                 ExplodeCommand.DoExplode(img, args);

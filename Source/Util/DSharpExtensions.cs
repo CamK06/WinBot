@@ -31,6 +31,14 @@ namespace DSharpPlus.CommandsNext
             return msg;
         }
 
+        public static async Task<DiscordMessage> SendFileAsync(this DiscordChannel channel, string message, Stream file, string fileName)
+        {
+            file.Position = 0;
+            DiscordMessage msg = await new DiscordMessageBuilder().WithFile(fileName, file).WithContent(message).SendAsync(channel);
+
+            return msg;
+        }
+
         public static async Task<DiscordMessage> ReplyAsync(this CommandContext Context, string Content)
         {
             return await Context.Channel.SendMessageAsync(Content);
