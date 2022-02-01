@@ -1,4 +1,4 @@
-using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,7 +15,7 @@ namespace WinBot.Commands.Main
         [Command("calc")]
         [Description("Do some M A F S")]
         [Category(Category.Main)]
-        public async Task Calc(CommandContext Context)
+        public async Task Calc(CommandContext Context, [RemainingText]string expression)
         {
             
         }
