@@ -8,16 +8,16 @@ namespace WinBot.Commands.Attributes
         /// <summary>
         /// Gets the category of this command
         /// </summary>
-        public Category Category { get; }
+        public Category category { get; }
 
         public CategoryAttribute(Category category)
         {
-            this.Category = category;
+            this.category = category;
         }
     }
 
     public enum Category
     {
-        Main, Fun, Misc, Staff, Owner
+        Main, Fun, Misc, Staff, Owner, Images
     }
 }

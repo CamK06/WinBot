@@ -2,14 +2,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 
+using static WinBot.Util.ResourceManager;
 using WinBot.Commands.Attributes;
 
 using Newtonsoft.Json;
-using DSharpPlus;
 
 namespace WinBot.Commands.Staff
 {
@@ -27,16 +28,15 @@ namespace WinBot.Commands.Staff
             // This is a clunky method of listing things but it works
             if(user == null) {
                 string list = "";
-                foreach(ulong blacklistuser in Bot.blacklistedUsers) {
+                foreach(ulong blacklistuser in Global.blacklistedUsers) {
                     string username = $"{blacklistuser}";
                     try {
-                    if(Context.Guild.GetMemberAsync(blacklistuser).Result != null) {
+                    if(Context.Guild.GetMemberAsync(blacklistuser).Result != null)
                         username = Context.Guild.GetMemberAsync(blacklistuser).Result.Username;
-                    }
                     } catch{}
                     list += username + "\n";
                 }
-                if(Bot.blacklistedUsers.Count <= 0)
+                if(Global.blacklistedUsers.Count <= 0)
                     list = "There are no blacklisted users.";
 
                 DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
@@ -48,14 +48,14 @@ namespace WinBot.Commands.Staff
             }
 
             // Blacklist/unblacklist
-            if(Bot.blacklistedUsers.Contains(user.Id)) {
-                Bot.blacklistedUsers.Remove(user.Id);
-                File.WriteAllText("blacklist.json", JsonConvert.SerializeObject(Bot.blacklistedUsers, Formatting.Indented));
+            if(Global.blacklistedUsers.Contains(user.Id)) {
+                Global.blacklistedUsers.Remove(user.Id);
+                File.WriteAllText(GetResourcePath("blacklist", Util.ResourceType.JsonData), JsonConvert.SerializeObject(Global.blacklistedUsers, Formatting.Indented));
                 await Context.ReplyAsync($"Unblacklisted {user.Username}#{user.Discriminator}!");
             }
             else {
-                Bot.blacklistedUsers.Add(user.Id);
-                File.WriteAllText("blacklist.json", JsonConvert.SerializeObject(Bot.blacklistedUsers, Formatting.Indented));
+                Global.blacklistedUsers.Add(user.Id);
+                File.WriteAllText(GetResourcePath("blacklist", Util.ResourceType.JsonData), JsonConvert.SerializeObject(Global.blacklistedUsers, Formatting.Indented));
                 await Context.ReplyAsync($"Blacklisted {user.Username}#{user.Discriminator}!");
             }
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -5,7 +6,6 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 
-using WinBot.Util;
 using WinBot.Commands.Attributes;
 
 namespace WinBot.Commands.Main
@@ -24,8 +24,8 @@ namespace WinBot.Commands.Main
             eb.AddField("Language", "C#", true);
             eb.AddField("Version", Bot.VERSION, true);
             eb.AddField("Library", $"DSharpPlus v{Bot.client.VersionString}", true);
-            eb.AddField("Host", MiscUtil.GetHost(), true);
-            eb.WithUrl("https://github.com/Starman0620/WinBot");
+            eb.AddField("Host OS", Environment.OSVersion.VersionString, true);
+            eb.WithUrl("https://github.com/CamK06/WinBot");
             eb.WithThumbnail(Bot.client.CurrentUser.AvatarUrl);
             eb.WithColor(DiscordColor.Gold);
 

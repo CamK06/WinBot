@@ -12,19 +12,24 @@ using Newtonsoft.Json;
 
 using Serilog;
 
+using static WinBot.Util.ResourceManager;
+
 namespace WinBot.Misc
 {
     public class Leveling
     {
         static Dictionary<ulong, DateTime> lastMessages = new Dictionary<ulong, DateTime>();
         static Dictionary<int, ulong> levelRoles = new Dictionary<int, ulong>();
+        static string levelRolesJson;
 
         public static void Init()
         {
+            levelRolesJson = GetResourcePath("levelRoles", Util.ResourceType.JsonData);
+
             Bot.client.MessageCreated += MessageCreated;
 
-            if(File.Exists("levelRoles.json"))
-                levelRoles = JsonConvert.DeserializeObject<Dictionary<int, ulong>>(File.ReadAllText("levelRoles.json"));
+            if(File.Exists(levelRolesJson))
+                levelRoles = JsonConvert.DeserializeObject<Dictionary<int, ulong>>(File.ReadAllText(levelRolesJson));
 
             Log.Write(Serilog.Events.LogEventLevel.Information, "Leveling service started");
         }
@@ -41,7 +46,7 @@ namespace WinBot.Misc
 
                 User user = UserData.GetOrCreateUser(e.Author);
                 int inc = new Random().Next(15, 25);
-                user.xp += inc;
+                user.xp += inc*3;
                 user.totalxp += inc;
                 // Level up
                 if(user.xp >= ((user.level+1)*5)*40) {
@@ -70,7 +75,7 @@ namespace WinBot.Misc
         public static void AddRole(ulong id, int level)
         {
             levelRoles.Add(level, id);
-            File.WriteAllText("levelRoles.json", JsonConvert.SerializeObject(levelRoles, Formatting.Indented));
+            File.WriteAllText(levelRolesJson, JsonConvert.SerializeObject(levelRoles, Formatting.Indented));
         }
 
         // Just an abstraction to linq because nobody likes doing linq stuff over and over

@@ -34,7 +34,8 @@ namespace WinBot.Commands.Main
                 }
                 else if(lbUser.id == Context.User.Id) {
                     description += $"**{userCounter+1}.** {lbUser.username} - {lbUser.level} ({MiscUtil.FormatNumber((int)lbUser.totalxp)} Total XP)\n";
-                    if(userCounter != 10) description += "...";
+                    if(userCounter != 10) 
+                        description += "...";
                 }
                 else if(userCounter == 10 && !hasDisplayedCurrentUser) {
                     description += "...\n";
@@ -45,7 +46,7 @@ namespace WinBot.Commands.Main
             // Create the embed
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithColor(DiscordColor.Gold);
-            eb.WithThumbnail(topUser.GetAvatarUrl(DSharpPlus.ImageFormat.Jpeg)); 
+            eb.WithThumbnail(topUser.GetAvatarUrl(DSharpPlus.ImageFormat.Jpeg));
             eb.WithDescription(description);
             eb.WithFooter("Note: this is NOT a temporary leaderboard");
             await Context.ReplyAsync("", eb.Build());

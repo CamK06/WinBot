@@ -13,8 +13,6 @@ using WinBot.Commands.Attributes;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 
-using WinBot.Misc;
-
 namespace WinBot.Commands.Owner
 {
     public class EvalCommand : BaseCommandModule
@@ -23,23 +21,17 @@ namespace WinBot.Commands.Owner
         [Description("It's an eval command.")]
         [Usage("[C# Code]")]
         [Category(Category.Owner)]
+        [RequireOwner]
         public async Task Kill(CommandContext Context, [RemainingText]string code)
         {
             DiscordMember author = Context.Message.Author as DiscordMember;
-            if (author.Id != Bot.config.ownerId && !Bot.whitelistedUsers.Contains(Context.User.Id))
-            {
-                await Context.Message.DeleteAsync();
-                return;
-            }
             code = code.Replace("```cs", "");
             code = code.Replace("```", "");
             string OGCode = code;
-            try
-            {
+            try {
                 EVGlobals globals = null;
                 await Context.Message.Channel.TriggerTypingAsync();
                 var scriptOptions = ScriptOptions.Default;
-
 
                 globals = new EVGlobals()
                 {
@@ -49,12 +41,8 @@ namespace WinBot.Commands.Owner
                 };
                 var asms = AppDomain.CurrentDomain.GetAssemblies(); // .SingleOrDefault(assembly => assembly.GetName().Name == "MyAssembly");
                 foreach (Assembly assembly in asms)
-                {
                     if (!assembly.IsDynamic && assembly.FullName.ToLower().Contains("dsharp") || assembly.FullName.ToLower().Contains("newtonsoft") || assembly.FullName.ToLower().Contains("microsoft.csharp") || assembly.FullName.ToLower().Contains("winbot") || assembly.FullName.ToLower().Contains("scottplot"))
-                    {
                         scriptOptions = scriptOptions.AddReferences(assembly);
-                    }
-                }
                 scriptOptions = scriptOptions.AddReferences(new string[] { "ScottPlot, Version=4.0.48.0, Culture=neutral, PublicKeyToken=86698dc10387c39e" });
                 scriptOptions.AddReferences(Assembly.GetExecutingAssembly());
 
@@ -76,8 +64,8 @@ using WinBot;
 using WinBot.Commands.Attributes;" + code;
 
                 var result = await CSharpScript.EvaluateAsync(code, scriptOptions, globals);
-                if (result != null)
-                {
+                if (result != null) {
+
                     DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
                     eb.WithTitle("Eval");
                     eb.WithColor(DiscordColor.Gold);
@@ -88,8 +76,8 @@ using WinBot.Commands.Attributes;" + code;
                 }
 
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
+
                 DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
                 eb.WithTitle("Eval");
                 eb.WithColor(DiscordColor.Gold);

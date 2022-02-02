@@ -1,5 +1,6 @@
 #if !TOFU
 using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -25,14 +26,14 @@ namespace WinBot.Commands.Main
         {
             // Fetch the spam email json
             string json;
-            if(Cache.Fetch("spamEmail") == null) {
+            if(!TempManager.TempFileExists("spamEmail.json")) {
                 WebClient client = new WebClient();
                 json = client.DownloadString("http://www.nick99nack.com/spam/spam.json");
-                Cache.Add(json, "spamEmail");
-                Log.Write(Serilog.Events.LogEventLevel.Information, "Downloaded spam email json");
+                File.WriteAllText(TempManager.GetTempFile("spamEmail.json"), json);
+                Log.Information("Downloaded spam email json");
             }
             else
-                json = Cache.Fetch("spamEmail");
+                json = File.ReadAllText(TempManager.GetTempFile("spamEmail.json"));
 
             // Deserialize the json and fetch an email
             dynamic spam = JsonConvert.DeserializeObject(json);
@@ -56,6 +57,7 @@ namespace WinBot.Commands.Main
             eb.WithThumbnail("http://www.nick99nack.com/img/mail.gif");
             eb.AddField($"Subject: {spamSubject}", $"{spamContent}");
             eb.WithFooter($"ID: {spamID}");
+            eb.WithColor(DiscordColor.Gold);
             eb.WithUrl("http://www.nick99nack.com/spam/");
             await Context.ReplyAsync("", eb.Build());
         }

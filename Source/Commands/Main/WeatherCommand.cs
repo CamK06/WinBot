@@ -20,12 +20,11 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Weather(CommandContext Context, [RemainingText]string location)
         {
-            if(string.IsNullOrWhiteSpace(location)) {
+            if(string.IsNullOrWhiteSpace(location))
                 throw new System.Exception("You must provide a location!");
-            }
 
             // Pull data from the API
-            RestClient client = new RestClient($"http://api.weatherapi.com/v1/forecast.json?key={Bot.config.weatherAPIKey}&q={location.Replace(" ", "%20")}");
+            RestClient client = new RestClient($"http://api.weatherapi.com/v1/forecast.json?key={Bot.config.apiKeys.weatherAPI}&q={location.Replace(" ", "%20")}");
             RestRequest request = new RestRequest(Method.GET);
             IRestResponse response = client.Execute(request);
             if (!response.IsSuccessful)
