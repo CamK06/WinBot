@@ -51,7 +51,16 @@ namespace WinBot.Commands.Fun
             { "pretty", "pre" },
             { "be", "b" },
             { "telling", "tellin" },
-            { "one", "1" }
+            { "fuck", "fck" },
+            { "anyways", "anwy" },
+            { "i'm", "m" },
+            { "im", "m" },
+            { "just", "jst" },
+            { "goddamn", "godm" },
+            { "to", "2" },
+            { "time", "tme" },
+            { "window", "wndw" },
+            { "the", "da" }
         };
 	}
 }
