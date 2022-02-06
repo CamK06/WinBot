@@ -1,6 +1,7 @@
 using System.Drawing;
 using System.Drawing.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
@@ -17,10 +18,40 @@ namespace WinBot.Commands.Fun
         [Description("One-way Gen Z translator")]
         [Usage("[Normal Human Text]")]
         [Category(Category.Fun)]
-        public async Task bed(CommandContext Context, [RemainingText]string normalPersonText)
+        public async Task gztrnocapbrofax(CommandContext Context, [RemainingText]string normalPersonText)
         {
-            string res = normalPersonText.Replace("e", "").Replace("u", "").Replace("o", "").Replace("a", "");
-            await Context.Channel.SendMessageAsync(res);
+            string output = normalPersonText.Replace("ing", "in");
+            foreach(var word in Dicctionary)
+                output.Replace(word.Key, word.Value);
+            output = output.Replace("'", "");
+            await Context.ReplyAsync(output);
 		}
+
+        public Dictionary<string, string> Dicctionary = new Dictionary<string, string>()
+        {
+            { "enough", "enf" },
+            { "ok", "k" },
+            { "okay", "k" },
+            { "what", "wut" },
+            { "you", "u" },
+            { "already", "ady" },
+            { "true", "no cap" },
+            { "real", "no cap" },
+            { "bro", "bru" },
+            { "for", "4" },
+            { "they", "dey" },
+            { "yeah", "yuh" },
+            { "dont", "don" },
+            { "don't", "dun" },
+            { "and", "n" },
+            { "because", "bc" },
+            { "why", "y" },
+            { "about", "bout" },
+            { "everyone", "every1" },
+            { "pretty", "pre" },
+            { "be", "b" },
+            { "telling", "tellin" },
+            { "one", "1" }
+        };
 	}
 }
