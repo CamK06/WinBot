@@ -22,7 +22,7 @@ namespace WinBot.Commands.Fun
         {
             string output = normalPersonText.Replace("ing", "in");
             foreach(var word in Dicctionary)
-                output.Replace(word.Key, word.Value);
+                output = output.Replace(word.Key, word.Value);
             output = output.Replace("'", "");
             await Context.ReplyAsync(output);
 		}
