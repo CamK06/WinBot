@@ -1,13 +1,9 @@
-using System.Drawing;
-using System.Drawing.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 
-using WinBot.Util;
-using static WinBot.Util.ResourceManager;
 using WinBot.Commands.Attributes;
 
 namespace WinBot.Commands.Fun
@@ -23,7 +19,7 @@ namespace WinBot.Commands.Fun
             string output = normalPersonText.Replace("ing", "in").ToLower();
             foreach(var word in Dicctionary)
                 output = output.Replace(word.Key, word.Value);
-            output = output.Replace("'", "").Replace("@", "");
+            output = output.Replace("'", "").Replace("@", "").Replace(",", "");
             await Context.ReplyAsync(output);
 		}
 
@@ -31,7 +27,7 @@ namespace WinBot.Commands.Fun
         {
             { "enough", "enf" },
             { "ok", "k" },
-            { "okay", "k" },
+            { "okay", "mk" },
             { "what", "wut" },
             { "you", "u" },
             { "already", "ady" },
@@ -40,7 +36,7 @@ namespace WinBot.Commands.Fun
             { "bro", "bru" },
             { "for", "4" },
             { "they", "dey" },
-            { "yeah", "yuh" },
+            { "yeah", "ye" },
             { "dont", "don" },
             { "don't", "dun" },
             { "and", "n" },
@@ -60,7 +56,9 @@ namespace WinBot.Commands.Fun
             { "to", "2" },
             { "time", "tme" },
             { "window", "wndw" },
-            { "the", "da" }
+            { "the", "da" },
+            { "an", "n" },
+            { "are", "r" }
         };
 	}
 }
