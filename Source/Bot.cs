@@ -118,7 +118,8 @@ namespace WinBot
             DailyReportSystem.Init();
             MagickNET.Initialize(); 
 #if !TOFU
-            await WWRSS.Init();
+            if(Bot.config.ids.rssChannel != 0)
+                await WWRSS.Init();
 #endif
 
             await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
