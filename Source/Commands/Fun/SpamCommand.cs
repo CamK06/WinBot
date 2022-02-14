@@ -15,7 +15,7 @@ using WinBot.Commands.Attributes;
 
 using Serilog;
 
-namespace WinBot.Commands.Main
+namespace WinBot.Commands.Fun
 {
     public class SpamCommand : BaseCommandModule
     {

@@ -17,7 +17,7 @@ using WinBot.Commands.Attributes;
 
 using Newtonsoft.Json;
 
-namespace WinBot.Commands.Main
+namespace WinBot.Commands.Fun
 {
     public class TriviaCommand : BaseCommandModule
     {
@@ -25,7 +25,7 @@ namespace WinBot.Commands.Main
         [Aliases("t")]
         [Description("Get a random trivia question")]
         [Usage("[category] or [lb/stats]")]
-        [Category(Category.Main)]
+        [Category(Category.Fun)]
         public async Task Trivia(CommandContext Context, string input = null)
         {
             // If the user is requesting their stats

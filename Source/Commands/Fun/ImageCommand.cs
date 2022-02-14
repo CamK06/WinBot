@@ -19,7 +19,7 @@ using static WinBot.Util.ResourceManager;
 using Newtonsoft.Json;
 using DSharpPlus;
 
-namespace WinBot.Commands.Main
+namespace WinBot.Commands.Fun
 {
     public class ImageCommand : BaseCommandModule
     {
