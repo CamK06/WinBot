@@ -117,6 +117,9 @@ namespace WinBot
             TempManager.Init();
             DailyReportSystem.Init();
             MagickNET.Initialize(); 
+#if !TOFU
+            await WWRSS.Init();
+#endif
 
             await client.UpdateStatusAsync(new DiscordActivity() { Name = config.status });
             Log.Information("Ready");
@@ -230,6 +233,8 @@ namespace WinBot
         public ulong mutedRole { get; set; } = 0;
 #if TOFU
         public ulong welcomeChannel { get; set; } = 0;
+#else
+        public ulong rssChannel { get; set; } = 0;
 #endif
     }
 
