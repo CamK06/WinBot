@@ -50,7 +50,7 @@ namespace WinBot.Commands.Images
                     tv.Composite(frame, 166, 45, CompositeOperator.SrcIn);
                     frame.Resize(new MagickGeometry($"{tv.Width}x{tv.Height}!"));
                     frame.CopyPixels(tv);
-                    frame.Resize(800, 600);
+                    frame.Resize(400, 300);
                 }
             }
 
