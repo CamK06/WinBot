@@ -120,6 +120,6 @@ namespace WinBot.Commands.Images
                 return tv;
         }
 
-        static string[] images = { "celebrate", "remote", "normal" };
+        static string[] images = { "celebrate", "remote", "normal", "angry" };
     }
 }
