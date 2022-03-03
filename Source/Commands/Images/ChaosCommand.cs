@@ -43,7 +43,7 @@ namespace WinBot.Commands.Images
                 img = new MagickImage(tempImgFile);
                 for(int i = 0; i < 5; i++) { 
                     Random r = new Random();
-                    ImageEffect effect = (ImageEffect)r.Next(0, 9);
+                    ImageEffect effect = (ImageEffect)r.Next(0, 11);
                     effects += $"{effect.ToString()} ";
                     ApplyEffect(img, args, effect);
                 }
@@ -52,7 +52,7 @@ namespace WinBot.Commands.Images
                 gif = new MagickImageCollection(tempImgFile);
                 for(int i = 0; i < 5; i++) {
                     Random r = new Random();
-                    ImageEffect effect = (ImageEffect)r.Next(0, 9);
+                    ImageEffect effect = (ImageEffect)r.Next(0, 11);
                     effects += $"{effect.ToString()} ";
                     foreach(var frame in gif)
                         ApplyEffect((MagickImage)frame, args, effect);
@@ -97,11 +97,15 @@ namespace WinBot.Commands.Images
                 InvertCommand.DoInvert(img);
             else if(effect == ImageEffect.Implode)
                 ImplodeCommand.DoImplode(img, args);
+            else if(effect == ImageEffect.Flip)
+                FlipCommand.DoFlip(img);
+            else if(effect == ImageEffect.Flop)
+                FlopCommand.DoFlop(img);
         }
     }
 
     enum ImageEffect
     {
-        Explode, Deepfry, Haah, Hooh, Waaw, Woow, Wall, Magik, Invert, Implode
+        Explode, Deepfry, Haah, Hooh, Waaw, Flop, Woow, Wall, Magik, Invert, Implode, Flip
     }
 }
