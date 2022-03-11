@@ -18,6 +18,6 @@ namespace WinBot.Commands.Attributes
 
     public enum Category
     {
-        Main, Fun, Misc, Staff, Owner, Images
+        Main, Fun, Misc, Staff, Owner, Images, NerdStuff
     }
 }
