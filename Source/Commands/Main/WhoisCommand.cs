@@ -24,14 +24,10 @@ namespace WinBot.Commands.Main
             try {
                 // Set up the embed
                 DiscordEmbedBuilder Embed = new DiscordEmbedBuilder();
-                Embed.WithColor(DiscordColor.Gold);
+                Embed.WithColor(DiscordColor.Gold);   
 
                 // Basic user info
-                if (user.GuildAvatarUrl != null) {
-                    Embed.WithThumbnail(user.GuildAvatarUrl);
-                    Embed.WithAuthor(user.Username, null, user.GuildAvatarUrl);
-                }
-                else if (user.AvatarUrl != null) {
+                if (user.AvatarUrl != null) {
                     Embed.WithThumbnail(user.AvatarUrl);
                     Embed.WithAuthor(user.Username, null, user.AvatarUrl);
                 }
