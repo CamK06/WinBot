@@ -27,7 +27,11 @@ namespace WinBot.Commands.Main
                 Embed.WithColor(DiscordColor.Gold);
 
                 // Basic user info
-                if (user.AvatarUrl != null) {
+                if (user.GuildAvatarUrl != null) {
+                    Embed.WithThumbnail(user.GuildAvatarUrl);
+                    Embed.WithAuthor(user.Username, null, user.GuildAvatarUrl);
+                }
+                else if (user.AvatarUrl != null) {
                     Embed.WithThumbnail(user.AvatarUrl);
                     Embed.WithAuthor(user.Username, null, user.AvatarUrl);
                 }
