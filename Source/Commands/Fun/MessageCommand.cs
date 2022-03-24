@@ -72,7 +72,7 @@ namespace WinBot.Commands.Fun
                         break;
                     }
                 }
-                if(referencedMessage == null)
+                if(referencedMessage == null || referencedMessage.Author.Id == Context.User.Id)
                     throw new Exception("Invalid or no message, message must've been sent in the past 5 messages and not be from the command executor.");
                 if(string.IsNullOrWhiteSpace(referencedMessage.Content))
                     throw new Exception("Message must have content!");
