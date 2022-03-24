@@ -113,7 +113,7 @@ idRecalc:
 
                 imageUrls.Remove(imageToRemove);
                 File.WriteAllText(jsonFile, JsonConvert.SerializeObject(imageUrls, Formatting.Indented));
-                await Context.ReplyAsync($"Successfully removed `{image}`");
+                await Context.ReplyAsync($"Successfully removed `{image}`!");
             }
             else if(command.ToLower() == "count")
                 await Context.ReplyAsync($"There are {imageUrls.Count} images.");
