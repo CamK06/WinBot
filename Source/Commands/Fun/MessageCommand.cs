@@ -74,12 +74,14 @@ namespace WinBot.Commands.Fun
                         break;
                     }
                 }
-                if(referencedMessage == null || referencedMessage.Author.Id == Context.User.Id)
+                if(referencedMessage == null)
                     throw new Exception("Invalid or no message, message must've been sent in the past 5 messages and not be from the command executor.");
                 if(string.IsNullOrWhiteSpace(referencedMessage.Content))
                     throw new Exception("Message must have content!");
                 if(messages.FirstOrDefault(x => x.messageID == referencedMessage.Id) != null)
                     throw new Exception("Message already exists!");
+                if(referencedMessage.Author.Id == Context.User.Id)
+                    throw new Exception("You can't add your own message, don't be self-absorbed mate.");
 
                 // Add the message; this code sucks lol
                 UserMessage newMessage = new UserMessage();
