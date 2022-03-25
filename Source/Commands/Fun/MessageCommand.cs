@@ -92,7 +92,7 @@ namespace WinBot.Commands.Fun
                 newMessage.messageID = referencedMessage.Id;
                 newMessage.sentAt = referencedMessage.CreationTimestamp.DateTime;
                 newMessage.submitter = Context.User.Username;
-                if(referencedMessage.ReferencedMessage != null && !string.IsNullOrWhiteSpace(referencedMessage.ReferencedMessage.Content))
+                if(referencedMessage.ReferencedMessage != null)
                     newMessage.responseContent = referencedMessage.ReferencedMessage.Content;
 idRecalc:
                 int idInt = new Random().Next(0, 0xFFFF);
