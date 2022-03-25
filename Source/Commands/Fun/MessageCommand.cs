@@ -50,6 +50,8 @@ namespace WinBot.Commands.Fun
                 // Create and send the embed
                 DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
                 eb.WithAuthor(msg.author, null, msg.avatarUrl);
+                if(!string.IsNullOrWhiteSpace(msg.responseContent))
+                    eb.AddField("Response To", msg.responseContent);
                 eb.WithDescription(msg.content);
                 eb.WithTimestamp(msg.sentAt);
                 eb.WithFooter($"ID: {msg.ID}\nSubmitted by: {msg.submitter}\nSubmit your own with the \"msg add\" command");
@@ -90,6 +92,8 @@ namespace WinBot.Commands.Fun
                 newMessage.messageID = referencedMessage.Id;
                 newMessage.sentAt = referencedMessage.CreationTimestamp.DateTime;
                 newMessage.submitter = Context.User.Username;
+                if(referencedMessage.ReferencedMessage != null)
+                    newMessage.responseContent = referencedMessage.ReferencedMessage.Content;
 idRecalc:
                 int idInt = new Random().Next(0, 0xFFFF);
                 string ID = Convert.ToBase64String(BitConverter.GetBytes(idInt));
@@ -128,6 +132,8 @@ idRecalc:
                 // Create and send the embed
                 DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
                 eb.WithAuthor(msg.author, null, msg.avatarUrl);
+                if(!string.IsNullOrWhiteSpace(msg.responseContent))
+                    eb.AddField("Response To", msg.responseContent);
                 eb.WithDescription(msg.content);
                 eb.WithTimestamp(msg.sentAt);
                 eb.WithFooter($"ID: {msg.ID}\nSubmitted by: {msg.submitter}\nSubmit your own with the \"msg add\" command");
@@ -146,6 +152,7 @@ idRecalc:
         public string channel { get; set; }
         public string content { get; set; }
         public string submitter { get; set; }
+        public string responseContent { get; set; }
         public string ID { get; set; }
         public ulong authorID { get; set; }
         public ulong messageID { get; set; }
