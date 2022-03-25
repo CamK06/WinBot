@@ -17,6 +17,7 @@
     <PackageReference Include="Magick.NET-Q16-x64" Version="8.5.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Miki.UrbanDictionary" Version="0.2.0" />
     <PackageReference Include="Newtonsoft.json" Version="13.0.1" />
     <PackageReference Include="RestSharp" Version="106.15.0" />
     <PackageReference Include="ScottPlot" Version="4.0.48" />
