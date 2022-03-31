@@ -61,12 +61,8 @@ namespace WinBot.Commands
                 await msg.Channel.SendMessageAsync(eb);
                 return;
             }
-            else if(rand >300 && rand < 400) {
-                await msg.Channel.SendMessageAsync("ERROR: Command no want to run");
-                return;
-            }
-            else if(rand > 200 && rand < 300) {
-                await msg.Channel.SendMessageAsync("ERROR: WHAT H");
+            else if(rand > 200 && rand < 400) {
+                await msg.Channel.SendMessageAsync("ERROR: " + errors[new Random().Next(0, errors.Length)]);
                 return;
             }
             else if(rand > 150 && rand < 200) {
@@ -113,5 +109,8 @@ namespace WinBot.Commands
             await Global.logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
             await e.Context.RespondAsync($"There was an error executing your command!\nMessage: `{msg}`");
         }
+        
+        public static string[] errors = { "WHAT H", "COMMAND NO WANT RUN", "PLEZ HALP NO RUN", "IT FAIL BAD NO RUN", "HOW DO RUN COMAND", "NO WERK",
+        "*YOU* ARE THE SUCC", "NO", "I DONT FEEL LIKE RUNNING YOUR COMMAND", "WHY SHOULD I?", "WHAT EVEN IS THE POINT??" };
     }
 }
