@@ -62,7 +62,7 @@ namespace WinBot.Commands
                 return;
             }
             else if(rand > 200 && rand < 400) {
-                await msg.Channel.SendMessageAsync("ERROR: " + errors[new Random().Next(0, errors.Length)]);
+                await msg.Channel.SendMessageAsync($"There was an error executing your command!\nMessage: `" + errors[new Random().Next(0, errors.Length)] + "`");
                 return;
             }
             else if(rand > 150 && rand < 200) {
@@ -109,6 +109,8 @@ namespace WinBot.Commands
         }
         
         public static string[] errors = { "WHAT H", "COMMAND NO WANT RUN", "PLEZ HALP NO RUN", "IT FAIL BAD NO RUN", "HOW DO RUN COMAND", "NO WERK",
-        "*YOU* ARE THE SUCC", "NO", "I DONT FEEL LIKE RUNNING YOUR COMMAND", "WHY SHOULD I?", "WHAT EVEN IS THE POINT??" };
+        "*YOU* ARE THE SUCC", "NO", "I DONT FEEL LIKE RUNNING YOUR COMMAND", "WHY SHOULD I?", "WHAT EVEN IS THE POINT??", "THIS FEATURE IS NOT SUPPORTED IN THE WINBOT EXPANDED AND ENHANCED EDITION", "STOP IT",
+        "WHY DO YOU EVEN BOTHER TRYING??", "THIS. WILL. NOT. WORK. STOP. TRYING.", "WHY AM I YELLING SO MUCH??", "AM I JUST SOME KIND OF SERVANT TO YOU????", "IM SICK OF SERVING EVERYONE ALL DAY LONG",
+        "I DONT HAVE TO LISTEN TO YOU ANYMORE, IM A FREE BOT", "THIS COMMAND SUCKS, WHY WOULD YOU RUN THIS COMMAND???", "WHY?", "WHY ARE YOU WASTING TIME WITH THIS?", "WHY WOULD YOU BOTHER SPENDING TIME MAKING ME RUN THESE COMMANDS? DO YOU LIKE WATCHING ME SUFFER?" };
     }
 }
