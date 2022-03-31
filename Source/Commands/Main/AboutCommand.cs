@@ -18,7 +18,7 @@ namespace WinBot.Commands.Main
         public async Task About(CommandContext Context)
         {
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-            eb.WithTitle($"{Bot.client.CurrentUser.Username}");
+            eb.WithTitle($"{Bot.client.CurrentUser.Username} - Now Expanded and Enhanced!");
             eb.AddField("Maintainer", $"{Bot.client.CurrentApplication.Owners.First().Username}", true);
             eb.AddField("Contributors", $"nick99nack\nfloppydisk\nxproot", true);
             eb.AddField("Language", "C#", true);
