@@ -95,9 +95,6 @@ namespace WinBot.Commands
 
         public static async Task HandleError(CommandsNextExtension cnext, CommandErrorEventArgs e)
         {
-            await e.Context.RespondAsync("Oh noes ur comand no werk ;(");
-            return;
-
             string msg = e.Exception.Message;
             if(msg == "One or more pre-execution checks failed.")
                 msg += " This is likely a permissions issue.";
@@ -105,6 +102,7 @@ namespace WinBot.Commands
                 await e.Context.RespondAsync("https://http.cat/413");
                 return;
             }
+            msg = errors[new Random().Next(0, errors.Length)];
             
             await Global.logChannel.SendMessageAsync($"**Command Execution Failed!**\n**Command:** `{e.Command.Name}`\n**Message:** `{e.Context.Message.Content}`\n**Exception:** `{e.Exception}`");
             await e.Context.RespondAsync($"There was an error executing your command!\nMessage: `{msg}`");
