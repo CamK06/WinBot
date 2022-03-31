@@ -14,8 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class ReverseCommand : BaseCommandModule
     {
-        [Command("reverse")]
-        [Description("Reverse a gif, because why not?")]
+        [Command("revarse")]
+        [Description("revar")]
         [Usage("[gif]")]
         [Category(Category.Images)]
         public async Task Reverse(CommandContext Context, [RemainingText]string input)

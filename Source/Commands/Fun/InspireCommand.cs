@@ -10,8 +10,8 @@ namespace WinBot.Commands.Fun
 {
     public class InspireCommand : BaseCommandModule
     {
-        [Command("inspire")]
-        [Description("Get some much needed AI generated inspiration")]
+        [Command("inspeyer")]
+        [Description("gt insperatin")]
         [Category(Category.Fun)]
         public async Task Inspire(CommandContext Context)
         {

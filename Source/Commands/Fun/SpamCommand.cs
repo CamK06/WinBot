@@ -19,8 +19,8 @@ namespace WinBot.Commands.Main
 {
     public class SpamCommand : BaseCommandModule
     {
-        [Command("spam")]
-        [Description("Gets a random spam e-mail")]
+        [Command("spm")]
+        [Description("Sen spm")]
         [Category(Category.Fun)]
         public async Task Spam(CommandContext Context, [RemainingText] int spamID = 0)
         {

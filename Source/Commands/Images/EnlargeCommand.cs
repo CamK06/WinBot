@@ -15,9 +15,9 @@ namespace WinBot.Commands.Images
 {
     public class EnlargeCommand : BaseCommandModule
     {
-        [Command("enlarge")]
+        [Command("yuge")]
         [Aliases("e")]
-        [Description("Get the raw image of an emote")]
+        [Description("mak img yuge")]
         [Category(Category.Images)]
         public async Task Enlarge(CommandContext Context, string emoteStr = null)
         {

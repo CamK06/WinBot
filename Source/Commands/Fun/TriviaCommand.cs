@@ -21,9 +21,9 @@ namespace WinBot.Commands.Main
 {
     public class TriviaCommand : BaseCommandModule
     {
-        [Command("trivia")]
+        [Command("trarivaia")]
         [Aliases("t")]
-        [Description("Get a random trivia question")]
+        [Description("do da quiz of questin ting")]
         [Usage("[category] or [lb/stats]")]
         [Category(Category.Main)]
         public async Task Trivia(CommandContext Context, string input = null)

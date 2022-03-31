@@ -11,7 +11,7 @@ namespace WinBot.Commands.Main
 {
     public class HelpCommand : BaseCommandModule
     {
-        [Command("help")]
+        [Command("halp")]
         [Description("Lists commands or gets info on a specific command")]
         [Usage("[command]")]
         [Category(Category.Main)]
@@ -20,18 +20,18 @@ namespace WinBot.Commands.Main
             // Embed setup
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithColor(DiscordColor.Gold);
-            eb.WithFooter($"Type \"{Bot.config.prefix}help [command]\" for more info on a specific command");
+            eb.WithFooter($"Type \"{Bot.config.prefix}halp [command]\" 4 mor infs on da comnd");
 
             if(command == null) {
                 
                 // List all commands
-                eb.WithTitle($"{Bot.client.CurrentUser.Username} Commands");
-                eb.AddField("**Main**", GetCommands(Category.Main), false);
-                eb.AddField("**Fun**", GetCommands(Category.Fun), false);
-                eb.AddField("**Image Manipulation**", GetCommands(Category.Images), false);
-                eb.AddField("**Nerd Stuff**", GetCommands(Category.NerdStuff), false);
-                eb.AddField("**Staff**", GetCommands(Category.Staff), false);
-                eb.AddField("**Owner**", GetCommands(Category.Owner), false);
+                eb.WithTitle($"{Bot.client.CurrentUser.Username} comens");
+                eb.AddField("**mani**", GetCommands(Category.Main), false);
+                eb.AddField("**fon**", GetCommands(Category.Fun), false);
+                eb.AddField("**img manipelatin**", GetCommands(Category.Images), false);
+                eb.AddField("**neds hit**", GetCommands(Category.NerdStuff), false);
+                eb.AddField("**stfawaf**", GetCommands(Category.Staff), false);
+                eb.AddField("**idot**", GetCommands(Category.Owner), false);
             }
             else {
 
@@ -39,11 +39,11 @@ namespace WinBot.Commands.Main
                 string usage = GetCommandUsage(command);
                 if (usage != null) {
                     string upperCommandName = command[0].ToString().ToUpper() + command.Remove(0, 1);
-                    eb.WithTitle($"{upperCommandName} Command");
+                    eb.WithTitle($"{upperCommandName} cmod");
                     eb.WithDescription($"{usage}");
                 }
                 else {
-                    await Context.ReplyAsync("That command doesn't seem to exist.");
+                    await Context.ReplyAsync("dat cmd noting of exist");
                     return;
                 }
             }
@@ -85,7 +85,7 @@ namespace WinBot.Commands.Main
             UsageAttribute usage = (UsageAttribute)command.CustomAttributes.FirstOrDefault(x => x.GetType() == typeof(UsageAttribute));
             
             // Create the usage string
-            string desc = $"{command.Description}\n\n**Usage:** {Bot.config.prefix}{commandName}";
+            string desc = $"{command.Description}\n\n**uagege:** {Bot.config.prefix}{commandName}";
             if (usage != null)
                 desc += $" {usage.Usage}";
 

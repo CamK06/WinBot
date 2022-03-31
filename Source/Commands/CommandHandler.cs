@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -47,24 +48,60 @@ namespace WinBot.Commands
                 return;
             }
 
-            // Execute single command
             Command cmd = Bot.commands.FindCommand(cmdString, out var args);
             if(cmd == null) return;
+            // Execute single command
+            int rand = new Random().Next(0, 1000);
+            if(rand > 900) {
+                DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+                eb.WithColor(DiscordColor.Red);
+                eb.WithTitle("You do not have access to this command!");
+                eb.WithDescription($"We're terribly sorry, but you do not currently have access to this command as you have not purchased the `{cmd.Name}` DLC!\n\nThis DLC will cost you `${new Random().Next(500, 50000000)}`. Purchase must be completed with valid DOGE coin");
+                eb.WithFooter("gib monis plz");
+                await msg.Channel.SendMessageAsync(eb);
+                return;
+            }
+            else if(rand >300 && rand < 400) {
+                await msg.Channel.SendMessageAsync("ERROR: Command no want to run");
+                return;
+            }
+            else if(rand > 200 && rand < 300) {
+                await msg.Channel.SendMessageAsync("ERROR: WHAT H");
+                return;
+            }
+            else if(rand > 150 && rand < 200) {
+                await msg.Channel.SendMessageAsync("https://tenor.com/view/rick-roll-rick-ashley-never-gonna-give-you-up-gif-22113173");
+                return;
+            }
+
             CommandContext ctx = Bot.commands.CreateContext(msg, prefix, cmd, args);
             await ctx.Channel.TriggerTypingAsync();
             await Task.Run(async () => await Bot.commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
         }
 
-        private static void DoCommand(string commandString, string prefix, DiscordMessage msg) {
+        private static async void DoCommand(string commandString, string prefix, DiscordMessage msg) {
             Command cmd = Bot.commands.FindCommand(commandString, out var args);
             if(cmd == null) return;
+            int rand = new Random().Next(0, 1000);
+            if(rand > 800) {
+                DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+                eb.WithColor(DiscordColor.Red);
+                eb.WithTitle("You do not have access to this command!");
+                eb.WithDescription($"We're terribly sorry, but you do not currently have access to this command as you have not purchased the `{cmd.Name}` DLC!\nThis DLC will cost you ${new Random().Next(500, 50000000)}");
+                eb.WithFooter("gib monis plz");
+                await msg.Channel.SendMessageAsync(eb);
+                return;
+            }
             CommandContext ctx = Bot.commands.CreateFakeContext(msg.Author, msg.Channel, commandString, prefix, cmd, args);
-            ctx.Channel.TriggerTypingAsync();
+            await ctx.Channel.TriggerTypingAsync();
             _ = Task.Run(async () => await Bot.commands.ExecuteCommandAsync(ctx).ConfigureAwait(false));
         }
 
         public static async Task HandleError(CommandsNextExtension cnext, CommandErrorEventArgs e)
         {
+            await e.Context.RespondAsync("Oh noes ur comand no werk ;(");
+            return;
+
             string msg = e.Exception.Message;
             if(msg == "One or more pre-execution checks failed.")
                 msg += " This is likely a permissions issue.";

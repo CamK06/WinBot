@@ -13,8 +13,8 @@ namespace WinBot.Commands.Fun
 {
     public class RoryCommand : BaseCommandModule
     {
-        [Command("rory")]
-        [Description("Gets a random picture of rory")]
+        [Command("rawory")]
+        [Description("get rnd pic of da cat")]
         [Category(Category.Fun)]
         public async Task Rory(CommandContext Context)
         {

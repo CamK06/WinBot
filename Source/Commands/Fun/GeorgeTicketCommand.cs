@@ -12,8 +12,8 @@ namespace WinBot.Commands.Fun
 {
     public class TicketCommand : BaseCommandModule
     {
-        [Command("ticket")]
-        [Description("Tickets from the worst tech support rep in the world")]
+        [Command("tiket")]
+        [Description("tekneekal suppoat tikent")]
         [Category(Category.Fun)]
         public async Task Ticket(CommandContext Context)
         {

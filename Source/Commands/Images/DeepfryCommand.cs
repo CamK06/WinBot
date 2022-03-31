@@ -14,8 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class DeepfryCommand : BaseCommandModule
     {
-        [Command("deepfry")]
-        [Description("R O A S T... wait, F R Y an image")]
+        [Command("depfri")]
+        [Description("fry lik da frnch fri")]
         [Usage("[image]")]
         [Category(Category.Images)]
         public async Task Invert(CommandContext Context, [RemainingText]string input)

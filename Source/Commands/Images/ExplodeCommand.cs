@@ -14,8 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class ExplodeCommand : BaseCommandModule
     {
-        [Command("explode")]
-        [Description("explode an image")]
+        [Command("explod")]
+        [Description("expde")]
         [Usage("[image] [-scale]")]
         [Category(Category.Images)]
         public async Task Explode(CommandContext Context, [RemainingText]string input)

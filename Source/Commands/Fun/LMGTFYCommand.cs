@@ -9,8 +9,8 @@ namespace WinBot.Commands.Fun
 {
     public class LMGTFYCommand : BaseCommandModule
     {
-        [Command("lmgtfy")]
-        [Description("Lemme Google that for you...")]
+        [Command("gtflm")]
+        [Description("gogle dat 4 u")]
         [Usage("[query]")]
         [Category(Category.Fun)]
         public async Task LMGTFY(CommandContext Context, [RemainingText]string query = null)

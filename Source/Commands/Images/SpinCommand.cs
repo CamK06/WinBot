@@ -14,8 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class SpinCommand : BaseCommandModule
     {
-        [Command("spin")]
-        [Description("Spin an image")]
+        [Command("spine")]
+        [Description("epine nn age")]
         [Usage("[image]")]
         [Category(Category.Images)]
         public async Task Spin(CommandContext Context, [RemainingText]string input)

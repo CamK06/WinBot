@@ -11,8 +11,8 @@ namespace WinBot.Commands.Main
 {
     public class PollCommand : BaseCommandModule
     {
-        [Command("poll")]
-        [Description("Create a poll")]
+        [Command("pul")]
+        [Description("do pull")]
         [Usage("[title] ['|' separated options]")]
         [Category(Category.Staff)]
         [RequireUserPermissions(DSharpPlus.Permissions.KickMembers)]

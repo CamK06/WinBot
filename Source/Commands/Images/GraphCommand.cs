@@ -14,8 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class GraphCommand : BaseCommandModule
     {
-        [Command("graph")]
-        [Description("LOOK AT THIS PHOTOGRAPH!")]
+        [Command("grafp")]
+        [Description("lok at dis grap")]
         [Usage("[image]")]
         [Category(Category.Images)]
         public async Task Graph(CommandContext Context, [RemainingText]string input)

@@ -15,8 +15,8 @@ namespace WinBot.Commands.Fun
 {
     public class UrbanCommand : BaseCommandModule
     {
-        [Command("urban")]
-        [Description("Search the urban dictionary")]
+        [Command("uarban")]
+        [Description("get def or smth idk mt")]
         [Usage("[query]")]
         [Category(Category.Fun)]
         public async Task Urban(CommandContext Context, [RemainingText]string query)

@@ -14,8 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class ResizeCommand : BaseCommandModule
     {
-        [Command("resize")]
-        [Description("Resize an image")]
+        [Command("reaisiz")]
+        [Description("Resiazae an mimgs")]
         [Usage("[image] [-scale -size]")]
         [Category(Category.Images)]
         public async Task Resize(CommandContext Context, [RemainingText]string input)

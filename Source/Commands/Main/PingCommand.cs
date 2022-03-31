@@ -9,8 +9,8 @@ namespace WinBot.Commands.Main
 {
     public class PingCommand : BaseCommandModule
     {
-        [Command("ping")]
-        [Description("Gets the bots latency to Discord")]
+        [Command("pinga")]
+        [Description("getpnig")]
         [Category(Category.Main)]
         public async Task Ping(CommandContext Context)
         {

@@ -14,8 +14,8 @@ namespace WinBot.Commands.Main
 {
     public class WeatherCommand : BaseCommandModule
     {
-        [Command("weather")]
-        [Description("Get the weather for a specific location")]
+        [Command("weder")]
+        [Description("weder")]
         [Usage("[location]")]
         [Category(Category.Main)]
         public async Task Weather(CommandContext Context, [RemainingText]string location)

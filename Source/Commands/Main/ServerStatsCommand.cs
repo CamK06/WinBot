@@ -22,8 +22,8 @@ namespace WinBot.Commands.Main
 {
     public class ServerStatsCommand : BaseCommandModule
     {
-        [Command("serverstats")]
-        [Description("Show basic statistics about the server")]
+        [Command("servstat")]
+        [Description("ge statistacks of da serveur my g bruv at")]
         [Category(Category.Main)]
         public async Task Serverstats(CommandContext Context)
         {

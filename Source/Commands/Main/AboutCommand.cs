@@ -12,8 +12,8 @@ namespace WinBot.Commands.Main
 {
     public class AboutCommand : BaseCommandModule
     {
-        [Command("about")]
-        [Description("Gets basic info about the bot")]
+        [Command("abt")]
+        [Description("enf abt da bt ady ait bruv")]
         [Category(Category.Main)]
         public async Task About(CommandContext Context)
         {
@@ -24,7 +24,7 @@ namespace WinBot.Commands.Main
             eb.AddField("Language", "C#", true);
             eb.AddField("Version", Bot.VERSION, true);
             eb.AddField("Library", $"DSharpPlus v{Bot.client.VersionString}", true);
-            eb.AddField("Host OS", Environment.OSVersion.VersionString, true);
+            eb.AddField("Host OS", "Microsoft Windows 12 RG PRO EXTREME MAX XSR HDR EDITION", true);
             eb.WithUrl("https://github.com/CamK06/WinBot");
             eb.WithThumbnail(Bot.client.CurrentUser.AvatarUrl);
             eb.WithColor(DiscordColor.Gold);

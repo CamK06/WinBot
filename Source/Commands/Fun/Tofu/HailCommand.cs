@@ -12,8 +12,8 @@ namespace WinBot.Commands.Fun.Tofu
 {
     public class HailCommand : BaseCommandModule
     {
-        [Command("hail")]
-        [Description("Hail Tofu")]
+        [Command("hale")]
+        [Description("Hail something")]
         [Category(Category.Fun)]
         public async Task Hail(CommandContext Context)
         {

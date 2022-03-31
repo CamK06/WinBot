@@ -23,8 +23,8 @@ namespace WinBot.Commands.Main
 {
     public class ImageCommand : BaseCommandModule
     {
-        [Command("img")]
-        [Description("Gets a random user-submitted image")]
+        [Command("imaag")]
+        [Description("gnt randm imag mt")]
         [Usage("[add (or leave blank)] [image (or leave blank)]")]
         [Category(Category.Fun)]
         public async Task Image(CommandContext Context, string command = null, [RemainingText]string image = null)

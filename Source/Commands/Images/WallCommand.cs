@@ -14,8 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class WallCommand : BaseCommandModule
     {
-        [Command("wall")]
-        [Description("Build a great big beautiful wall ~~and make Mexico pay for it~~")]
+        [Command("wal")]
+        [Description("mak wal")]
         [Usage("[image]")]
         [Category(Category.Images)]
         public async Task Wall(CommandContext Context, [RemainingText]string input)

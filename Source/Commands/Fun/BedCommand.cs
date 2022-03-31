@@ -13,8 +13,8 @@ namespace WinBot.Commands.Fun
 {
     public class BedCommand : BaseCommandModule
     {
-		[Command("bed")]
-        [Description("Tell someone to go to bed.")]
+		[Command("deb")]
+        [Description("make go bed")]
         [Usage("[User] [Image: parz, agp, agp2, mehdi]")]
         [Category(Category.Fun)]
         public async Task bed(CommandContext Context, string screenname = "", string image = "parz")

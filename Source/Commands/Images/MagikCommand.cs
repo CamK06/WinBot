@@ -14,8 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class MagikCommand : BaseCommandModule
     {
-        [Command("magik")]
-        [Description("Really mess up an image")]
+        [Command("majikz")]
+        [Description("mak magikz")]
         [Usage("[image] [-scale=(1-5) -layers=(1-3)]")]
         [Category(Category.Images)]
         public async Task Magik(CommandContext Context, [RemainingText]string input)

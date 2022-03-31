@@ -15,8 +15,8 @@ namespace WinBot.Commands.Images
 {
     public class TVCommand : BaseCommandModule
     {
-        [Command("tv")]
-        [Description("Watch TV or something idk")]
+        [Command("tevis")]
+        [Description("teviesklee")]
         [Usage("[image]")]
         [Category(Category.Images)]
         public async Task TV(CommandContext Context, [RemainingText]string input)

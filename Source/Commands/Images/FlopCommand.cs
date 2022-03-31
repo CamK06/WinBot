@@ -15,8 +15,8 @@ namespace WinBot.Commands.Images
 {
     public class FlopCommand : BaseCommandModule
     {
-        [Command("flop")]
-        [Description("Flop an image")]
+        [Command("fwopp")]
+        [Description("fwopap n imag")]
         [Usage("[image]")]
         [Category(Category.Images)]
         public async Task Flop(CommandContext Context, [RemainingText]string input)

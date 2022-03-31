@@ -11,8 +11,8 @@ namespace WinBot.Commands.Main
 {
     public class ServerInfoCommand : BaseCommandModule
     {
-        [Command("serverinfo")]
-        [Description("Gets info about the current server")]
+        [Command("sevarinf")]
+        [Description("get infs of da fail server")]
         [Category(Category.Main)]
         public async Task ServerInfo(CommandContext Context)
         {

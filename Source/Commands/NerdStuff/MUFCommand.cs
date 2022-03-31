@@ -13,8 +13,8 @@ namespace WinBot.Commands.NerdStuff
 {
     public class MUFCommand : BaseCommandModule
     {
-        [Command("muf")]
-        [Description("Sends a map of radio MUF")]
+        [Command("fmuf")]
+        [Description("mwufjf")]
         [Category(Category.NerdStuff)]
         public async Task MUF(CommandContext Context)
         {

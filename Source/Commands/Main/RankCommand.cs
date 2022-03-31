@@ -17,8 +17,8 @@ namespace WinBot.Commands.Main
 {
     public class RankCommand : BaseCommandModule
     {
-        [Command("rank")]
-        [Description("Get your current level")]
+        [Command("ronk")]
+        [Description("get da rak levl in bot")]
         [Usage("[user]")]
         [Category(Category.Main)]
         public async Task Rank(CommandContext Context, [RemainingText]DiscordUser dUser = null)

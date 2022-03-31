@@ -13,8 +13,8 @@ namespace WinBot.Commands.Main
 {
     public class WikiCommand : BaseCommandModule
     {
-        [Command("wiki")]
-        [Description("Search wikipedia")]
+        [Command("weiki")]
+        [Description("WHATH")]
         [Usage("[query]")]
         [Category(Category.Main)]
         public async Task Wiki(CommandContext Context, [RemainingText] string query)

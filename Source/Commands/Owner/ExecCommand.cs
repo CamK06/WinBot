@@ -13,8 +13,8 @@ namespace WinBot.Commands.Owner
 {
     public class ExecCommand : BaseCommandModule
     {
-        [Command("exec")]
-        [Description("Execute a terminal command")]
+        [Command("exac")]
+        [Description("do da termnal coand")]
         [Usage("[command]")]
         [Category(Category.Owner)]
         [RequireOwner]

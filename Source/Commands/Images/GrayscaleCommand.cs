@@ -15,8 +15,8 @@ namespace WinBot.Commands.Images
 {
     public class GrayscaleCommand : BaseCommandModule
     {
-        [Command("gray")]
-        [Description("Convert an image to grayscale")]
+        [Command("greyy")]
+        [Description("mak lik da old day")]
         [Usage("[image]")]
         [Category(Category.Images)]
         public async Task Grayscale(CommandContext Context, [RemainingText]string input)

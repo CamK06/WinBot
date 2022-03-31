@@ -14,8 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class BobRossCommand : BaseCommandModule
     {
-        [Command("bobross")]
-        [Description("Paint a happy little image")]
+        [Command("brbaross")]
+        [Description("pnt or smt")]
         [Usage("[image]")]
         [Category(Category.Images)]
         public async Task Bobross(CommandContext Context, [RemainingText]string input)

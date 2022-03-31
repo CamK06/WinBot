@@ -10,8 +10,8 @@ namespace WinBot.Commands.Main
 {
     public class LevelMessageCommand : BaseCommandModule
     {
-        [Command("togglelevelmsg")]
-        [Description("Toggle level messages")]
+        [Command("toglvmsg")]
+        [Description("toaggle lel msages")]
         [Category(Category.Main)]
         public async Task LevelMessage(CommandContext Context)
         {

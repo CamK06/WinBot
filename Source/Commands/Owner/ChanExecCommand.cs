@@ -11,8 +11,8 @@ namespace WinBot.Commands.Owner
 {
     public class ChanExecCommand : BaseCommandModule
     {
-        [Command("chanexec")]
-        [Description("Execute a command in another channel")]
+        [Command("vhnaexec")]
+        [Description("exec da comd")]
         [Usage("[channel] [command]")]
         [Category(Category.Owner)]
         [RequireOwner]

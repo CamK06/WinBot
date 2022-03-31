@@ -11,8 +11,8 @@ namespace WinBot.Commands.Owner
 {
     public class SudoCommand : BaseCommandModule
     {
-        [Command("sudo")]
-        [Description("Execute a command as another user")]
+        [Command("soodoo")]
+        [Description("datoeewoqqdadadasduhdliaksj")]
         [Usage("[user] [command]")]
         [Category(Category.Owner)]
         [RequireOwner]

@@ -10,8 +10,8 @@ namespace WinBot.Commands.Fun
 {
     public class GZTrCommand : BaseCommandModule
     {
-		[Command("gztr")]
-        [Description("One-way Gen Z translator")]
+		[Command("gftrz")]
+        [Description("trnslt btwe idot spek nd rel englis")]
         [Usage("[Normal Human Text]")]
         [Category(Category.Fun)]
         public async Task gztrnocapbrofax(CommandContext Context, [RemainingText]string normalPersonText)

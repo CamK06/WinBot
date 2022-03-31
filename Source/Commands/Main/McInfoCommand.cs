@@ -13,8 +13,8 @@ namespace WinBot.Commands.Main
 {
     public class McInfoCommand : BaseCommandModule
     {
-        [Command("mcinfo")]
-        [Description("Gets information on the Minecraft server")]
+        [Command("mcin")]
+        [Description("Mincfr inf")]
         [Category(Category.Main)]
         public async Task McInfo(CommandContext Context)
         {

@@ -14,8 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class ImplodeCommand : BaseCommandModule
     {
-        [Command("implode")]
-        [Description("Implode an image")]
+        [Command("inpode")]
+        [Description("mak inpodison")]
         [Usage("[image] [-scale]")]
         [Category(Category.Images)]
         public async Task Implode(CommandContext Context, [RemainingText]string input)

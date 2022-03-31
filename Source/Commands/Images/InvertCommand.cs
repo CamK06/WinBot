@@ -15,8 +15,8 @@ namespace WinBot.Commands.Images
 {
     public class InvertCommand : BaseCommandModule
     {
-        [Command("invert")]
-        [Description("Invert an image")]
+        [Command("ennvert")]
+        [Description("do da ineveartison")]
         [Usage("[image]")]
         [Category(Category.Images)]
         public async Task Invert(CommandContext Context, [RemainingText]string input)

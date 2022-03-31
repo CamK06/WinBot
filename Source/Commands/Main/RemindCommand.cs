@@ -13,8 +13,8 @@ namespace WinBot.Commands.Main
 {
     public class RemindCommand : BaseCommandModule
     {
-        [Command("remind")]
-        [Description("Remind you about something")]
+        [Command("rmin")]
+        [Description("do da remin")]
         [Usage("[Time] [Time Unit (seconds/s, minutes/m, hours/h, days/d) [Message] (Note that long timespans are likely unreliable due to bot restarts)]")]
         [Category(Category.Main)]
         public async Task Remind(CommandContext Context, string timeStr, [RemainingText] string message = "")

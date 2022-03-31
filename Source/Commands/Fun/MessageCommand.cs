@@ -19,8 +19,8 @@ namespace WinBot.Commands.Fun
 {
     public class MessageCommand : BaseCommandModule
     {
-		[Command("msg")]
-        [Description("Get a random user-submitted message")]
+		[Command("mesg")]
+        [Description("get ran mes frm user")]
         [Usage("[User]")]
         [Category(Category.Fun)]
         public async Task Message(CommandContext Context, [RemainingText]string textArgs = null)

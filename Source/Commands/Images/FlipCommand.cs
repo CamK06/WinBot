@@ -15,8 +15,8 @@ namespace WinBot.Commands.Images
 {
     public class FlipCommand : BaseCommandModule
     {
-        [Command("flip")]
-        [Description("Flip an image")]
+        [Command("fwip")]
+        [Description("fwip n imge")]
         [Usage("[image]")]
         [Category(Category.Images)]
         public async Task Flip(CommandContext Context, [RemainingText]string input)

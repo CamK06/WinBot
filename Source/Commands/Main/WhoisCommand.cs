@@ -12,8 +12,8 @@ namespace WinBot.Commands.Main
 {
     public class WhoisCommand : BaseCommandModule
     {
-        [Command("whois")]
-        [Description("Gets basic info about a user")]
+        [Command("whsik")]
+        [Description("who da someone is dat in de serv mate my g bruv h do u no wo dat is n ma srv or no not undsetnd of daa")]
         [Usage("[user]")]
         [Category(Category.Main)]
         public async Task Whois(CommandContext Context, [RemainingText] DiscordMember user)

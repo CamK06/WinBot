@@ -20,8 +20,8 @@ namespace WinBot.Commands.Fun
         string[] nouns = null;
         string[] verbs = null;
 
-        [Command("dl")]
-        [Description("You wouldn't download a WinBot!")]
+        [Command("dawnlode")]
+        [Description("you dnld winbot plz kthx sbye")]
         [Usage("[verb] [noun] [args] (arguments: -noa -red -would -will -inline)")]
         [Category(Category.Fun)]
         public async Task Dl(CommandContext Context, string verb = null, [RemainingText] string noun = null)
