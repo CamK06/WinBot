@@ -1,6 +1,9 @@
 # WinBot
 WinBot is a Discord bot designed specifically for use in the [WinWorld Discord server](https://discord.gg/HepVSYH).
 
+### Note
+This branch; `april` will remain both for future use and archival purposes
+
 ## Usage/Build instructions
 1. Clone the repository: ``https://github.com/CamK06/WinBot.git`` and move into the project directory: ``cd WinBot``
 2. Build the source code: ``dotnet build -c Release -r linux-x64``
