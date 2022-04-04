@@ -22,7 +22,7 @@ namespace WinBot.Commands.Staff
         [Category(Category.Staff)]
         public async Task Blacklist(CommandContext Context, DiscordMember user = null)
         {
-            if(!PermissionMethods.HasPermission(Context.Member.PermissionsIn(Context.Channel), Permissions.KickMembers) && Context.Member.Id != Bot.client.CurrentApplication.Owners.FirstOrDefault().Id)
+            if(/*!PermissionMethods.HasPermission(Context.Member.PermissionsIn(Context.Channel), Permissions.KickMembers) && */Context.Member.Id != Bot.client.CurrentApplication.Owners.FirstOrDefault().Id)
                 throw new System.Exception("You no have permission smfh");
 
             // This is a clunky method of listing things but it works
