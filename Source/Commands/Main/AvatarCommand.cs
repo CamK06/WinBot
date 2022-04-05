@@ -14,10 +14,10 @@ namespace WinBot.Commands.Main
         [Aliases("pfp")]
         [Description("Gets your profile picture/avatar")]
         [Category(Category.Main)]
-        public async Task Avatar(CommandContext Context, DiscordUser user = null)
+        public async Task Avatar(CommandContext Context, DiscordMember user = null)
         {
             if(user == null)
-                user = Context.User;
+                user = (DiscordMember)Context.User;
 
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithTitle($"{user.Username}'s Avatar");
