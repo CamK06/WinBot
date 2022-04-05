@@ -16,7 +16,7 @@ namespace WinBot.Commands.Owner
         [Usage("[user] [command]")]
         [Category(Category.Owner)]
         [RequireOwner]
-        public async Task Sudo(CommandContext Context, DiscordUser user, [RemainingText]string command)
+        public async Task Sudo(CommandContext Context, DiscordMember user, [RemainingText]string command)
         {
             // Find the command
             Command realCommand = Bot.commands.FindCommand(command, out var args);
