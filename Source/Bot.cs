@@ -69,7 +69,7 @@ namespace WinBot
             client = new DiscordClient(new DiscordConfiguration()
             {
                 Token = config.token,
- 		TokenType = TokenType.Bot,
+                TokenType = TokenType.Bot,
                 LoggerFactory = logFactory,
                 Intents = DiscordIntents.All
             });
@@ -247,7 +247,7 @@ namespace WinBot
     class Global
     {
         public static DiscordGuild hostGuild;
-	public static DiscordGuild targetGuild;
+        public static DiscordGuild targetGuild;
         public static DiscordChannel logChannel = null;
 	
         // Moderation
