@@ -26,7 +26,7 @@ namespace WinBot.Commands.Images
                 return;
             }
 
-            await Context.ReplyAsync($"http://http.cat/{input}");
+            await Context.ReplyAsync($"https://http.cat/{input}");
         }
 
         public static string[] status_codes = {
