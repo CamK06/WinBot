@@ -126,7 +126,7 @@ namespace WinBot.Util
             if (!client.ResponseHeaders["Content-Type"].Contains("image") || client.ResponseHeaders["Content-Type"].Contains("svg"))
                 throw new Exception("Invalid or no image!");
             if(fileSize > 104900000)
-                throw new Exception("Your image must be below 32MB in size!");
+                throw new Exception("Your image must be below 100MB in size!");
             args.extension = client.ResponseHeaders["Content-Type"].Split("image/").Last();
 
             // Verify the args
