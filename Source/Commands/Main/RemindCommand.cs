@@ -31,6 +31,7 @@ namespace WinBot.Commands.Main
                         foreach (List<string> reminder in Global.reminders) {
                         eb.AddField(reminder[1], reminder[2]);
                     }
+		    eb.WithFooter($"{Global.reminders.Count} total");
                     await Context.ReplyAsync("", eb.Build());
                 }
                 return;
