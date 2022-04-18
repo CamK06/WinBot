@@ -246,6 +246,7 @@ namespace WinBot
 
     class Global
     {
+        public static List<List<string>> reminders = new List<List<string>>();
         public static DiscordGuild hostGuild;
         public static DiscordGuild targetGuild;
         public static DiscordChannel logChannel = null;
