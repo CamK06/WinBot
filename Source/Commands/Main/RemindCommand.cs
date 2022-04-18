@@ -9,7 +9,6 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 
-using WinBot;
 using WinBot.Commands.Attributes;
 
 namespace WinBot.Commands.Main
