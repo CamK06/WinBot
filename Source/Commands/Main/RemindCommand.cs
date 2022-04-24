@@ -28,8 +28,9 @@ namespace WinBot.Commands.Main
                 if (Global.reminders.Count == 0)
                     await Context.ReplyAsync("No reminders currently set");
                 else {
-                        foreach (List<string> reminder in Global.reminders) {
-                        eb.AddField(reminder[1], reminder[2]);
+                    foreach (List<string> reminder in Global.reminders) {
+			if (String.IsNullOrEmpty(reminder[1]) eb.AddField("[No text]", reminder[2]);
+                        else eb.AddField(reminder[1], reminder[2]);
                     }
 		    eb.WithFooter($"{Global.reminders.Count} total");
                     await Context.ReplyAsync("", eb.Build());
