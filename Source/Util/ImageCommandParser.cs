@@ -13,6 +13,29 @@ namespace WinBot.Util
     {
         public static ImageArgs ParseArgs(CommandContext Context, string input)
         {
+            // Check the Upload Limit for the server
+            int UploadLimit() {
+                if (Context.Guild.PremiumTier == DSharpPlus.PremiumTier.Tier_2) {
+                    return 52428800;
+                }
+                else if (Context.Guild.PremiumTier == DSharpPlus.PremiumTier.Tier_3) {
+                    return 104857600;
+                }
+                else {
+                    return 8388608;
+                }
+            }
+            string HumanReadableUploadLimit() {
+                if (Context.Guild.PremiumTier == DSharpPlus.PremiumTier.Tier_2) {
+                    return "50 MB";
+                }
+                else if (Context.Guild.PremiumTier == DSharpPlus.PremiumTier.Tier_3) {
+                    return "100 MB";
+                }
+                else {
+                    return "8 MB";
+                }
+            }
             ImageArgs args = new ImageArgs();
 
             // No arguments, No URL
@@ -125,8 +148,8 @@ namespace WinBot.Util
             Int64 fileSize = Convert.ToInt64(client.ResponseHeaders["Content-Length"]);
             if (!client.ResponseHeaders["Content-Type"].Contains("image") || client.ResponseHeaders["Content-Type"].Contains("svg"))
                 throw new Exception("Invalid or no image!");
-            if(fileSize > 104900000)
-                throw new Exception("Your image must be below 100MB in size!");
+            if(fileSize > UploadLimit())
+                throw new Exception($"Your image must be below {HumanReadableUploadLimit()} in size!");
             args.extension = client.ResponseHeaders["Content-Type"].Split("image/").Last();
 
             // Verify the args
