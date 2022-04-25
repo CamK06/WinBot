@@ -37,7 +37,7 @@ namespace WinBot.Commands.Images
             string emoteFile = TempManager.GetTempFile($"{seed}-emote.png");
             new WebClient().DownloadFile(emote.Url, emoteFile);
             MagickImage image = new MagickImage(emoteFile);
-            image.Resize(new MagickGeometry("512x512!"));
+            image.Resize(new MagickGeometry("512x512"));
             image.Write(emoteFile);
 
             // Send the image
