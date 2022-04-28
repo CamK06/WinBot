@@ -81,5 +81,9 @@ namespace WinBot.Misc
         public int correctTrivia { get; set; } = 0;
         public int totalTrivia { get; set; } = 0;
         public int triviaScore { get; set; } = 0;
+
+        // Messages
+        public bool optedOutOfMessages { get; set; } = false;
+        public List<string> messages { get; set; } = new List<string>();
     }
 }
