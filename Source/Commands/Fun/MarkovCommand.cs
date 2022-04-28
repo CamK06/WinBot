@@ -26,30 +26,22 @@ namespace WinBot.Commands.Fun
     {
         [Command("markov")]
         [Aliases(new string[] { "mk" })]
-        [Description("Search the urban dictionary")]
-        [Usage("[query]")]
+        [Description("Markov chains and things")]
+        [Usage("[user]")]
         [Category(Category.Fun)]
-        public async Task Markov(CommandContext Context, [RemainingText]string input = null)
+        public async Task Markov(CommandContext Context, [RemainingText]DiscordMember user = null)
         {
-            DiscordMember user = null;
             List<string> data = null;
             string sourceName = "Source: User-Submitted Messages";
 
-            // If there is input, parse it for a user. If there is no input, source messages from the msg command
-            if(input != null) 
-                user = Context.Guild.SearchMembersAsync(input, 1).Result.FirstOrDefault();
-            else {
+            if(user == null) {
                 data = new List<string>();
                 string json = File.ReadAllText(GetResourcePath("randomMessages", Util.ResourceType.JsonData));
                 List<UserMessage> msgs = JsonConvert.DeserializeObject<List<UserMessage>>(json);
                 foreach(UserMessage msg in msgs)
                     data.Add(msg.content);
             }
-
-            // If the user is invalid error, if the user is valid, set the data source to their messages
-			if(user == null && input != null)
-				throw new Exception("You must provide a valid non-bot user!");
-            else if(input != null) { 
+            else { 
                 User bUser = UserData.GetOrCreateUser(user);
                 data = bUser.messages;
                 sourceName = "Source: " + bUser.username;
