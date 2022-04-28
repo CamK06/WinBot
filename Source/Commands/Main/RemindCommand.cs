@@ -29,7 +29,7 @@ namespace WinBot.Commands.Main
                     await Context.ReplyAsync("No reminders currently set");
                 else {
                     foreach (List<string> reminder in Global.reminders) {
-			if (String.IsNullOrEmpty(reminder[1]) eb.AddField("[No text]", reminder[2]);
+			if (String.IsNullOrEmpty(reminder[1])) eb.AddField("[No text]", reminder[2]);
                         else eb.AddField(reminder[1], reminder[2]);
                     }
 		    eb.WithFooter($"{Global.reminders.Count} total");
