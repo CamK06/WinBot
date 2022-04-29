@@ -14,8 +14,6 @@ using static WinBot.Util.ResourceManager;
 using WinBot.Misc;
 using WinBot.Commands.Attributes;
 
-using MarkovSharp.Components;
-using MarkovSharp.Models;
 using MarkovSharp.TokenisationStrategies;
 
 using Newtonsoft.Json;
