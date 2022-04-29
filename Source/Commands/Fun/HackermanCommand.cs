@@ -18,10 +18,15 @@ namespace WinBot.Commands.Fun
     {
         [Command("hackerman")]
         [Description("Hack into the mainframes... just kidding; Hack into Toxidation's network.")]
-        [Usage("[length]")]
+        [Usage("[lines]")]
         [Category(Category.Fun)]
-        public async Task Hackerman(CommandContext Context)
+        public async Task Hackerman(CommandContext Context, int lines = 1)
         {
+            if(lines > 10)
+                throw new System.Exception("You cannot generate more than 10 lines!");
+            else if(lines <= 0)
+                throw new System.Exception("You cannot generate less than 0 or 0 lines");
+
             Random r = new Random();
 
             // Generate pure nonsense
@@ -34,11 +39,14 @@ namespace WinBot.Commands.Fun
             // Markov the shit out of it
             StringMarkov model = new StringMarkov(1);
             model.Learn(data);
+            string text = model.Walk().First().Replace("@", "");
+            for(int i = 0; i < lines-1; i++)
+                text += "\n\n" + model.Walk().First().Replace("@", "");
             
             // Send an embed
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithColor(DiscordColor.Gold);
-            eb.WithDescription($"```cpp\n{model.Walk().First().Replace("@", "").Truncate(2000)}```");
+            eb.WithDescription($"```cpp\n{text.Truncate(2000)}```");
             await Context.ReplyAsync("", eb.Build());
         }
 
