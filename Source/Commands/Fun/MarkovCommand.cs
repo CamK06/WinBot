@@ -27,7 +27,7 @@ namespace WinBot.Commands.Fun
         [Description("Markov chains and things")]
         [Usage("[user]")]
         [Category(Category.Fun)]
-        public async Task Markov(CommandContext Context, [RemainingText]DiscordMember user = null)
+        public async Task Markov(CommandContext Context, DiscordMember user = null, [RemainingText]string seed = null)
         {
             List<string> data = null;
             string sourceName = "Source: User-Submitted Messages";
@@ -48,12 +48,13 @@ namespace WinBot.Commands.Fun
             // Generate the markov text
             StringMarkov model = new StringMarkov(1);
             model.Learn(data);
+            model.EnsureUniqueWalk = true;
 
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithAuthor(sourceName);
             eb.WithColor(DiscordColor.Gold);
             eb.WithFooter(data.Count + " messages in data. Better results will be achieved with more messages.");
-            eb.WithDescription(model.Walk().First().Replace("@", ""));
+            eb.WithDescription(model.Walk(1, seed).First().Replace("@", ""));
             await Context.ReplyAsync(eb);
         }
     }
