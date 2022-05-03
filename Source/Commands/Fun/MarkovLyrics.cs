@@ -50,7 +50,7 @@ namespace WinBot.Commands.Fun
                 await Context.Channel.TriggerTypingAsync();
             }
             else 
-                File.ReadAllLines($"Resources/Lyrics/{input.ToLower()}.txt").ToList();
+                txt = File.ReadAllLines($"Resources/Lyrics/{input.ToLower()}.txt").ToList();
 
             // Generate the markov text
             StringMarkov model = new StringMarkov(1);
