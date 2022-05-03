@@ -23,7 +23,7 @@ namespace WinBot.Commands.Fun
         [Description("Get markov chains lyrics")]
         [Usage("[artist] [lines]")]
         [Category(Category.Fun)]
-        public async Task MarkovQuote(CommandContext Context, string input, int lines = 5)
+        public async Task MarkovQuote(CommandContext Context, string input = "all", int lines = 5)
         {
             DiscordEmbedBuilder eb;
             if(input.ToLower() == "list") {
