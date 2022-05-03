@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.IO.Compression;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -200,6 +201,9 @@ namespace WinBot
                     Log.Information("Downloaded " + resource + "");
                 }
             }
+
+            if(!Directory.Exists("Resources/Lyrics"))
+                ZipFile.ExtractToDirectory("Resources/Lyrics.zip", "Resources/");
         }
 
         void LoadConfigs()
