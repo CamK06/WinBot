@@ -2,10 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <NoWarn>$(NoWarn);SYSLIB0014;NU1701</NoWarn>
     <!-- DefineConstants>TOFU;DEBUG</DefineConstants-->
   </PropertyGroup>
 
