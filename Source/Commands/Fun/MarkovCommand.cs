@@ -12,6 +12,7 @@ using DSharpPlus.Entities;
 
 using static WinBot.Util.ResourceManager;
 using WinBot.Misc;
+using WinBot.Util;
 using WinBot.Commands.Attributes;
 
 using MarkovSharp.TokenisationStrategies;
@@ -25,9 +26,9 @@ namespace WinBot.Commands.Fun
         [Command("markov")]
         [Aliases(new string[] { "mk" })]
         [Description("Markov chains and things")]
-        [Usage("[user]")]
+        [Usage("[user] [length]")]
         [Category(Category.Fun)]
-        public async Task Markov(CommandContext Context, DiscordMember user = null, [RemainingText]string seed = null)
+        public async Task Markov(CommandContext Context, DiscordMember user = null, [RemainingText]int length = 5)
         {
             List<string> data = null;
             string sourceName = "Source: User-Submitted Messages";
@@ -45,6 +46,11 @@ namespace WinBot.Commands.Fun
                 sourceName = "Source: " + bUser.username;
             }
 
+            if(length > 25)
+                length = 25;
+            else if(length < 0)
+                length = 1;
+
             // Generate the markov text
             StringMarkov model = new StringMarkov(1);
             model.Learn(data);
@@ -54,7 +60,7 @@ namespace WinBot.Commands.Fun
             eb.WithAuthor(sourceName);
             eb.WithColor(DiscordColor.Gold);
             eb.WithFooter(data.Count + " messages in data. Better results will be achieved with more messages.");
-            eb.WithDescription(model.Walk(1, seed).First().Replace("@", ""));
+            eb.WithDescription(string.Join(' ', model.Walk(length)).Replace("@", "").Truncate(4096));
             await Context.ReplyAsync(eb);
         }
     }
