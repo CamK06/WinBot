@@ -205,6 +205,7 @@ namespace WinBot
             // This is awful awful awful awful awful AWFUL to do this on every startup
             // but I'm lazy and it's the only way I can think of right now to make the bot
             // update lyrics on startup lol
+            Directory.Delete("Resources/Lyrics");
             ZipFile.ExtractToDirectory("Resources/Lyrics.zip", "Resources/");
         }
 
