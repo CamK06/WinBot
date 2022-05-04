@@ -166,6 +166,8 @@ namespace WinBot
                 Directory.CreateDirectory("Resources");
             if(!Directory.Exists("Temp"))
                 Directory.CreateDirectory("Temp");
+            if(!Directory.Exists("Resources/Lyrics"))
+                Directory.CreateDirectory("Resources/Lyrics");
 
             // Verify configs & similar files
             if(!ResourceExists("config", ResourceType.Config)) {
