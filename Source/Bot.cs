@@ -192,6 +192,7 @@ namespace WinBot
 
             // Verify and download resources
             Log.Information("Verifying resources...");
+            File.Delete("Resources/Lyrics.zip");
             WebClient webClient = new WebClient();
             string resourcesJson = webClient.DownloadString("https://raw.githubusercontent.com/CamK06/WinBot/main/Resources/resources.json");
             string[] resources = JsonConvert.DeserializeObject<string[]>(resourcesJson);
