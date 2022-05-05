@@ -1,4 +1,5 @@
-using System.Net;
+using System.IO;
+using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,7 +36,8 @@ namespace WinBot.Commands.Images
             // Enlarge
             int seed = new System.Random().Next(1000, 99999);
             string emoteFile = TempManager.GetTempFile($"{seed}-emote.png");
-            new WebClient().DownloadFile(emote.Url, emoteFile);
+            File.WriteAllBytes(emoteFile, await new HttpClient().GetByteArrayAsync(emote.Url));
+            
             MagickImage image = new MagickImage(emoteFile);
             image.Resize(new MagickGeometry("512x512"));
             image.Write(emoteFile);

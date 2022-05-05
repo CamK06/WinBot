@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using DSharpPlus.CommandsNext;
@@ -31,7 +31,7 @@ namespace WinBot.Commands.Images
 
             // Download the image
             string tempImgFile = TempManager.GetTempFile(seed+"-chaosDL."+args.extension, true);
-            new WebClient().DownloadFile(args.url, tempImgFile);
+            File.WriteAllBytes(tempImgFile, await new HttpClient().GetByteArrayAsync(args.url));
 
             var msg = await Context.ReplyAsync("Processing...\nThis WILL take a while, it's chaos.");
 

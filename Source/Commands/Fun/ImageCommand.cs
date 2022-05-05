@@ -3,7 +3,7 @@
 // Thanks Jan.
 using System;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -77,9 +77,10 @@ namespace WinBot.Commands.Main
                 string newImg = args.url;
 
                 // Verify that the image is indeed a valid image
-                WebClient client = new WebClient();
-                client.OpenRead(newImg);
-                if (!client.ResponseHeaders["Content-Type"].Contains("image") || client.ResponseHeaders["Content-Type"].Contains("svg"))
+
+                HttpClient _httpClient = new HttpClient();
+                var imgFile = _httpClient.GetAsync(newImg);
+                if(!imgFile.Result.Content.Headers.ContentType.MediaType.Contains("image") || !imgFile.Result.Content.Headers.ContentType.MediaType.Contains("svg"))
                     throw new System.Exception("Your file is not a valid image!");
                 if(imageUrls.FirstOrDefault(x => x.url == newImg) != null)
                     throw new Exception("That image already exists!");

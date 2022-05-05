@@ -45,8 +45,8 @@ namespace WinBot
             // Stop it.
             // DO NOT. DONT DO IT.
             // DONT RUN IT ON THAT ACCURSED OS!
-            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-                return;
+            //if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            //    return;
 
             // Change workingdir in debug mode
 #if DEBUG

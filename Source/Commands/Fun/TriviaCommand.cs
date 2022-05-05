@@ -1,6 +1,6 @@
 using System;
 using System.Web;
-using System.Net;
+using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -76,12 +76,14 @@ namespace WinBot.Commands.Main
 
             // Generate an API request
             string URL = "https://opentdb.com/api.php?amount=1";
+            string json = "";
             if(!string.IsNullOrWhiteSpace(input) && Categories.ContainsKey(input.ToLower()))
                 URL += $"&category={Categories[input.ToLower()]}";
 
             // Make the API call
-            string json = new WebClient().DownloadString(URL);
-            dynamic output = JsonConvert.DeserializeObject(json);
+            using(HttpClient http = new HttpClient())
+                json = await http.GetStringAsync(URL);
+                dynamic output = JsonConvert.DeserializeObject(json);
 
             // Create a list of the answers
             List<string> answerStrings = new List<string>();

@@ -1,5 +1,6 @@
 using System;
-using System.Net;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using DSharpPlus.CommandsNext;
@@ -21,7 +22,7 @@ namespace WinBot.Commands.NerdStuff
             // This code is garbage and barely works... but it does work.
             string svgFile = TempManager.GetTempFile("muf.svg", false);
             string pngOut = TempManager.GetTempFile("muf2.png", true);
-            new WebClient().DownloadFile("https://prop.kc2g.com/renders/current/mufd-normal-now.svg", svgFile);
+            File.WriteAllBytes(svgFile, await new HttpClient().GetByteArrayAsync("https://prop.kc2g.com/renders/current/mufd-normal-now.svg"));
             ImageMagick.MagickImage img = new ImageMagick.MagickImage(svgFile);
             img.Format = ImageMagick.MagickFormat.Png;
             img.Write(pngOut);
