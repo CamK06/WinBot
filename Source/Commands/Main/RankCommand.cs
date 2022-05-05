@@ -32,7 +32,13 @@ namespace WinBot.Commands.Main
 
             // Fetch the user avater
             string url = dUser.GetAvatarUrl(DSharpPlus.ImageFormat.Jpeg, 256);
-            Stream avatarStream = await new System.Net.Http.HttpClient().GetStreamAsync(url);
+            Stream avatarStream = null;
+            // Awful awful AWFUL method of catching HTTP codes but I don't care
+            try { 
+                avatarStream = await new System.Net.Http.HttpClient().GetStreamAsync(url);
+            } catch {
+                avatarStream = await new System.Net.Http.HttpClient().GetStreamAsync(dUser.DefaultAvatarUrl);
+            }
             Bitmap avatar = new Bitmap(Image.FromStream(avatarStream), new Size(230, 230));
             avatarStream.Close();
 
