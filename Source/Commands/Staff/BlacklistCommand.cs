@@ -20,7 +20,7 @@ namespace WinBot.Commands.Staff
         [Description("Toggle blacklist on a user to prevent them from using the bot")]
         [Usage("[user]")]
         [Category(Category.Staff)]
-        public async Task Blacklist(CommandContext Context, DiscordMember user = null)
+        public async Task Blacklist(CommandContext Context, DiscordUser user = null)
         {
             if(!PermissionMethods.HasPermission(Context.Member.PermissionsIn(Context.Channel), Permissions.KickMembers) && Context.Member.Id != Bot.client.CurrentApplication.Owners.FirstOrDefault().Id)
                 throw new System.Exception("You no have permission smfh");
@@ -31,8 +31,8 @@ namespace WinBot.Commands.Staff
                 foreach(ulong blacklistuser in Global.blacklistedUsers) {
                     string username = $"{blacklistuser}";
                     try {
-                    if(Context.Guild.GetMemberAsync(blacklistuser).Result != null)
-                        username = Context.Guild.GetMemberAsync(blacklistuser).Result.Username;
+                    if(Bot.client.GetUserAsync(blacklistuser).Result != null)
+                        username = Bot.client.GetUserAsync(blacklistuser).Result.Username;
                     } catch{}
                     list += username + "\n";
                 }
