@@ -18,6 +18,8 @@ namespace WinBot.Commands.Main
         [Category(Category.Main)]
         public async Task Whois(CommandContext Context, [RemainingText] DiscordUser user)
         {
+            if(user == null)
+                user = Context.User;
             DiscordMember memberUser = user as DiscordMember;
 
             try {
