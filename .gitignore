@@ -350,6 +350,7 @@ MigrationBackup/
 
 # WinBot stuff
 WorkingDirectory/
+WorkingDir/
 
 # VSCode
 .vscode/
