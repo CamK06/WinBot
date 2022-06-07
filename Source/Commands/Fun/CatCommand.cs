@@ -25,12 +25,12 @@ namespace WinBot.Commands.Fun
             dynamic output = JsonConvert.DeserializeObject(json); // Deserialize the string into a dynamic object
 
             // Send the image in an embed
-			DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
-			eb.WithTitle("Random cat");
-			eb.WithColor(DiscordColor.Gold);
-			eb.WithFooter($"ID: {output.id}");
-			eb.WithImageUrl($"https://cataas.com{(string)output.url}");
-			await Context.ReplyAsync("", eb.Build());
+            DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+            eb.WithTitle("Random cat");
+            eb.WithColor(DiscordColor.Gold);
+            eb.WithFooter($"ID: {output.id}");
+            eb.WithImageUrl($"https://cataas.com{(string)output.url}");
+            await Context.ReplyAsync("", eb.Build());
         }
     }
 }
