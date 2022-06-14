@@ -26,14 +26,14 @@ namespace WinBot.Commands.Main
         {
             // Fetch the spam email json
             string json;
-            if(!TempManager.TempFileExists("spamEmail.json")) {
+            if(!TempManager.TempFileExists("spam.json")) {
                 WebClient client = new WebClient();
                 json = client.DownloadString("http://www.nick99nack.com/spam/spam.json");
-                File.WriteAllText(TempManager.GetTempFile("spamEmail.json"), json);
+                File.WriteAllText(TempManager.GetTempFile("spam.json"), json);
                 Log.Information("Downloaded spam email json");
             }
             else
-                json = File.ReadAllText(TempManager.GetTempFile("spamEmail.json"));
+                json = File.ReadAllText(TempManager.GetTempFile("spam.json"));
 
             // Deserialize the json and fetch an email
             dynamic spam = JsonConvert.DeserializeObject(json);
