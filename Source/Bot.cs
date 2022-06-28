@@ -253,6 +253,8 @@ namespace WinBot
     class APIConfig
     {
         public string weatherAPI { get; set; } = "";
+        public string qrzUsername { get; set; } = "";
+        public string qrzPassword { get; set; } = "";
     }
 
     class Global

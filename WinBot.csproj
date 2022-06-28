@@ -15,6 +15,7 @@
     <PackageReference Include="DSharpPlus" Version="4.2.0-nightly-01113" />
     <PackageReference Include="DSharpPlus.CommandsNext" Version="4.2.0-nightly-01113" />
     <PackageReference Include="DSharpPlus.Interactivity" Version="4.2.0-nightly-01113" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.43" />
     <PackageReference Include="Magick.NET-Q16-x64" Version="8.5.0" />
     <PackageReference Include="MarkovSharp" Version="4.0.32" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.0.1" />
