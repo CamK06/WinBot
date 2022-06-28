@@ -166,8 +166,6 @@ namespace WinBot
                 Directory.CreateDirectory("Resources");
             if(!Directory.Exists("Temp"))
                 Directory.CreateDirectory("Temp");
-            if(!Directory.Exists("Resources/Lyrics"))
-                Directory.CreateDirectory("Resources/Lyrics");
 
             // Verify configs & similar files
             if(!ResourceExists("config", ResourceType.Config)) {
@@ -194,7 +192,6 @@ namespace WinBot
 
             // Verify and download resources
             Log.Information("Verifying resources...");
-            File.Delete("Resources/Lyrics.zip");
             WebClient webClient = new WebClient();
             string resourcesJson = webClient.DownloadString("https://raw.githubusercontent.com/CamK06/WinBot/main/Resources/resources.json");
             string[] resources = JsonConvert.DeserializeObject<string[]>(resourcesJson);
@@ -204,13 +201,6 @@ namespace WinBot
                     Log.Information("Downloaded " + resource + "");
                 }
             }
-
-            // This is awful awful awful awful awful AWFUL to do this on every startup
-            // but I'm lazy and it's the only way I can think of right now to make the bot
-            // update lyrics on startup lol
-            foreach(string file in Directory.GetFiles("Resources/Lyrics"))
-                File.Delete(file);
-            ZipFile.ExtractToDirectory("Resources/Lyrics.zip", "Resources/");
         }
 
         void LoadConfigs()
