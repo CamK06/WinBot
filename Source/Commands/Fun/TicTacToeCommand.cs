@@ -47,8 +47,8 @@ namespace WinBot.Commands.Main
             }
 
             // End of game messages
-            await Context.ReplyAsync($"{game.winner.Mention} won the game and {game.loser.Mention} is a donkey!");
-            await Context.ReplyAsync($"{game.winner.Mention} and {game.loser.Mention } can go fuck themselves now!");
+            await Context.ReplyAsync($"{game.winner.Mention} won the game, and {game.loser.Mention} is a donkey!");
+            await Context.ReplyAsync($"Now fuck off out of here, {game.winner.Mention} and {game.loser.Mention}!");
         }
     }
 
