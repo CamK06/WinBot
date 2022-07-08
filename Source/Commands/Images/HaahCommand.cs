@@ -75,7 +75,8 @@ namespace WinBot.Commands.Images
             right.Rotate(180);
             right.Flip();
             
-            image.Composite(right, width, 0);
+            image.Composite(right, width, 0, CompositeOperator.Clear);
+            image.Composite(right, width, 0, CompositeOperator.Over);
         }
     }
 }

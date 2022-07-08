@@ -74,7 +74,8 @@ namespace WinBot.Commands.Images
             bottom.Crop(image.Width, height, Gravity.North);
             bottom.Flip();
             
-            image.Composite(bottom, 0, height);
+            image.Composite(bottom, 0, height, CompositeOperator.Clear);
+            image.Composite(bottom, 0, height, CompositeOperator.Over);
         }
     }
 }
