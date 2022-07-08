@@ -12,6 +12,7 @@ namespace WinBot.Commands.Fun
         [Command("yuds")]
         [Description("Yuds")]
         [Category(Category.Fun)]
+        [Hidden]
         public async Task Yuds(CommandContext Context, [RemainingText]string query)
         {
             await Context.ReplyAsync(michaelRosenGifs[new Random().Next(0, michaelRosenGifs.Length)]);
