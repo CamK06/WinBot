@@ -125,7 +125,7 @@ namespace WinBot.Commands.Main
                 string[] move = player1Move.Result.Content.Split(' ');
                 if(move.Length != 2) {
                     await inputMessage.ModifyAsync(msg => msg.Content = $"Invalid move! Move must be two numbers separated by a space!");
-                    await Task.Delay(2500);
+                    await Task.Delay(1000);
                     continue;
                 }
 
@@ -133,7 +133,7 @@ namespace WinBot.Commands.Main
                 int x = -1, y = -1;
                 if(!int.TryParse(move[0], out x) || !int.TryParse(move[1], out y)) {
                     await inputMessage.ModifyAsync(msg => msg.Content = $"Invalid move! Move must be within the grid!");
-                    await Task.Delay(2500);
+                    await Task.Delay(1000);
                     continue;
                 }
 
@@ -141,7 +141,7 @@ namespace WinBot.Commands.Main
                 x--; y--;
                 if(x < 0 || x > 2 || y < 0 || y > 2) {
                     await inputMessage.ModifyAsync(msg => msg.Content = $"Invalid move! Move must be within the grid!");
-                    await Task.Delay(2500);
+                    await Task.Delay(1000);
                     continue;
                 }
 
@@ -149,8 +149,8 @@ namespace WinBot.Commands.Main
                 if(grid[y,x] == "-") {
                     grid[y,x] = "X";
                 } else {
-                    await inputMessage.ModifyAsync(msg => msg.Content = $"Invalid move! Move that space is already taken!");
-                    await Task.Delay(2500);
+                    await inputMessage.ModifyAsync(msg => msg.Content = $"Invalid move! That space is already taken!");
+                    await Task.Delay(1000);
                     continue;
                 }
 
@@ -199,7 +199,7 @@ namespace WinBot.Commands.Main
                 move = player2Move.Result.Content.Split(' ');
                 if(move.Length != 2) {
                     await inputMessage.ModifyAsync(msg => msg.Content = $"Invalid move! Move must be two numbers separated by a space!");
-                    await Task.Delay(2500);
+                    await Task.Delay(1000);
                     goto player2Retry;
                 }
 
@@ -207,7 +207,7 @@ namespace WinBot.Commands.Main
                 x = -1; y = -1;
                 if(!int.TryParse(move[0], out x) || !int.TryParse(move[1], out y)) {
                     await inputMessage.ModifyAsync(msg => msg.Content = $"Invalid move! Move must be within the grid!");
-                    await Task.Delay(2500);
+                    await Task.Delay(1000);
                     goto player2Retry;
                 }
 
@@ -215,7 +215,7 @@ namespace WinBot.Commands.Main
                 x--; y--;
                 if(x < 0 || x > 2 || y < 0 || y > 2) {
                     await inputMessage.ModifyAsync(msg => msg.Content = $"Invalid move! Move must be within the grid!");
-                    await Task.Delay(2500);
+                    await Task.Delay(1000);
                     continue;
                 }
 
@@ -223,8 +223,8 @@ namespace WinBot.Commands.Main
                 if(grid[y,x] == "-") {
                     grid[y,x] = "O";
                 } else {
-                    await inputMessage.ModifyAsync(msg => msg.Content = $"Invalid move! Move that space is already taken!");
-                    await Task.Delay(2500);
+                    await inputMessage.ModifyAsync(msg => msg.Content = $"Invalid move! That space is already taken!");
+                    await Task.Delay(1000);
                     goto player2Retry;
                 }
 
