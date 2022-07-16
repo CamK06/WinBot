@@ -117,7 +117,8 @@ namespace WinBot
             Leveling.Init();
             TempManager.Init();
             DailyReportSystem.Init();
-            MagickNET.Initialize(); 
+            MagickNET.Initialize();
+            AntiYudsNortoningAutoModerationOfTheNortonsPostedByTheUserCalledYuds.Init(); 
 #if !TOFU
             if(Bot.config.ids.rssChannel != 0)
                 await WWRSS.Init();
