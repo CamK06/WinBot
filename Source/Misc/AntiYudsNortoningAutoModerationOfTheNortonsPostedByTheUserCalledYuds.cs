@@ -37,7 +37,8 @@ namespace WinBot.Misc
         {
             if(e.User.Id != yudsID)
                 return;
-            if(e.Emoji.Name.ToLower().Contains("norton")) {
+            if(e.Emoji.Name.ToLower().Contains("norton") || e.Emoji.Name.ToLower().Contains("unamuse") 
+               ||  e.Emoji.Name.ToLower().Contains("no_mouth") ||  e.Emoji.Name.ToLower().Contains("neutral") ||  e.Emoji.Name.ToLower().Contains("expression")) {
                 await e.Message.DeleteReactionAsync(e.Emoji, e.User, "Yuds");
                 await Task.Delay(250);
                 await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":kek:"));
