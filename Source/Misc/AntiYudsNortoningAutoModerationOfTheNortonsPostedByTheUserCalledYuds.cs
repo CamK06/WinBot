@@ -28,7 +28,8 @@ namespace WinBot.Misc
             if(e.Author.Id != yudsID)
                 return;
             if(e.Message.Content.ToLower().Contains("<:norton") || e.Message.Content.ToLower().Contains("<:oldnorton")
-            || e.Message.Content.ToLower().Contains("<:srsly"))
+            || e.Message.Content.ToLower().Contains("<:srsly") || e.Message.Content.ToLower().Contains("😒") 
+            || e.Message.Content.ToLower().Contains("😐") || e.Message.Content.ToLower().Contains("😑") || e.Message.Content.ToLower().Contains("😶"))
                 await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":yuds:"));
         }
 
