@@ -10,6 +10,7 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 
+using Serilog;
 
 namespace WinBot.Misc
 {
@@ -41,6 +42,7 @@ namespace WinBot.Misc
                 await e.Message.DeleteReactionAsync(e.Emoji, e.User, "Yuds");
                 await Task.Delay(250);
                 await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":kek:"));
+                Log.Information($"A norton reaction to {e.Message.JumpLink.ToString()} was deleted");
             }
         }
     }    
