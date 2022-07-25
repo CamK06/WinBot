@@ -30,7 +30,7 @@ namespace WinBot.Misc
                 return;
             if(e.Message.Content.ToLower().Contains("<:norton") || e.Message.Content.ToLower().Contains("<:oldnorton")
             || e.Message.Content.ToLower().Contains("<:srsly") || e.Message.Content.ToLower().Contains("😐") 
-            || e.Message.Content.ToLower().Contains("😑"))
+            || e.Message.Content.ToLower().Contains("😑") || e.Message.Content.ToLower().Contains("😒"))
                 await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":mild_dissatisfaction:"));
         }
 
@@ -38,7 +38,8 @@ namespace WinBot.Misc
         {
             if(e.User.Id != yudsID)
                 return;
-            if(e.Emoji.Name.ToLower().Contains("norton") || e.Emoji.Name.ToLower().Contains("😐") || e.Emoji.Name.ToLower().Contains("😑")) {
+            if(e.Emoji.Name.ToLower().Contains("norton") || e.Emoji.Name.ToLower().Contains("😐") || e.Emoji.Name.ToLower().Contains("😑")
+            || e.Emoji.Name.ToLower().Contains("😒")) {
                 await e.Message.DeleteReactionAsync(e.Emoji, e.User, "Yuds");
                 await Task.Delay(250);
                 await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":kek:"));
