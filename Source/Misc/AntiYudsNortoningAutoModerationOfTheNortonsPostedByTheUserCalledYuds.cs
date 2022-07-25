@@ -15,7 +15,7 @@ namespace WinBot.Misc
 {
     public class AntiYudsNortoningAutoModerationOfTheNortonsPostedByTheUserCalledYuds
     {
-        public const ulong yudsID = 584532167002947604;
+        public const ulong yudsID = 469275318079848459;
 
         public static void Init()
         {
