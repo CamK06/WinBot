@@ -15,7 +15,7 @@ namespace WinBot.Misc
 {
     public class AntiYudsNortoningAutoModerationOfTheNortonsPostedByTheUserCalledYuds
     {
-        public const ulong yudsID = 469275318079848459;
+        public const ulong yudsID = 584532167002947604;
 
         public static void Init()
         {
@@ -29,14 +29,14 @@ namespace WinBot.Misc
                 return;
             if(e.Message.Content.ToLower().Contains("<:norton") || e.Message.Content.ToLower().Contains("<:oldnorton")
             || e.Message.Content.ToLower().Contains("<:srsly"))
-                await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":yuds:"));
+                await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":mild_dissatisfaction:"));
         }
 
         public static async Task MessageReactionAdded(DiscordClient client, MessageReactionAddEventArgs e)
         {
             if(e.User.Id != yudsID)
                 return;
-            if(e.Emoji.Name.ToLower().Contains("norton")) {
+            if(e.Emoji.Name.ToLower().Contains("norton") || e.Emoji.Name.ToLower().Contains("😐")) {
                 await e.Message.DeleteReactionAsync(e.Emoji, e.User, "Yuds");
                 await Task.Delay(250);
                 await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":kek:"));
