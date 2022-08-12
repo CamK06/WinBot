@@ -46,7 +46,7 @@ namespace WinBot.Commands.Main
 
             // Filter bad values
             if (time <= 0) {
-                throw new Exception("Timer length must be greater than 1!");
+                throw new Exception("Timer length must be 1 or greater!");
             }
             switch (unit) // Should really use an if statement here but oh well idc
             {
