@@ -9,7 +9,7 @@ namespace WinBot.Commands.Fun
 {
     public class YudsCommand : BaseCommandModule
     {
-        [Command("yuds")]
+        [Command("rosen")]
         [Description("Yuds")]
         [Category(Category.Fun)]
         [Hidden]

@@ -24,7 +24,7 @@ namespace WinBot.Commands.Staff
         [Usage("[user]")]
         [Category(Category.Staff)]
         [RequireUserPermissions(DSharpPlus.Permissions.KickMembers)]
-        public async Task Mute(CommandContext Context, DiscordMember user)
+        public async Task Mute(CommandContext Context, [RemainingText] DiscordMember user)
         {
             // Try to set the muted role
             if(Bot.config.ids.mutedRole == 0) {

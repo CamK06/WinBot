@@ -10,6 +10,7 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 
+using Serilog;
 
 namespace WinBot.Misc
 {
@@ -28,18 +29,21 @@ namespace WinBot.Misc
             if(e.Author.Id != yudsID)
                 return;
             if(e.Message.Content.ToLower().Contains("<:norton") || e.Message.Content.ToLower().Contains("<:oldnorton")
-            || e.Message.Content.ToLower().Contains("<:srsly"))
-                await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":yuds:"));
+            || e.Message.Content.ToLower().Contains("<:srsly") || e.Message.Content.ToLower().Contains("😐") 
+            || e.Message.Content.ToLower().Contains("😑") || e.Message.Content.ToLower().Contains("😒") || e.Message.Content.ToLower().Contains("reallybro"))
+                await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":mild_dissatisfaction:"));
         }
 
         public static async Task MessageReactionAdded(DiscordClient client, MessageReactionAddEventArgs e)
         {
             if(e.User.Id != yudsID)
                 return;
-            if(e.Emoji.Name.ToLower().Contains("norton")) {
+            if(e.Emoji.Name.ToLower().Contains("norton") || e.Emoji.Name.ToLower().Contains("😐") || e.Emoji.Name.ToLower().Contains("😑")
+            || e.Emoji.Name.ToLower().Contains("😒") || e.Emoji.Name.ToLower().Contains("reallybro")) {
                 await e.Message.DeleteReactionAsync(e.Emoji, e.User, "Yuds");
                 await Task.Delay(250);
                 await e.Message.CreateReactionAsync(DiscordEmoji.FromName(client, ":kek:"));
+                Log.Information($"A norton reaction to {e.Message.JumpLink.ToString()} was deleted");
             }
         }
     }    
