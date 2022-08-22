@@ -44,7 +44,7 @@ namespace WinBot.Commands.Main
 		eb.AddField("Dynmap", "http://comserv.winworldpc.com:8123/", true);
 #else
                 eb.AddField("Address", "cgmc.nick99nack.com", true);
-                eb.AddField("Versions", "1.5.2 -> 1.16.5 & Bedrock", true);
+                eb.AddField("Versions", "1.5.2 -> 1.16.5", true);
                 eb.AddField("Dynmap", "http://cgmc.nick99nack.com:8123/", true);
 #endif
                 eb.AddField("Online?", ((bool)serverInfo.online) ? "Yes" : "No", true);
