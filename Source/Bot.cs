@@ -118,6 +118,7 @@ namespace WinBot
             TempManager.Init();
             DailyReportSystem.Init();
             MagickNET.Initialize();
+	    AntiMichaelNortoningAutoModerationOfTheNortonsPostedByTheUserCalledMichael.Init();
             //AntiYudsNortoningAutoModerationOfTheNortonsPostedByTheUserCalledYuds.Init(); 
 #if !TOFU
             if(Bot.config.ids.rssChannel != 0)
