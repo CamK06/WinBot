@@ -41,10 +41,6 @@ namespace WinBot.Commands.Main
                 }
                 string isBot = user.IsBot ? "Yes" : "No";
                 string isOwner = user.IsOwner ? "Yes" : "No";
-                string hasMFA;
-                if (((DiscordUser)user).MfaEnabled == null) hasMFA = "COCK";
-                else hasMFA = (bool) (((DiscordUser)user).MfaEnabled) ? "Yes" : "No";
-
                 Embed.AddField("**Information**", $"**Mention:** <@{user.Id.ToString()}>\n**ID:** {user.Id.ToString()}\n**Bot:** {isBot}", true);
 
                 // Embed dates
