@@ -16,12 +16,12 @@ namespace WinBot.Commands.Main
         [Description("Gets basic info about a user")]
         [Usage("[user]")]
         [Category(Category.Main)]
-        public async Task Whois(CommandContext Context, [RemainingText] DiscordUser user)
-            DiscordMember memberUser = null;
-            if(user == null)
-                user = Context.User;
+        public async Task Whois(CommandContext Context, [RemainingText] DiscordUser usr) {
+            DiscordMember user = null;
+            if(usr == null)
+                usr = Context.User;
             try {
-            memberUser = await Context.Guild.GetMemberAsync(user.Id);
+            user = await Context.Guild.GetMemberAsync(usr.Id);
             }
             catch{}
 
