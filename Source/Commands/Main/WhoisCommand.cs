@@ -17,8 +17,13 @@ namespace WinBot.Commands.Main
         [Usage("[user]")]
         [Category(Category.Main)]
         public async Task Whois(CommandContext Context, [RemainingText] DiscordUser user)
-                    if (user == null) 
-                user = Context.Message.Author as DiscordMember;
+            DiscordMember memberUser = null;
+            if(user == null)
+                user = Context.User;
+            try {
+            memberUser = await Context.Guild.GetMemberAsync(user.Id);
+            }
+            catch{}
 
             try {
                 // Set up the embed
