@@ -21,7 +21,7 @@ namespace WinBot.Commands.Fun
     {
 		[Command("msg")]
         [Description("Get a random user-submitted message")]
-        [Usage("[User]")]
+        [Usage("[add/no subcommand]")]
         [Category(Category.Fun)]
         public async Task Message(CommandContext Context, [RemainingText]string textArgs = null)
         {
