@@ -114,6 +114,8 @@ namespace WinBot.Util
                             args.size = argVal;
                         else if(argName == "scale")
                             args.scale = argVal;
+                        else
+                            args.textArg = '-' + argName;
                     }
                     else if(!Uri.IsWellFormedUriString(argsStr[i], UriKind.Absolute))
                         args.textArg = argsStr[i];

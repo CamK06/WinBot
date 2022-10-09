@@ -42,6 +42,8 @@ namespace WinBot.Commands.Images
                 foreach(var frame in gif) {
                     DoEnhancedFrying((MagickImage)frame, args);
                 }
+                if(!string.IsNullOrWhiteSpace(args.textArg) && args.textArg.ToLower() == "-jpeg")
+                    JpegCommand.DoGifJpegification(gif, args);
             }
             TempManager.RemoveTempFile(seed+"-fryDL."+args.extension);
             if(args.extension.ToLower() != "gif")
@@ -66,9 +68,12 @@ namespace WinBot.Commands.Images
             if(args.scale > 3)
                 throw new System.Exception("Scale must not be greater than 3");
 
-            image.Resize(image.Width/(1*2), image.Height/(1*2));
+            image.Resize(image.Width/2, image.Height/2);
             image.Posterize(2, DitherMethod.Undefined, Channels.RGB);
-            image.Resize(image.Width*(1*2), image.Height*(1*2));
+            image.Resize(image.Width*2, image.Height*2);
+            
+            if(!string.IsNullOrWhiteSpace(args.textArg) && args.textArg.ToLower() == "-jpeg" && args.extension.ToLower() != "gif")
+                JpegCommand.DoJpegification(image, args);
         }
     }
 }
