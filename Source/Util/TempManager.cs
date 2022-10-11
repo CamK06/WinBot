@@ -61,6 +61,9 @@ namespace WinBot.Util
 
         public static void RemoveTempFile(string name)
         {
+            // Sanitize the name
+            name = name.Replace("/", "");
+
             // Do nothing if the file doesn't exist
             if(!tempFiles.ContainsKey(name))
                 return;

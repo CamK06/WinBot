@@ -86,7 +86,7 @@ namespace WinBot.Commands.Main
             string imagePath = TempManager.GetTempFile($"rankCard-{user.username}-{user.id}.png", true);
             bmp.Save(imagePath);
             await Context.Channel.SendFileAsync(imagePath);
-            TempManager.RemoveTempFile($"rankCard-{user.username.Replace("/", "")}-{user.id}.png");
+            TempManager.RemoveTempFile($"rankCard-{user.username}-{user.id}.png");
         }
     }
 }
