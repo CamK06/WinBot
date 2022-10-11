@@ -32,6 +32,9 @@ namespace WinBot.Util
 
         public static string GetTempFile(string name, bool replaceExisting = false)
         {
+            // Sanitize the name
+            name = name.Replace("/", "");
+
             // Check for and return existing temp file
             // Delete existing temp file if we are replacing it
             if(!replaceExisting && tempFiles.ContainsKey(name))
