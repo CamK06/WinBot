@@ -28,7 +28,7 @@ namespace WinBot.Commands.Fun
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
             eb.WithTitle("Random cat");
             eb.WithColor(DiscordColor.Gold);
-            eb.WithFooter($"ID: {output.id}");
+            eb.WithFooter($"ID: {output._id}");
             eb.WithImageUrl($"https://cataas.com{(string)output.url}");
             await Context.ReplyAsync("", eb.Build());
         }
