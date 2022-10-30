@@ -190,18 +190,6 @@ namespace WinBot
             if(!ResourceExists("mute", ResourceType.JsonData))
                 File.WriteAllText(GetResourcePath("mute", ResourceType.JsonData), "[]");
 #endif
-
-            // Verify and download resources
-            Log.Information("Verifying resources...");
-            WebClient webClient = new WebClient();
-            string resourcesJson = webClient.DownloadString("https://raw.githubusercontent.com/CamK06/WinBot/main/Resources/resources.json");
-            string[] resources = JsonConvert.DeserializeObject<string[]>(resourcesJson);
-            foreach(string resource in resources) {
-                if(!ResourceExists(resource, ResourceType.Resource)) {
-                    webClient.DownloadFile($"https://raw.githubusercontent.com/CamK06/WinBot/main/Resources/{resource}", GetResourcePath(resource, ResourceType.Resource));
-                    Log.Information("Downloaded " + resource + "");
-                }
-            }
         }
 
         void LoadConfigs()
