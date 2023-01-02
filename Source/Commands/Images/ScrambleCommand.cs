@@ -51,7 +51,7 @@ namespace WinBot.Commands.Images
 
             // Send the image
             await msg.ModifyAsync("Uploading...\nThis may take a while depending on the image size");
-            await Context.Channel.SendFileAsync(imgStream, "gaag."+args.extension);
+            await Context.Channel.SendFileAsync(imgStream, "scramble."+args.extension);
             await msg.DeleteAsync();
         }
     }
