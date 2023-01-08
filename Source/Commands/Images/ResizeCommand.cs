@@ -25,6 +25,8 @@ namespace WinBot.Commands.Images
             int seed = new System.Random().Next(1000, 99999);
             if(args.scale == 1 && args.size == 1)
                 throw new System.Exception("A scale or size must be provided!");
+            else if(args.scale > 3 || args.size > 2048) 
+                throw new System.Exception("Scale must not be greater than 3x and size must not be greater than 2048px");
 
             // Download the image
             string tempImgFile = TempManager.GetTempFile(seed+"-resizeDL."+args.extension, true);
