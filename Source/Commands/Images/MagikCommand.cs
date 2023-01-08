@@ -16,7 +16,7 @@ namespace WinBot.Commands.Images
     {
         [Command("magik")]
         [Description("Really mess up an image")]
-        [Usage("[image] [-scale=(1-5) -layers=(1-3)]")]
+        [Usage("[image] [-scale=(1-5) -layers=(1-3) -gif -size=25]")]
         [Category(Category.Images)]
         public async Task Magik(CommandContext Context, [RemainingText]string input)
         {
@@ -39,7 +39,32 @@ namespace WinBot.Commands.Images
             MagickImageCollection gif = null;
             if(args.extension.ToLower() != "gif") {
                 img = new MagickImage(tempImgFile);
-                DoMagik(img, args);
+
+                if(args.textArg.ToLower() != "-gif")
+                    DoMagik(img, args);
+                else {  // We're turning the image into a gif
+                    gif = new MagickImageCollection();
+
+                    // Default to 50 frames
+                    if(args.size == 1)
+                        args.size = 25;
+                    else if(args.size > 64)
+                        throw new System.Exception("New gif size must not exceed 64 frames!");
+
+                    // Create args.size frames with slightly different magik applied each
+                    for(int i = 0; i < args.size; i++) {
+
+                        // Resize the frame to a percentage based on args.size, this is to provide
+                        // a slightly different magik effect for each frame
+                        MagickImage frame = new MagickImage(img);
+                        frame.Resize(new Percentage(System.Math.Abs((100+args.size/2)-i)));
+                        DoMagik(frame, args);
+
+                        // Resize the frame back to its original size and add it to the gif
+                        frame.Resize(img.Width, img.Height);
+                        gif.Add(frame);
+                    }
+                }
             }
             else {
                 gif = new MagickImageCollection(tempImgFile);
@@ -48,12 +73,16 @@ namespace WinBot.Commands.Images
             }
             TempManager.RemoveTempFile(seed+"-magikDL."+args.extension);
 
+            // Change the extension to gif if we turned an image into a gif
+            if(args.textArg.ToLower() == "-gif")
+                args.extension = "gif";
+
             // Save the image
             MemoryStream imgStream = new MemoryStream();
             if(args.extension.ToLower() != "gif")
                 img.Write(imgStream);
             else
-                gif.Write(imgStream);
+                gif.Write(imgStream, MagickFormat.Gif);
             imgStream.Position = 0;
 
             // Send the image
