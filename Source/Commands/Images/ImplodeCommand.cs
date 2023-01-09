@@ -14,6 +14,8 @@ namespace WinBot.Commands.Images
 {
     public class ImplodeCommand : BaseCommandModule
     {
+        static float scale = 3;
+
         [Command("implode")]
         [Description("Implode an image")]
         [Usage("[image] [-scale]")]
@@ -24,6 +26,7 @@ namespace WinBot.Commands.Images
             ImageArgs args = ImageCommandParser.ParseArgs(Context, input);
             int seed = new System.Random().Next(1000, 99999);
             args.scale+=2;
+            scale = args.scale;
 
             // Download the image
             string tempImgFile = TempManager.GetTempFile(seed+"-implodeDL."+args.extension, true);
@@ -40,8 +43,13 @@ namespace WinBot.Commands.Images
             }
             else {
                 gif = new MagickImageCollection(tempImgFile);
+                bool scaleup = !string.IsNullOrWhiteSpace(args.textArg) && args.textArg.ToLower() == "-scaleup";
+                if(scaleup)
+                    scale = 0.25f;
                 foreach(var frame in gif) {
                     DoImplode((MagickImage)frame, args);
+                    if(scaleup)
+                        scale += (float)args.scale/(float)gif.Count;
                 }
             }
             TempManager.RemoveTempFile(seed+"-implodeDL."+args.extension);
@@ -65,7 +73,7 @@ namespace WinBot.Commands.Images
         public static void DoImplode(MagickImage img, ImageArgs args)
         {
             img.Scale(img.Width/2, img.Height/2);
-            img.Implode(args.scale*.3f, PixelInterpolateMethod.Undefined);
+            img.Implode(scale*.3f, PixelInterpolateMethod.Undefined);
             img.Scale(img.Width*2, img.Height*2);
         }
     }

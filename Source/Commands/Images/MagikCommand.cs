@@ -73,10 +73,11 @@ namespace WinBot.Commands.Images
             }
             else {
                 gif = new MagickImageCollection(tempImgFile);
+                bool scaleup = !string.IsNullOrWhiteSpace(args.textArg) && args.textArg.ToLower() == "-scaleup";
                 foreach(var frame in gif) {
                     DoMagik((MagickImage)frame, args);
                     frame.Resize(gif[0].Width, gif[0].Height);
-                    if(args.textArg.ToLower() == "-scaleup")
+                    if(scaleup)
                         scale+=0.05f;
                 }
             }

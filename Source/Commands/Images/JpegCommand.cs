@@ -86,7 +86,7 @@ namespace WinBot.Commands.Images
             /* If we're doing gradual scaling, add the number of frames in the gif to the scale
                this is to provide room for decrementing the value, thus creating a gradual
                jpegification effect. */
-            bool scaleup = args.textArg.ToLower() == "-scaleup";
+            bool scaleup = !string.IsNullOrWhiteSpace(args.textArg) && args.textArg.ToLower() == "-scaleup";
             if(scaleup)
                 args.scale += gif.Count;
 
