@@ -83,6 +83,13 @@ namespace WinBot.Commands.Images
             if(args.scale > 3)
                 throw new System.Exception("Scale must not be greater than 3");
             
+            /* If we're doing gradual scaling, add the number of frames in the gif to the scale
+               this is to provide room for decrementing the value, thus creating a gradual
+               jpegification effect. */
+            bool scaleup = args.textArg.ToLower() == "-scaleup";
+            if(scaleup)
+                args.scale += gif.Count;
+
             foreach(var frame in gif) {
                 IMagickImage<ushort> newFrame = frame.Clone();
                 newFrame.Format = MagickFormat.Jpeg;
@@ -98,6 +105,9 @@ namespace WinBot.Commands.Images
                 newFrame.Format = frame.Format;
 
                 frame.CopyPixels(newFrame);
+
+                if(scaleup && args.scale > 2)
+                    args.scale-=2;
             }
         }
     }
