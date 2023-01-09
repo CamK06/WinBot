@@ -14,6 +14,10 @@ namespace WinBot.Commands.Images
 {
     public class MagikCommand : BaseCommandModule
     {
+        // This is just a hacky way to avoid having to change ImageArgs scale to a float
+        // while still allowing the -scaleup option to exist with decimal increments
+        static float scale = 1.0f;
+
         [Command("magik")]
         [Description("Really mess up an image")]
         [Usage("[image] [-scale=(1-5) -layers=(1-3) -gif -size=25]")]
@@ -27,6 +31,7 @@ namespace WinBot.Commands.Images
                 args.layers = 3;
             else if(args.scale > 5)
                 args.scale = 5;
+            scale = args.scale;
 
             // Download the image
             string tempImgFile = TempManager.GetTempFile(seed+"-magikDL."+args.extension, true);
@@ -68,8 +73,12 @@ namespace WinBot.Commands.Images
             }
             else {
                 gif = new MagickImageCollection(tempImgFile);
-                foreach(var frame in gif)
+                foreach(var frame in gif) {
                     DoMagik((MagickImage)frame, args);
+                    frame.Resize(gif[0].Width, gif[0].Height);
+                    if(args.textArg.ToLower() == "-scaleup")
+                        scale+=0.05f;
+                }
             }
             TempManager.RemoveTempFile(seed+"-magikDL."+args.extension);
 
@@ -96,8 +105,8 @@ namespace WinBot.Commands.Images
             img.Scale(img.Width/2, img.Height/2);
             args.extension = img.Format.ToString().ToLower();
             for(int i = 0; i < args.layers; i++) {
-                img.LiquidRescale((int)(img.Width * 0.5), (int)(img.Height * 0.5), args.scale > 1 ? 0.5*args.scale : 1, 0);
-                img.LiquidRescale((int)(img.Width * 1.5), (int)(img.Height * 1.5), args.scale > 1 ? args.scale : 2, 0);
+                img.LiquidRescale((int)(img.Width * 0.5), (int)(img.Height * 0.5), scale > 1 ? 0.5*scale : 1, 0);
+                img.LiquidRescale((int)(img.Width * 1.5), (int)(img.Height * 1.5), scale > 1 ? scale : 2, 0);
             }
             img.Scale(img.Width*2, img.Height*2);
         }
