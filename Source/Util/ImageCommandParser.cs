@@ -81,7 +81,7 @@ namespace WinBot.Util
 
                 // Download the tenor webpage
                 string html = client.DownloadString(args.url);
-                string htmlFrag = "<meta itemprop=\"contentUrl\" content=\"";
+                string htmlFrag = "<meta itemProp=\"contentUrl\" content=\"";
                 if(!html.Contains(htmlFrag))
                     throw new Exception("Invalid or no image!");
                 args.url = "";
