@@ -84,7 +84,7 @@ namespace WinBot.Commands.Images
             TempManager.RemoveTempFile(seed+"-magikDL."+args.extension);
 
             // Change the extension to gif if we turned an image into a gif
-            if(args.textArg.ToLower() == "-gif")
+            if(!string.IsNullOrWhiteSpace(args.textArg) && args.textArg.ToLower() == "-gif")
                 args.extension = "gif";
 
             // Save the image
