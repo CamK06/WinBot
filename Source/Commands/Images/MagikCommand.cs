@@ -45,9 +45,9 @@ namespace WinBot.Commands.Images
             if(args.extension.ToLower() != "gif") {
                 img = new MagickImage(tempImgFile);
 
-                if(args.textArg.ToLower() != "-gif")
+                if(string.IsNullOrWhiteSpace(args.textArg))
                     DoMagik(img, args);
-                else {  // We're turning the image into a gif
+                else if(args.textArg.ToLower() == "-gif") {  // We're turning the image into a gif
                     gif = new MagickImageCollection();
 
                     // Default to 50 frames
@@ -56,7 +56,7 @@ namespace WinBot.Commands.Images
                     else if(args.size > 64)
                         throw new System.Exception("New gif size must not exceed 64 frames!");
 
-                    // Create args.size frames with slightly different magik applied each
+                    // Create args.size frames with slightly different magik applied to each
                     for(int i = 0; i < args.size; i++) {
 
                         // Resize the frame to a percentage based on args.size, this is to provide
