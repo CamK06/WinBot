@@ -1,5 +1,7 @@
 #if !TOFU
+using System;
 using System.IO;
+using System.Linq;
 using System.Timers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -13,6 +15,7 @@ using Newtonsoft.Json;
 using Serilog;
 
 using WinBot.Util;
+using CodeHollow.FeedReader.Feeds;
 
 namespace WinBot.Misc
 {
@@ -38,7 +41,7 @@ namespace WinBot.Misc
             // Do an initial fetch of items
             await FetchItems();
 
-            Log.Write(Serilog.Events.LogEventLevel.Information, "WinWorld RSS service started");
+            Log.Write(Serilog.Events.LogEventLevel.Information, "RSS service started");
             }catch(System.Exception ex) {
                 Log.Write(Serilog.Events.LogEventLevel.Information, ex.Message);
             }
@@ -48,7 +51,11 @@ namespace WinBot.Misc
         {
             try {
             // Setup
+#if !BLOAT
             var feed = await FeedReader.ReadAsync("https://winworldpc.com/downloads/latest.rss");
+#else
+            var feed = await FeedReader.ReadAsync("https://tech.hindustantimes.com/rss/tech/news");
+#endif
             DiscordChannel additions = await Bot.client.GetChannelAsync(Bot.config.ids.rssChannel);
 
             foreach (FeedItem item in feed.Items)
@@ -57,13 +64,24 @@ namespace WinBot.Misc
                 if(sentItems.Contains(item.Id))
                     return;
 
+#if BLOAT
+                if(!item.Title.ToLower().Contains("asteroid") || !item.Title.ToLower().Contains("earth"))
+                    continue;
+#endif
+
+#if !BLOAT
                 // Create and send the embed
                 DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
                 eb.WithTitle(item.Title);
                 eb.WithUrl(item.Link);
-                eb.WithColor(DiscordColor.Gold);
-                eb.WithFooter($"Uploaded: {item.PublishingDate}");
+                eb.WithImageUrl(item.Content);
+                eb.WithColor(DiscordColor.Red);
                 await additions.SendMessageAsync("", eb.Build());
+#else
+                var klauses = additions.Guild.GetEmojisAsync().Result.Where(x => x.Name.ToLower().Contains("klaus")).ToArray();
+                var klaus = klauses[new Random().Next(0, klauses.Length)];
+                await additions.SendMessageAsync($"{klaus} {item.Title} {klaus}\n{item.Link}");
+#endif
 
                 // Cache the item so it isn't sent in the next fetch
                 sentItems.Add(item.Id);

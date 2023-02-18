@@ -38,4 +38,11 @@
     <DefineConstants>TOFU;RELEASE</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(configuration)'=='BloatDeb'">
+      <DefineConstants>BLOAT;DEBUG</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(configuration)'=='BloatRel'">
+    <DefineConstants>BLOAT;RELEASE</DefineConstants>
+  </PropertyGroup>
+
 </Project>
