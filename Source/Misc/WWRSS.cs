@@ -68,7 +68,8 @@ namespace WinBot.Misc
                 if(!(item.Title.ToLower().Contains("asteroid") || item.Title.ToLower().Contains("earth")
                 || item.Title.ToLower().Contains("nasa said") || item.Title.ToLower().Contains("nasa says")
                 || item.Title.ToLower().Contains("nasa warns") || item.Title.ToLower().Contains("says nasa")
-		|| item.Title.ToLower().Contains("alien")))
+		        || item.Title.ToLower().Contains("alien") || item.Title.ToLower().Contains("ufo")
+                || item.Title.ToLower().Contains("mars")))
                     continue;
 #endif
 
