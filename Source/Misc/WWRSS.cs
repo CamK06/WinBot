@@ -62,7 +62,7 @@ namespace WinBot.Misc
             {
                 // Don't send an item twice
                 if(sentItems.Contains(item.Id))
-                    return;
+                    continue;
 
 #if BLOAT
                 if(!(item.Title.ToLower().Contains("asteroid") || item.Title.ToLower().Contains("earth")
