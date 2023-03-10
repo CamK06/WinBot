@@ -86,7 +86,7 @@ namespace WinBot.Misc
 #else
                 var klauses = additions.Guild.GetEmojisAsync().Result.Where(x => x.Name.ToLower().Contains("klaus")).ToArray();
                 var klaus = klauses[new Random().Next(0, klauses.Length)];
-                await additions.SendMessageAsync($"{klaus} {item.Title} {klaus}\n{item.Link}");
+                await additions.SendMessageAsync($"{klaus} {item.Title.Replace("asteroid", "assteroid")} {klaus}\n{item.Link}");
 #endif
 
                 // Cache the item so it isn't sent in the next fetch
