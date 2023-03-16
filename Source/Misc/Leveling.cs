@@ -36,7 +36,7 @@ namespace WinBot.Misc
 
         private static async Task MessageCreated(DiscordClient sender, MessageCreateEventArgs e)
         {
-            if(e.Author.IsBot || e.Channel.IsPrivate || e.Message.Content.StartsWith(Bot.config.prefix))
+            if(e.Channel.IsPrivate || e.Message.Content.StartsWith(Bot.config.prefix))
                 return;
 
             // Message logging stuff
@@ -45,6 +45,8 @@ namespace WinBot.Misc
                 user.messages = new List<string>();
             if(!user.optedOutOfMessages && !string.IsNullOrWhiteSpace(e.Message.Content))
                 user.messages.Add(e.Message.Content);
+            if(e.Author.IsBot)
+                return;
 
             // NOTE: This has the minor bug where if a user sends a message during one hour and sends the next message one hour later during the same minute
             // it will not add XP. This isn't really game-breaking so to speak though, so I don't think it's worth doing either an hour check or getting time between the DateTimes
