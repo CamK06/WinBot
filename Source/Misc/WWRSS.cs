@@ -51,11 +51,7 @@ namespace WinBot.Misc
         {
             try {
             // Setup
-#if !BLOAT
             var feed = await FeedReader.ReadAsync("https://winworldpc.com/downloads/latest.rss");
-#else
-            var feed = await FeedReader.ReadAsync("https://tech.hindustantimes.com/rss/tech/news");
-#endif
             DiscordChannel additions = await Bot.client.GetChannelAsync(Bot.config.ids.rssChannel);
 
             foreach (FeedItem item in feed.Items)
@@ -64,18 +60,6 @@ namespace WinBot.Misc
                 if(sentItems.Contains(item.Id))
                     continue;
 
-#if BLOAT
-                if(!(item.Title.ToLower().Contains("asteroid") || item.Title.ToLower().Contains("earth")
-                || item.Title.ToLower().Contains("nasa said") || item.Title.ToLower().Contains("nasa says")
-                || item.Title.ToLower().Contains("nasa warns") || item.Title.ToLower().Contains("says nasa")
-                || item.Title.ToLower().Contains("nasa finds") || item.Title.ToLower().Contains("alien") 
-                || item.Title.ToLower().Contains("ufo") || item.Title.ToLower().Contains("mars") 
-                || item.Title.ToLower().Contains("life") || item.Title.ToLower().Contains("unknown")
-                || item.Title.ToLower().Contains("object") || item.Title.ToLower().Contains("flying")))
-                    continue;
-#endif
-
-#if !BLOAT
                 // Create and send the embed
                 DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
                 eb.WithTitle(item.Title);
@@ -83,11 +67,6 @@ namespace WinBot.Misc
                 eb.WithImageUrl(item.Content);
                 eb.WithColor(DiscordColor.Red);
                 await additions.SendMessageAsync("", eb.Build());
-#else
-                var klauses = additions.Guild.GetEmojisAsync().Result.Where(x => x.Name.ToLower().Contains("klaus")).ToArray();
-                var klaus = klauses[new Random().Next(0, klauses.Length)];
-                await additions.SendMessageAsync($"{klaus} {item.Title.Replace("as", "ass").Replace("As", "Ass").Replace("AS", "ASS")} {klaus}\n{item.Link}");
-#endif
 
                 // Cache the item so it isn't sent in the next fetch
                 sentItems.Add(item.Id);
