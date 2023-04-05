@@ -1,4 +1,4 @@
-#if !TOFU
+#if !TOFU && !BLOAT
 using System;
 using System.IO;
 using System.Linq;
