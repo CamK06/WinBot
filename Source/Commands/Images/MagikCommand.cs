@@ -42,12 +42,15 @@ namespace WinBot.Commands.Images
             // MAGIKIFY
             MagickImage img = null;
             MagickImageCollection gif = null;
+            bool scaleup = false;
+            if(!string.IsNullOrWhiteSpace(args.textArg))
+                scaleup = args.textArg.ToLower() == "-scaleup";
             if(args.extension.ToLower() != "gif") {
                 img = new MagickImage(tempImgFile);
 
                 if(string.IsNullOrWhiteSpace(args.textArg))
                     DoMagik(img, args);
-                else if(args.textArg.ToLower() == "-gif") {  // We're turning the image into a gif
+                else if(args.textArg.ToLower() == "-gif" || scaleup) {  // We're turning the image into a gif
                     gif = new MagickImageCollection();
 
                     // Default to 25 frames
@@ -68,13 +71,14 @@ namespace WinBot.Commands.Images
                         // Resize the frame to the size of the first magik'd frame
                         if(i != 0)
                             frame.Resize(gif[0].Width, gif[0].Height);
+                        if(scaleup)
+                            scale+=0.05f;
                         gif.Add(frame);
                     }
                 }
             }
             else {
                 gif = new MagickImageCollection(tempImgFile);
-                bool scaleup = !string.IsNullOrWhiteSpace(args.textArg) && args.textArg.ToLower() == "-scaleup";
                 foreach(var frame in gif) {
                     DoMagik((MagickImage)frame, args);
                     frame.Resize(gif[0].Width, gif[0].Height);
@@ -85,7 +89,7 @@ namespace WinBot.Commands.Images
             TempManager.RemoveTempFile(seed+"-magikDL."+args.extension);
 
             // Change the extension to gif if we turned an image into a gif
-            if(!string.IsNullOrWhiteSpace(args.textArg) && args.textArg.ToLower() == "-gif")
+            if(!string.IsNullOrWhiteSpace(args.textArg) && (args.textArg.ToLower() == "-gif" || scaleup))
                 args.extension = "gif";
 
             // Save the image
