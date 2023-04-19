@@ -54,7 +54,7 @@ namespace WinBot.Commands.Fun
                     eb.AddField("Response To", msg.responseContent);
                 eb.WithDescription(msg.content);
                 eb.WithTimestamp(msg.sentAt);
-                eb.WithFooter($"ID: {msg.ID}\nSubmitted by: {msg.submitter}\nSubmit your own with the \"msg add\" command");
+                eb.WithFooter($"ID: {msg.ID}\nSubmitted by: {msg.submitter}\nSubmit your own with the \"{Bot.config.prefix}msg add\" command");
                 eb.WithColor(DiscordColor.Gold);
                 await Context.Channel.SendMessageAsync(eb);
             }
@@ -92,7 +92,7 @@ namespace WinBot.Commands.Fun
                 newMessage.channelID = referencedMessage.ChannelId;
                 newMessage.content = referencedMessage.Content;
                 newMessage.messageID = referencedMessage.Id;
-                newMessage.sentAt = referencedMessage.CreationTimestamp.DateTime;
+                newMessage.sentAt = referencedMessage.CreationTimestamp.DateTime.ToLocalTime();
                 newMessage.submitter = Context.User.Username;
                 if(referencedMessage.ReferencedMessage != null)
                     newMessage.responseContent = referencedMessage.ReferencedMessage.Content;
@@ -126,7 +126,7 @@ idRecalc:
                 await Context.ReplyAsync($"There are {messages.Count} messages.");
             else {
                 if(messages.Count <= 0)
-                    throw new Exception("There are no messages! Use the \"msg add\" command to add one!");
+                    throw new Exception($"There are no messages! Use the \"{Bot.config.prefix}msg add\" command to add one!");
 
                 // Get random image
                 UserMessage msg = messages[new Random().Next(0, messages.Count)];
@@ -138,7 +138,7 @@ idRecalc:
                     eb.AddField("Response To", msg.responseContent);
                 eb.WithDescription(msg.content);
                 eb.WithTimestamp(msg.sentAt);
-                eb.WithFooter($"ID: {msg.ID}\nSubmitted by: {msg.submitter}\nSubmit your own with the \"msg add\" command");
+                eb.WithFooter($"ID: {msg.ID}\nSubmitted by: {msg.submitter}\nSubmit your own with the \"{Bot.config.prefix}msg add\" command");
                 eb.WithColor(DiscordColor.Gold);
                 await Context.Channel.SendMessageAsync(eb);
             }
