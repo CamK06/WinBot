@@ -50,7 +50,8 @@ namespace WinBot.Commands.Main
                 eb.WithTitle("Image");
                 eb.WithColor(DiscordColor.Gold);
                 eb.WithImageUrl(nImage.url);
-                eb.WithFooter($"ID: {nImage.id}\nSubmitted by: {nImage.author}\nSubmit your own with the \"img add\" command");
+                eb.WithTimestamp(nImage.date);
+                eb.WithFooter($"ID: {nImage.id}\nSubmitted by: {nImage.author}\nSubmit your own with the \"{Bot.config.prefix}img add\" command");
                 await Context.ReplyAsync("", eb.Build());
 
                 return;
@@ -67,7 +68,8 @@ namespace WinBot.Commands.Main
                 eb.WithTitle("Random Image");
                 eb.WithColor(DiscordColor.Gold);
                 eb.WithImageUrl(randImage.url);
-                eb.WithFooter($"ID: {randImage.id}\nSubmitted by: {randImage.author}\nSubmit your own with the \"img add\" command");
+                eb.WithTimestamp(randImage.date);
+                eb.WithFooter($"ID: {randImage.id}\nSubmitted by: {randImage.author}\nSubmit your own with the \"{Bot.config.prefix}img add\" command");
                 await Context.ReplyAsync("", eb.Build());
             }
             // If we're adding a new image
