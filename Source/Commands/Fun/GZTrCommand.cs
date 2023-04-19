@@ -6,6 +6,8 @@ using DSharpPlus.CommandsNext.Attributes;
 
 using WinBot.Commands.Attributes;
 
+using DSharpPlus.Entities;
+
 namespace WinBot.Commands.Fun
 {
     public class GZTrCommand : BaseCommandModule
@@ -20,7 +22,12 @@ namespace WinBot.Commands.Fun
             foreach(var word in Dicctionary)
                 output = output.Replace(word.Key, word.Value);
             output = output.Replace("'", "").Replace("@", "").Replace(",", "");
-            await Context.ReplyAsync(output);
+            
+            // Send an embed
+            DiscordEmbedBuilder eb = new DiscordEmbedBuilder();
+            eb.WithColor(DiscordColor.Gold);
+            eb.WithDescription($"```\n{output}```");
+            await Context.ReplyAsync("", eb.Build());
 		}
 
         public Dictionary<string, string> Dicctionary = new Dictionary<string, string>()
