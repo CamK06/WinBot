@@ -69,7 +69,7 @@ namespace WinBot.Commands.Images
                 throw new System.Exception("Scale must not be greater than 5");
 
             image.Resize(image.Width/2, image.Height/2);
-            image.Posterize(2+args.scale, DitherMethod.Undefined, Channels.RGB);
+            image.Posterize(2+(args.scale-1), DitherMethod.Undefined, Channels.RGB);
             image.Resize(image.Width*2, image.Height*2);
             
             if(!string.IsNullOrWhiteSpace(args.textArg) && args.textArg.ToLower() == "-jpeg" && args.extension.ToLower() != "gif")
