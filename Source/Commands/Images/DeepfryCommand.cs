@@ -67,6 +67,8 @@ namespace WinBot.Commands.Images
         {
             if(args.scale > 5)
                 throw new System.Exception("Scale must not be greater than 5");
+            else if(args.scale <= 0)
+                throw new System.Exception("Scale must not be less than or equal to 0");
 
             image.Resize(image.Width/2, image.Height/2);
             image.Posterize(2+(args.scale-1), DitherMethod.Undefined, Channels.RGB);
