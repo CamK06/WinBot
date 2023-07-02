@@ -41,7 +41,7 @@ namespace WinBot.Commands.Images
                 gif = new MagickImageCollection(tempImgFile);
                 foreach(var frame in gif) {
                     DoBillboard((MagickImage)frame, args, true);
-                    frame.Resize(768, 500);
+                    frame.Resize(768, 768);
                 }
             }
 
