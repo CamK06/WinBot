@@ -53,7 +53,7 @@ namespace WinBot.Commands.Fun
                 imageFile = GetResourcePath("mehdi2.png", Util.ResourceType.Resource);
                 bedY = 100;
                 genX = 307.5f; 
-                userY = 680f;
+                userY = 200;
             }
 
             // Load the font
