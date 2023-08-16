@@ -49,6 +49,12 @@ namespace WinBot.Commands.Fun
                 genX = 307.5f; 
                 userY = 680f;
             }
+            else if(image.ToLower() == "mehdi2") {
+                imageFile = GetResourcePath("mehdi2.png", Util.ResourceType.Resource);
+                bedY = 100;
+                genX = 307.5f; 
+                userY = 680f;
+            }
 
             // Load the font
             PrivateFontCollection fonts = new PrivateFontCollection();
