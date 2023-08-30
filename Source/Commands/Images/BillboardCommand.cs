@@ -99,6 +99,14 @@ namespace WinBot.Commands.Images
                 rotation = 0;
                 imageFile = "billboard3.png";
             }
+            else if(args.textArg.ToLower() == "joe") {
+                compX = 406;
+                compY = 200;
+                srcX = 607;
+                srcY = 458;
+                rotation = 0.4f;
+                imageFile = "billboard4.png";
+            }
             MagickImage tv = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
             MagickImage tvClean = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
 
@@ -108,7 +116,7 @@ namespace WinBot.Commands.Images
             img.Rotate(rotation);
             tv.Alpha(AlphaOption.Remove);
             tv.Composite(img, compX, compY, CompositeOperator.SrcIn);
-            if(args.textArg.ToLower() == "1"){
+            if(args.textArg.ToLower() == "1" || args.textArg.ToLower() == "joe"){
                 tv.Composite(tvClean, 0, 0, CompositeOperator.SrcOver, "-background none");
             }
             if(isGif) {
@@ -121,6 +129,6 @@ namespace WinBot.Commands.Images
                 return tv;
         }
 
-        static string[] images = { "1", "2", "3" };
+        static string[] images = { "1", "2", "3", "joe" };
     }
 }
