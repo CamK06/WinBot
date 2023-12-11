@@ -15,6 +15,7 @@ namespace WinBot.Commands.Main
     public class WeatherCommand : BaseCommandModule
     {
         [Command("weather")]
+        [Aliases("wx")]
         [Description("Get the weather for a specific location")]
         [Usage("[location]")]
         [Category(Category.Main)]
