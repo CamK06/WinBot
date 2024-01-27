@@ -14,7 +14,7 @@ namespace WinBot.Commands.Staff
         [Command("purge")]
         [Description("Purge *x* amount of messages")]
         [Usage("[messages to remove]")]
-        [Category(Category.Staff)]
+        [Attributes.Category(Category.Staff)]
         [RequireUserPermissions(DSharpPlus.Permissions.ManageMessages)]
         public async Task Purge(CommandContext Context, int count = 0)
         {

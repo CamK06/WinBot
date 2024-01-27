@@ -18,7 +18,7 @@ namespace WinBot.Commands.Main
         [Aliases("wx")]
         [Description("Get the weather for a specific location")]
         [Usage("[location]")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task Weather(CommandContext Context, [RemainingText]string location)
         {
             if(string.IsNullOrWhiteSpace(location))

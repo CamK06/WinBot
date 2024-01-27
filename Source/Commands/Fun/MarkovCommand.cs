@@ -27,7 +27,7 @@ namespace WinBot.Commands.Fun
         [Aliases(new string[] { "mk" })]
         [Description("Markov chains and things")]
         [Usage("[user] [length]")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task Markov(CommandContext Context, DiscordMember user = null, [RemainingText]int length = 5)
         {
             List<string> data = null;

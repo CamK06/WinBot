@@ -18,7 +18,7 @@ namespace WinBot.Commands.Images
         [Command("flop")]
         [Description("Flop an image")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Flop(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

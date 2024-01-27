@@ -17,7 +17,7 @@ namespace WinBot.Commands.Images
         [Command("wall")]
         [Description("Build a great big beautiful wall ~~and make Mexico pay for it~~")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Wall(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

@@ -17,7 +17,7 @@ namespace DSharpPlus.CommandsNext
             }
 
             FileStream fStream = new FileStream(fileName, FileMode.Open);
-            DiscordMessage msg = await new DiscordMessageBuilder().WithFile(fileName, fStream).SendAsync(channel);
+            DiscordMessage msg = await new DiscordMessageBuilder().AddFile(fileName, fStream).SendAsync(channel);
             fStream.Close();
 
             return msg;
@@ -26,7 +26,7 @@ namespace DSharpPlus.CommandsNext
         public static async Task<DiscordMessage> SendFileAsync(this DiscordChannel channel, Stream file, string fileName)
         {
             file.Position = 0;
-            DiscordMessage msg = await new DiscordMessageBuilder().WithFile(fileName, file).SendAsync(channel);
+            DiscordMessage msg = await new DiscordMessageBuilder().AddFile(fileName, file).SendAsync(channel);
 
             return msg;
         }
@@ -34,7 +34,7 @@ namespace DSharpPlus.CommandsNext
         public static async Task<DiscordMessage> SendFileAsync(this DiscordChannel channel, string message, Stream file, string fileName)
         {
             file.Position = 0;
-            DiscordMessage msg = await new DiscordMessageBuilder().WithFile(fileName, file).WithContent(message).SendAsync(channel);
+            DiscordMessage msg = await new DiscordMessageBuilder().AddFile(fileName, file).WithContent(message).SendAsync(channel);
 
             return msg;
         }

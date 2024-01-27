@@ -18,7 +18,7 @@ namespace WinBot.Commands.Fun
         [Command("urban")]
         [Description("Search the urban dictionary")]
         [Usage("[query]")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task Urban(CommandContext Context, [RemainingText]string query)
         {
 			if(string.IsNullOrWhiteSpace(query)) {

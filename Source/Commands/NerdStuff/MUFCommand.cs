@@ -15,7 +15,7 @@ namespace WinBot.Commands.NerdStuff
     {
         [Command("muf")]
         [Description("Sends a map of radio MUF")]
-        [Category(Category.NerdStuff)]
+        [Attributes.Category(Category.NerdStuff)]
         public async Task MUF(CommandContext Context)
         {
             // This code is garbage and barely works... but it does work.

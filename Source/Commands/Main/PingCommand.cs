@@ -11,7 +11,7 @@ namespace WinBot.Commands.Main
     {
         [Command("ping")]
         [Description("Gets the bots latency to Discord")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task Ping(CommandContext Context)
         {
             await Context.ReplyAsync($"🏓 Pong! **{Bot.client.Ping}ms**");

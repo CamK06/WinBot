@@ -17,7 +17,7 @@ namespace WinBot.Commands.Images
         [Command("deepfry")]
         [Description("R O A S T... wait, F R Y an image")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Invert(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

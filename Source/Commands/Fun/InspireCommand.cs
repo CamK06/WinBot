@@ -12,7 +12,7 @@ namespace WinBot.Commands.Fun
     {
         [Command("inspire")]
         [Description("Get some much needed AI generated inspiration")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task Inspire(CommandContext Context)
         {
             string url = await new HttpClient().GetStringAsync("https://inspirobot.me/api?generate=true");

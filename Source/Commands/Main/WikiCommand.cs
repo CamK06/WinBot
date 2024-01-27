@@ -16,7 +16,7 @@ namespace WinBot.Commands.Main
         [Command("wiki")]
         [Description("Search wikipedia")]
         [Usage("[query]")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task Wiki(CommandContext Context, [RemainingText] string query)
         {
             if(string.IsNullOrWhiteSpace(query))

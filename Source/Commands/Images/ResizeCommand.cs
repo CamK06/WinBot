@@ -17,7 +17,7 @@ namespace WinBot.Commands.Images
         [Command("resize")]
         [Description("Resize an image")]
         [Usage("[image] [-scale -size]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Resize(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

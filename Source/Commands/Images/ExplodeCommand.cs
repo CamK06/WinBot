@@ -19,7 +19,7 @@ namespace WinBot.Commands.Images
         [Command("explode")]
         [Description("explode an image")]
         [Usage("[image] [-scale]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Explode(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

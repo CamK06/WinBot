@@ -17,7 +17,7 @@ namespace WinBot.Commands.Images
         [Command("bobross")]
         [Description("Paint a happy little image")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Bobross(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

@@ -18,7 +18,7 @@ namespace WinBot.Commands.Images
         [Command("scramble")]
         [Description("H")]
         [Usage("[gif]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Scramble(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

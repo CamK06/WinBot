@@ -15,7 +15,7 @@ namespace WinBot.Commands.NerdStuff
     {
         [Command("hfcond")]
         [Description("Sends current HF conditions")]
-        [Category(Category.NerdStuff)]
+        [Attributes.Category(Category.NerdStuff)]
         public async Task HFCond(CommandContext Context)
         {
             string gifFile = TempManager.GetTempFile("hfcond.gif", true);

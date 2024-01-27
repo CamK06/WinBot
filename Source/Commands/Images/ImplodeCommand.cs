@@ -19,7 +19,7 @@ namespace WinBot.Commands.Images
         [Command("implode")]
         [Description("Implode an image")]
         [Usage("[image] [-scale]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Implode(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

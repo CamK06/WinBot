@@ -15,7 +15,7 @@ namespace WinBot.Commands.Fun
         [Command("8ball")]
         [Description("Let the magic 8-ball give you advice.")]
         [Usage("[question]")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task EightBall(CommandContext Context, [RemainingText] string question)
         {
             // Select a random answer

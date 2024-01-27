@@ -11,7 +11,7 @@ namespace WinBot.Commands.Fun
     {
         [Command("rosen")]
         [Description("Yuds")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         [Hidden]
         public async Task Yuds(CommandContext Context, [RemainingText]string query)
         {

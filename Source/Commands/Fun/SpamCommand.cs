@@ -21,7 +21,7 @@ namespace WinBot.Commands.Main
     {
         [Command("spam")]
         [Description("Gets a random spam e-mail")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task Spam(CommandContext Context, [RemainingText] int spamID = 0)
         {
             // Fetch the spam email json

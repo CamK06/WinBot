@@ -17,7 +17,7 @@ namespace WinBot.Commands.Images
         [Command("jpeg")]
         [Description("J P E G I F Y an image")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Jpeg(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

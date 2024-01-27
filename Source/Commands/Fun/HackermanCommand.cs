@@ -19,7 +19,7 @@ namespace WinBot.Commands.Fun
         [Command("hackerman")]
         [Description("Hack into the mainframes... just kidding; Hack into Toxidation's network.")]
         [Usage("[lines]")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task Hackerman(CommandContext Context, int lines = 1)
         {
             if(lines > 10)

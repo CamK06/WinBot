@@ -13,7 +13,7 @@ namespace WinBot.Commands.Main
         [Command("avatar")]
         [Aliases("pfp")]
         [Description("Gets your profile picture/avatar")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task Avatar(CommandContext Context, DiscordMember user = null)
         {
             if(user == null)

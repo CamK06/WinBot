@@ -15,7 +15,7 @@ namespace WinBot.Commands.Fun
 		[Command("gztr")]
         [Description("One-way Gen Z translator")]
         [Usage("[Normal Human Text]")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task gztrnocapbrofax(CommandContext Context, [RemainingText]string normalPersonText)
         {
             string output = normalPersonText.Replace("ing", "in").ToLower();

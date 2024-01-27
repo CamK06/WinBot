@@ -18,7 +18,7 @@ namespace WinBot.Commands.Images
         [Command("wth")]
         [Description("what h")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task WTH(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

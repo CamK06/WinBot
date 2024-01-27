@@ -24,7 +24,7 @@ namespace WinBot.Commands.Main
     {
         [Command("serverstats")]
         [Description("Show basic statistics about the server")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task Serverstats(CommandContext Context)
         {
             // Report loading

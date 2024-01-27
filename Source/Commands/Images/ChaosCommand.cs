@@ -18,7 +18,7 @@ namespace WinBot.Commands.Images
         [Command("chaos")]
         [Description("Absolute chaos... adds 5 random effects to an image")]
         [Usage("[image] [-scale=(1-5) -layers=(1-3)]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Chaos(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

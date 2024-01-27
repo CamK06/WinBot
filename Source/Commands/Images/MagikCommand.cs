@@ -21,7 +21,7 @@ namespace WinBot.Commands.Images
         [Command("magik")]
         [Description("Really mess up an image")]
         [Usage("[image] [-scale=(1-5) -layers=(1-3) -gif -size=25]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Magik(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

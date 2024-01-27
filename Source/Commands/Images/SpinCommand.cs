@@ -17,7 +17,7 @@ namespace WinBot.Commands.Images
         [Command("spin")]
         [Description("Spin an image")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Spin(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

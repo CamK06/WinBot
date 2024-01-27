@@ -18,7 +18,7 @@ namespace WinBot.Commands.Images
         [Command("gray")]
         [Description("Convert an image to grayscale")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Grayscale(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

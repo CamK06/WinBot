@@ -18,7 +18,7 @@ namespace WinBot.Commands.Images
         [Command("billboard")]
         [Description("Do something")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Billboard(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

@@ -14,7 +14,7 @@ namespace WinBot.Commands.Fun
     {
         [Command("ticket")]
         [Description("Tickets from the worst tech support rep in the world")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task Ticket(CommandContext Context)
         {
             int ticketID = 0;

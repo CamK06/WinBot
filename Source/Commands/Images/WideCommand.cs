@@ -18,7 +18,7 @@ namespace WinBot.Commands.Images
         [Command("wide")]
         [Description("Make an image W I D E")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Wide(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

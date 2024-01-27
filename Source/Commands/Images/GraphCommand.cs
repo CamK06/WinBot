@@ -17,7 +17,7 @@ namespace WinBot.Commands.Images
         [Command("graph")]
         [Description("LOOK AT THIS PHOTOGRAPH!")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Graph(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

@@ -14,7 +14,7 @@ namespace WinBot.Commands.Main
         [Command("help")]
         [Description("Lists commands or gets info on a specific command")]
         [Usage("[command]")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task Help(CommandContext Context, [RemainingText] string command = null)
         {
             // Embed setup
@@ -60,7 +60,7 @@ namespace WinBot.Commands.Main
                     continue;
 
                 // I fucking hate linq but I cba to come up with easier ways to do this stuff
-                Category category = ((CategoryAttribute)command.CustomAttributes.FirstOrDefault(x => x.GetType() == typeof(CategoryAttribute))).category;
+                Category category = ((Attributes.CategoryAttribute)command.CustomAttributes.FirstOrDefault(x => x.GetType() == typeof(Attributes.CategoryAttribute))).category;
                 if (category != searchCategory)
                     continue;
 

@@ -13,7 +13,7 @@ namespace WinBot.Commands.Main
     {
         [Command("serverinfo")]
         [Description("Gets info about the current server")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task ServerInfo(CommandContext Context)
         {
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();

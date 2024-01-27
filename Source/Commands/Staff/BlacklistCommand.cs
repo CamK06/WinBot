@@ -19,7 +19,7 @@ namespace WinBot.Commands.Staff
         [Command("blacklist")]
         [Description("Toggle blacklist on a user to prevent them from using the bot")]
         [Usage("[user]")]
-        [Category(Category.Staff)]
+        [Attributes.Category(Category.Staff)]
         public async Task Blacklist(CommandContext Context, DiscordUser user = null)
         {
             if(!PermissionMethods.HasPermission(Context.Member.PermissionsIn(Context.Channel), Permissions.KickMembers) && Context.Member.Id != Bot.client.CurrentApplication.Owners.FirstOrDefault().Id)

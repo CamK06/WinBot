@@ -21,7 +21,7 @@ namespace WinBot.Commands.Owner
         [Command("ev")]
         [Description("It's an eval command.")]
         [Usage("[C# Code]")]
-        [Category(Category.Owner)]
+        [Attributes.Category(Category.Owner)]
         [RequireOwner]
         public async Task Kill(CommandContext Context, [RemainingText]string code)
         {

@@ -12,7 +12,7 @@ namespace WinBot.Commands.Fun
         [Command("lmgtfy")]
         [Description("Lemme Google that for you...")]
         [Usage("[query]")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task LMGTFY(CommandContext Context, [RemainingText]string query = null)
         {
             if(query == null) {

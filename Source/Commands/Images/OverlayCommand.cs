@@ -18,7 +18,7 @@ namespace WinBot.Commands.Images
         [Command("overlay")]
         [Description("Add an overlay to an image")]
         [Usage("[image] [overlay (mehdi, northkorea, usa, ussr, lgbt)]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Overlay(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

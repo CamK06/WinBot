@@ -18,7 +18,7 @@ namespace WinBot.Commands.Fun
         [Command("mkgpt")]
         [Description("GPT Markov chain")]
         [Usage("[length]")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task GPTMarkov(CommandContext Context, int length = 5)
         {
             List<string> data = null;

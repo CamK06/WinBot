@@ -20,7 +20,7 @@ namespace WinBot.Commands.NerdStuff
     {
         [Command("call")]
         [Description("Look up a ham radio callsign")]
-        [Category(Category.NerdStuff)]
+        [Attributes.Category(Category.NerdStuff)]
         public async Task Call(CommandContext Context, string callsign)
         {
             string returnedXml = new HttpClient().GetStringAsync($"https://xmldata.qrz.com/xml/current/?username={Bot.config.apiKeys.qrzUsername}&password={Bot.config.apiKeys.qrzPassword}&callsign={callsign}").Result;

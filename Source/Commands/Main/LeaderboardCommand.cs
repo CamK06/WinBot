@@ -15,7 +15,7 @@ namespace WinBot.Commands.Main
     {
         [Command("lb")]
         [Description("Show the server leaderboard")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task Leaderboard(CommandContext Context)
         {
             // Get the leaderboard and #1 user

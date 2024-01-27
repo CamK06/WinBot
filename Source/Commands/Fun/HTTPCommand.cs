@@ -13,7 +13,7 @@ namespace WinBot.Commands.Images
         [Command("http")]
         [Description("Sends a very cute HTTP cat.")]
         [Usage("[status code]")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task HTTP(CommandContext Context, string input = "")
         {
             bool exists = Array.IndexOf(status_codes, input) != -1;

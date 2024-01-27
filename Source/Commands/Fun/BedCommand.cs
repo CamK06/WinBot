@@ -16,7 +16,7 @@ namespace WinBot.Commands.Fun
 		[Command("bed")]
         [Description("Tell someone to go to bed.")]
         [Usage("[User] [Image: parz, agp, agp2, mehdi]")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task bed(CommandContext Context, string screenname = "", string image = "parz")
         {
             // Randomize the image if no input was given

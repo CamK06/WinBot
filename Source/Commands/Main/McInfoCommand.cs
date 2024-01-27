@@ -15,7 +15,7 @@ namespace WinBot.Commands.Main
     {
         [Command("mcinfo")]
         [Description("Gets information on the Minecraft server")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task McInfo(CommandContext Context)
         {
             await Context.Channel.TriggerTypingAsync();

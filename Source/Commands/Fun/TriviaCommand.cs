@@ -24,8 +24,8 @@ namespace WinBot.Commands.Main
         [Command("trivia")]
         [Aliases("t")]
         [Description("Get a random trivia question")]
-        [Usage("[category] or [lb/stats]")]
-        [Category(Category.Main)]
+        [Usage("[Attributes.Category] or [lb/stats]")]
+        [Attributes.Category(Category.Main)]
         public async Task Trivia(CommandContext Context, string input = null)
         {
             // If the user is requesting their stats

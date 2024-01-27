@@ -18,7 +18,7 @@ namespace WinBot.Commands.Images
         [Command("flip")]
         [Description("Flip an image")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Flip(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

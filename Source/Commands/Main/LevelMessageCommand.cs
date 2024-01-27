@@ -12,7 +12,7 @@ namespace WinBot.Commands.Main
     {
         [Command("togglelevelmsg")]
         [Description("Toggle level messages")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task LevelMessage(CommandContext Context)
         {
             User user = UserData.GetOrCreateUser(Context.User);

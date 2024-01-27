@@ -17,7 +17,7 @@ namespace WinBot.Commands.Images
         [Command("hooh")]
         [Description("H o o h")]
         [Usage("[image]")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Hooh(CommandContext Context, [RemainingText]string input)
         {
             // Handle arguments

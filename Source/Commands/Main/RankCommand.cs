@@ -20,7 +20,7 @@ namespace WinBot.Commands.Main
         [Command("rank")]
         [Description("Get your current level")]
         [Usage("[user]")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task Rank(CommandContext Context, [RemainingText]DiscordMember dUser)
         {
             if(dUser == null)

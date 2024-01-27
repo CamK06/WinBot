@@ -18,7 +18,7 @@ namespace WinBot.Commands.Images
         [Command("enlarge")]
         [Aliases("e")]
         [Description("Get the raw image of an emote")]
-        [Category(Category.Images)]
+        [Attributes.Category(Category.Images)]
         public async Task Enlarge(CommandContext Context, string emoteStr = null)
         {
             // Parse the emote string

@@ -15,7 +15,7 @@ namespace WinBot.Commands.Fun
         [Command("decide")]
         [Description("Have the bot decide something for you because you're too dumb to make up your own mind on things, so you rely on bad RNG")]
         [Usage("['|' separated options]")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task Decide(CommandContext Context, [RemainingText]string rawOptions)
         {
             string[] options = rawOptions.Split("|");

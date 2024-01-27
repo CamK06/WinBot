@@ -14,7 +14,7 @@ namespace WinBot.Commands.Main
     {
         [Command("about")]
         [Description("Gets basic info about the bot")]
-        [Category(Category.Main)]
+        [Attributes.Category(Category.Main)]
         public async Task About(CommandContext Context)
         {
             DiscordEmbedBuilder eb = new DiscordEmbedBuilder();

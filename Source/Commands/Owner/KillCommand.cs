@@ -16,7 +16,7 @@ namespace WinBot.Commands.Owner
     {
         [Command("kill")]
         [Description("Kills the bot")]
-        [Category(Category.Owner)]
+        [Attributes.Category(Category.Owner)]
         [RequireOwner]
         public async Task Kill(CommandContext Context)
         {
