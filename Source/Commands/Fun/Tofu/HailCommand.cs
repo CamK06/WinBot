@@ -14,7 +14,7 @@ namespace WinBot.Commands.Fun.Tofu
     {
         [Command("hail")]
         [Description("Hail Tofu")]
-        [Category(Category.Fun)]
+        [Attributes.Category(Category.Fun)]
         public async Task Hail(CommandContext Context)
         {
             await Context.ReplyAsync(messages[new Random().Next(0, messages.Count)]);
