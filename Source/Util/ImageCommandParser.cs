@@ -73,7 +73,7 @@ namespace WinBot.Util
                 if(args.url == null)
                     throw new Exception("Invalid or no image! The image has to have been sent in the past 30 messages!");
             }
-            args.url = args.url.Split('?')[0];
+            //args.url = args.url.Split('?')[0];
 
             // Tenor handling
             WebClient client = new WebClient();
