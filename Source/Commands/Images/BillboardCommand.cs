@@ -107,6 +107,14 @@ namespace WinBot.Commands.Images
                 rotation = 0.4f;
                 imageFile = "billboard4.png";
             }
+            else if(args.textArg.ToLower() == "8bit") {
+                compX = 170;
+                compY = 620;
+                srcX = 710;
+                srcY = 430;
+                rotation = 0;
+                imageFile = "8bit.png";
+            }
             MagickImage tv = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
             MagickImage tvClean = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
 
@@ -116,7 +124,7 @@ namespace WinBot.Commands.Images
             img.Rotate(rotation);
             tv.Alpha(AlphaOption.Remove);
             tv.Composite(img, compX, compY, CompositeOperator.SrcIn);
-            if(args.textArg.ToLower() == "1" || args.textArg.ToLower() == "joe"){
+            if(args.textArg.ToLower() == "1" || args.textArg.ToLower() == "joe" || args.textArg.ToLower() == "8bit"){
                 tv.Composite(tvClean, 0, 0, CompositeOperator.SrcOver, "-background none");
             }
             if(isGif) {
