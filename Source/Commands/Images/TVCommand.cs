@@ -99,6 +99,14 @@ namespace WinBot.Commands.Images
                 rotation = 0;
                 imageFile = "tv4.png";
             }
+            else if(args.textArg.ToLower() == "8bit") {
+                compX = 278;
+                compY = 207;
+                srcX = 234;
+                srcY = 171;
+                rotation = 0.2f;
+                imageFile = "8bit-tv.png";
+            }
             MagickImage tv = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
             MagickImage tvClean = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
 
@@ -108,7 +116,7 @@ namespace WinBot.Commands.Images
             img.Rotate(rotation);
             tv.Alpha(AlphaOption.Remove);
             tv.Composite(img, compX, compY, CompositeOperator.SrcIn);
-            if(args.textArg.ToLower() == "remote" || args.textArg.ToLower() == "angry")
+            if(args.textArg.ToLower() == "remote" || args.textArg.ToLower() == "angry" || args.textArg.ToLower() == "8bit")
                 tv.Composite(tvClean, 0, 0, CompositeOperator.SrcOver, "-background none");
             if(isGif) {
                 img.Resize(new MagickGeometry($"{tv.Width}x{tv.Height}!"));
@@ -120,6 +128,6 @@ namespace WinBot.Commands.Images
                 return tv;
         }
 
-        static string[] images = { "celebrate", "remote", "normal", "angry" };
+        static string[] images = { "celebrate", "remote", "normal", "angry", "8bit" };
     }
 }

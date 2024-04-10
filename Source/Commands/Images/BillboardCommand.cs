@@ -116,12 +116,28 @@ namespace WinBot.Commands.Images
                 imageFile = "8bit.png";
             }
             else if(args.textArg.ToLower() == "8bit2") {
-                compX = 205;
-                compY = 650;
-                srcX = 645;
-                srcY = 375;
+                compX = 253;
+                compY = 688;
+                srcX = 554;
+                srcY = 318;
                 rotation = 0;
                 imageFile = "8bit2.png";
+            }
+            else if(args.textArg.ToLower() == "8bit3") {
+                compX = 607;
+                compY = 198;
+                srcX = 520;
+                srcY = 360;
+                rotation = 0;
+                imageFile = "8bit3.png";
+            }
+            else if(args.textArg.ToLower() == "8bit4") {
+                compX = 662;
+                compY = 244;
+                srcX = 408;
+                srcY = 268;
+                rotation = 0;
+                imageFile = "8bit4.png";
             }
             MagickImage tv = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
             MagickImage tvClean = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
@@ -132,7 +148,7 @@ namespace WinBot.Commands.Images
             img.Rotate(rotation);
             tv.Alpha(AlphaOption.Remove);
             tv.Composite(img, compX, compY, CompositeOperator.SrcIn);
-            if(args.textArg.ToLower() == "1" || args.textArg.ToLower() == "joe" || args.textArg.ToLower() == "8bit" || args.textArg.ToLower() == "8bit2"){
+            if(args.textArg.ToLower() == "1" || args.textArg.ToLower() == "joe" || args.textArg.ToLower().Contains("8bit")){
                 tv.Composite(tvClean, 0, 0, CompositeOperator.SrcOver, "-background none");
             }
             if(isGif) {
@@ -145,6 +161,6 @@ namespace WinBot.Commands.Images
                 return tv;
         }
 
-        static string[] images = { "1", "2", "3", "joe" };
+        static string[] images = { "1", "2", "3", "joe", "8bit", "8bit2", "8bit3", "8bit4" };
     }
 }
