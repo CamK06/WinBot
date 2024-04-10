@@ -115,6 +115,14 @@ namespace WinBot.Commands.Images
                 rotation = 0;
                 imageFile = "8bit.png";
             }
+            else if(args.textArg.ToLower() == "8bit2") {
+                compX = 205;
+                compY = 650;
+                srcX = 645;
+                srcY = 375;
+                rotation = 0;
+                imageFile = "8bit2.png";
+            }
             MagickImage tv = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
             MagickImage tvClean = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
 
@@ -124,7 +132,7 @@ namespace WinBot.Commands.Images
             img.Rotate(rotation);
             tv.Alpha(AlphaOption.Remove);
             tv.Composite(img, compX, compY, CompositeOperator.SrcIn);
-            if(args.textArg.ToLower() == "1" || args.textArg.ToLower() == "joe" || args.textArg.ToLower() == "8bit"){
+            if(args.textArg.ToLower() == "1" || args.textArg.ToLower() == "joe" || args.textArg.ToLower() == "8bit" || args.textArg.ToLower() == "8bit2"){
                 tv.Composite(tvClean, 0, 0, CompositeOperator.SrcOver, "-background none");
             }
             if(isGif) {
