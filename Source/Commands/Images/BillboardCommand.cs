@@ -151,8 +151,8 @@ namespace WinBot.Commands.Images
                 compX = 475;
                 compY = 393;
                 srcX = 250;
-                srcY = 160;
-                rotation = 0.4f;
+                srcY = 150;
+                rotation = 2.5f;
                 imageFile = "kim.png";
             }
             MagickImage tv = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
