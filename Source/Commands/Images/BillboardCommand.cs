@@ -147,7 +147,7 @@ namespace WinBot.Commands.Images
                 rotation = 0.2f;
                 imageFile = "dprk.png";
             }
-            else if(args.textArg.ToLower() == "kim") {
+            else if(args.textArg.ToLower() == "kim" || args.textArg.ToLower() == "kimsad") {
                 compX = 475;
                 compY = 393;
                 srcX = 250;
@@ -177,6 +177,6 @@ namespace WinBot.Commands.Images
                 return tv;
         }
 
-        static string[] images = { "1", "2", "3", "joe", "8bit", "8bit2", "8bit3", "8bit4" };
+        static string[] images = { "1", "2", "3", "joe", "8bit", "8bit2", "8bit3", "8bit4", "dprk", "kim", "kimsad" };
     }
 }
