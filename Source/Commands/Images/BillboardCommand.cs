@@ -139,6 +139,22 @@ namespace WinBot.Commands.Images
                 rotation = 0;
                 imageFile = "8bit4.png";
             }
+            else if(args.textArg.ToLower() == "dprk") {
+                compX = 633;
+                compY = 220;
+                srcX = 190;
+                srcY = 237;
+                rotation = 0.2f;
+                imageFile = "dprk.png";
+            }
+            else if(args.textArg.ToLower() == "kim") {
+                compX = 475;
+                compY = 393;
+                srcX = 250;
+                srcY = 160;
+                rotation = 0.4f;
+                imageFile = "kim.png";
+            }
             MagickImage tv = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
             MagickImage tvClean = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
 
@@ -148,7 +164,7 @@ namespace WinBot.Commands.Images
             img.Rotate(rotation);
             tv.Alpha(AlphaOption.Remove);
             tv.Composite(img, compX, compY, CompositeOperator.SrcIn);
-            if(args.textArg.ToLower() == "1" || args.textArg.ToLower() == "joe" || args.textArg.ToLower().Contains("8bit")){
+            if(args.textArg.ToLower() == "1" || args.textArg.ToLower() == "joe" || args.textArg.ToLower().Contains("8bit") || args.textArg.ToLower().Contains("dprk") || args.textArg.ToLower().Contains ("kim")){
                 tv.Composite(tvClean, 0, 0, CompositeOperator.SrcOver, "-background none");
             }
             if(isGif) {
