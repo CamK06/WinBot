@@ -147,13 +147,21 @@ namespace WinBot.Commands.Images
                 rotation = 0.2f;
                 imageFile = "dprk.png";
             }
-            else if(args.textArg.ToLower() == "kim" || args.textArg.ToLower() == "kimsad") {
+            else if(args.textArg.ToLower() == "kim") {
                 compX = 475;
                 compY = 393;
                 srcX = 250;
                 srcY = 150;
                 rotation = 2.5f;
                 imageFile = "kim.png";
+            }
+            else if(args.textArg.ToLower() == "kimsad") {
+                compX = 475;
+                compY = 393;
+                srcX = 250;
+                srcY = 150;
+                rotation = 2.5f;
+                imageFile = "kimsad.png";
             }
             MagickImage tv = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
             MagickImage tvClean = new MagickImage(ResourceManager.GetResourcePath(imageFile, ResourceType.Resource));
