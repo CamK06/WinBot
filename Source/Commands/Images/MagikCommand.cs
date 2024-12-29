@@ -9,6 +9,7 @@ using WinBot.Util;
 using WinBot.Commands.Attributes;
 
 using ImageMagick;
+using System;
 
 namespace WinBot.Commands.Images
 {
@@ -17,6 +18,7 @@ namespace WinBot.Commands.Images
         // This is just a hacky way to avoid having to change ImageArgs scale to a float
         // while still allowing the -scaleup option to exist with decimal increments
         static float scale = 1.0f;
+        static bool scaleup = false;
 
         [Command("magik")]
         [Description("Really mess up an image")]
@@ -31,6 +33,9 @@ namespace WinBot.Commands.Images
                 args.layers = 3;
             else if(args.scale > 5)
                 args.scale = 5;
+            else if(args.scale <= 0) {
+                args.scale = 1;
+            }
             scale = args.scale;
 
             // Download the image
@@ -42,7 +47,7 @@ namespace WinBot.Commands.Images
             // MAGIKIFY
             MagickImage img = null;
             MagickImageCollection gif = null;
-            bool scaleup = false;
+            scaleup = false;
             if(!string.IsNullOrWhiteSpace(args.textArg))
                 scaleup = args.textArg.ToLower() == "-scaleup";
             if(args.extension.ToLower() != "gif") {
@@ -52,7 +57,7 @@ namespace WinBot.Commands.Images
                     DoMagik(img, args);
                 else if(args.textArg.ToLower() == "-gif" || scaleup) {  // We're turning the image into a gif
                     gif = new MagickImageCollection();
-
+                    
                     // Default to 25 frames
                     if(args.size == 1)
                         args.size = 25;
@@ -61,7 +66,8 @@ namespace WinBot.Commands.Images
 
                     // Create args.size frames with slightly different magik applied to each
                     for(int i = 0; i < args.size; i++) {
-
+                        
+                        DateTime time = DateTime.Now;
                         // Resize the frame to a percentage based on args.size, this is to provide
                         // a slightly different magik effect for each frame
                         MagickImage frame = new MagickImage(img);
@@ -72,8 +78,9 @@ namespace WinBot.Commands.Images
                         if(i != 0)
                             frame.Resize(gif[0].Width, gif[0].Height);
                         if(scaleup)
-                            scale+=0.05f;
+                            scale+=0.075f;
                         gif.Add(frame);
+                        Console.WriteLine($"Finished frame {i}, frame took {DateTime.Now.Subtract(time).TotalSeconds} seconds");
                     }
                 }
             }
@@ -111,8 +118,19 @@ namespace WinBot.Commands.Images
             img.Scale(img.Width/2, img.Height/2);
             args.extension = img.Format.ToString().ToLower();
             for(int i = 0; i < args.layers; i++) {
-                img.LiquidRescale((int)(img.Width * 0.5), (int)(img.Height * 0.5), scale > 1 ? 0.5*scale : 1, 0);
-                img.LiquidRescale((int)(img.Width * 1.5), (int)(img.Height * 1.5), scale > 1 ? scale : 2, 0);
+                if(scaleup) {
+                    if(scale > 3) {
+                        scale = 3;
+                    }
+                    int originalWidth = img.Width;
+                    int originalheight = img.Height;
+                    img.LiquidRescale((int)(img.Width * scale), (int)(img.Height * scale), scale, 0);
+                    img.LiquidRescale(originalWidth, originalheight, scale, 0);
+                }
+                else {
+                    img.LiquidRescale((int)(img.Width * 0.5), (int)(img.Height * 0.5), scale > 1 ? 0.5*scale : scale, 0);
+                    img.LiquidRescale((int)(img.Width * 1.5), (int)(img.Height * 1.5), scale > 1 ? scale : scale, 0);
+                }
             }
             img.Scale(img.Width*2, img.Height*2);
         }

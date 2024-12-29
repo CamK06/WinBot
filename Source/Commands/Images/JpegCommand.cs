@@ -91,7 +91,7 @@ namespace WinBot.Commands.Images
                 args.scale += gif.Count;
 
             foreach(var frame in gif) {
-                IMagickImage<ushort> newFrame = frame.Clone();
+                IMagickImage<byte> newFrame = frame.Clone();
                 newFrame.Format = MagickFormat.Jpeg;
                 newFrame.Quality = args.scale;
                 
