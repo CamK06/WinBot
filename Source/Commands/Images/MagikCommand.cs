@@ -67,7 +67,6 @@ namespace WinBot.Commands.Images
                     // Create args.size frames with slightly different magik applied to each
                     for(int i = 0; i < args.size; i++) {
                         
-                        DateTime time = DateTime.Now;
                         // Resize the frame to a percentage based on args.size, this is to provide
                         // a slightly different magik effect for each frame
                         MagickImage frame = new MagickImage(img);
@@ -80,7 +79,6 @@ namespace WinBot.Commands.Images
                         if(scaleup)
                             scale+=0.075f;
                         gif.Add(frame);
-                        Console.WriteLine($"Finished frame {i}, frame took {DateTime.Now.Subtract(time).TotalSeconds} seconds");
                     }
                 }
             }
