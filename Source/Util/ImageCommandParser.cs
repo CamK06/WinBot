@@ -81,7 +81,7 @@ namespace WinBot.Util
 
                 // Download the tenor webpage
                 string html = client.DownloadString(args.url);
-                string htmlFrag = "<meta itemProp=\"contentUrl\" content=\"";
+                string htmlFrag = "<meta itemprop=\"contentUrl\" content=\"";
                 if(!html.Contains(htmlFrag))
                     throw new Exception("Invalid or no image!");
                 args.url = "";
@@ -126,7 +126,7 @@ namespace WinBot.Util
             client.OpenRead(args.url);
             Int64 fileSize = Convert.ToInt64(client.ResponseHeaders["Content-Length"]);
             if (!client.ResponseHeaders["Content-Type"].Contains("image") || client.ResponseHeaders["Content-Type"].Contains("svg"))
-                throw new Exception("Invalid or no image!");
+                throw new Exception("Invalid or no image! ");
             if(fileSize > 104900000)
                 throw new Exception("Your image must be below 100MB in size!");
             args.extension = client.ResponseHeaders["Content-Type"].Split("image/").Last();
